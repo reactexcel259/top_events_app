@@ -7,9 +7,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
+import CustomeButton from '../components/button'
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
 
@@ -26,6 +28,7 @@ export default class HomeScreen extends React.Component {
           source={require('../assets/images/photo.png')}
         />
         <View style={styles.ovalContainer}>
+          <View style={styles.ovalContent} >
           <View style={styles.imageContainer}>
             <Image
               style={styles.logoImage}
@@ -35,6 +38,21 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.suggestion}>
               Find the best events in Jamaica
             </Text>
+            <View style={{alignSelf:'center',}} >
+              <CustomeButton
+                buttonText={"Get Started"}
+                gradientColor={['#FF6CC9','#8559F0']}
+                textColor={'white'}
+              />
+            </View>
+            <View style={{alignSelf:'center',paddingBottom:20}} >
+              <CustomeButton
+                buttonText={"Sign In"}
+                gradientColor={['#FFFFFF','#FFFFFF']}
+                textColor={'black'}
+              />
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -61,8 +79,14 @@ const styles = StyleSheet.create({
     right: 0, 
     bottom: 0,
   },
+  ovalContent:{
+    flex:1,
+    justifyContent:'space-evenly',
+    flexDirection:'column',
+    alignItems:'center'
+  },
   imageContainer:{
-    paddingTop: Layout.window.height * 0.10,
+    paddingTop: Layout.window.height * 0.07,
     justifyContent:'center',
     alignItems:'center'
   },
@@ -72,6 +96,8 @@ const styles = StyleSheet.create({
   },
   suggestion:{
     padding:25,
+    fontSize:15,
+    width: Layout.window.width * 0.525,
     textAlign:'center'
   },
 });
