@@ -1,0 +1,1 @@
+export const BASE_URL="https://675b23d7-4bb3-4f4d-986a-4f10e984fdbd.mock.pstmn.io/sandbox/marketplace"
