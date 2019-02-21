@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   logoImage:{
-    height:Layout.window.height * 0.141 ,
-    width: Layout.window.width * 0.54,
+    height:Layout.window.height * 0.148 ,
+    width: Layout.window.width * 0.52,
   },
   suggestion:{
-    padding:25,
+    padding:20,
     fontSize:15,
     width: Layout.window.width * 0.525,
     textAlign:'center'

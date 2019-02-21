@@ -1,0 +1,17 @@
+export default Interest = [
+    {item:'Food',id:0},
+    {item:'Concerts',id:1},
+    {item:'Medicine',id:2},
+    {item:'Music',id:3},
+    {item:'Animals',id:11},
+    {item:'Fitness',id:4},
+    {item:'Pubs & Bars',id:6},
+    {item:'Cooking',id:7},
+    {item:'Festivals', id:8 },
+    {item:'Jazz',id:9},
+    {item:'International travel',id:10},
+    {item:'Art',id:5},
+    {item:'Tennis',id:12},
+    {item:'Pop - music',id:13},
+    {item:'Football',id:14},
+]
