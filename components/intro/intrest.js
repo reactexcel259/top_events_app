@@ -20,9 +20,7 @@ export default class Intrest extends React.Component {
   
   render() {
     const {  onPress,id, data } = this.props
-    // console.log;
-    
-    return (
+      return (
       <View style={styles.mainContainer} >
         <View style={styles.headerContainer} >
           <Text style={styles.headerText} > What are your Interests? </Text>
