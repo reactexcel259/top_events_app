@@ -18,6 +18,7 @@ import { MonoText } from '../components/StyledText';
 import Intrest from '../components/intro/intrest'
 import AgePicker from '../components/intro/age';
 import Location from '../components/intro/location';
+import Interest from '../Josn/Index';
 
 export default class SetupScreen extends React.Component {
   static navigationOptions = {
@@ -27,11 +28,21 @@ export default class SetupScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      step: 1
+      step: 1,
+      interest:Interest
     }
   }
+  selectInterests = (id) => {
+    let int = this.state.interest;
+    if(int[id] !== undefined && int[id].selected){
+      int[id]["selected"] = false ;
+    }else {
+      int[id]["selected"] = true ;
+    }
+    this.setState({interest:int})
+  }
   render() {
-    const { step } =this.state
+    const { step, interest } =this.state
     return (
       <View style={styles.container}>
         <CustomHeader
@@ -40,9 +51,9 @@ export default class SetupScreen extends React.Component {
         {
           step == 1 &&
           <Intrest 
-            {...this.props}
-            {...this.state}
+            data={interest}
             onPress={()=>{ this.setState({step: step + 1}) }}
+            selectInterests={(id)=>{this.selectInterests(id)}}
           />
         }
         {
