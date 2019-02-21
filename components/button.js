@@ -14,10 +14,10 @@ import { MonoText } from '../components/StyledText';
 
 export default class CustomeButton extends React.Component {
   render() {
-    const { buttonText, textColor, gradientColor } = this.props
+    const { buttonText, textColor, gradientColor, onPress } = this.props
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={()=>{}} >
+        <TouchableOpacity onPress={onPress} >
           <View style={styles.buttonContainer} >
           <LinearGradient
             colors={gradientColor}

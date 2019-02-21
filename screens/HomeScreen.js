@@ -43,6 +43,7 @@ export default class HomeScreen extends React.Component {
                 buttonText={"Get Started"}
                 gradientColor={['#FF6CC9','#8559F0']}
                 textColor={'white'}
+                onPress={()=>{ this.props.navigation.navigate('setup') }}
               />
             </View>
             <View style={{alignSelf:'center',paddingBottom:20}} >
@@ -50,6 +51,7 @@ export default class HomeScreen extends React.Component {
                 buttonText={"Sign In"}
                 gradientColor={['#FFFFFF','#FFFFFF']}
                 textColor={'black'}
+                onPress={()=>{  }}
               />
             </View>
           </View>
