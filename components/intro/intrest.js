@@ -14,14 +14,13 @@ import { WebBrowser, LinearGradient } from 'expo';
 import Layout from '../../constants/Layout';
 import { MonoText } from '../../components/StyledText';
 import CustomeButton from '../button'
-import Interest from '../../Josn/Index';
 
 export default class Intrest extends React.Component {
   
   
   render() {
-    const {  onPress } = this.props
-    return (
+    const {  onPress,id, data } = this.props
+      return (
       <View style={styles.mainContainer} >
         <View style={styles.headerContainer} >
           <Text style={styles.headerText} > What are your Interests? </Text>
@@ -32,14 +31,21 @@ export default class Intrest extends React.Component {
                 keyExtractor={(item, index) => item.id}
                 numColumns={4}
                 style={styles.flatList}
-                data={Interest}
+                data={data}
+                extraData={this.props}
                 renderItem={({item})=>{
-                  console.log(item)
+                  let selected = item.selected !== undefined ? item.selected : false;
                   return(
-                    <TouchableOpacity onPress={()=>{}}>
-                      <View style={styles.bubbleContainer} >
-                        <Text style={styles.bubbleText} > {item.item} </Text>
-                      </View>
+                    <TouchableOpacity onPress={()=>{this.props.selectInterests(item.id)}}>
+                        <LinearGradient
+                          colors={selected?['#FF6CC9','#8559F0']:['white','white']}
+                          style={{ flex: 1 }}
+                          start={[0, 0]}
+                          end={[1, 0]}
+                          style={styles.bubbleContainer}
+                        >
+                          <Text style={styles.bubbleText} > {item.item} </Text>
+                        </LinearGradient>
                     </TouchableOpacity>
                   )
                 }}

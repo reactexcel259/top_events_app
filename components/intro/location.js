@@ -29,15 +29,18 @@ export default class Location extends React.Component {
         </View>
         <View style={styles.intrestContainer} >
         <View style={styles.searchContainer} >
-          <FontAwesome name="search" size={18} style={{ margin: 7,color: 'gray' }} />
+          <FontAwesome name="search" size={20} style={{ margin: 7,color: 'gray' }} />
           <TextInput
+            style={styles.searchBox}
             placeholder="Search city"
           />
+        </View>
+        <TouchableOpacity onPress={()=>{this.props.useCurrentLocation()}}>
+          <View style={styles.locationBox} >
+            <FontAwesome name="location-arrow" size={20} style={{ marginTop: 2,marginRight:5,color: 'black' }} />            
+              <Text style={{color:'black',fontSize:17, marginLeft:5}} > Use Current location </Text>
           </View>
-          <View style={{flexDirection:'row',marginTop:5}} >
-          <FontAwesome name="location-arrow" size={18} style={{ marginLeft: 7,marginRight:5,color: 'black' }} />            
-            <Text style={{color:'black',fontWeight:'500'}} > Use Current location </Text>
-          </View>
+        </TouchableOpacity>
         </View>
           <View style={{flex:1,justifyContent:'flex-end',alignItems:'center',marginBottom:50}} >
               <CustomeButton
@@ -69,22 +72,21 @@ const styles = StyleSheet.create({
     margin:20,
     justifyContent:'space-between'
   },
-  bubbleContainer:{
-    margin:4,
-    width:80,
-    borderRadius:40,
-    borderColor:'gray',
-    height:40,
-    alignItems:'center',
-    justifyContent:'center'
-  },
+
   searchContainer:{
     flexDirection:'row',
     borderRadius:5,
     borderWidth:1,
-    borderColor:'lightgray',
-    backgroundColor:'#E5E5E5',
-    height:40,
+    borderColor:'#dcdde1',
+    backgroundColor:'#f5f6fa',
+    height:45,
     alignItems:'center'
+  },
+  searchBox:{
+    width:Layout.window.width * 0.78
+  },
+  locationBox:{
+    flexDirection:'row',
+    marginTop:20
   }
 });
