@@ -16,7 +16,6 @@ import CustomHeader from '../components/header';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
 import Intrest from '../components/intro/intrest'
-import AgePicker from '../components/intro/age';
 import Location from '../components/intro/location';
 import Interest from '../Josn/Index';
 
@@ -28,7 +27,7 @@ export default class SetupScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      step: 1,
+      step: 2,
       interest:Interest
     }
   }
@@ -58,14 +57,6 @@ export default class SetupScreen extends React.Component {
         }
         {
           step == 2 &&
-          <AgePicker 
-            {...this.props}
-            {...this.state}
-            onPress={()=>{ this.setState({step: step + 1}) }}            
-          />
-        }
-        {
-          step == 3 &&
           <Location 
             {...this.props}
             {...this.state}

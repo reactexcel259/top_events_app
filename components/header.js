@@ -19,7 +19,7 @@ export default class CustomHeader extends React.Component {
   
   render() {
     const { step } = this.props
-    let stepWidth = 0.333 * step
+    let stepWidth = 0.50 * step
     return (
       <View style={styles.mainContainer} >
       <StatusBar
