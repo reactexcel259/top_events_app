@@ -5645,6 +5645,11 @@ react-native-gesture-handler@~1.0.14:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-get-location@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-get-location/-/react-native-get-location-1.1.2.tgz#ca6fa2d7c0a7e8747557445e465227614d50fe37"
+  integrity sha512-pBXZOCWJxeThOOdGMQ0i1loiM6reHUl5YNmvETPQGgz25XI7uCWsUC7diZ4XdHxfHRHqYZZPVQWWbcdq0keJug==
+
 react-native-maps@expo/react-native-maps#v0.22.1-exp.0:
   version "0.22.1"
   resolved "https://codeload.github.com/expo/react-native-maps/tar.gz/e6f98ff7272e5d0a7fe974a41f28593af2d77bb2"
