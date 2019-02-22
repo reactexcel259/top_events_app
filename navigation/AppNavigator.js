@@ -5,7 +5,7 @@ import SetupScreen from '../screens/setup';
 import PermissionScreen from '../screens/permissionScreen';
 
 export default createAppContainer(createStackNavigator({
-  // Home: HomeScreen,
+  Home: HomeScreen,
   setup: SetupScreen,
   permission: PermissionScreen,
 })); 
