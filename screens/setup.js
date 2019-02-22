@@ -62,6 +62,7 @@ export default class SetupScreen extends React.Component {
         const { code, message } = error;
         console.warn(code, message);
     })
+  }
   onBackPress = () => {
     const { step } = this.state;
     if(step != 1) {
