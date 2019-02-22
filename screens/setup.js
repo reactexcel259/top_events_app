@@ -27,7 +27,7 @@ export default class SetupScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      step: 2,
+      step: 1,
       interest:Interest
     }
   }
@@ -40,12 +40,30 @@ export default class SetupScreen extends React.Component {
     }
     this.setState({interest:int})
   }
+  onBackPress = () => {
+    const { step } = this.state;
+    if(step != 1) {
+      this.setState({ step: step - 1 });
+    } else {
+      this.props.navigation.goBack();
+    }
+  }
   render() {
     const { step, interest } =this.state
     return (
       <View style={styles.container}>
         <CustomHeader
           step={step}
+          isLeft={true}
+          leftIcon={'angle-left'}
+          leftPress={this.onBackPress}
+          // leftTitle={'Cancel'}
+          // isCenter={true}
+          // centerImage={require('../assets/images/logo.png')}
+          // centerTitle={'Title'}
+          // isRight={true}
+          // rightIcon={['angle-left','angle-left']}
+          // rightTitle={'Cancel'}
         />
         {
           step == 1 &&
