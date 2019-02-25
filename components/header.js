@@ -43,8 +43,7 @@ export default class CustomHeader extends React.Component {
       rightTitle,
       rightIcon,
       } = this.props
-      console.log('left',this.props)
-    let stepWidth = 0.333 * step
+    let stepWidth = 0.333 * step;
     return (
       <View style={styles.mainContainer} >
       <StatusBar
