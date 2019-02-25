@@ -1,25 +1,43 @@
 {
     "ENTERTAINMENT":[{"name":"Jamaica Carnival","date":"9 Dec, Friday"},
                     {"name":"Jam Rock Reggae" ,"date":"7 Dec, Friday"},
+                    {"name":"Jam Rock Reggae" ,"date":"7 Dec, Friday"},
+                    {"name":"Jamaica Carnival","date":"9 Dec, Friday"},
+                    {"name":"Jam Rock Reggae" ,"date":"7 Dec, Friday"},
                     {"name":"Jam Rock Reggae" ,"date":"7 Dec, Friday"}],
 
     "SPORT":[{"name":"Motor Sports Championships Series" ,"date":"7 Dec, Friday"},
+        {"name":"Jamaica surfing festival" ,"date":"7 Dec, Friday"},
+        {"name":"Jam Rock Reggae" ,"date":"7 Dec, Friday"},
+        {"name":"Motor Sports Championships Series" ,"date":"7 Dec, Friday"},
         {"name":"Jamaica surfing festival" ,"date":"7 Dec, Friday"},
         {"name":"Jam Rock Reggae" ,"date":"7 Dec, Friday"}],
 
     "SHOPPING":[{"name":"jamaica Dream Weekend" ,"date":"7 Dec, Friday"},
             {"name":"Week of sales in Jamaica" ,"date":"7 Dec, Friday"},
+            {"name":"jamaica Drea" ,"date":"7 Dec, Friday"},
+            {"name":"jamaica Dream Weekend" ,"date":"7 Dec, Friday"},
+            {"name":"Week of sales in Jamaica" ,"date":"7 Dec, Friday"},
             {"name":"jamaica Drea" ,"date":"7 Dec, Friday"}],
 
     "HEALTHFITNESS":[{"name":"Review for Anesthesia Professionals" ,"date":"7 Dec, Friday"},
+                {"name":"Internal Medicine Update 2019" ,"date":"7 Dec, Friday"},
+                {"name":"Review for Anesthesia Professionals" ,"date":"7 Dec, Friday"},
+                {"name":"Review for Anesthesia Professionals" ,"date":"7 Dec, Friday"},
                 {"name":"Internal Medicine Update 2019" ,"date":"7 Dec, Friday"},
                 {"name":"Review for Anesthesia Professionals" ,"date":"7 Dec, Friday"}],
 
     "CONFERENCE":[{"name":"Canniabis Investment Health And" ,"date":"7 Dec, Friday"},
                     {"name":"Conservation with the masters of ..." ,"date":"7 Dec, Friday"},
+                    {"name":"United States and Transaction" ,"date":"7 Dec, Friday"},
+                    {"name":"Canniabis Investment Health And" ,"date":"7 Dec, Friday"},
+                    {"name":"Conservation with the masters of ..." ,"date":"7 Dec, Friday"},
                     {"name":"United States and Transaction" ,"date":"7 Dec, Friday"}],
 
     "FOOD":[{"name":"The Jamaica Food & Drink Festival" ,"date":"7 Dec, Friday"},
+                        {"name":"Portland Jerk Festival" ,"date":"7 Dec, Friday"},
+                        {"name":"Clarendon Series" ,"date":"7 Dec, Friday"},
+                        {"name":"The Jamaica Food & Drink Festival" ,"date":"7 Dec, Friday"},
                         {"name":"Portland Jerk Festival" ,"date":"7 Dec, Friday"},
                         {"name":"Clarendon Series" ,"date":"7 Dec, Friday"}]
     

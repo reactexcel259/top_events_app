@@ -10,19 +10,30 @@ import {
 const { height, width } = Dimensions.get("window");
 
 export default class Events extends Component {
-  _renderItem = item => {
+  _renderItem = ({ item, index }) => {
     return (
-      <View style={styles.cardWrapper}>
+      <View
+        kye={index}
+        style={[
+          styles.cardWrapper,
+          {
+            marginRight:
+              index == this.props.eventData.results.length - 1 ? 15 : 7
+          }
+        ]}
+      >
         <View style={styles.imageWrapper}>
           <Image
             resizeMode={"cover"}
             style={styles.cardImage}
-            source={require("../assets/images/photo-jake.png")}
+            source={{
+              uri: item !== undefined && item.image && item.image.secure_url
+            }}
           />
         </View>
         <View style={styles.imageTitle}>
-          <Text style={styles.nameText}>{item.item.name}</Text>
-          <Text style={styles.dateText}>{item.item.date}</Text>
+          <Text style={styles.nameText}>{item.title}</Text>
+          <Text style={styles.dateText}>{item.start}</Text>
         </View>
       </View>
     );
@@ -31,19 +42,27 @@ export default class Events extends Component {
     return (
       <View style={styles.flatView}>
         <View style={styles.eventSectionName}>
-            <View style={[styles.circle,{backgroundColor:this.props.backgroundColor}]}></View>
-            <View style={styles.eventHeaderText}>
-                <Text style={styles.eventSectionText}>
-                    {this.props.eventSectionName}
-                </Text>
-                <Text>View all 12</Text>
-            </View>
+          <View
+            style={[
+              styles.circle,
+              { backgroundColor: this.props.backgroundColor }
+            ]}
+          />
+          <View style={styles.eventHeaderText}>
+            <Text style={styles.eventSectionText}>
+              {this.props.categoryId && this.props.categoryId.toUpperCase()}
+            </Text>
+            <Text>
+              View all{" "}
+              {this.props.eventData && this.props.eventData.results.length}
+            </Text>
+          </View>
         </View>
         <FlatList
-          style={{ paddingLeft: 15 }}
-          data={this.props.eventData}
-          keyExtractor={(item, Index) => item}
-          renderItem={this._renderItem}
+          style={{ paddingLeft: 15, paddingRight: 100 }}
+          data={this.props.eventData && this.props.eventData.results}
+          keyExtractor={(item, index) => (item, index)}
+          renderItem={this.props.eventData.results && this._renderItem}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         />
@@ -55,15 +74,14 @@ const styles = StyleSheet.create({
   cardWrapper: {
     width: width * 0.35,
     flexDirection: "column",
-    justifyContent: "flex-start",
-    marginRight: 7
+    justifyContent: "flex-start"
   },
   imageWrapper: {
     width: "100%",
-    height: height * 0.18,
-},
-cardImage: {
-    borderRadius:10,
+    height: height * 0.18
+  },
+  cardImage: {
+    borderRadius: 10,
     width: "100%",
     height: "100%"
   },
@@ -75,28 +93,29 @@ cardImage: {
     color: "#808080"
   },
   flatView: {
-    paddingTop: height * 0.05,
+    paddingTop: height * 0.05
   },
   eventSectionName: {
     paddingLeft: 25,
-    height:height*.05,
+    height: height * 0.05,
+    marginBottom: 7
   },
   eventSectionText: {
     fontWeight: "500",
-    marginTop:5,
-    marginLeft:4
+    marginTop: 5,
+    marginLeft: 4
   },
-  circle:{
-      width:width*.09,
-      height:height*.05,
-      position:"absolute",
-      zIndex:0,
-      borderRadius:height*.2,
-      left:15
+  circle: {
+    width: width * 0.09,
+    height: height * 0.05,
+    position: "absolute",
+    zIndex: 0,
+    borderRadius: height * 0.2,
+    left: 15
   },
-  eventHeaderText:{
-      flexDirection:'row',
-      justifyContent:'space-between',
-      paddingRight:15
+  eventHeaderText: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingRight: 15
   }
 });

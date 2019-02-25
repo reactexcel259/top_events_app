@@ -1,8 +1,8 @@
 import axios from "axios";
 import { BASE_URL } from "../config/index";
 
-export default function fireAjax(method, URL, data, header) {
- const url = BASE_URL + URL;
+export default function fireAjax(method, URL) {
+ const url =URL;
  let config = {};
  if (URL !== "user/login" && URL !== "user/register") {
    config = {
@@ -18,7 +18,8 @@ export default function fireAjax(method, URL, data, header) {
    };
  }
  if (method === "GET") {
-   return axios.get(url, config.headers)
+   
+   return axios.get(url)
  } else if (method === "POST") {
    return axios.post(url, data, config);
  }

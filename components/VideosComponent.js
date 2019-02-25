@@ -24,9 +24,9 @@ const kingstonData = [
 ];
 
 export default class VideosComponent extends Component {
-  _renderItem = item => {
+  _renderItem = (item,index) => {
     return (
-      <View style={styles.cardWrapper}>
+      <View key={index} style={styles.cardWrapper}>
         <View style={styles.imageWrapper}>
           <Image
             resizeMode={"cover"}
