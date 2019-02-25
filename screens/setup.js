@@ -10,6 +10,7 @@ import {
   Button,
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
+import GetLocation from 'react-native-get-location'
 
 import CustomeButton from '../components/button';
 import CustomHeader from '../components/header';
@@ -31,6 +32,15 @@ export default class SetupScreen extends React.Component {
       interest:Interest
     }
   }
+  componentDidMount(){
+    async function alertIfRemoteNotificationsDisabledAsync() {
+      const { Permissions } = Expo;
+      const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      if (status !== 'granted') {
+        alert('Hey! You might want to enable notifications for my app, they are good.');
+      }
+    }
+  }
   selectInterests = (id) => {
     let int = this.state.interest;
     if(int[id] !== undefined && int[id].selected){
@@ -39,6 +49,19 @@ export default class SetupScreen extends React.Component {
       int[id]["selected"] = true ;
     }
     this.setState({interest:int})
+  }
+  useCurrentLocation = () => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+    .then(location => {
+        console.log(location);
+    })
+    .catch(error => {
+        const { code, message } = error;
+        console.warn(code, message);
+    })
   }
   onBackPress = () => {
     const { step } = this.state;
@@ -78,6 +101,7 @@ export default class SetupScreen extends React.Component {
           <Location 
             {...this.props}
             {...this.state}
+            useCurrentLocation={()=>{this.useCurrentLocation()}}
             onPress={()=>{ console.log('navigate') }}            
           />
         }
