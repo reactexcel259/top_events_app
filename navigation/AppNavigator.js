@@ -5,8 +5,10 @@ import SetupScreen from '../screens/setup';
 import PermissionScreen from '../screens/permissionScreen';
 import EventScreen from '../screens/Events';
 import Notifications from '../screens/Notification';
+import SignUpScreen from '../screens/Signup';
 
 export default createAppContainer(createStackNavigator({
+  SignUpScreen:SignUpScreen,
   Notification: Notifications,
   Event: EventScreen,
   // Home: HomeScreen,
