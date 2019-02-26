@@ -10,6 +10,11 @@ import {
 const { height, width } = Dimensions.get("window");
 
 export default class Events extends Component {
+  constructor(props){
+    super(props);
+      this.state={data :this.props.eventData && this.props.eventData.results}
+    
+  }
   _renderItem = ({ item, index }) => {
     return (
       <View
@@ -18,7 +23,7 @@ export default class Events extends Component {
           styles.cardWrapper,
           {
             marginRight:
-              index == this.props.eventData.results.length - 1 ? 15 : 7
+              index == this.props.eventData.results.length - 1 ? 28 : 7
           }
         ]}
       >
@@ -53,17 +58,17 @@ export default class Events extends Component {
               {this.props.categoryId && this.props.categoryId.toUpperCase()}
             </Text>
             <Text>
-              View all{" "}
-              {this.props.eventData && this.props.eventData.results.length}
+              View all {this.props.eventData && this.props.eventData.results.length}
             </Text>
           </View>
         </View>
         <FlatList
-          style={{ paddingLeft: 15, paddingRight: 100 }}
-          data={this.props.eventData && this.props.eventData.results}
+          style={{ paddingLeft: 15,}}
+          data={this.props.eventData.results}
           keyExtractor={(item, index) => (item, index)}
-          renderItem={this.props.eventData.results && this._renderItem}
+          renderItem={this._renderItem}
           horizontal={true}
+          extraData={this.state.data}
           showsHorizontalScrollIndicator={false}
         />
       </View>

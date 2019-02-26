@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, ScrollView } from "react-native";
+import { Text, View, StyleSheet,Dimensions, ScrollView ,ActivityIndicator } from "react-native";
 import VideosComponent from "../../components/VideosComponent";
 import Events from "../../components/Events";
 import Eventdata from "../tabs/event.json";
 import CustomHeader from ".././../components/header";
 import { connect } from "react-redux";
-import { getEventRequest, getCategoryRequest } from "../../redux/action";
+const { height, width } = Dimensions.get("window");
+import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAndCityEventRequest} from "../../redux/action";
 
 class HomeTab extends Component {
   static navigationOptions = {
@@ -15,15 +16,17 @@ class HomeTab extends Component {
     super(props);
     this.state = {
       isCategoryId: false,
+      isStateAndCityId:false,
     };
   }
 
   async componentDidMount() {
     await this.props.getCategory();
+    await this.props.getStateAndCity();
   }
 
   async componentDidUpdate() {
-    const { getCategoryData } = this.props;
+    const { getCategoryData ,getStateAndCityData} = this.props;
     if (getCategoryData.isSuccess && !this.state.isCategoryId) {
       getCategoryData.status.data.forEach(eventId => {
         let id = eventId._id;
@@ -32,15 +35,21 @@ class HomeTab extends Component {
       });
       this.setState({ isCategoryId: true });
     }
+    if(getStateAndCityData.isSuccess && !this.state.isStateAndCityId){
+      this.props.getStateAndCityEvent(getStateAndCityData.status.data[0].cities[0]._id);
+      this.setState({isStateAndCityId:true});
+    }
   }
   render() {
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
+    const cityEvents =this.props.getStateAndCityEventData.status
     console.log(this.props.getEventData.register, "JJJJJ");
 
     return (
-      <View>
+      <View style={styles.wrapper}>
         <CustomHeader isCenter={true} centerImage={true} centerTitle={true} />
+        {(eventsLength ==6 && cityEvents !==undefined) ?
         <ScrollView>
           <View style={styles.mainWrapper}>
             <View style={styles.kingstoneView}>
@@ -55,16 +64,21 @@ class HomeTab extends Component {
                   </View>
                 </View>
               </View>
-              <VideosComponent />
+             {(cityEvents !==undefined)  &&
+              <VideosComponent 
+              cityData={cityEvents}
+              />}
             </View>
             <View style={styles.likedView}>
               <View style={styles.EventTitleView}>
                 <Text style={styles.kingstonText}>Events you might like</Text>
               </View>
-              <VideosComponent />
+              <VideosComponent
+              cityData={cityEvents}
+              />
             </View>
             <View style={styles.eventComponentView}>
-              {eventsLength == 6 &&
+              {eventsLength > 0 &&
                 events.map((event, index) => {
                   let cetegoryId;
                   let backgroundColor;
@@ -93,24 +107,28 @@ class HomeTab extends Component {
                 })}
             </View>
           </View>
-        </ScrollView>
+        </ScrollView> : <View style={styles.loaderView}><ActivityIndicator color="#FF6CC9" size="large" /></View> }
       </View>
     );
   }
 }
 const mapStateToProps = state => {
   console.log(state, ">>>>>>>>>>>>>>>>>>>>>");
-
   return {
     getCategoryData: state.getCategory,
-    getEventData: state.getEvent
+    getEventData: state.getEvent,
+    getStateAndCityData:state.getStateAndCity,
+    getStateAndCityEventData:state.getStateAndCityEvent,
+    
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     getEvent: (eventId, eventKey) =>
       dispatch(getEventRequest(eventId, eventKey)),
-    getCategory: () => dispatch(getCategoryRequest())
+    getCategory: () => dispatch(getCategoryRequest()),
+    getStateAndCity:()=>dispatch(getStateAndCityRequest()),
+    getStateAndCityEvent:(cityId)=>dispatch(getStateAndCityEventRequest(cityId))
   };
 };
 export default connect(
@@ -119,6 +137,11 @@ export default connect(
 )(HomeTab);
 
 const styles = StyleSheet.create({
+  wrapper:{
+    // flexDirection:'column',
+    // justifyContent:'center',
+    // alignContent:'center'
+  },
   mainWrapper: {
     flex: 1
   },
@@ -146,5 +169,14 @@ const styles = StyleSheet.create({
   },
   eventComponentView: {
     paddingBottom:90
+  },
+  loaderView:{
+    position:"absolute",
+    flex:1,
+    flexDirection:'column',
+    alignSelf:"center",
+    justifyContent:'center',
+    alignContent:'center',
+    top:height/2.4
   }
 });

@@ -19,17 +19,12 @@ export const getCategoryRequest=createAction(constants.GET_CATEGORY_REQUEST);
 export const getCategorySuccess=createAction(constants.GET_CATEGORY_SUCCESS);
 export const getCategoryError=createAction(constants.GET_CATEGORY_ERROR);
 
-//action for separate event
+//action for state&city
+export const getStateAndCityRequest=createAction(constants.GET_STATEANDCITY_REQUEST);
+export const getStateAndCitySuccess=createAction(constants.GET_STATEANDCITY_SUCCESS);
+export const getStateAndCityError=createAction(constants.GET_STATEANDCITY_ERROR);
 
-export const GET_ENTERTAINMENT_EVENT="GET_ENTERTAINMENT_EVENT";
-export const GET_SPORT_EVENT="GET_SPORT_EVENT";
-export const GET_SHOPPING_EVENT="GET_SHOPPING_EVENT";
-export const GET_HEALTHFITNESS_EVENT="GET_HEALTHFITNESS_EVENT";
-export const GET_CONFERERNCE_EVENT="GET_CONFERERNCE_EVENT";
-export const GET_FOOT_EVENT="GET_FOOT_EVENT";
-
-export const getEntertainmentEventSuccess=createAction(constants.GET_ENTERTAINMENT_EVENT_SUCCESS);
-export const getEntertainmentEventError=createAction(constants.GET_ENTERTAINMENT_EVENT_ERROR);
-
-export const getSportEventSuccess=createAction(constants.GET_SPORT_EVENT_SUCCESS);
-export const getSportEventError=createAction(constants.GET_SPORT_EVENT_ERROR);
+//action for state&cityevent
+export const getStateAndCityEventRequest=createAction(constants.GET_STATEANDCITYEVENT_REQUEST);
+export const getStateAndCityEventSuccess=createAction(constants.GET_STATEANDCITYEVENT_SUCCESS);
+export const getStateAndCityEventError=createAction(constants.GET_STATEANDCITYEVENT_ERROR);

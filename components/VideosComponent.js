@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component,PureComponent } from "react";
 import {
   Text,
   View,
@@ -7,46 +7,35 @@ import {
   FlatList,
   Image
 } from "react-native";
-import image from "../assets/images/jakeoff.png";
 import Index from "../Josn/Index";
 const { height, width } = Dimensions.get("window");
-const kingstonData = [
-  {
-    image: "../assets/images/jakeoff.png",
-    date: "8 Dec ,Friday",
-    name: "Jake's off road triation"
-  },
-  {
-    image: "../assets/images/jamaica.png",
-    date: "7 Dec ,Friday",
-    name: "Jamaica Dream day"
-  }
-];
 
-export default class VideosComponent extends Component {
-  _renderItem = (item,index) => {
+export default class VideosComponent extends PureComponent {
+  _renderItem = ({item,index}) => {
+    console.log(item ,'&&&&&&&&&&&&&&&&&&&&&&');
+    
     return (
-      <View key={index} style={styles.cardWrapper}>
+      <View key={index} style={[styles.cardWrapper,{marginRight:index ==this.props.cityData.data.results.length-1 ? 23 : 7}]}>
         <View style={styles.imageWrapper}>
           <Image
             resizeMode={"cover"}
             style={styles.cardImage}
-            source={require("../assets/images/photo-jake.png")}
+            source={{uri:item.image.secure_url}}
           />
         </View>
         <View style={styles.imageTitle}>
-          <Text style={styles.nameText}>{item.item.name}</Text>
-          <Text style={styles.dateText}>{item.item.date}</Text>
+          <Text style={styles.nameText}>{item.title}</Text>
+          <Text style={styles.dateText}>{item.start}</Text>
         </View>
       </View>
     );
   };
-  render() {
+  render() {    
     return (
       <FlatList
-        style={{ paddingLeft: 10 }}
-        data={kingstonData}
-        keyExtractor={(item, Index) => item}
+        style={{ paddingLeft: 15 }}
+        data={this.props.cityData && this.props.cityData.data.results}
+        keyExtractor={(item, index) => (item,index)}
         renderItem={this._renderItem}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
@@ -58,15 +47,16 @@ const styles = StyleSheet.create({
   cardWrapper: {
     width: width * 0.6,
     flexDirection: "column",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
   },
   imageWrapper: {
     width: "100%",
-    height: height * 0.18
+    height: height * 0.18,
   },
   cardImage: {
     width: "100%",
-    height: "100%"
+    height: "100%",
+    borderRadius:7
   },
   imageTitle: {},
   nameText: {},
