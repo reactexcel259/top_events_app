@@ -46,9 +46,9 @@ export default class CustomHeader extends React.Component {
     let stepWidth = 0.333 * step;
     return (
       <View style={styles.mainContainer} >
-      <StatusBar
+      {/* <StatusBar
       hidden
-      />
+      /> */}
         {
           step &&
         <View style={[styles.progress,{width: Layout.window.width * stepWidth}]} >
@@ -96,7 +96,7 @@ export default class CustomHeader extends React.Component {
               }
               {
                 centerTitle &&
-                <Text>{centerTitle}</Text>
+                <Text style={styles.centerText} >{centerTitle}</Text>
               }
             </View>
         </View>
@@ -132,7 +132,9 @@ export default class CustomHeader extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer:{
-    height: Layout.window.height * 0.12,
+    height: Layout.window.height * 0.1,
+    elevation:1,
+    borderBottomWidth:0.5
   },
   progress:{
     flexDirection:'row',
@@ -153,6 +155,10 @@ const styles = StyleSheet.create({
   },
   containerCenter:{
     justifyContent:'center'
+  },
+  centerText:{
+    fontWeight: '500',
+    fontSize:18
   },
   containerRight:{
     justifyContent:'center',

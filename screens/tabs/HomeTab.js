@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Text, View, StyleSheet,Dimensions, ScrollView ,ActivityIndicator } from "react-native";
 import VideosComponent from "../../components/VideosComponent";
 import Events from "../../components/Events";
-import Eventdata from "../tabs/event.json";
 import CustomHeader from ".././../components/header";
 import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
