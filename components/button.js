@@ -14,11 +14,11 @@ import { MonoText } from '../components/StyledText';
 
 export default class CustomeButton extends React.Component {
   render() {
-    const { buttonText, textColor, gradientColor, onPress } = this.props
+    const { buttonText, buttonSize, textColor, gradientColor, onPress } = this.props
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={onPress} >
-          <View style={styles.buttonContainer} >
+          <View style={[ buttonSize !== undefined && buttonSize =='small' ? styles.buttonSmallContainer : styles.buttonContainer]} >
           <LinearGradient
             colors={gradientColor}
             style={{ flex: 1 }}
@@ -46,6 +46,10 @@ const styles = StyleSheet.create({
     padding: 15, 
     alignItems: 'center', 
     borderRadius: 25
+  },
+  buttonSmallContainer: {
+    height:40, 
+    width:Layout.window.width * 0.350
   },
   buttonContainer: {
     height:40, 

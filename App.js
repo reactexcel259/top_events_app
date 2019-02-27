@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, SafeAreaView } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import {store} from './redux/store';
@@ -12,12 +12,14 @@ export default class App extends React.Component {
 
   render() {
      return (
+      <SafeAreaView style={{flex:1}} >
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <Provider store={store} >
           <AppNavigator />
         </Provider>
       </View>
+      </SafeAreaView>
     )
   }
 

@@ -22,7 +22,7 @@ export default class CustomHeader extends React.Component {
             <View>
               <FontAwesome
               key={i} 
-              name={value} size={32} style={{margin:5}} color="green" />
+              name={value} size={32} style={{margin:5}} color="white" />
             </View>
           </TouchableOpacity>
       )
@@ -43,24 +43,29 @@ export default class CustomHeader extends React.Component {
       rightTitle,
       rightIcon,
       } = this.props
-      console.log('left',this.props)
-    let stepWidth = 0.333 * step
+    let stepWidth = 0.333 * step;
     return (
       <View style={styles.mainContainer} >
-      <StatusBar
+      {/* <StatusBar
       hidden
-      />
+      /> */}
         {
           step &&
         <View style={[styles.progress,{width: Layout.window.width * stepWidth}]} >
           <LinearGradient
-            colors={['#FF6CC9','#8559F0']}
+            colors={['#8559F0','#8559F0']}
             style={{ flex: 1 }}
             start={[0, 0]}
             end={[1, 0]}
           />
         </View>
         }
+      <LinearGradient
+        colors={['#FF6CC9','#8559F0']}
+        style={{ flex: 1,justifyContent:'center' }}
+        start={[0, 0]}
+        end={[1, 0]}
+      >
       <View style={styles.container}>
        {
          isLeft ?
@@ -71,7 +76,7 @@ export default class CustomHeader extends React.Component {
               <TouchableOpacity onPress={leftPress} >
                 <View>
                 <FontAwesome 
-                name={leftIcon} size={32} color="green" />
+                name={leftIcon} size={32} color="white" />
                 </View>
               </TouchableOpacity>
             }
@@ -97,7 +102,7 @@ export default class CustomHeader extends React.Component {
               }
               {
                 centerTitle &&
-                <Text>{centerTitle}</Text>
+                <Text style={styles.centerText} >{centerTitle}</Text>
               }
             </View>
         </View>
@@ -125,6 +130,7 @@ export default class CustomHeader extends React.Component {
         <View style={styles.containerRight} />
        }
       </View>
+       </LinearGradient>
       </View>
     );
   }
@@ -134,6 +140,9 @@ export default class CustomHeader extends React.Component {
 const styles = StyleSheet.create({
   mainContainer:{
     height: Layout.window.height * 0.12,
+    justifyContent:'center',
+    elevation:1,
+    borderBottomWidth:0.5
   },
   progress:{
     flexDirection:'row',
@@ -154,6 +163,11 @@ const styles = StyleSheet.create({
   },
   containerCenter:{
     justifyContent:'center'
+  },
+  centerText:{
+    fontWeight: '500',
+    fontSize:18,
+    color:'white'
   },
   containerRight:{
     justifyContent:'center',
