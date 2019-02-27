@@ -10,6 +10,7 @@ import {
 import Layout from "../constants/Layout";
 import { LinearGradient, MapView } from "expo";
 import CommentSection from '../components/CommentSection';
+import Comments from '../components/Comments';
 
 const image = [
   {
@@ -183,6 +184,7 @@ export default class CityEventDescription extends Component {
           {this.state.isDiscussionTab && (
             <View style={styles.discussionWrapper}>
               <CommentSection />
+              <Comments />
             </View>
           )}
         </View>
@@ -308,8 +310,6 @@ aboutUsWrapper: {
   },
   discussionWrapper: {
     marginTop:15,
-    paddingLeft: 15,
-    paddingRight: 15,
   },
   video: {
     width: "100%",
