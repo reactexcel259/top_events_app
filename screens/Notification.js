@@ -19,15 +19,15 @@ import * as actions from '../redux/action';
 import CustomHeader from '../components/header';
 
 class Notifications extends React.Component {
-  constructor(props){
-    super(props)
-   
-  }
   static navigationOptions = ({ navigation }) => {
     return {
       header: null
     };
   };
+  constructor(props){
+    super(props)
+   
+  }
 
   render() {
     return (
