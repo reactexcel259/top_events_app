@@ -1,0 +1,128 @@
+import React from 'react';
+import {
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { WebBrowser, LinearGradient } from 'expo';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import * as actions from '../redux/action';
+import Layout from '../constants/Layout';
+import { MonoText } from '../components/StyledText';
+import SignUpContainer from '../components/signup/signup';
+import DetailsContainer from '../components/signup/details';
+import WelcomeContainer from '../components/signup/welcome';
+
+class SignUpScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: null
+    };
+  };
+
+  constructor(props){
+    super(props);
+    this.state = {
+      progress: 1,
+    }
+  }
+  changeProgress = () => {
+    const { progress } = this.state;
+    if(progress != 3 ){
+      this.setState({ progress: progress +1 })
+    } else {
+      console.log('asd')
+    }
+  }
+  
+  render() {
+    const { progress } = this.state;
+    return (
+      <View style={styles.container}>
+        <LinearGradient
+          colors={['#FF6CC9','#8559F0']}
+          style={{ flex: 1 }}
+          start={[0, 0]}
+          end={[1, 0]}
+        >
+        <View style={{flex:1,flexDirection:'column',justifyContent:'space-between'}} >
+          <View>
+            <Image
+              source={require('../assets/images/photo.png')}
+              style={styles.image}
+            />
+          </View>
+
+          <View style={{alignItems:'center',marginBottom:50}} >
+              {
+                progress == 1 &&
+                <Text style={{color:'white',fontSize:17}} > Sign in </Text>
+              }
+              {
+                progress == 2 &&
+                <Text style={{color:'white',fontSize:17}} > Do it later </Text>
+              }
+          </View>
+        </View>
+          <View style={styles.miniContainer} >
+          {
+            progress == 1 &&
+             <SignUpContainer 
+              onPress={this.changeProgress}
+            /> 
+          }
+          {
+            progress == 2 &&
+            <DetailsContainer 
+              onPress={this.changeProgress}
+            />
+          }
+          {
+            progress == 3 &&
+            <WelcomeContainer
+              onPress={this.changeProgress}
+            />
+          }
+          </View>
+        </LinearGradient>
+      </View>
+    );
+  }
+
+}
+
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+  },
+  image :{
+    height: Layout.window.height * 0.7,
+    width: Layout.window.width
+  },
+  miniContainer : {
+    position:'absolute',
+    height:Layout.window.height * 0.52,
+    width:Layout.window.width * 0.95,
+    top:Layout.window.height - 450,
+    marginLeft:10,
+    backgroundColor:'white',
+    borderRadius:10,
+    elevation:2
+  },
+});
+
+
+const mapStateToProps = (state) => {
+  return {
+      state: state,
+  }
+}
+const mapDispatchToProps = dispatch => 
+    bindActionCreators(actions, dispatch);
+
+export default connect(mapStateToProps,mapDispatchToProps)(SignUpScreen);

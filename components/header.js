@@ -22,7 +22,7 @@ export default class CustomHeader extends React.Component {
             <View>
               <FontAwesome
               key={i} 
-              name={value} size={32} style={{margin:5}} color="green" />
+              name={value} size={32} style={{margin:5}} color="white" />
             </View>
           </TouchableOpacity>
       )
@@ -53,13 +53,19 @@ export default class CustomHeader extends React.Component {
           step &&
         <View style={[styles.progress,{width: Layout.window.width * stepWidth}]} >
           <LinearGradient
-            colors={['#FF6CC9','#8559F0']}
+            colors={['#8559F0','#8559F0']}
             style={{ flex: 1 }}
             start={[0, 0]}
             end={[1, 0]}
           />
         </View>
         }
+      <LinearGradient
+        colors={['#FF6CC9','#8559F0']}
+        style={{ flex: 1,justifyContent:'center' }}
+        start={[0, 0]}
+        end={[1, 0]}
+      >
       <View style={styles.container}>
        {
          isLeft ?
@@ -70,7 +76,7 @@ export default class CustomHeader extends React.Component {
               <TouchableOpacity onPress={leftPress} >
                 <View>
                 <FontAwesome 
-                name={leftIcon} size={32} color="green" />
+                name={leftIcon} size={32} color="white" />
                 </View>
               </TouchableOpacity>
             }
@@ -124,6 +130,7 @@ export default class CustomHeader extends React.Component {
         <View style={styles.containerRight} />
        }
       </View>
+       </LinearGradient>
       </View>
     );
   }
@@ -132,7 +139,8 @@ export default class CustomHeader extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer:{
-    height: Layout.window.height * 0.1,
+    height: Layout.window.height * 0.12,
+    justifyContent:'center',
     elevation:1,
     borderBottomWidth:0.5
   },
@@ -158,7 +166,8 @@ const styles = StyleSheet.create({
   },
   centerText:{
     fontWeight: '500',
-    fontSize:18
+    fontSize:18,
+    color:'white'
   },
   containerRight:{
     justifyContent:'center',
