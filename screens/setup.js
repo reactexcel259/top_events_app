@@ -9,16 +9,17 @@ import {
   View,
   Button,
 } from 'react-native';
-import { WebBrowser, LinearGradient } from 'expo';
-import GetLocation from 'react-native-get-location'
+import { WebBrowser, LinearGradient, Location, Permissions, Constants,  } from 'expo';
+import connect from 'redux';
 
 import CustomeButton from '../components/button';
 import CustomHeader from '../components/header';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
 import Intrest from '../components/intro/intrest'
-import Location from '../components/intro/location';
+import Locations from '../components/intro/location';
 import Interest from '../Josn/Index';
+import {getStateAndCityRequest} from '../redux/action';
 
 export default class SetupScreen extends React.Component {
   static navigationOptions = {
@@ -29,18 +30,30 @@ export default class SetupScreen extends React.Component {
     super(props);
     this.state = {
       step: 1,
-      interest:Interest
+      interest:Interest,
+      location: null,
     }
   }
-  componentDidMount(){
-    async function alertIfRemoteNotificationsDisabledAsync() {
-      const { Permissions } = Expo;
-      const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-      if (status !== 'granted') {
-        alert('Hey! You might want to enable notifications for my app, they are good.');
-      }
-    }
+  
+  componentWillMount() {
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+      });
+    } 
+    // this.props.action.getStateAndCity();
   }
+  useCurrentLocation = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({enableHighAccuracy:true});
+    this.getGeoAddress(location.coords.latitude, location.coords.longitude);
+  };
   selectInterests = (id) => {
     let int = this.state.interest;
     if(int[id] !== undefined && int[id].selected){
@@ -50,18 +63,30 @@ export default class SetupScreen extends React.Component {
     }
     this.setState({interest:int})
   }
-  useCurrentLocation = () => {
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 15000,
-    })
-    .then(location => {
-        console.log(location);
-    })
-    .catch(error => {
-        const { code, message } = error;
-        console.warn(code, message);
-    })
+  getGeoAddress = async (myLat,myLon) => {
+    let response = await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + myLat + ',' + myLon + '&key=' + "AIzaSyBB7Tc7njRoyjegBDmqAVj09AKWbdRrTCI");
+    const responses = await response.json();
+    const results = responses.results
+    let storableLocation = {};
+    for (var ac = 0; ac < results[0].address_components.length; ac++) {
+      var component = results[0].address_components[ac];
+
+      switch (component.types[0]) {
+        case "locality":
+          storableLocation.city = component.long_name;
+          break;
+        case "administrative_area_level_1":
+          storableLocation.state = component.long_name;
+          break;
+        case "country":
+          storableLocation.country = component.long_name;
+          storableLocation.registered_country_iso_code =
+            component.short_name;
+          break;
+      }
+    }
+    console.log(storableLocation,"question");
+    
   }
   onBackPress = () => {
     const { step } = this.state;
@@ -73,11 +98,13 @@ export default class SetupScreen extends React.Component {
   }
   render() {
     const { step, interest } =this.state
+    
     return (
       <View style={styles.container}>
         <CustomHeader
           step={step}
           isLeft={true}
+          headerColors={['#FF6CC9','#FF6CC9']}
           leftIcon={'angle-left'}
           leftPress={this.onBackPress}
         />
@@ -91,7 +118,7 @@ export default class SetupScreen extends React.Component {
         }
         {
           step == 2 &&
-          <Location 
+          <Locations 
             {...this.props}
             {...this.state}
             useCurrentLocation={()=>{this.useCurrentLocation()}}

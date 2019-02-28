@@ -26,7 +26,7 @@ export default class Intrest extends React.Component {
           style={styles.mainContainer}
           colors={['#FF6CC9','#8559F0']}
           start={[1,0]}
-          end={[0, 1]}
+          end={[1, 1]}
         >
         <View style={styles.headerContainer} >
           <Text style={styles.headerText} > What are your Interests? </Text>

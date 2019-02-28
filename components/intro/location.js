@@ -18,7 +18,7 @@ import Layout from '../../constants/Layout';
 import { MonoText } from '../../components/StyledText';
 import CustomeButton from '../button'
 
-export default class Location extends React.Component {
+export default class Locations extends React.Component {
   
   render() {
     const { onPress } = this.props
@@ -27,10 +27,10 @@ export default class Location extends React.Component {
           style={styles.mainContainer}
           colors={['#FF6CC9','#8559F0']}
           start={[1,0]}
-          end={[0, 1]}
+          end={[1, 1]}
         >
         <View style={styles.headerContainer} >
-          <Text style={styles.headerText} > Add Loccation </Text>
+          <Text style={styles.headerText} > Add Location </Text>
         </View>
         <View style={styles.intrestContainer} >
         <View style={styles.searchContainer} >
@@ -43,8 +43,9 @@ export default class Location extends React.Component {
         <TouchableOpacity onPress={()=>{this.props.useCurrentLocation()}}>
           <View style={styles.locationBox} >
             <FontAwesome name="location-arrow" size={20} style={{ marginTop: 2,marginRight:5,color: 'black' }} />            
-              <Text style={{color:'black',fontSize:14, marginLeft:5}} > Use Current location </Text>
+              <Text style={{color:'white',fontSize:14, marginLeft:5}} > Use Current location </Text>
           </View>
+
         </TouchableOpacity>
         </View>
           <View style={{flex:1,justifyContent:'flex-end',alignItems:'center',marginBottom:50}} >

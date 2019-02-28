@@ -42,8 +42,9 @@ export default class CustomHeader extends React.Component {
       isRight,
       rightTitle,
       rightIcon,
+      headerColors
       } = this.props
-    let stepWidth = 0.333 * step;
+    let stepWidth = 0.50 * step;
     return (
       <View style={styles.mainContainer} >
       {/* <StatusBar
@@ -61,7 +62,7 @@ export default class CustomHeader extends React.Component {
         </View>
         }
       <LinearGradient
-        colors={['#FF6CC9','#8559F0']}
+        colors={headerColors}
         style={{ flex: 1,justifyContent:'center' }}
         start={[0, 0]}
         end={[1, 0]}
