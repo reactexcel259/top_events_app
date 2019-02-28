@@ -4,7 +4,7 @@ import {call,put} from "redux-saga/effects";
 
 export function* getStateAndCityEventRequest(action) {
  try {
-    const response = yield call(fireAjax, "GET", `http://ec2-18-225-32-25.us-east-2.compute.amazonaws.com:3000/api/events?EventCity=${action.payload}`, {
+    const response = yield call(fireAjax, "GET", `/events?EventCity=${action.payload}`, {
     ...action.payload
     });
     if (response) {

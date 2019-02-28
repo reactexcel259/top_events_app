@@ -4,7 +4,6 @@ export const GET_REGISTER_ERROR = "GET_REGISTER_ERROR";
 
 //Gernal 
 export const OPEN_INVEST_MODAL = "OPEN_INVEST_MODAL";
-
 //Events
 
 export const GET_EVENT_REQUEST="GET_EVENT_REQUEST";

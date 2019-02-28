@@ -18,7 +18,6 @@ export default createAppContainer(createStackNavigator({
   // SignUpScreen:SignUpScreen,
   // Notification: Notifications,
   // Event: EventScreen,
-  // Home: HomeScreen,
   CityEventDescription:CityEventDescription,
   // HomeTab:HomeTab,
   setup: SetupScreen,

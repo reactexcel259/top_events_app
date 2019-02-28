@@ -3,7 +3,7 @@ import update from "immutability-helper";
 import * as constants from "../constant";
 
 const initialState = {
- register: {
+ user: {
    isLoading: false,
    isError: false,
    isSuccess: false,
@@ -13,7 +13,7 @@ const initialState = {
 
 const getRegisterRequest = (state, action) =>
  update(state, {
-   register: {
+   user: {
      isLoading: { $set: false },
      isError: { $set: false },
      isSuccess: { $set: true },
@@ -23,7 +23,7 @@ const getRegisterRequest = (state, action) =>
 
 const getRegisterSuccess = (state, action) =>
  update(state, {
-   register: {
+   user: {
      isLoading: { $set: false },
      isError: { $set: false },
      isSuccess: { $set: true },

@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import register from "./homePage/reducer";
+import user from "./homePage/reducer";
 import navigation from "./navigation/reducer";
 import getEvent from '../redux/tabs/homeTab/reducer';
 import getCategory from '../redux/getCategory/reducer';
@@ -9,7 +9,7 @@ import postAddComment from '../redux/addComment/reducer';
 
 
 export default combineReducers({
- register:register,
+ user:user,
  navigation:navigation,
  getEvent:getEvent,
  getCategory:getCategory,

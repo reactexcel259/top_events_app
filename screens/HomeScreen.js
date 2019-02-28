@@ -32,6 +32,7 @@ export default class HomeScreen extends React.Component {
           <View style={styles.imageContainer}>
             <Image
               style={styles.logoImage}
+              resizeMode="contain"
               source={require('../assets/images/logo.png')}
             />
           </View>
@@ -48,6 +49,7 @@ export default class HomeScreen extends React.Component {
             </View>
             <View style={{alignSelf:'center',paddingBottom:20}} >
               <CustomeButton
+                
                 buttonText={"Sign In"}
                 gradientColor={['#FFFFFF','#FFFFFF']}
                 textColor={'black'}
@@ -67,19 +69,24 @@ const styles = StyleSheet.create({
     flex:1
   },
   image :{
-    height: Layout.window.height * 0.66,
+    height: Layout.window.height,
     width: Layout.window.width
   },
   ovalContainer:{
-    width:Layout.window.width * 1.12 ,
-    height:Layout.window.height * 0.6,
+    width:Layout.window.width * 0.94 ,
+    height:Layout.window.height * 0.52,
     backgroundColor:'#ffffff',
+    opacity:0.93,
     position:'absolute',
-    borderRadius: 1400 / 3,
-    top: Layout.window.height * 0.42, 
-    left: -21, 
+    top: Layout.window.height * 0.50, 
+    left: 0, 
     right: 0, 
     bottom: 0,
+    marginLeft:10,
+    marginRight:10,
+    // borderRadius:25,
+    borderTopStartRadius:30,
+    borderTopEndRadius:30
   },
   ovalContent:{
     flex:1,
@@ -88,18 +95,20 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   imageContainer:{
-    paddingTop: Layout.window.height * 0.07,
+    paddingTop: Layout.window.height * 0.01,
+    paddingBottom: Layout.window.height * 0.004,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+    width:Layout.window.width
   },
   logoImage:{
-    height:Layout.window.height * 0.148 ,
-    width: Layout.window.width * 0.52,
+    height:Layout.window.height * 0.15 ,
+    width: Layout.window.width * 0.63,
+
   },
   suggestion:{
-    padding:20,
+    // padding:20,
     fontSize:15,
-    width: Layout.window.width * 0.525,
     textAlign:'center'
   },
 });

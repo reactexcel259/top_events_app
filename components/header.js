@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
     height: Layout.window.height * 0.12,
     justifyContent:'center',
     elevation:1,
-    borderBottomWidth:0.5
   },
   progress:{
     flexDirection:'row',

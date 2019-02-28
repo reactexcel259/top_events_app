@@ -23,7 +23,12 @@ export default class Location extends React.Component {
   render() {
     const { onPress } = this.props
     return (
-      <View style={styles.mainContainer} >
+      <LinearGradient
+          style={styles.mainContainer}
+          colors={['#FF6CC9','#8559F0']}
+          start={[1,0]}
+          end={[0, 1]}
+        >
         <View style={styles.headerContainer} >
           <Text style={styles.headerText} > Add Loccation </Text>
         </View>
@@ -38,19 +43,19 @@ export default class Location extends React.Component {
         <TouchableOpacity onPress={()=>{this.props.useCurrentLocation()}}>
           <View style={styles.locationBox} >
             <FontAwesome name="location-arrow" size={20} style={{ marginTop: 2,marginRight:5,color: 'black' }} />            
-              <Text style={{color:'black',fontSize:17, marginLeft:5}} > Use Current location </Text>
+              <Text style={{color:'black',fontSize:14, marginLeft:5}} > Use Current location </Text>
           </View>
         </TouchableOpacity>
         </View>
           <View style={{flex:1,justifyContent:'flex-end',alignItems:'center',marginBottom:50}} >
               <CustomeButton
                 buttonText={"Next"}
-                gradientColor={['#FF6CC9','#8559F0']}
+                gradientColor={['#FF6CC9','#FF6CC9']}
                 textColor={'white'}
                 onPress={onPress}
               />            
-          </View>              
-      </View>
+          </View>
+        </LinearGradient>
     );
   }
 
@@ -61,12 +66,15 @@ const styles = StyleSheet.create({
     flex: 1
   },
   headerContainer:{
+    marginTop:20,
+    marginBottom:10,
     justifyContent:'center',
     alignItems:'center'
   },
   headerText:{
     fontWeight:'600',
-    fontSize:20
+    fontSize:18,
+    color:'white'
   },
   intrestContainer:{
     margin:20,
