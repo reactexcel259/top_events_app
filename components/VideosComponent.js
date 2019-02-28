@@ -13,14 +13,14 @@ const { height, width } = Dimensions.get("window");
 export default class VideosComponent extends PureComponent {
   _renderItem = ({item,index}) => {
     console.log(item ,'&&&&&&&&&&&&&&&&&&&&&&');
-    
+    let image =item.image ==undefined ? '' : item.image.secure_url
     return (
       <View key={index} style={[styles.cardWrapper,{marginRight:index ==this.props.cityData.data.results.length-1 ? 23 : 7}]}>
         <View style={styles.imageWrapper}>
           <Image
             resizeMode={"cover"}
             style={styles.cardImage}
-            source={{uri:item.image.secure_url}}
+            source={{uri:image}}
           />
         </View>
         <View style={styles.imageTitle}>
@@ -35,7 +35,7 @@ export default class VideosComponent extends PureComponent {
       <FlatList
         style={{ paddingLeft: 15 }}
         data={this.props.cityData && this.props.cityData.data.results}
-        keyExtractor={(item, index) => (item,index)}
+        keyExtractor={(item, index) => (item.title)}
         renderItem={this._renderItem}
         horizontal={true}
         showsHorizontalScrollIndicator={false}

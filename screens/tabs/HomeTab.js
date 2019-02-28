@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet,Dimensions, ScrollView ,ActivityIndicator } from "react-native";
+import { Text, View, StyleSheet,Dimensions, ScrollView ,ActivityIndicator,FlatList } from "react-native";
 import VideosComponent from "../../components/VideosComponent";
 import Events from "../../components/Events";
 import CustomHeader from ".././../components/header";
 import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
 import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAndCityEventRequest} from "../../redux/action";
+import Touch from 'react-native-touch';
 
 class HomeTab extends Component {
   static navigationOptions = {
@@ -39,11 +40,52 @@ class HomeTab extends Component {
       this.setState({isStateAndCityId:true});
     }
   }
+  onViewAll=(key)=>{
+    console.log(key ,'VVVVVVVVVVVVVVVVVVVVV');
+    const events = this.props.getEventData.register.eventData;
+    events.forEach(event=>{
+      if(Object.keys(event).join() === key){
+        this.props.navigation.navigate('ViewAllCard' ,{eventDetails:event[Object.keys(event).join()].data},);
+      }
+    });
+  }
+  _renderItem=({item,index})=>{
+    console.log(item ,"YYYYYYYYYYYYYYYY");
+    
+    let cetegoryId;
+    let backgroundColor;
+     if (Object.keys(item).join() === "shopping") {
+    backgroundColor = "#8559F0";
+  } else if (Object.keys(item).join() === "sport") {
+    backgroundColor = "#FEEA3F";
+  } else if (Object.keys(item).join() === "food") {
+    backgroundColor = "#FF523E";
+  } else if (Object.keys(item).join() === "conferences") {
+    backgroundColor = "#00D5E4";
+  } else if (Object.keys(item).join() === "health_wellness") {
+    backgroundColor = "#00ED7C";
+  } else {
+    backgroundColor = "#FF6CC9";
+  }
+
+    return(
+                    <Events
+                      key={index}
+                      eventData={item[Object.keys(item).join()].data}
+                      categoryId={Object.keys(item).join()}
+                      backgroundColor={backgroundColor}
+                      onViewAll={(key)=>this.onViewAll(key)}
+                    />
+
+    )
+  }
+  _keyExtractor=(item, index) => (item, index)
+
   render() {
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const cityEvents =this.props.getStateAndCityEventData.status
-    console.log(this.props.getEventData.register, "JJJJJ");
+    console.log(events, "JJJJJ");
 
     return (
       <View style={styles.wrapper}>
@@ -78,32 +120,40 @@ class HomeTab extends Component {
             </View>
             <View style={styles.eventComponentView}>
               {eventsLength > 0 &&
-                events.map((event, index) => {
-                  let cetegoryId;
-                  let backgroundColor;
-                  console.log(event, "OOOOOOOOOOOO");
-                  if (Object.keys(event).join() === "shopping") {
-                    backgroundColor = "#8559F0";
-                  } else if (Object.keys(event).join() === "sport") {
-                    backgroundColor = "#FEEA3F";
-                  } else if (Object.keys(event).join() === "food") {
-                    backgroundColor = "#FF523E";
-                  } else if (Object.keys(event).join() === "conferences") {
-                    backgroundColor = "#00D5E4";
-                  } else if (Object.keys(event).join() === "health_wellness") {
-                    backgroundColor = "#00ED7C";
-                  } else {
-                    backgroundColor = "#FF6CC9";
-                  }
-                  return (
-                    <Events
-                      key={index}
-                      eventData={event[Object.keys(event).join()].data}
-                      categoryId={Object.keys(event).join()}
-                      backgroundColor={backgroundColor}
-                    />
-                  );
-                })}
+              <FlatList 
+              data={events}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+              // extraData={events}
+              />
+                // events.map((event, index) => {
+                //   let cetegoryId;
+                //   let backgroundColor;
+                //   console.log(event, "OOOOOOOOOOOO");
+                //   if (Object.keys(event).join() === "shopping") {
+                //     backgroundColor = "#8559F0";
+                //   } else if (Object.keys(event).join() === "sport") {
+                //     backgroundColor = "#FEEA3F";
+                //   } else if (Object.keys(event).join() === "food") {
+                //     backgroundColor = "#FF523E";
+                //   } else if (Object.keys(event).join() === "conferences") {
+                //     backgroundColor = "#00D5E4";
+                //   } else if (Object.keys(event).join() === "health_wellness") {
+                //     backgroundColor = "#00ED7C";
+                //   } else {
+                //     backgroundColor = "#FF6CC9";
+                //   }
+                //   return (
+                //     <Events
+                //       key={index}
+                //       eventData={event[Object.keys(event).join()].data}
+                //       categoryId={Object.keys(event).join()}
+                //       backgroundColor={backgroundColor}
+                //       onViewAll={(key)=>this.onViewAll(key)}
+                //     />
+                //   );
+                // })
+                }
             </View>
           </View>
         </ScrollView> : <View style={styles.loaderView}><ActivityIndicator color="#FF6CC9" size="large" /></View> }
