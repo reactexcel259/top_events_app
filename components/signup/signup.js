@@ -16,7 +16,7 @@ import CustomeButton from '../button'
 
 export default class SignUpContainer extends React.Component {
   render() {
-    const { onPress } = this.props;
+    const { onPress, onChange, firstName, lastName } = this.props;
     return (
       <View style={styles.container}>
        <View style={styles.labelContainer} >
@@ -26,17 +26,21 @@ export default class SignUpContainer extends React.Component {
           <View style={styles.inputBottomMargin} >
             <TextInput
             style={styles.textInput}
-            placeholder={'Placeholder'}
+            value={firstName}
+            onChangeText={(text)=>{ onChange(text,'firstname') }}            
+            placeholder={'First name'}
             />
           </View>
           <View style={styles.inputBottomMargin} >
             <TextInput
             style={styles.textInput}
-            placeholder={'Placeholder'}
+            value={lastName}
+            onChangeText={(text)=>{ onChange(text,'lastname') }}
+            placeholder={'Last name'}
             />
           </View>
 
-          <View style={{alignItems:'center'}} >
+          <View style={{alignItems:'center',marginBottom:10}} >
             <CustomeButton
               buttonText={"Next"}
               buttonSize={'small'}
@@ -110,10 +114,10 @@ const styles = StyleSheet.create({
     marginRight:10
   },
   inputBottomMargin:{
-    marginBottom:40
+    marginBottom:30
   },
   signupContainer:{
-    marginBottom:10,
+    marginBottom:5,
     flexDirection:'row'
   }
 });

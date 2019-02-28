@@ -1,1 +1,1 @@
-export const BASE_URL="https://675b23d7-4bb3-4f4d-986a-4f10e984fdbd.mock.pstmn.io/sandbox/marketplace"
+export const BASE_URL="http://ec2-18-225-32-25.us-east-2.compute.amazonaws.com:3000/api"
