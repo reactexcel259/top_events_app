@@ -16,6 +16,7 @@ import Carousel from '../components/Carousel';
 import { FontAwesome } from '@expo/vector-icons';
 import CustomHeader from '../components/header';
 import { Circle } from "react-native-svg";
+import moment from 'moment'
 
 const image = [
   {
@@ -90,8 +91,8 @@ export default class CityEventDescription extends Component {
                     source={require("../assets/images/time.png")}
                   />
                   <View style={styles.timeWrapper}>
-                    <Text style={styles.dateDay}>7 Dec ,Friday</Text>
-                    <Text>19:00 - 22:00</Text>
+                    <Text style={styles.dateDay}>{moment(item.start).format("D MMM, dddd")}</Text>
+                    <Text>{moment(item.start).format("hh:mm A")}</Text>
                   </View>
                 </View>
                 <View style={styles.time}>
