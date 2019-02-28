@@ -6,7 +6,9 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Dimensions,
+  ActivityIndicator
 } from "react-native";
 import Layout from "../constants/Layout";
 import { LinearGradient, MapView ,Video} from "expo";
@@ -16,7 +18,10 @@ import Carousel from '../components/Carousel';
 import { FontAwesome } from '@expo/vector-icons';
 import CustomHeader from '../components/header';
 import { Circle } from "react-native-svg";
-import moment from 'moment'
+import moment from 'moment';
+import {connect} from 'react-redux';
+const { height, width } = Dimensions.get("window");
+import {getEventDescriptionRequest} from '../redux/action';
 
 const image = [
   {
@@ -39,7 +44,7 @@ const image = [
   }
 ];
 
-export default class CityEventDescription extends Component {
+ class CityEventDescription extends Component {
   static navigationOptions = {
     header: null
   };
@@ -49,27 +54,34 @@ export default class CityEventDescription extends Component {
       isAboutTab: true,
       isDiscussionTab: false,
       isPlay:false,
+      isEventDescription:false
     };
+  }
+  componentDidMount(){
+    if(this.props.navigation.state.params.item){
+    this.props.eventDescription(this.props.navigation.state.params.item._id)
+    }
   }
   render() {
     console.log(this.props.navigation.state.params ,"llllllllllllllllllllllllllllllll");
-    const item=this.props.navigation.state.params.item
+    // const item=this.props.navigation.state.params.item
     const data = image.map((data, i) => {
       return (
         <View style={[styles.peopleLiked, { zIndex: image.length - i }]}>
           <Image
             style={styles.peopleLikedImage}
             source={require("../assets/images/photo2.png")}
-          />
+            />
         </View>
       );
     });
-    console.log(StatusBar.currentHeight ,"88888888888");
-    
+    console.log(this.props ,"88888888888");
+    const eventData =this.props.getEventDescription
+    const item=eventData.isSuccess && this.props.getEventDescription.status.data
     return (
       <View style={{marginTop:StatusBar.currentHeight}}>
         <CustomHeader isCenter={true} centerImage={true} centerTitle={true} />
-      <ScrollView>
+     {eventData.isSuccess ? <ScrollView>
         <View>
           <LinearGradient colors={["#ff6cc9", "#8559f0"]}>
             <View style={styles.firstSectionWrapper}>
@@ -225,11 +237,29 @@ export default class CityEventDescription extends Component {
             </View>
           )}
         </View>
-      </ScrollView>
+        </ScrollView> :<View style={styles.loaderView}><ActivityIndicator color="#FF6CC9" size="large" /></View> }
       </View>
     );
   }
 }
+
+
+const mapStateToProps = state => {
+  console.log(state, "222222222222222222222222");
+  return {
+    getEventDescription:state.getEventDescription
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    eventDescription:(id)=>dispatch(getEventDescriptionRequest(id))
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CityEventDescription);
+
 const styles = StyleSheet.create({
   imageWrapper: {
     width: "100%",
@@ -418,5 +448,14 @@ const styles = StyleSheet.create({
   begImage:{
     width:"50%",
     height:'50%'
+  },
+  loaderView:{
+    position:"absolute",
+    flex:1,
+    flexDirection:'column',
+    alignSelf:"center",
+    justifyContent:'center',
+    alignContent:'center',
+    top:height/2.4
   }
 });

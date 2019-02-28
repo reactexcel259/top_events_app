@@ -18,8 +18,6 @@ import moment from 'moment'
 export default class Card extends React.Component {
   render() {
     const { isWishlist ,item} = this.props;
-    console.log(this.props,'GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG');
-    
     return (
       <View
         style={{

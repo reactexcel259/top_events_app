@@ -85,7 +85,6 @@ export default class SetupScreen extends React.Component {
           break;
       }
     }
-    console.log(storableLocation,"question");
     
   }
   onBackPress = () => {

@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
 import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAndCityEventRequest} from "../../redux/action";
 import Touch from 'react-native-touch';
+import Layout from "../../constants/Layout";
 
 class HomeTab extends Component {
   static navigationOptions = {
@@ -41,7 +42,6 @@ class HomeTab extends Component {
     }
   }
   onViewAll=(key)=>{
-    console.log(key ,'VVVVVVVVVVVVVVVVVVVVV');
     const events = this.props.getEventData.register.eventData;
     events.forEach(event=>{
       if(Object.keys(event).join() === key){
@@ -50,7 +50,6 @@ class HomeTab extends Component {
     });
   }
   _renderItem=({item,index})=>{
-    console.log(item ,"YYYYYYYYYYYYYYYY");
     
     let cetegoryId;
     let backgroundColor;
@@ -85,7 +84,6 @@ class HomeTab extends Component {
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const cityEvents =this.props.getStateAndCityEventData.status
-    console.log(events, "JJJJJ");
 
     return (
       <View style={styles.wrapper}>
@@ -162,7 +160,6 @@ class HomeTab extends Component {
   }
 }
 const mapStateToProps = state => {
-  console.log(state, ">>>>>>>>>>>>>>>>>>>>>");
   return {
     getCategoryData: state.getCategory,
     getEventData: state.getEvent,
