@@ -16,12 +16,18 @@ import { MonoText } from '../../components/StyledText';
 import CustomeButton from '../button'
 
 export default class Intrest extends React.Component {
-  
+   
   
   render() {
     const {  onPress,id, data } = this.props
       return (
-      <View style={styles.mainContainer} >
+      // <View  >
+        <LinearGradient
+          style={styles.mainContainer}
+          colors={['#FF6CC9','#8559F0']}
+          start={[1,0]}
+          end={[0, 1]}
+        >
         <View style={styles.headerContainer} >
           <Text style={styles.headerText} > What are your Interests? </Text>
         </View>
@@ -38,14 +44,14 @@ export default class Intrest extends React.Component {
                   return(
                     <TouchableOpacity onPress={()=>{this.props.selectInterests(item.id)}}>
                         <LinearGradient
-                          colors={selected?['#FF6CC9','#8559F0']:['white','white']}
+                          colors={selected?['white','white']:['rgba(255,255,255,0)','rgba(255,255,255,0)']}
                           style={{ flex: 1 }}
                           start={[0, 0]}
                           end={[1, 0]}
                           style={styles.bubbleContainer}
                         >
-                          <Text style={styles.bubbleText} > {item.item} </Text>
-                        </LinearGradient>
+                          <Text style={[styles.bubbleText,selected?{color:'#FF6CC9'}:{}]} > {item.item} </Text>
+                        </LinearGradient> 
                     </TouchableOpacity>
                   )
                 }}
@@ -55,12 +61,13 @@ export default class Intrest extends React.Component {
           <View style={{flex:1,justifyContent:'flex-end',alignItems:'center',marginBottom:50}} >
               <CustomeButton
                 buttonText={"Next"}
-                gradientColor={['#FF6CC9','#8559F0']}
+                gradientColor={['#FF6CC9','#FF6CC9']}
                 textColor={'white'}
                 onPress={onPress}
               />            
-          </View>              
-      </View>
+          </View>  
+        </LinearGradient>
+      // </View>
     );
   }
 
@@ -68,15 +75,18 @@ export default class Intrest extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer:{
-    flex: 1
+    flex: 1,
+    paddingTop:15
   },
   headerContainer:{
     justifyContent:'center',
     alignItems:'center'
   },
   headerText:{
+    color:'white',
     fontWeight:'600',
-    fontSize:20
+    fontSize:18,
+    marginBottom:10
   },
   intrestContainer:{
     margin:10,

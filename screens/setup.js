@@ -80,13 +80,6 @@ export default class SetupScreen extends React.Component {
           isLeft={true}
           leftIcon={'angle-left'}
           leftPress={this.onBackPress}
-          // leftTitle={'Cancel'}
-          // isCenter={true}
-          // centerImage={require('../assets/images/logo.png')}
-          // centerTitle={'Title'}
-          // isRight={true}
-          // rightIcon={['angle-left','angle-left']}
-          // rightTitle={'Cancel'}
         />
         {
           step == 1 &&
