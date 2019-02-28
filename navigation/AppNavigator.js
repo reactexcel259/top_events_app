@@ -11,11 +11,11 @@ import CityEventDescription from '../screens/CityEventDescription';
 import TabNavigation from './BottomTabNavigation';
 
 export default createAppContainer(createStackNavigator({
-  // Home:TabNavigation,
-  // SignUpScreen:SignUpScreen,
+  // Home: HomeScreen,
+  SignUpScreen:SignUpScreen,
+  HomeTab:TabNavigation,
   // Notification: Notifications,
   // Event: EventScreen,
-  Home: HomeScreen,
   CityEventDescription:CityEventDescription,
   // HomeTab:HomeTab,
   setup: SetupScreen,

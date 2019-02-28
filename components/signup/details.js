@@ -17,7 +17,7 @@ import CustomeButton from '../button'
 
 export default class DetailsContainer extends React.Component {
   render() {
-    const { onPress } = this.props;    
+    const { onPress, onChange, email, password } = this.props;    
     return (
       <View style={styles.container}>
        <View style={styles.labelContainer} >
@@ -30,13 +30,18 @@ export default class DetailsContainer extends React.Component {
           <View style={styles.inputBottomMargin} >
             <TextInput
             style={styles.textInput}
-            placeholder={'Placeholder'}
+            value={email}
+            onChangeText={(text)=>{ onChange(text,'email') }}
+            placeholder={'Email'}
             />
           </View>
           <View style={styles.inputBottomMargin} >
             <TextInput
             style={styles.textInput}
-            placeholder={'Placeholder'}
+            value={password}
+            secureTextEntry
+            onChangeText={(text)=>{ onChange(text,'password') }}
+            placeholder={'Password'}
             />
           </View>
 

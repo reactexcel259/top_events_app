@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ToastAndroid,
+  Alert,
   View,
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
@@ -29,19 +31,68 @@ class SignUpScreen extends React.Component {
     super(props);
     this.state = {
       progress: 1,
+      firstName:'',
+      lastName:'',
+      email:'',
+      password:'',
     }
   }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.user.user.isSuccess){
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Registration Successful',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){
+        Alert.alert('Congrats!','Registration Successful')
+      }
+      if(this.state.progress != 3){
+        this.setState({
+          progress: 3
+        })
+      }
+    }
+  }
+
   changeProgress = () => {
-    const { progress } = this.state;
-    if(progress != 3 ){
+    const { progress, firstName, lastName, email, password } = this.state;    
+    if(progress < 2 ){
       this.setState({ progress: progress +1 })
-    } else {
-      console.log('asd')
+    } else if (progress == 2) {
+      let payload = {
+        name: {
+          first: firstName,
+          last: lastName 
+        },
+        email: email,
+        password: password
+      }
+      this.props.getRegisterRequest(payload)
+    } else if(progress == 3) {
+      console.log('navigate',this.props)
+      this.props.navigation.navigate('HomeTab')
+    }
+  }
+
+  textChange = (text,field) => {
+    if(field == 'firstname'){
+      this.setState({firstName:text})
+    } else if(field == 'lastname'){
+      this.setState({lastName:text})
+    } else if(field == 'email'){
+      this.setState({email:text})
+    } else if(field == 'password'){
+      this.setState({password:text})
     }
   }
   
   render() {
-    const { progress } = this.state;
+    const { progress, firstName, lastName, email, password } = this.state;
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -74,11 +125,17 @@ class SignUpScreen extends React.Component {
             progress == 1 &&
              <SignUpContainer 
               onPress={this.changeProgress}
+              firstName={firstName}
+              lastName={lastName}
+              onChange={this.textChange}
             /> 
           }
           {
             progress == 2 &&
             <DetailsContainer 
+              email={email}
+              password={password}
+              onChange={this.textChange}
               onPress={this.changeProgress}
             />
           }
@@ -119,7 +176,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-      state: state,
+      user: state.user,
   }
 }
 const mapDispatchToProps = dispatch => 

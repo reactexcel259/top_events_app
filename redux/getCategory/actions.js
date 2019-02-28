@@ -4,7 +4,7 @@ import {call,put} from "redux-saga/effects";
 
 export function* getCategoryRequest(action) {
  try {
-    const response = yield call(fireAjax, "GET", "http://ec2-18-225-32-25.us-east-2.compute.amazonaws.com:3000/api/getCategory", {
+    const response = yield call(fireAjax, "GET", "/getCategory", {
     ...action.payload
     });
     if (response) {
