@@ -122,6 +122,7 @@ class HomeTab extends Component {
               {eventsLength > 0 &&
               <FlatList 
               data={events}
+              removeClippedSubviews={true}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
               // extraData={events}

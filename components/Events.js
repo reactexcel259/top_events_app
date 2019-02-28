@@ -30,6 +30,7 @@ export default class Events extends Component {
         <View style={styles.imageWrapper}>
           <Image
             resizeMode={"cover"}
+            resizeMethod="resize"
             style={styles.cardImage}
             source={{
               uri:item.image &&  item.image.secure_url
@@ -72,6 +73,7 @@ export default class Events extends Component {
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
           horizontal={true}
+          removeClippedSubviews={false}
           // extraData={this.state.data}
           showsHorizontalScrollIndicator={false}
         />
