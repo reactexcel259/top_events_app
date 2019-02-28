@@ -5,6 +5,7 @@ import {getEventRequest} from './tabs/homeTab/action';
 import {getCategoryRequest} from './getCategory/actions';
 import {getStateAndCityRequest} from './stateAndCity/action';
 import {getStateAndCityEventRequest} from './stateAndCityEvent/action';
+import {postAddCommentRequest} from './addComment/action';
 
 
 export function* watchActions() {
@@ -12,7 +13,8 @@ export function* watchActions() {
   yield takeEvery(constants.GET_EVENT_REQUEST ,getEventRequest);
   yield takeLatest(constants.GET_CATEGORY_REQUEST ,getCategoryRequest);
   yield takeLatest(constants.GET_STATEANDCITY_REQUEST ,getStateAndCityRequest);
-  yield takeLatest(constants.GET_STATEANDCITYEVENT_REQUEST ,getStateAndCityEventRequest)
+  yield takeLatest(constants.GET_STATEANDCITYEVENT_REQUEST ,getStateAndCityEventRequest);
+  yield takeLatest(constants.POST_ADDCOMMENT_REQUEST ,postAddCommentRequest);
 }
 
 export default function* rootSaga() {

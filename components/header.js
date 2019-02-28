@@ -62,7 +62,7 @@ export default class CustomHeader extends React.Component {
         </View>
         }
       <LinearGradient
-        colors={headerColors}
+        colors={["#FF6CC9","#8559F0"]}
         style={{ flex: 1,justifyContent:'center' }}
         start={[0, 0]}
         end={[1, 0]}

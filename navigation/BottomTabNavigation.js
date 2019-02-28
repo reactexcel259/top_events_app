@@ -2,15 +2,19 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import TabBarIcon from '../components/TabBarIcon';
+import CityEventDescription from '../screens/CityEventDescription';
 
 
 import HomeScreen from '../screens/HomeScreen';
 import HomeTab from '../screens/tabs/HomeTab';
 import EventScreen from '../screens/Events';
 import Notifications from '../screens/Notification';
-
+import ViewAllCard from '../screens/ViewAllCard';
 const HomeStack = createStackNavigator({
   Home: HomeTab,
+  ViewAllCard:ViewAllCard,
+  CityEventDescription:CityEventDescription,
+
 });
 
 HomeStack.navigationOptions = {

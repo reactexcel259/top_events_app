@@ -28,3 +28,9 @@ export const getStateAndCityError=createAction(constants.GET_STATEANDCITY_ERROR)
 export const getStateAndCityEventRequest=createAction(constants.GET_STATEANDCITYEVENT_REQUEST);
 export const getStateAndCityEventSuccess=createAction(constants.GET_STATEANDCITYEVENT_SUCCESS);
 export const getStateAndCityEventError=createAction(constants.GET_STATEANDCITYEVENT_ERROR);
+
+
+//action for addcomment
+export const postAddCommentRequest=createAction(constants.POST_ADDCOMMENT_REQUEST);
+export const postAddCommentSuccess=createAction(constants.POST_ADDCOMMENT_SUCCESS);
+export const postAddCommentError=createAction(constants.POST_ADDCOMMENT_ERROR);
