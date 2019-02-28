@@ -13,6 +13,7 @@ import {
 import Layout from "../constants/Layout";
 import { LinearGradient, Font } from "expo";
 import { FontAwesome } from "@expo/vector-icons";
+import moment from 'moment'
 
 export default class Card extends React.Component {
   render() {
@@ -32,7 +33,7 @@ export default class Card extends React.Component {
           marginTop: StatusBar.currentHeight
         }}
       >
-      <Text style={{paddingLeft:5,paddingTop:5,paddingBottom:5}}>7 Dec Friday</Text>
+      <Text style={{paddingLeft:5,paddingTop:5,paddingBottom:5}}>{moment(item.start).format("D MMM, dddd")}</Text>
         <Image
           source={{uri:item.image && item.image.secure_url}}
           style={{
@@ -95,7 +96,7 @@ export default class Card extends React.Component {
                 source={require("../assets/images/time.png")}
                 style={{ margin: 4 }}
               />
-              <Text> {item.website}</Text>
+              <Text> {moment(item.start).format("hh:mm A")}</Text>
             </View>
             <View
               style={{
