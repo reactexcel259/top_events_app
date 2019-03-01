@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   FlatList,
+  AsyncStorage,
   TextInput,
   ToastAndroid,
   ActivityIndicator,
@@ -29,6 +30,11 @@ class MyAccountScreen extends React.Component {
    
   }
 
+  logout = () => {
+    AsyncStorage.setItem('user','')
+    this.props.navigation.navigate('SignUpScreen');
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -43,7 +49,9 @@ class MyAccountScreen extends React.Component {
               <Text style={{color:'white',fontSize:20,fontWeight:'600'}} > Account </Text>
             </View>
             <View style={{alignItems:'flex-end',marginRight:10}} >
-              <Text style={{color:'white',fontSize:16}} > Log out </Text>
+              <TouchableOpacity onPress={this.logout} >
+                <Text style={{color:'white',fontSize:16}} > Log out </Text>
+              </TouchableOpacity>
             </View>        
             <View style={{alignItems:'center',marginTop:30}} >
               <FontAwesome

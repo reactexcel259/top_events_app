@@ -12,8 +12,8 @@ import TabNavigation from './BottomTabNavigation';
 import Card from '../components/card';
 import ViewAllCard from '../screens/ViewAllCard';
 export default createAppContainer(createStackNavigator({
-  // Home: HomeScreen,
-  // SignUpScreen:SignUpScreen,
+  Home: HomeScreen,
+  SignUpScreen:SignUpScreen,
   HomeTab:TabNavigation,
   CityEventDescription:CityEventDescription,
   setup: SetupScreen,

@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
   FlatList,
-  StatusBar
+  StatusBar,
+  ActivityIndicator
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
 import Layout from '../../constants/Layout';
@@ -19,7 +20,9 @@ export default class Intrest extends React.Component {
    
   
   render() {
-    const {  onPress,id, data } = this.props
+    const {  onPress,id, data, category } = this.props
+      console.log(this.props,"checkthisprops");
+      
       return (
       // <View  >
         <LinearGradient
@@ -31,18 +34,25 @@ export default class Intrest extends React.Component {
         <View style={styles.headerContainer} >
           <Text style={styles.headerText} > What are your Interests? </Text>
         </View>
-        <View style={styles.intrestContainer} >
+        {
+          category.isLoading?
+              <ActivityIndicator
+               size="small" 
+               color="#ffff" 
+                style={styles.activityIndicator}
+              />:
+          <View style={styles.intrestContainer} >
           <View style={{flexDirection:'row',flexWrap:'wrap'}} >
              <FlatList
-                keyExtractor={(item, index) => item.id}
-                numColumns={4}
+                keyExtractor={(item, index) => item._id}
+                numColumns={3}
                 style={styles.flatList}
                 data={data}
                 extraData={this.props}
                 renderItem={({item})=>{
                   let selected = item.selected !== undefined ? item.selected : false;
                   return(
-                    <TouchableOpacity onPress={()=>{this.props.selectInterests(item.id)}}>
+                    <TouchableOpacity onPress={()=>{this.props.selectInterests(item._id)}}>
                         <LinearGradient
                           colors={selected?['white','white']:['rgba(255,255,255,0)','rgba(255,255,255,0)']}
                           style={{ flex: 1 }}
@@ -50,14 +60,14 @@ export default class Intrest extends React.Component {
                           end={[1, 0]}
                           style={styles.bubbleContainer}
                         >
-                          <Text style={[styles.bubbleText,selected?{color:'#FF6CC9'}:{}]} > {item.item} </Text>
+                          <Text style={[styles.bubbleText,selected?{color:'#FF6CC9'}:{}]} > {item.name} </Text>
                         </LinearGradient> 
                     </TouchableOpacity>
                   )
                 }}
              />
           </View>
-        </View>
+        </View>}
           <View style={{flex:1,justifyContent:'flex-end',alignItems:'center',marginBottom:50}} >
               <CustomeButton
                 buttonText={"Next"}
@@ -112,5 +122,8 @@ const styles = StyleSheet.create({
     fontSize:10,
     color:'#D8D8D8',
     fontWeight:'900'
+  },
+  activityIndicator:{
+    marginTop:Layout.window.height * 0.3
   }
 });

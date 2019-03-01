@@ -6,15 +6,16 @@ const initialState = {
    isLoading: false,
    isError: false,
    isSuccess: false,
-   message: ""
+   message: "",
+   status:[]
 };
 
 const getCategoryRequest = (state, action) =>{
     return(
  update(state, {
-     isLoading: { $set: false },
+     isLoading: { $set: true },
      isError: { $set: false },
-     message: { $set: "RequestSucccessfull" }
+     message: { $set: "requestSuccess" }
  }))};
 
 const getCategorySuccess = (state, action) =>
