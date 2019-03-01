@@ -7,10 +7,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-  StatusBar
+  StatusBar,
+  Share
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome ,EvilIcons } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
 
@@ -18,11 +19,15 @@ export default class CustomHeader extends React.Component {
   renderIcon = (icon) => {
     return icon.map((value,i)=>{
       return (
-          <TouchableOpacity onPress={()=>{}} >
+          <TouchableOpacity onPress={value =="share-google" ? ()=>this.props.onShare() :null} >
             <View>
-              <FontAwesome
+            {value !=="share-google" && value !=="heart" ? 
+            <FontAwesome
               key={i} 
               name={value} size={32} style={{margin:5}} color="white" />
+            :<EvilIcons
+              key={i} 
+              name={value} size={32} style={{margin:5}} color="white" />}
             </View>
           </TouchableOpacity>
       )
@@ -77,7 +82,7 @@ export default class CustomHeader extends React.Component {
               <TouchableOpacity onPress={leftPress} >
                 <View>
                 <FontAwesome 
-                name={leftIcon} size={32} color="white" />
+                name={leftIcon} onPress={()=>this.props.goBack()} size={32} color="white" />
                 </View>
               </TouchableOpacity>
             }

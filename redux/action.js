@@ -39,3 +39,9 @@ export const postAddCommentError=createAction(constants.POST_ADDCOMMENT_ERROR);
 export const getEventDescriptionRequest=createAction(constants.GET_EVENTDESCRIPTION_REQUEST);
 export const getEventDescriptionSuccess=createAction(constants.GET_EVENTDESCRIPTION_SUCCESS);
 export const getEventDescriptionError=createAction(constants.GET_EVENTDESCRIPTION_ERROR);
+
+//action for event like
+
+export const postEventLikeRequest=createAction(constants.POST_EVENT_LIKE_REQUEST);
+export const postEventLikeSuccess=createAction(constants.POST_EVENT_LIKE_SUCCESS);
+export const postEventLikeError=createAction(constants.POST_EVENT_LIKE_ERROR);

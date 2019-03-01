@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   StatusBar,
   Dimensions,
-  ActivityIndicator
+  ActivityIndicator,
+  Share
 } from "react-native";
 import Layout from "../constants/Layout";
 import { LinearGradient, MapView ,Video} from "expo";
@@ -62,9 +63,27 @@ const image = [
     this.props.eventDescription(this.props.navigation.state.params.item._id)
     }
   }
+   onShare =async () => {
+    try {
+      const result = await Share.share({
+        message:
+          'This is a Tourism app event',
+      })
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   render() {
-    console.log(this.props.navigation.state.params ,"llllllllllllllllllllllllllllllll");
-    // const item=this.props.navigation.state.params.item
     const data = image.map((data, i) => {
       return (
         <View style={[styles.peopleLiked, { zIndex: image.length - i }]}>
@@ -75,12 +94,11 @@ const image = [
         </View>
       );
     });
-    console.log(this.props ,"88888888888");
     const eventData =this.props.getEventDescription
     const item=eventData.isSuccess && this.props.getEventDescription.status.data
     return (
-      <View style={{marginTop:StatusBar.currentHeight}}>
-        <CustomHeader isCenter={true} centerImage={true} centerTitle={true} />
+      <View >
+        <CustomHeader  isCenter={true} isLeft={true} onShare={()=>this.onShare()} goBack={()=>this.props.navigation.goBack()} leftIcon='angle-left' isRight={true} rightIcon={['heart','share-google']} />
      {eventData.isSuccess ? <ScrollView>
         <View>
           <LinearGradient colors={["#ff6cc9", "#8559f0"]}>
