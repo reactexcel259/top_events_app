@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import TabBarIcon from '../components/TabBarIcon';
 import CityEventDescription from '../screens/CityEventDescription';
-
+import CustomHeader from '../components/header';
 
 import HomeScreen from '../screens/HomeScreen';
 import HomeTab from '../screens/tabs/HomeTab';
@@ -11,6 +11,8 @@ import EventScreen from '../screens/Events';
 import Notifications from '../screens/Notification';
 import MyAccountScreen from '../screens/Account';
 import ViewAllCard from '../screens/ViewAllCard';
+import { LinearGradient, Font } from 'expo';
+
 
 const HomeStack = createStackNavigator({
   Home: HomeTab,
@@ -34,7 +36,18 @@ HomeStack.navigationOptions = {
 };
 
 const EventStack = createStackNavigator({
-  Event: EventScreen,
+  // Event: EventScreen,
+  Event: {
+    screen: EventScreen,
+    navigationOptions: ({ navigation }) =>({
+      header : (
+        <CustomHeader 
+          isCenter
+          centerTitle={'My events'}
+        />
+      )
+    }),
+  }
 });
 
 EventStack.navigationOptions = {

@@ -54,7 +54,6 @@ class Attending extends React.Component {
         eventDetails = event[Object.keys(event).join()].data
       }
       });
-    console.log(eventDetails,'asd')
     return (
       <View style={styles.mainContainer}>
         {

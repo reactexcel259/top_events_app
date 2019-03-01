@@ -1,6 +1,8 @@
 import React from 'react';
 import { Platform, Text } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import { LinearGradient, Font } from 'expo';
+
 
 import Attending from './Attending';
 import Wishlist from './wishlist';
@@ -20,7 +22,8 @@ attendingScreen.navigationOptions = {
       margin:0,
     },
     style:{
-      backgroundColor:'#FFFFFF'
+      backgroundColor:'#FFFFFF',
+      height:40
     }
   },
   tabBarIcon: ({ focused }) => (
@@ -49,6 +52,7 @@ wishlistScreen.navigationOptions = {
     },
     style:{
       backgroundColor:'#FFFFFF',
+      height:40      
     }
   },
   tabBarIcon: ({ focused }) => (
