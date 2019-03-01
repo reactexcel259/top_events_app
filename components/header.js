@@ -68,7 +68,7 @@ export default class CustomHeader extends React.Component {
         }
       <LinearGradient
         colors={["#FF6CC9","#8559F0"]}
-        style={{ flex: 1,justifyContent:'center' }}
+        style={{ flex: 1,justifyContent:'center' ,paddingTop:3}}
         start={[0, 0]}
         end={[1, 0]}
       >
@@ -145,7 +145,7 @@ export default class CustomHeader extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer:{
-    height: Layout.window.height * 0.12,
+    height: Layout.window.height * 0.14,
     justifyContent:'center',
     elevation:1,
   },

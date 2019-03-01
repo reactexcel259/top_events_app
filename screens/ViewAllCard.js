@@ -3,6 +3,7 @@ import { Text, View ,FlatList ,} from 'react-native'
 import Card from '../components/card';
 import Touch from 'react-native-touch';
 import CustomHeader from '../components/header';
+import Layout from '../constants/Layout';
 
 export default class ViewAllCard extends Component {
     static navigationOptions = {
@@ -23,7 +24,7 @@ export default class ViewAllCard extends Component {
   render() {
       const eventDetails=this.props.navigation.state.params.eventDetails.results
     return (
-      <View>
+      <View style={{paddingBottom:Layout.window.height*.15 }}>
           <CustomHeader  isCenter={true} isLeft={true} goBack={()=>this.props.navigation.goBack()} leftIcon='angle-left' centerTitle="My event" />
         <FlatList 
         data={eventDetails}
