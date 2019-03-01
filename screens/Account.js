@@ -31,9 +31,8 @@ class MyAccountScreen extends React.Component {
   }
 
   logout = async () => {
-    await AsyncStorage.setItem('user','').then((data)=>{
-      this.props.navigation.navigate('Home');
-    })
+     AsyncStorage.setItem('user','');
+    this.props.navigation.popToTop();
   }
 
   render() {
@@ -102,7 +101,9 @@ class MyAccountScreen extends React.Component {
         </View>
 
         <View style={styles.miniContainer} >
-          
+            <View style={{alignItems:'center',marginTop:10}} >
+              <Text style={{color:'lightgray',textAlign:'center'}} > Full Name </Text>
+            </View>
         </View>
 
       </View>

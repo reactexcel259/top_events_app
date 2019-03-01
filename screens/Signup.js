@@ -77,7 +77,6 @@ class SignUpScreen extends React.Component {
         password:'',
         firstName:'',
         lastName:'',
-        progress:1,
       })
       this.props.closeSuccessModel()
       if(this.state.progress != 3 && !login){
