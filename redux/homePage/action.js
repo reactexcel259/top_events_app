@@ -30,7 +30,6 @@ export function* getRegisterRequest(action) {
      });
   
      if (response.data.success) {
-        console.log(response.data,'checl')
         AsyncStorage.setItem('user', JSON.stringify(response.data));
         yield put(actions.getLoginSuccess(response.data));
      } else {

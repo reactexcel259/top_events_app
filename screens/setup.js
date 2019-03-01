@@ -30,7 +30,6 @@ class SetupScreen extends React.Component {
 
   constructor(props){
     super(props);
-    console.log(props);
     this.state = {
       step: 1,
       interest:[],

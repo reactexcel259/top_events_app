@@ -51,8 +51,6 @@ class Attending extends React.Component {
   
 
   render() {
-    console.log(this.props ,'OOOOOOOOOOOOOOOOOOOO');
-    
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     let eventDetails 
