@@ -1,8 +1,20 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet, TextInput, Image } from "react-native";
 import Layout from "../constants/Layout";
+import Touch from 'react-native-touch';
+import {postAddCommentRequest} from '../redux/action';
+import {connect} from 'react-redux';
 
-export default class CommentSection extends Component {
+ class CommentSection extends Component {
+   constructor(props){
+     super(props);
+     this.state={
+       comment:''
+     }
+   }
+  onAddImage=async()=>{
+    await Expo.ImagePicker.launchImageLibraryAsync();
+  }
   render() {
     return (
       <View style={{ flex: 1, paddingBottom: 20 }}>
@@ -14,16 +26,36 @@ export default class CommentSection extends Component {
           <TextInput
             multiline={true}
             style={styles.inputText}
-            placeholder="Ask question or share your experience hare"
+            placeholder="Ask question or share your experience here"
           />
           <View style={styles.addImageView}>
-            <Image resizeMode='contain' style={styles.addImage} source={require("../assets/images/add-photo.png")} />
+          <Touch 
+            onPress={()=>this.onAddImage()}
+            >
+            <Image  resizeMode='contain' style={styles.addImage} source={require("../assets/images/add-photo.png")} />
+          </Touch>
           </View>
         </View>
       </View>
     );
   }
 }
+const mapStateToProps=state=>{
+  return{
+
+  }
+}
+const mapDispatchToProps=dispatch=>{
+  return{
+    addComment:()=>dispatch(postAddCommentRequest()),
+  }
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CommentSection)
+
+
 const styles = StyleSheet.create({
   inputText: {
     borderWidth: 1,

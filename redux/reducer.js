@@ -5,6 +5,7 @@ import getEvent from '../redux/tabs/homeTab/reducer';
 import getCategory from '../redux/getCategory/reducer';
 import getStateAndCity from '../redux/stateAndCity/reducer';
 import getStateAndCityEvent from '../redux/stateAndCityEvent/reducer';
+import postAddComment from '../redux/addComment/reducer';
 
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
  getEvent:getEvent,
  getCategory:getCategory,
  getStateAndCity:getStateAndCity,
- getStateAndCityEvent:getStateAndCityEvent
+ getStateAndCityEvent:getStateAndCityEvent,
+ postAddComment:postAddComment
 });

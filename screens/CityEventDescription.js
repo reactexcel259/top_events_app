@@ -5,12 +5,18 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  StatusBar
 } from "react-native";
 import Layout from "../constants/Layout";
-import { LinearGradient, MapView } from "expo";
-import CommentSection from '../components/CommentSection';
-import Comments from '../components/Comments';
+import { LinearGradient, MapView ,Video} from "expo";
+import CommentSection from "../components/CommentSection";
+import Comments from "../components/Comments";
+import Carousel from '../components/Carousel';
+import { FontAwesome } from '@expo/vector-icons';
+import CustomHeader from '../components/header';
+import { Circle } from "react-native-svg";
+import moment from 'moment'
 
 const image = [
   {
@@ -34,14 +40,20 @@ const image = [
 ];
 
 export default class CityEventDescription extends Component {
+  static navigationOptions = {
+    header: null
+  };
   constructor(props) {
     super(props);
     this.state = {
-      isAboutTab:false,
-      isDiscussionTab: true
+      isAboutTab: true,
+      isDiscussionTab: false,
+      isPlay:false,
     };
   }
   render() {
+    console.log(this.props.navigation.state.params ,"llllllllllllllllllllllllllllllll");
+    const item=this.props.navigation.state.params.item
     const data = image.map((data, i) => {
       return (
         <View style={[styles.peopleLiked, { zIndex: image.length - i }]}>
@@ -52,7 +64,11 @@ export default class CityEventDescription extends Component {
         </View>
       );
     });
+    console.log(StatusBar.currentHeight ,"88888888888");
+    
     return (
+      <View style={{marginTop:StatusBar.currentHeight}}>
+        <CustomHeader isCenter={true} centerImage={true} centerTitle={true} />
       <ScrollView>
         <View>
           <LinearGradient colors={["#ff6cc9", "#8559f0"]}>
@@ -62,12 +78,12 @@ export default class CityEventDescription extends Component {
                   <Image
                     resizeMode="cover"
                     style={styles.image}
-                    source={require("../assets/images/photo2.png")}
+                    source={{uri:item.image.secure_url}}
                   />
                 </View>
                 <View style={styles.eventWrapper}>
-                  <Text style={styles.eventName}>Jamaica Carnival</Text>
-                  <Text style={styles.website}>website.com</Text>
+                  <Text style={styles.eventName}>{item.title}</Text>
+                  <Text style={styles.website}>{item.website}</Text>
                 </View>
                 <View style={styles.time}>
                   <Image
@@ -75,8 +91,8 @@ export default class CityEventDescription extends Component {
                     source={require("../assets/images/time.png")}
                   />
                   <View style={styles.timeWrapper}>
-                    <Text style={styles.dateDay}>7 Dec ,Friday</Text>
-                    <Text>19:00 - 22:00</Text>
+                    <Text style={styles.dateDay}>{moment(item.start).format("D MMM, dddd")}</Text>
+                    <Text>{moment(item.start).format("hh:mm A")}</Text>
                   </View>
                 </View>
                 <View style={styles.time}>
@@ -84,13 +100,13 @@ export default class CityEventDescription extends Component {
                     style={styles.icon}
                     source={require("../assets/images/cost.png")}
                   />
-                  <Text style={styles.dollar}>from $45</Text>
+                  <Text style={styles.dollar}>from {item.Price}</Text>
                 </View>
                 <View style={styles.peopleWrapper}>
                   <View style={styles.peppleLikedWrapper}>{data}</View>
                   <Text style={styles.totalPeople}>4.5K people interested</Text>
                 </View>
-                <View>
+                <View style={{flexDirection:'row',justifyContent:'space-around',alignItems:'center',marginTop:30}}>
                   <LinearGradient
                     start={{ x: 0, y: 1 }}
                     end={{ x: 1, y: 1 }}
@@ -99,7 +115,14 @@ export default class CityEventDescription extends Component {
                   >
                     <Text style={styles.buttonText}>Joing event</Text>
                   </LinearGradient>
-                  <View>{/* <Image /> */}</View>
+                  <LinearGradient 
+                  colors={["#ff6cc9", "#8559f0"]}
+                  style={styles.bag}
+                  >
+                    <View style={styles.gradientCircle}>
+                      <Image resizeMode='contain' style={styles.begImage} source={require('../assets/images/Group.png')} />
+                    </View>
+                  </LinearGradient>
                 </View>
               </View>
               <View />
@@ -116,8 +139,10 @@ export default class CityEventDescription extends Component {
               />
               <View style={styles.mapDescription}>
                 <View style={styles.lacationName}>
-                  <Image source={require('../assets/images/map.png')}/>
-                  <Text style={styles.locationText}>Kingston ,Concert Hall</Text>
+                  <Image source={require("../assets/images/map.png")} />
+                  <Text style={styles.locationText}>
+                    Kingston ,Concert Hall
+                  </Text>
                 </View>
                 <View style={styles.getDirectionButton}>
                   <Text style={styles.buttonText}>Get Direction</Text>
@@ -126,58 +151,70 @@ export default class CityEventDescription extends Component {
             </View>
           </LinearGradient>
           <View style={styles.tabWrapper}>
-              <View style={[styles.tab]}>
-            <TouchableOpacity
-              activeOpacity={0.1}
-              onPress={() =>
-                this.setState({ isAboutTab: true, isDiscussionTab: false })
-              }
-            >
+            <View style={[styles.tab]}>
+              <TouchableOpacity
+                activeOpacity={0.1}
+                onPress={() =>
+                  this.setState({ isAboutTab: true, isDiscussionTab: false })
+                }
+              >
                 <Text>About</Text>
-                </TouchableOpacity>
-                {this.state.isAboutTab && (
-                  <LinearGradient
-                    start={{ x: 0, y: 1 }}
-                    end={{ x: 1, y: 1 }}
-                    colors={["#ff6cc9", "#8559f0"]}
-                    style={styles.gradientBar}
-                  />
-                )}
-              </View>
-              <View style={[styles.tab]}>
-            <TouchableOpacity
-              activeOpacity={0.1}
-              onPress={() =>
-                this.setState({ isAboutTab: false, isDiscussionTab: true })
-              }
-            >
+              </TouchableOpacity>
+              {this.state.isAboutTab && (
+                <LinearGradient
+                  start={{ x: 0, y: 1 }}
+                  end={{ x: 1, y: 1 }}
+                  colors={["#ff6cc9", "#8559f0"]}
+                  style={styles.gradientBar}
+                />
+              )}
+            </View>
+            <View style={[styles.tab]}>
+              <TouchableOpacity
+                activeOpacity={0.1}
+                onPress={() =>
+                  this.setState({ isAboutTab: false, isDiscussionTab: true })
+                }
+              >
                 <Text>Discussion</Text>
-                </TouchableOpacity>
-                {this.state.isDiscussionTab && (
-                  <LinearGradient
-                    start={{ x: 0, y: 1 }}
-                    end={{ x: 1, y: 1 }}
-                    colors={["#ff6cc9", "#8559f0"]}
-                    style={styles.gradientBar}
-                  />
-                )}
-              </View>
+              </TouchableOpacity>
+              {this.state.isDiscussionTab && (
+                <LinearGradient
+                  start={{ x: 0, y: 1 }}
+                  end={{ x: 1, y: 1 }}
+                  colors={["#ff6cc9", "#8559f0"]}
+                  style={styles.gradientBar}
+                />
+              )}
+            </View>
           </View>
           {this.state.isAboutTab && (
             <View style={styles.aboutUsWrapper}>
               <View style={styles.eventDescription}>
                 <Text>
-                  Expo is the easiest way to start building a new React Native
-                  application. It allows you to start a project without
-                  installing or configuring any tools to build native code - no
-                  Xcode or Android Studio installation required (see Caveats).
+                  {item.categories.description}
                 </Text>
               </View>
               <View style={styles.video}>
-                <Image
-                  style={styles.videoImage}
-                  source={require("../assets/images/placeholder-copy.png")}
-                />
+                <Carousel />
+                <View style={styles.videoView}>
+              <Video
+                source={{
+                  uri:"http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
+                }}
+
+                rate={1.0}
+                volume={1.0}
+                isMuted={false}
+                resizeMode="cover"
+                shouldPlay={this.state.isPlay}
+                isLooping={false}
+                style={{ width:'100%', height: "100%" }}
+              />
+              <View style={styles.pasuePlayView}>
+                <FontAwesome size={30} color='#8559f0' onPress={()=>this.setState({isPlay:!this.state.isPlay})} name={this.state.isPlay ? "pause" :'play'} />
+              </View>
+              </View>
               </View>
             </View>
           )}
@@ -189,6 +226,7 @@ export default class CityEventDescription extends Component {
           )}
         </View>
       </ScrollView>
+      </View>
     );
   }
 }
@@ -196,10 +234,6 @@ const styles = StyleSheet.create({
   imageWrapper: {
     width: "100%",
     height: Layout.window.height / 3
-    // paddingLeft:15,
-    // paddingRight:15,
-    // borderWidth:5,
-    // borderColor:'red'
   },
   image: {
     width: "100%",
@@ -209,8 +243,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     width: Layout.window.width
-    // backgroundColor: "green",
-    // height: Layout.window.height - 80
   },
   eventName: {
     fontSize: 18,
@@ -271,15 +303,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   button: {
-    width: Layout.window.width / 1.2,
-    height: 60,
-    // backgroundColor: "red",
+    width: Layout.window.width / 1.7,
+    height:Layout.window.width*.15,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
     borderRadius: 40,
-    marginTop: 30
   },
   buttonText: {
     fontWeight: "bold",
@@ -300,16 +330,17 @@ const styles = StyleSheet.create({
   tabWrapper: {
     flexDirection: "row",
     width: Layout.window.width,
-    height: Layout.window.height * 0.09,
-},
-aboutUsWrapper: {
+    height: Layout.window.height * 0.09
+  },
+  aboutUsWrapper: {
     paddingLeft: 15,
     paddingRight: 15,
-    paddingBottom: 30,
-    marginTop:15
+    paddingBottom: 100,
+    marginTop: 15
   },
   discussionWrapper: {
-    marginTop:15,
+    marginTop: 15,
+    paddingBottom: 90,
   },
   video: {
     width: "100%",
@@ -331,31 +362,61 @@ aboutUsWrapper: {
     borderRadius: 50,
     paddingTop: 30,
     paddingBottom: 30
-    //   backgroundColor:'red'
   },
-  mapDescription:{
-      flexDirection:"row",
-      justifyContent:'space-between',
-      marginTop:7
+  mapDescription: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 7
   },
-  lacationName:{
-    flexDirection:"row",
+  lacationName: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  getDirectionButton: {
+    backgroundColor: "#ff6cc9",
+    width: Layout.window.width * 0.32,
+    height: Layout.window.height * 0.05,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5
+  },
+  locationText: {
+    marginLeft: 10,
+    color: "#fff"
+  },
+  buttonText: {
+    color: "#fff"
+  },
+  videoView:{
+    width:"100%",
+    height:200
+  },
+  pasuePlayView:{
+    position:'absolute',
+    zIndex:1,
+    alignSelf:'center',
+    top:"40%"
+  },
+  bag:{
+    width:Layout.window.width*.15,
+    height:Layout.window.width*.15,
+    borderRadius:50,
+    flexDirection:'row',
     justifyContent:'center',
     alignItems:'center'
   },
-  getDirectionButton:{
-      backgroundColor:"#ff6cc9",
-      width:Layout.window.width*.32,
-      height:Layout.window.height*.05,
-      justifyContent:'center',
-      alignItems:'center',
-      borderRadius:5
+  gradientCircle:{
+    width:"95%",
+    height:"94%",
+    backgroundColor:"#fff",
+    borderRadius:50,
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center'
   },
-  locationText:{
-      marginLeft:10,
-      color:'#fff'
-  },
-  buttonText:{
-      color:'#fff'
+  begImage:{
+    width:"50%",
+    height:'50%'
   }
 });

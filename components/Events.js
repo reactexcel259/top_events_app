@@ -5,20 +5,20 @@ import {
   Dimensions,
   StyleSheet,
   FlatList,
-  Image
+  Image,
+  TouchableOpacityx
 } from "react-native";
 const { height, width } = Dimensions.get("window");
+import Touch from "react-native-touch";
 
 export default class Events extends Component {
-  constructor(props){
-    super(props);
-      this.state={data :this.props.eventData && this.props.eventData.results}
-    
-  }
+
   _renderItem = ({ item, index }) => {
+    console.log(item.image && item.image ,"UUUUUUUUUUUUUUUUUUU");
+    
     return (
       <View
-        kye={index}
+        key={index}
         style={[
           styles.cardWrapper,
           {
@@ -30,9 +30,10 @@ export default class Events extends Component {
         <View style={styles.imageWrapper}>
           <Image
             resizeMode={"cover"}
+            resizeMethod="resize"
             style={styles.cardImage}
             source={{
-              uri: item !== undefined && item.image && item.image.secure_url
+              uri:item.image &&  item.image.secure_url
             }}
           />
         </View>
@@ -43,6 +44,7 @@ export default class Events extends Component {
       </View>
     );
   };
+  _keyExtractor=(item, index) => (item._id)
   render() {
     return (
       <View style={styles.flatView}>
@@ -57,18 +59,22 @@ export default class Events extends Component {
             <Text style={styles.eventSectionText}>
               {this.props.categoryId && this.props.categoryId.toUpperCase()}
             </Text>
-            <Text>
-              View all {this.props.eventData && this.props.eventData.results.length}
-            </Text>
+            <Touch activeOpacity={0.1} onPress={() => this.props.onViewAll(this.props.categoryId)}>
+              <Text>
+                View all{" "}
+                {this.props.eventData && this.props.eventData.results.length}
+              </Text>
+            </Touch>
           </View>
         </View>
         <FlatList
-          style={{ paddingLeft: 15,}}
+          style={{ paddingLeft: 15 }}
           data={this.props.eventData.results}
-          keyExtractor={(item, index) => (item, index)}
+          keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
           horizontal={true}
-          extraData={this.state.data}
+          removeClippedSubviews={false}
+          // extraData={this.state.data}
           showsHorizontalScrollIndicator={false}
         />
       </View>
