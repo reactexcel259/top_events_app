@@ -16,6 +16,7 @@ import { bindActionCreators } from "redux";
 import * as actions from '../redux/action';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
+import LoginContainer from '../components/signup/login';
 import SignUpContainer from '../components/signup/signup';
 import DetailsContainer from '../components/signup/details';
 import WelcomeContainer from '../components/signup/welcome';
@@ -35,26 +36,34 @@ class SignUpScreen extends React.Component {
       lastName:'',
       email:'',
       password:'',
+      login:false,
     }
   }
 
   componentWillReceiveProps(nextProps){
+    const { login } = this.state;
     if(nextProps.user.user.isSuccess){
       if(Platform.OS == 'android') {
         ToastAndroid.showWithGravityAndOffset(
-          'Registration Successful',
+          login ? 'Login Successfull' :'Registration Successful',
           ToastAndroid.LONG,
           ToastAndroid.BOTTOM,
           25,
           50,
         );
       } else if( Platform.OS == 'ios'){
-        Alert.alert('Congrats!','Registration Successful')
+        Alert.alert(
+          'Congrats!',
+          login ? 'Login Successfull' :'Registration Successful'
+        )
       }
-      if(this.state.progress != 3){
+      this.props.closeSuccessModel()
+      if(this.state.progress != 3 && !login){
         this.setState({
           progress: 3
         })
+      } else if(login){
+        this.props.navigation.navigate('HomeTab')        
       }
     }
   }
@@ -74,10 +83,10 @@ class SignUpScreen extends React.Component {
       }
       this.props.getRegisterRequest(payload)
     } else if(progress == 3) {
-      console.log('navigate',this.props)
       this.props.navigation.navigate('HomeTab')
     }
   }
+
 
   textChange = (text,field) => {
     if(field == 'firstname'){
@@ -90,9 +99,58 @@ class SignUpScreen extends React.Component {
       this.setState({password:text})
     }
   }
+
+  laterPress = () => {
+    const { login, progress } = this.state;
+    if(login){
+      this.setState({ login: false })
+    } else if(progress == 2) {
+      this.setState({ progress: 1 })
+    }
+  }
+
+  login = () => {
+    const { email, password } = this.state;
+    if(email != '' && password != ''){
+      let payload = {
+        email,
+        password
+      }
+      this.props.getLoginRequest(payload)
+    }
+  }
+
+  renderProgress = () => {
+    const { progress, firstName, lastName, email, password, login } = this.state;    
+    if( progress == 1) {
+      return(
+        <SignUpContainer 
+          onPress={this.changeProgress}
+          firstName={firstName}
+          lastName={lastName}
+          onChange={this.textChange}
+        />
+      )
+    } else if (progress == 2) {
+      return(
+        <DetailsContainer 
+          email={email}
+          password={password}
+          onChange={this.textChange}
+          onPress={this.changeProgress}
+        />
+      )
+    } else if (progress == 3) {
+      return(
+        <WelcomeContainer
+          onPress={this.changeProgress}
+        />
+      )
+    }
+  }
   
   render() {
-    const { progress, firstName, lastName, email, password } = this.state;
+    const { progress, firstName, lastName, email, password, login } = this.state;
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -111,40 +169,31 @@ class SignUpScreen extends React.Component {
 
           <View style={{alignItems:'center',marginBottom:50}} >
               {
-                progress == 1 &&
-                <Text style={{color:'white',fontSize:17}} > Sign in </Text>
+                progress == 1 && !login &&
+                <TouchableOpacity onPress={()=>{ this.setState({login:true}) }} >
+                  <Text style={{color:'white',fontSize:17}} > Sign in </Text>
+                </TouchableOpacity>
               }
               {
-                progress == 2 &&
-                <Text style={{color:'white',fontSize:17}} > Do it later </Text>
+                (progress == 2 || login) &&
+                <TouchableOpacity onPress={this.laterPress} >
+                  <Text style={{color:'white',fontSize:17}} > Do it later </Text>
+                </TouchableOpacity>
               }
           </View>
         </View>
           <View style={styles.miniContainer} >
           {
-            progress == 1 &&
-             <SignUpContainer 
-              onPress={this.changeProgress}
-              firstName={firstName}
-              lastName={lastName}
-              onChange={this.textChange}
-            /> 
-          }
-          {
-            progress == 2 &&
-            <DetailsContainer 
+            login ?
+             <LoginContainer
+              onPress={this.login}
               email={email}
               password={password}
               onChange={this.textChange}
-              onPress={this.changeProgress}
-            />
-          }
-          {
-            progress == 3 &&
-            <WelcomeContainer
-              onPress={this.changeProgress}
-            />
-          }
+            /> 
+          :
+            this.renderProgress()
+        }
           </View>
         </LinearGradient>
       </View>

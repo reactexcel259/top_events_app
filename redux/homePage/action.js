@@ -11,8 +11,6 @@ export function* getRegisterRequest(action) {
     ...action.payload
     });
 
-    console.log(response.data,'asd')
-
     if (response.data.success) {
        AsyncStorage.setItem('user', JSON.stringify(response.data.data));
         yield put(actions.getRegisterSuccess(response.data));
@@ -23,3 +21,21 @@ export function* getRegisterRequest(action) {
     yield put(actions.getRegisterError(e));
   }
  }
+
+ export function* getLoginRequest(action) {
+  
+  try {
+     const response = yield call(fireAjax, "POST", "/social/login",'', {
+     ...action.payload
+     });
+  
+     if (response.data.success) {
+        AsyncStorage.setItem('user', JSON.stringify(response.data.data));
+         yield put(actions.getLoginSuccess(response.data));
+     } else {
+       yield put(actions.getLoginError(response.data));      
+     }
+   } catch (e) {
+     yield put(actions.getLoginError(e));
+   }
+  }

@@ -5,11 +5,13 @@ import {
   StyleSheet,
   Image,
   TextInput,
+  FlatList,
   ToastAndroid,
   ActivityIndicator,
   TouchableOpacity
 } from "react-native";
 import { connect } from 'react-redux';
+import Touch from 'react-native-touch';
 import { bindActionCreators } from "redux";
 import Layout from "../../constants/Layout";
 import { LinearGradient, Font } from 'expo';
@@ -27,12 +29,39 @@ class Wishlist extends React.Component {
     };
   };
 
+  _renderItem=({item,index})=>{
+    return(
+        <View>
+            <Touch 
+            activeOpacity={0.05}
+            onPress={()=>this.props.navigation.navigate("CityEventDescription",{item:item})}
+            >
+                <Card item={item}/>
+            </Touch>
+        </View>
+    )
+  }
+
   render() {
+    const eventsLength = this.props.getEventData.register.eventData.length;
+    const events = this.props.getEventData.register.eventData;
+    let eventDetails 
+    let data = events.forEach(event=>{
+      if(Object.keys(event).join() === 'sport'){
+        eventDetails = event[Object.keys(event).join()].data
+      }
+      });
     return (
       <View style={styles.mainContainer}>
-          <Card 
-            isWishlist
+        {
+          eventDetails &&
+          <FlatList 
+          data={eventDetails.results}
+          // keyExtractor={(item,index)=>(item.title)}
+          showsVerticalScrollIndicator={false}
+          renderItem={this._renderItem}
           />
+        }
       </View>
     );
   }
@@ -46,7 +75,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-      state: state,
+      getEventData: state.getEvent, 
   }
 }
 const mapDispatchToProps = dispatch => 

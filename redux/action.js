@@ -2,11 +2,15 @@ import {createAction} from 'redux-actions';
 import * as constants from './constant';
 
 //General Action 
-export const openInvestModel= createAction(constants.OPEN_INVEST_MODAL);
+export const closeSuccessModel= createAction(constants.CLOSE_SUCCESS_MODAL);
 //action for register
 export const getRegisterRequest=createAction(constants.GET_REGISTER_REQUEST);
 export const getRegisterSuccess=createAction(constants.GET_REGISTER_SUCCESS);
 export const getRegisterError=createAction(constants.GET_REGISTER_ERROR);
+//action for login
+export const getLoginRequest=createAction(constants.GET_LOGIN_REQUEST);
+export const getLoginSuccess=createAction(constants.GET_LOGIN_SUCCESS);
+export const getLoginError=createAction(constants.GET_LOGIN_ERROR);
 //action for events
 
 export const getEventRequest=createAction(constants.GET_EVENT_REQUEST);
@@ -34,3 +38,8 @@ export const getStateAndCityEventError=createAction(constants.GET_STATEANDCITYEV
 export const postAddCommentRequest=createAction(constants.POST_ADDCOMMENT_REQUEST);
 export const postAddCommentSuccess=createAction(constants.POST_ADDCOMMENT_SUCCESS);
 export const postAddCommentError=createAction(constants.POST_ADDCOMMENT_ERROR);
+
+//action for eventDescription
+export const getEventDescriptionRequest=createAction(constants.GET_EVENTDESCRIPTION_REQUEST);
+export const getEventDescriptionSuccess=createAction(constants.GET_EVENTDESCRIPTION_SUCCESS);
+export const getEventDescriptionError=createAction(constants.GET_EVENTDESCRIPTION_ERROR);

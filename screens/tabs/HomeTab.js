@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
 import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAndCityEventRequest} from "../../redux/action";
 import Touch from 'react-native-touch';
+import Layout from "../../constants/Layout";
 
 class HomeTab extends Component {
   static navigationOptions = {
@@ -41,16 +42,18 @@ class HomeTab extends Component {
     }
   }
   onViewAll=(key)=>{
-    console.log(key ,'VVVVVVVVVVVVVVVVVVVVV');
     const events = this.props.getEventData.register.eventData;
     events.forEach(event=>{
+      console.log(event,'evem',events)
       if(Object.keys(event).join() === key){
         this.props.navigation.navigate('ViewAllCard' ,{eventDetails:event[Object.keys(event).join()].data},);
       }
     });
   }
+  onEventDescription=(item)=>{
+      this.props.navigation.navigate("CityEventDescription",{item:item})
+  }
   _renderItem=({item,index})=>{
-    console.log(item ,"YYYYYYYYYYYYYYYY");
     
     let cetegoryId;
     let backgroundColor;
@@ -69,6 +72,7 @@ class HomeTab extends Component {
   }
 
     return(
+<<<<<<< HEAD
             <Events
               key={index}
               eventData={item[Object.keys(item).join()].data}
@@ -76,6 +80,16 @@ class HomeTab extends Component {
               backgroundColor={backgroundColor}
               onViewAll={(key)=>this.onViewAll(key)}
             />
+=======
+                    <Events
+                      key={index}
+                      eventData={item[Object.keys(item).join()].data}
+                      categoryId={Object.keys(item).join()}
+                      backgroundColor={backgroundColor}
+                      onViewAll={(key)=>this.onViewAll(key)}
+                      onEventDescription={(item)=>this.onEventDescription(item)}
+                    />
+>>>>>>> 05d6a5635766a526d29aa1245acd8a3b668194d1
 
     )
   }
@@ -85,7 +99,6 @@ class HomeTab extends Component {
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const cityEvents =this.props.getStateAndCityEventData.status
-    console.log(events, "JJJJJ");
 
     return (
       <View style={styles.wrapper}>
@@ -108,6 +121,7 @@ class HomeTab extends Component {
              {(cityEvents !==undefined)  &&
               <VideosComponent 
               cityData={cityEvents}
+              onEventDescription={(item)=>this.onEventDescription(item)}
               />}
             </View>
             <View style={styles.likedView}>
@@ -116,6 +130,7 @@ class HomeTab extends Component {
               </View>
               <VideosComponent
               cityData={cityEvents}
+              onEventDescription={(item)=>this.onEventDescription(item)}
               />
             </View>
             <View style={styles.eventComponentView}>
@@ -163,7 +178,6 @@ class HomeTab extends Component {
   }
 }
 const mapStateToProps = state => {
-  console.log(state, ">>>>>>>>>>>>>>>>>>>>>");
   return {
     getCategoryData: state.getCategory,
     getEventData: state.getEvent,

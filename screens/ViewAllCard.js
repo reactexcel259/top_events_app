@@ -17,7 +17,6 @@ export default class ViewAllCard extends Component {
         )
     }
   render() {
-      console.log(this.props ,'Dddddddddddddddddddddddd')
       const eventDetails=this.props.navigation.state.params.eventDetails.results
     return (
       <View>

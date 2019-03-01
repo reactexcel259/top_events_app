@@ -12,14 +12,10 @@ import TabNavigation from './BottomTabNavigation';
 import Card from '../components/card';
 import ViewAllCard from '../screens/ViewAllCard';
 export default createAppContainer(createStackNavigator({
-  // ViewAllCard:ViewAllCard,
-  // Card:Card,
-  Home:HomeScreen,
-  // SignUpScreen:SignUpScreen,
-  // Notification: Notifications,
-  // Event: EventScreen,
+  Home: HomeScreen,
+  SignUpScreen:SignUpScreen,
+  HomeTab:TabNavigation,
   CityEventDescription:CityEventDescription,
-  // HomeTab:HomeTab,
   setup: SetupScreen,
   permission: PermissionScreen,
 },
