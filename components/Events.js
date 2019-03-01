@@ -14,8 +14,6 @@ import Touch from "react-native-touch";
 export default class Events extends Component {
 
   _renderItem = ({ item, index }) => {
-    console.log(item.image && item.image ,"UUUUUUUUUUUUUUUUUUU");
-    
     return (
       <View
         key={index}

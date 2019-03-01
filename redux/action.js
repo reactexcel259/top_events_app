@@ -34,3 +34,8 @@ export const getStateAndCityEventError=createAction(constants.GET_STATEANDCITYEV
 export const postAddCommentRequest=createAction(constants.POST_ADDCOMMENT_REQUEST);
 export const postAddCommentSuccess=createAction(constants.POST_ADDCOMMENT_SUCCESS);
 export const postAddCommentError=createAction(constants.POST_ADDCOMMENT_ERROR);
+
+//action for eventDescription
+export const getEventDescriptionRequest=createAction(constants.GET_EVENTDESCRIPTION_REQUEST);
+export const getEventDescriptionSuccess=createAction(constants.GET_EVENTDESCRIPTION_SUCCESS);
+export const getEventDescriptionError=createAction(constants.GET_EVENTDESCRIPTION_ERROR);

@@ -74,7 +74,6 @@ class SignUpScreen extends React.Component {
       }
       this.props.getRegisterRequest(payload)
     } else if(progress == 3) {
-      console.log('navigate',this.props)
       this.props.navigation.navigate('HomeTab')
     }
   }
