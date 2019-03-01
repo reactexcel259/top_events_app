@@ -35,6 +35,7 @@ class SetupScreen extends React.Component {
       step: 1,
       interest:[],
       location: null,
+      search:'',
       stateCity:[]
     }
   }
@@ -125,8 +126,15 @@ class SetupScreen extends React.Component {
       this.props.navigation.goBack();
     }
   }
+
+  onSearchChange = (text) => {
+    this.setState({
+      search: text
+    })
+  }
+
   render() {
-    const { step, interest } =this.state
+    const { step, interest, search } =this.state
     const {getStateAndCityData,getCategoryData} = this.props;
     
     
@@ -155,6 +163,7 @@ class SetupScreen extends React.Component {
                   {...this.state}
                   stateAndCity={getStateAndCityData}
                   useCurrentLocation={()=>{this.useCurrentLocation()}}
+                  onSearchChange={this.onSearchChange}
                   onPress={()=>{ console.log('navigate') }}            
                 />
               }
