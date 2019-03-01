@@ -69,13 +69,13 @@ class HomeTab extends Component {
   }
 
     return(
-                    <Events
-                      key={index}
-                      eventData={item[Object.keys(item).join()].data}
-                      categoryId={Object.keys(item).join()}
-                      backgroundColor={backgroundColor}
-                      onViewAll={(key)=>this.onViewAll(key)}
-                    />
+            <Events
+              key={index}
+              eventData={item[Object.keys(item).join()].data}
+              categoryId={Object.keys(item).join()}
+              backgroundColor={backgroundColor}
+              onViewAll={(key)=>this.onViewAll(key)}
+            />
 
     )
   }

@@ -8,9 +8,10 @@ import {
   TouchableOpacity,
   View,
   Button,
+  ActivityIndicator,
 } from 'react-native';
 import { WebBrowser, LinearGradient, Location, Permissions, Constants,  } from 'expo';
-import connect from 'redux';
+import { connect } from "react-redux";
 
 import CustomeButton from '../components/button';
 import CustomHeader from '../components/header';
@@ -19,30 +20,51 @@ import { MonoText } from '../components/StyledText';
 import Intrest from '../components/intro/intrest'
 import Locations from '../components/intro/location';
 import Interest from '../Josn/Index';
-import {getStateAndCityRequest} from '../redux/action';
+import {getStateAndCityRequest, getCategoryRequest} from '../redux/action';
 
-export default class SetupScreen extends React.Component {
+
+class SetupScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
 
   constructor(props){
     super(props);
+    console.log(props);
     this.state = {
       step: 1,
-      interest:Interest,
+      interest:[],
       location: null,
+      stateCity:[]
     }
   }
   
-  componentWillMount() {
+  async componentWillMount() {
     if (Platform.OS === 'android' && !Constants.isDevice) {
       this.setState({
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
       });
-    } 
-    // this.props.action.getStateAndCity();
+    }
+   
   }
+  async componentDidMount(){
+    await this.props.getCategory(); 
+    await this.props.getStateAndCity();
+    const {getStateAndCityData,getCategoryData} = this.props;
+    console.log(getStateAndCityData,getCategoryData,"getStateAndCityData,getCategoryData");
+    
+    // this.setState({interest:getCategoryData.status.data, stateCity:getStateAndCityData.status.data})
+  }
+  
+  componentWillReceiveProps(nextProps){
+    const {getStateAndCityData,getCategoryData} = this.props;
+    if(getStateAndCityData.status !== nextProps.getStateAndCityData.status){
+      this.setState({stateCity:nextProps.getStateAndCityData.status.data})
+    }else if (getCategoryData.status !== nextProps.getCategoryData.status){
+      this.setState({interest:nextProps.getCategoryData.status.data})
+    }
+  }
+
   useCurrentLocation = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -54,12 +76,19 @@ export default class SetupScreen extends React.Component {
     let location = await Location.getCurrentPositionAsync({enableHighAccuracy:true});
     this.getGeoAddress(location.coords.latitude, location.coords.longitude);
   };
+  findSelectedId = () => {
+    
+  }
   selectInterests = (id) => {
     let int = this.state.interest;
-    if(int[id] !== undefined && int[id].selected){
-      int[id]["selected"] = false ;
-    }else {
-      int[id]["selected"] = true ;
+    for (let index = 0; index < int.length; index++) {
+      if(int[index]._id === id){
+        if(int[index] !== undefined && int[index].selected){
+          int[index]["selected"] = false ;
+        }else {
+          int[index]["selected"] = true ;
+        }
+      }
     }
     this.setState({interest:int})
   }
@@ -98,6 +127,8 @@ export default class SetupScreen extends React.Component {
   }
   render() {
     const { step, interest } =this.state
+    const {getStateAndCityData,getCategoryData} = this.props;
+    
     
     return (
       <View style={styles.container}>
@@ -108,24 +139,26 @@ export default class SetupScreen extends React.Component {
           leftIcon={'angle-left'}
           leftPress={this.onBackPress}
         />
-        {
-          step == 1 &&
-          <Intrest 
-            data={interest}
-            onPress={()=>{ this.setState({step: step + 1}) }}
-            selectInterests={(id)=>{this.selectInterests(id)}}
-          />
-        }
-        {
-          step == 2 &&
-          <Locations 
-            {...this.props}
-            {...this.state}
-            useCurrentLocation={()=>{this.useCurrentLocation()}}
-            onPress={()=>{ console.log('navigate') }}            
-          />
-        }
-      </View>
+              {
+                step == 1 &&
+                <Intrest 
+                  category={getCategoryData}
+                  data={interest}
+                  onPress={()=>{ this.setState({step: step + 1}) }}
+                  selectInterests={(id)=>{this.selectInterests(id)}}
+                />
+              }
+              {
+                step == 2 &&
+                <Locations 
+                  {...this.props}
+                  {...this.state}
+                  stateAndCity={getStateAndCityData}
+                  useCurrentLocation={()=>{this.useCurrentLocation()}}
+                  onPress={()=>{ console.log('navigate') }}            
+                />
+              }
+       </View>
     );
   }
 
@@ -135,4 +168,26 @@ const styles = StyleSheet.create({
   container:{
     flex:1
   },
+  activityIndicator:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+  }
 });
+const mapStateToProps = state => {
+  return {
+    getStateAndCityData:state.getStateAndCity,
+    getCategoryData: state.getCategory,
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    getStateAndCity:()=>dispatch(getStateAndCityRequest()),
+    getCategory: () => dispatch(getCategoryRequest()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SetupScreen)

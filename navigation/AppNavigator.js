@@ -14,7 +14,7 @@ import ViewAllCard from '../screens/ViewAllCard';
 export default createAppContainer(createStackNavigator({
   // ViewAllCard:ViewAllCard,
   // Card:Card,
-  Home:TabNavigation,
+  Home:HomeScreen,
   // SignUpScreen:SignUpScreen,
   // Notification: Notifications,
   // Event: EventScreen,
