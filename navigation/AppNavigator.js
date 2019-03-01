@@ -12,12 +12,9 @@ import TabNavigation from './BottomTabNavigation';
 
 export default createAppContainer(createStackNavigator({
   // Home: HomeScreen,
-  SignUpScreen:SignUpScreen,
+  // SignUpScreen:SignUpScreen,
   HomeTab:TabNavigation,
-  // Notification: Notifications,
-  // Event: EventScreen,
   CityEventDescription:CityEventDescription,
-  // HomeTab:HomeTab,
   setup: SetupScreen,
   permission: PermissionScreen,
 },

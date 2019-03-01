@@ -8,6 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import HomeTab from '../screens/tabs/HomeTab';
 import EventScreen from '../screens/Events';
 import Notifications from '../screens/Notification';
+import MyAccountScreen from '../screens/Account';
 
 const HomeStack = createStackNavigator({
   Home: HomeTab,
@@ -56,7 +57,7 @@ NotificationStack.navigationOptions = {
 };
 
 const AccountStack = createStackNavigator({
-  Account: Notifications,
+  Account: MyAccountScreen,
 });
 
 AccountStack.navigationOptions = {
@@ -73,5 +74,5 @@ export default createBottomTabNavigator({
   HomeStack,
   EventStack,
   NotificationStack,
-  AccountStack
+  AccountStack,
 });
