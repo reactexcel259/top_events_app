@@ -126,9 +126,10 @@ class SetupScreen extends React.Component {
     }
   }
 
-  onSearchChange = (text) => {
+  onSearchChange = (text,val) => {
     this.setState({
-      search: text
+      search: text,
+      selected: val
     })
   }
 
