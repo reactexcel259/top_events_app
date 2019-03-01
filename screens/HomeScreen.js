@@ -66,7 +66,7 @@ class HomeScreen extends React.Component {
                 buttonText={"Sign In"}
                 gradientColor={['#FFFFFF','#FFFFFF']}
                 textColor={'black'}
-                onPress={()=>{ this.props.navigation.navigate('SignUpScreen') }}
+                onPress={()=>{ this.props.navigation.navigate('SignUpScreen',{isLogin:true}) }}
               />
             </View>
           </View>

@@ -30,9 +30,10 @@ class MyAccountScreen extends React.Component {
    
   }
 
-  logout = () => {
-    AsyncStorage.setItem('user','')
-    this.props.navigation.navigate('SignUpScreen');
+  logout = async () => {
+    await AsyncStorage.setItem('user','').then((data)=>{
+      this.props.navigation.navigate('Home');
+    })
   }
 
   render() {

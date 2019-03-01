@@ -11,6 +11,12 @@ export const getRegisterError=createAction(constants.GET_REGISTER_ERROR);
 export const getLoginRequest=createAction(constants.GET_LOGIN_REQUEST);
 export const getLoginSuccess=createAction(constants.GET_LOGIN_SUCCESS);
 export const getLoginError=createAction(constants.GET_LOGIN_ERROR);
+
+//action for user data
+export const getUserDataRequest=createAction(constants.GET_USER_DATA_REQUEST);
+export const getUserDataSuccess=createAction(constants.GET_USER_DATA_SUCCESS);
+export const getUserDataError=createAction(constants.GET_USER_DATA_ERROR);
+
 //action for events
 
 export const getEventRequest=createAction(constants.GET_EVENT_REQUEST);

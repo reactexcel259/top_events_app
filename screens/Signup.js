@@ -37,6 +37,20 @@ class SignUpScreen extends React.Component {
       email:'',
       password:'',
       login:false,
+      loader: false,
+    }
+  }
+
+  componentWillMount() {
+    const { navigation } = this.props;
+    if( navigation.state.params && navigation.state.params.isLogin){
+      this.setState({
+        login: true
+      })
+    } else {
+      this.setState({
+        login:false
+      })
     }
   }
 
@@ -57,6 +71,14 @@ class SignUpScreen extends React.Component {
           login ? 'Login Successfull' :'Registration Successful'
         )
       }
+      this.setState({
+        loader:false,
+        email:'',
+        password:'',
+        firstName:'',
+        lastName:'',
+        progress:1,
+      })
       this.props.closeSuccessModel()
       if(this.state.progress != 3 && !login){
         this.setState({
@@ -99,6 +121,7 @@ class SignUpScreen extends React.Component {
           email: email,
           password: password
         }
+        this.setState({ loader: true })
         this.props.getRegisterRequest(payload)
       } else {
         if(Platform.OS == 'android') {
@@ -150,6 +173,7 @@ class SignUpScreen extends React.Component {
         email,
         password
       }
+      this.setState({ loader: true })      
       this.props.getLoginRequest(payload)
     }
   }
@@ -182,6 +206,15 @@ class SignUpScreen extends React.Component {
       )
     }
   }
+
+  backPress = () => {
+    const { navigation } = this.props;
+    if ( navigation.state.params && navigation.state.params.isLogin ){
+      navigation.goBack()
+    } else {
+      this.setState({ login: false })
+    }
+  }
   
   render() {
     const { progress, firstName, lastName, email, password, login } = this.state;
@@ -208,8 +241,14 @@ class SignUpScreen extends React.Component {
                   <Text style={{color:'white',fontSize:17}} > Sign in </Text>
                 </TouchableOpacity>
               }
+              {/* {
+                login &&
+                <TouchableOpacity onPress={()=>{ this.setState({login:false}) }} >
+                  <Text style={{color:'white',fontSize:17}} > Sign Up </Text>
+                </TouchableOpacity>
+              } */}
               {
-                (progress == 2 || login) &&
+                progress == 2  &&
                 <TouchableOpacity onPress={this.laterPress} >
                   <Text style={{color:'white',fontSize:17}} > Do it later </Text>
                 </TouchableOpacity>
@@ -222,6 +261,7 @@ class SignUpScreen extends React.Component {
              <LoginContainer
               onPress={this.login}
               email={email}
+              iconPress={this.backPress}
               password={password}
               onChange={this.textChange}
             /> 

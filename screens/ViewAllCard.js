@@ -24,7 +24,7 @@ export default class ViewAllCard extends Component {
       const eventDetails=this.props.navigation.state.params.eventDetails.results
     return (
       <View>
-          <CustomHeader  isCenter={true} isLeft={true} goBack={()=>this.props.navigation.goBack()} leftIcon='angle-left' centerTitle="My event" />
+          <CustomHeader  isCenter={true} isLeft={true} leftPress={()=>this.props.navigation.goBack()} leftIcon='angle-left' centerTitle="My event" />
         <FlatList 
         data={eventDetails}
         keyExtractor={(item,index)=>(index)}

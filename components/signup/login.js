@@ -7,18 +7,26 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
+  TouchableHighlight,
   View,
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
+import { FontAwesome ,EvilIcons } from '@expo/vector-icons';
 import Layout from '../../constants/Layout';
 import { MonoText } from '../../components/StyledText';
 import CustomeButton from '../button'
 
 export default class LoginContainer extends React.Component {
   render() {
-    const { onPress, onChange, firstName, lastName } = this.props;
+    const { onPress, onChange, firstName, lastName, iconPress } = this.props;
     return (
       <View style={styles.container}>
+      <TouchableOpacity onPress={iconPress} >
+      <View>
+      <FontAwesome
+      name={'arrow-left'} size={20} style={{margin:5}} color="black" />
+      </View>
+      </TouchableOpacity>
        <View style={styles.labelContainer} >
           <Text style={styles.label} >Login </Text>
        </View>
@@ -53,7 +61,7 @@ export default class LoginContainer extends React.Component {
        </View>
        <View style={styles.signupContainer} >
           <View>
-            <Text style={styles.signupLabel} >Sign up with </Text>
+            <Text style={styles.signupLabel} >Sign in with </Text>
           </View>
           <View style={styles.imageContainer} >
             <Image

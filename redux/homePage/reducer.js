@@ -7,7 +7,9 @@ const initialState = {
    isLoading: false,
    isError: false,
    isSuccess: false,
-   message: ""
+   message: "",
+   status:{},
+   data:[],
  }
 };
 
@@ -48,6 +50,13 @@ const getRegisterSuccess = (state, action) =>
    }
  });
 
+ const getUserDataSuccess = (state, action) =>
+ update(state, {
+   user: {
+     data: { $set: action.payload }
+   }
+ });
+
 export default handleActions(
  {
    [constants.GET_REGISTER_REQUEST]: getRegisterRequest,
@@ -57,6 +66,8 @@ export default handleActions(
    [constants.GET_LOGIN_REQUEST]: getRegisterRequest,
    [constants.GET_LOGIN_SUCCESS]: getRegisterSuccess,
    [constants.GET_LOGIN_ERROR]: getRegisterError,
+
+   [constants.GET_USER_DATA_SUCCESS]: getUserDataSuccess,
 
    [constants.CLOSE_SUCCESS_MODAL]: clearSuccessRequest,
    

@@ -30,7 +30,6 @@ class SetupScreen extends React.Component {
 
   constructor(props){
     super(props);
-    console.log(props);
     this.state = {
       step: 1,
       interest:[],
@@ -148,7 +147,9 @@ class SetupScreen extends React.Component {
         />
               {
                 step == 1 &&
-                <Intrest 
+                <Intrest
+                  {...this.props}
+                  {...this.state}
                   category={getCategoryData}
                   data={interest}
                   onPress={()=>{ this.setState({step: step + 1}) }}
@@ -163,7 +164,7 @@ class SetupScreen extends React.Component {
                   stateAndCity={getStateAndCityData}
                   useCurrentLocation={()=>{this.useCurrentLocation()}}
                   onSearchChange={this.onSearchChange}
-                  onPress={()=>{ console.log('navigate') }}            
+                  onPress={()=>{ this.props.navigation.navigate('SignUpScreen') }}            
                 />
               }
        </View>

@@ -5,7 +5,7 @@ import Events from "../../components/Events";
 import CustomHeader from ".././../components/header";
 import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
-import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAndCityEventRequest} from "../../redux/action";
+import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAndCityEventRequest, getUserDataRequest} from "../../redux/action";
 import Touch from 'react-native-touch';
 import Layout from "../../constants/Layout";
 
@@ -27,7 +27,11 @@ class HomeTab extends Component {
   }
 
   async componentDidUpdate() {
-    const { getCategoryData ,getStateAndCityData} = this.props;
+    const { getCategoryData ,getStateAndCityData, user} = this.props;
+    // console.log(this.props)
+    // if(user.user.data.length == 0 ){
+    //   this.props.getUserDataRequest({token:user.user.status.token});
+    // }
     if (getCategoryData.isSuccess && !this.state.isCategoryId) {
       getCategoryData.status.data.forEach(eventId => {
         let id = eventId._id;
@@ -167,6 +171,7 @@ class HomeTab extends Component {
 }
 const mapStateToProps = state => {
   return {
+    user: state.user,
     getCategoryData: state.getCategory,
     getEventData: state.getEvent,
     getStateAndCityData:state.getStateAndCity,
@@ -179,6 +184,7 @@ const mapDispatchToProps = dispatch => {
     getEvent: (eventId, eventKey) =>
       dispatch(getEventRequest(eventId, eventKey)),
     getCategory: () => dispatch(getCategoryRequest()),
+    getUserDataRequest: (token) => dispatch(getUserDataRequest(token)),
     getStateAndCity:()=>dispatch(getStateAndCityRequest()),
     getStateAndCityEvent:(cityId)=>dispatch(getStateAndCityEventRequest(cityId))
   };

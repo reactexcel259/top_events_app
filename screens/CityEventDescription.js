@@ -98,7 +98,7 @@ const image = [
     const item=eventData.isSuccess && this.props.getEventDescription.status.data
     return (
       <View >
-        <CustomHeader  isCenter={true} isLeft={true} onShare={()=>this.onShare()} goBack={()=>this.props.navigation.goBack()} leftIcon='angle-left' isRight={true} rightIcon={['heart','share-google']} />
+        <CustomHeader  isCenter={true} isLeft={true} onShare={()=>this.onShare()} leftPress={()=>this.props.navigation.goBack()} leftIcon='angle-left' isRight={true} rightIcon={['heart','share-google']} />
      {eventData.isSuccess ? <ScrollView>
         <View>
           <LinearGradient colors={["#ff6cc9", "#8559f0"]}>
