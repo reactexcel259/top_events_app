@@ -49,3 +49,10 @@ export const getEventDescriptionError=createAction(constants.GET_EVENTDESCRIPTIO
 export const postEventLikeRequest=createAction(constants.POST_EVENT_LIKE_REQUEST);
 export const postEventLikeSuccess=createAction(constants.POST_EVENT_LIKE_SUCCESS);
 export const postEventLikeError=createAction(constants.POST_EVENT_LIKE_ERROR);
+
+//action for interested events
+
+export const getInterestedEventRequest=createAction(constants.GET_INTERSTEDEVENT_REQUEST);
+export const getInterestedEventSuccess=createAction(constants.GET_INTERSTEDEVENT_SUCCESS);
+export const getInterestedEventError=createAction(constants.GET_INTERSTEDEVENT_ERROR);
+

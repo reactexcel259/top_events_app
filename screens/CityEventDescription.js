@@ -9,7 +9,8 @@ import {
   StatusBar,
   Dimensions,
   ActivityIndicator,
-  Share
+  Share,
+  ToastAndroid
 } from "react-native";
 import Layout from "../constants/Layout";
 import { LinearGradient, MapView, Video } from "expo";
@@ -55,7 +56,8 @@ class CityEventDescription extends Component {
       isAboutTab: true,
       isDiscussionTab: false,
       isPlay: false,
-      isEventDescription: false
+      isEventDescription: false,
+      isLiked:false
     };
   }
   componentDidMount() {
@@ -83,9 +85,13 @@ class CityEventDescription extends Component {
     }
   };
   onEventLike=()=>{
-    this.props.eventLikeRequest('F')
+    this.setState({isLiked:true})
+    let token =this.props.user.user.status.token
+    let eventId=this.props.navigation.state.params.item._id
+    this.props.eventLikeRequest({token ,eventId})
   }
   render() {
+
     const data = image.map((data, i) => {
       return (
         <View style={[styles.peopleLiked, { zIndex: image.length - i }]}>
@@ -109,9 +115,14 @@ class CityEventDescription extends Component {
           leftIcon="angle-left"
           isRight={true}
           rightIcon={["heart", "share-google"]}
+          onEventLike={()=>this.onEventLike()}
         />
         {eventData.isSuccess ? (
           <ScrollView>
+            {(!this.props.userLike.isSuccess && this.state.isLiked) &&  <View style={styles.loaderView}>
+            <ActivityIndicator color="#FF6CC9" size="large" />
+          </View>}
+          { this.props.userLike.isSuccess && ToastAndroid.show('Added to favorite', ToastAndroid.SHORT)}
             <View>
               <LinearGradient colors={["#ff6cc9", "#8559f0"]}>
                 <View style={styles.firstSectionWrapper}>
@@ -312,13 +323,15 @@ class CityEventDescription extends Component {
 const mapStateToProps = state => {
   console.log(state, "222222222222222222222222");
   return {
-    getEventDescription: state.getEventDescription
+    getEventDescription: state.getEventDescription,
+    user:state.user,
+    userLike:state.postAddLikeEvent
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     eventDescription: id => dispatch(getEventDescriptionRequest(id)),
-    eventLikeRequest:(userId)=>dispatch(postEventLikeRequest(userId))
+    eventLikeRequest:(token, eventId)=>dispatch(postEventLikeRequest(token ,eventId))
   };
 };
 export default connect(
@@ -516,6 +529,7 @@ const styles = StyleSheet.create({
     height: "50%"
   },
   loaderView: {
+    zIndex:100,
     position: "absolute",
     flex: 1,
     flexDirection: "column",

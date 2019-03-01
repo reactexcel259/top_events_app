@@ -8,6 +8,7 @@ import getStateAndCityEvent from '../redux/stateAndCityEvent/reducer';
 import postAddComment from '../redux/addComment/reducer';
 import getEventDescription from '../redux/getEventDescription/reducer';
 import postAddLikeEvent from '../redux/addLikeOnEvent/reducer';
+import getInterestedEvent from '../redux/interestedEvent/reducer';
 
 
 export default combineReducers({
@@ -19,5 +20,6 @@ export default combineReducers({
  getStateAndCityEvent:getStateAndCityEvent,
  postAddComment:postAddComment,
  getEventDescription:getEventDescription,
- postAddLikeEvent:postAddLikeEvent
+ postAddLikeEvent:postAddLikeEvent,
+ getInterestedEvent:getInterestedEvent
 });

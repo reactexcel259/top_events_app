@@ -18,6 +18,7 @@ import { LinearGradient, Font } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 import * as actions from '../../redux/action';
 import Card from '../../components/card';
+import {getInterestedEventRequest} from '../../redux/action';
 
 class Attending extends React.Component {
   constructor(props){
@@ -30,7 +31,10 @@ class Attending extends React.Component {
     };
   };
 
-  
+  componentDidMount(){
+    let token =this.props.user.user.status.token
+    this.props.getInterestedEventRequest(token)
+  }
 
   _renderItem=({item,index})=>{
     return(
@@ -44,8 +48,11 @@ class Attending extends React.Component {
         </View>
     )
   }
+  
 
   render() {
+    console.log(this.props ,'OOOOOOOOOOOOOOOOOOOO');
+    
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     let eventDetails 
@@ -79,6 +86,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
       getEventData: state.getEvent, 
+      user:state.user,
   }
 }
 const mapDispatchToProps = dispatch => 

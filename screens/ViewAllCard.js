@@ -13,7 +13,6 @@ export default class ViewAllCard extends Component {
         return(
             <View>
                 <Touch 
-                activeOpacity={0.05}
                 onPress={()=>this.props.navigation.navigate("CityEventDescription",{item:item})}
                 >
                     <Card item={item}/>

@@ -26,7 +26,7 @@ export default class Events extends Component {
           }
         ]}
       >
-      <Touch activeOpacity={0.1} onPress={() => this.props.onEventDescription(item)}>
+      <Touch  onPress={() => this.props.onEventDescription(item)}>
         <View style={styles.imageWrapper}>
           <Image
             resizeMode={"cover"}

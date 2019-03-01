@@ -101,6 +101,8 @@ class HomeTab extends Component {
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const cityEvents = this.props.getStateAndCityEventData.status;
+    console.log(this.props ,'LLLLLLLLLLLLLLLLLLLLLLLLL');
+    
 
     return (
       <View style={styles.wrapper}>
