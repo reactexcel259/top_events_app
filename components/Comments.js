@@ -37,6 +37,8 @@ const userComments = [
 
 export default class Comments extends Component {
   _renderItem = ({ item, index }) => {
+    // console.log(item ,'&&&&&&&&&&&&&&&&&&&&&&&');
+    
     return (
       <View style={styles.commentWrapper}>
         <View style={styles.userDetails}>
@@ -45,15 +47,15 @@ export default class Comments extends Component {
             source={require("../assets/images/guide-small.png")}
           />
           <View style={styles.detailsWrapper}>
-            <Text style={styles.usernameText}>{item.name}</Text>
+            <Text style={styles.usernameText}>{item.user_id.name.first}{' '}{item.user_id.name.last}</Text>
             <View style={styles.momentWrapper}>
-              <Text style={styles.date}>{item.date}</Text>
-              <Text style={styles.date}>{item.time}</Text>
+              <Text style={styles.date}>13.07.2019</Text>
+              <Text style={styles.date}>12:12</Text>
             </View>
           </View>
         </View>
         <View style={styles.userCommentView}>
-          <Text style={styles.commentText}>{item.text}</Text>
+          <Text style={styles.commentText}>{item.comment}</Text>
         </View>
         <View style={styles.sharedImageView}>
           <FlatList
@@ -119,7 +121,7 @@ export default class Comments extends Component {
     return (
       <View style={{ flex: 1 }}>
         <FlatList
-          data={userComments}
+          data={this.props.userComments}
           keyExtractor={(item, index) => index}
           renderItem={this._renderItem}
         />

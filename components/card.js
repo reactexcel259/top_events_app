@@ -39,14 +39,17 @@ export default class Card extends React.Component {
         }
       </Text>
         <Image
-          source={{uri:item.image && item.image.secure_url}}
+          source={
+            item.image ?
+           { uri:item.image.secure_url} :require( '../assets/images/no-thumbnail.png')
+          }
           style={{
             height: 150,
             width: Layout.window.width * 0.912,
             borderRadius: 5,
             margin: 5
           }}
-          mode="contain"
+          // mode="contain"
         />
 
         <View style={{ marginTop: 5, marginBottom: 5 ,marginLeft:5}}>

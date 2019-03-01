@@ -50,6 +50,9 @@ class HomeTab extends Component {
       }
     });
   }
+  onEventDescription=(item)=>{
+      this.props.navigation.navigate("CityEventDescription",{item:item})
+  }
   _renderItem=({item,index})=>{
     
     let cetegoryId;
@@ -69,13 +72,14 @@ class HomeTab extends Component {
   }
 
     return(
-    <Events
-      key={index}
-      eventData={item[Object.keys(item).join()].data}
-      categoryId={Object.keys(item).join()}
-      backgroundColor={backgroundColor}
-      onViewAll={(key)=>this.onViewAll(key)}
-    />
+                    <Events
+                      key={index}
+                      eventData={item[Object.keys(item).join()].data}
+                      categoryId={Object.keys(item).join()}
+                      backgroundColor={backgroundColor}
+                      onViewAll={(key)=>this.onViewAll(key)}
+                      onEventDescription={(item)=>this.onEventDescription(item)}
+                    />
 
     )
   }
@@ -107,6 +111,7 @@ class HomeTab extends Component {
              {(cityEvents !==undefined)  &&
               <VideosComponent 
               cityData={cityEvents}
+              onEventDescription={(item)=>this.onEventDescription(item)}
               />}
             </View>
             <View style={styles.likedView}>
@@ -115,6 +120,7 @@ class HomeTab extends Component {
               </View>
               <VideosComponent
               cityData={cityEvents}
+              onEventDescription={(item)=>this.onEventDescription(item)}
               />
             </View>
             <View style={styles.eventComponentView}>
