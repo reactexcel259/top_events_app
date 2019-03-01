@@ -90,7 +90,10 @@ const image = [
                   <Image
                     resizeMode="cover"
                     style={styles.image}
-                    source={{uri:item.image.secure_url}}
+                    source={
+                      item.image ?
+                     { uri:item.image.secure_url} :require( '../assets/images/no-thumbnail.png')
+                    }
                   />
                 </View>
                 <View style={styles.eventWrapper}>
@@ -116,7 +119,7 @@ const image = [
                 </View>
                 <View style={styles.peopleWrapper}>
                   <View style={styles.peppleLikedWrapper}>{data}</View>
-                  <Text style={styles.totalPeople}>4.5K people interested</Text>
+                  <Text style={styles.totalPeople}>{item.interested.length} people interested</Text>
                 </View>
                 <View style={{flexDirection:'row',justifyContent:'space-around',alignItems:'center',marginTop:30}}>
                   <LinearGradient
@@ -139,12 +142,12 @@ const image = [
               </View>
               <View />
             </View>
-            <View style={styles.mapView}>
+           {(item.EventLocation && item.EventLocation !==undefined) && <View style={styles.mapView}>
               <MapView
                 style={{ flex: 1, height: Layout.window.height * 0.23 }}
                 initialRegion={{
-                  latitude: 37.78825,
-                  longitude: -122.4324,
+                  latitude: item.EventLocation[1],
+                  longitude: item.EventLocation[0],
                   latitudeDelta: 0.0922,
                   longitudeDelta: 0.0421
                 }}
@@ -161,6 +164,7 @@ const image = [
                 </View>
               </View>
             </View>
+           }
           </LinearGradient>
           <View style={styles.tabWrapper}>
             <View style={[styles.tab]}>
@@ -212,7 +216,7 @@ const image = [
                 <View style={styles.videoView}>
               <Video
                 source={{
-                  uri:"http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
+                  uri:item.VideoLink
                 }}
 
                 rate={1.0}
@@ -232,8 +236,8 @@ const image = [
           )}
           {this.state.isDiscussionTab && (
             <View style={styles.discussionWrapper}>
-              <CommentSection />
-              <Comments />
+              <CommentSection  />
+              <Comments userComments={item.comments}/>
             </View>
           )}
         </View>

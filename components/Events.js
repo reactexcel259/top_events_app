@@ -10,6 +10,7 @@ import {
 } from "react-native";
 const { height, width } = Dimensions.get("window");
 import Touch from "react-native-touch";
+import moment from 'moment';
 
 export default class Events extends Component {
 
@@ -25,20 +26,23 @@ export default class Events extends Component {
           }
         ]}
       >
+      <Touch activeOpacity={0.1} onPress={() => this.props.onEventDescription(item)}>
         <View style={styles.imageWrapper}>
           <Image
             resizeMode={"cover"}
             resizeMethod="resize"
             style={styles.cardImage}
-            source={{
-              uri:item.image &&  item.image.secure_url
-            }}
+            source={
+              item.image ?
+             { uri:item.image.secure_url} :require( '../assets/images/no-thumbnail.png')
+            }
           />
         </View>
         <View style={styles.imageTitle}>
           <Text style={styles.nameText}>{item.title}</Text>
-          <Text style={styles.dateText}>{item.start}</Text>
+          <Text style={styles.dateText}>{moment(item.start).format("D MMM, dddd")}</Text>
         </View>
+        </Touch>
       </View>
     );
   };
@@ -96,10 +100,11 @@ const styles = StyleSheet.create({
   },
   imageTitle: {},
   nameText: {
-    fontSize: 12
+    // fontSize: 12
   },
   dateText: {
-    color: "#808080"
+    color: "#808080",
+    fontSize: 12
   },
   flatView: {
     paddingTop: height * 0.05
