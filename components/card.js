@@ -31,7 +31,13 @@ export default class Card extends React.Component {
           marginTop: StatusBar.currentHeight
         }}
       >
-      <Text style={{paddingLeft:5,paddingTop:5,paddingBottom:5}}>{moment(item.start).format("D MMM, dddd")}</Text>
+      <Text style={{paddingLeft:5,paddingTop:5,paddingBottom:5}}>
+        { item ?
+          moment(item.start).format("D MMM, dddd")
+          :
+          moment().format("D MMM, dddd")
+        }
+      </Text>
         <Image
           source={
             item.image ?

@@ -44,6 +44,7 @@ class HomeTab extends Component {
   onViewAll=(key)=>{
     const events = this.props.getEventData.register.eventData;
     events.forEach(event=>{
+      console.log(event,'evem',events)
       if(Object.keys(event).join() === key){
         this.props.navigation.navigate('ViewAllCard' ,{eventDetails:event[Object.keys(event).join()].data},);
       }
