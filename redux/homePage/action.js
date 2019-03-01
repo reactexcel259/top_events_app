@@ -12,7 +12,7 @@ export function* getRegisterRequest(action) {
     });
 
     if (response.data.success) {
-       AsyncStorage.setItem('user', JSON.stringify(response.data.data));
+        AsyncStorage.setItem('user', JSON.stringify(response.data));
         yield put(actions.getRegisterSuccess(response.data));
     } else {
       yield put(actions.getRegisterError(response.data));      
@@ -30,8 +30,9 @@ export function* getRegisterRequest(action) {
      });
   
      if (response.data.success) {
-        AsyncStorage.setItem('user', JSON.stringify(response.data.data));
-         yield put(actions.getLoginSuccess(response.data));
+        console.log(response.data,'checl')
+        AsyncStorage.setItem('user', JSON.stringify(response.data));
+        yield put(actions.getLoginSuccess(response.data));
      } else {
        yield put(actions.getLoginError(response.data));      
      }

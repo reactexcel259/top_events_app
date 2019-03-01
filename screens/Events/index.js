@@ -12,7 +12,7 @@ const attendingScreen = createStackNavigator({
 });
 
 attendingScreen.navigationOptions = {
-  tabBarLabel: props => <Text style={{color:'black'}} > Attending </Text>,
+  tabBarLabel: props => <Text style={{color:'black',fontWeight:'500'}} > Attending </Text>,
   tabBarOptions: {
     // activeTintColor:'gray',
     tintColor:'gray', 
@@ -43,7 +43,7 @@ const wishlistScreen = createStackNavigator({
 });
 
 wishlistScreen.navigationOptions = {
-  tabBarLabel: props => <Text style={{color:'black'}} > WishList </Text>,
+  tabBarLabel: props => <Text style={{color:'black',fontWeight:'500'}} > WishList </Text>,
   tabBarOptions: {
     labelStyle: {
       fontSize: 12,

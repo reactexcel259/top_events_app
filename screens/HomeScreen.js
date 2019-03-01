@@ -5,20 +5,33 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  AsyncStorage,
   TouchableOpacity,
   View,
   Button,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import CustomeButton from '../components/button'
 import Layout from '../constants/Layout';
+import * as actions from '../redux/action';
 import { MonoText } from '../components/StyledText';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  componentWillMount() {
+    AsyncStorage.getItem('user').then((data)=>{
+      if(data != null){
+        let payload = JSON.parse(data)
+        this.props.getLoginSuccess(payload)
+        this.props.navigation.navigate('HomeTab')
+      }
+    })
+  }
 
   render() {
     return (
@@ -53,7 +66,7 @@ export default class HomeScreen extends React.Component {
                 buttonText={"Sign In"}
                 gradientColor={['#FFFFFF','#FFFFFF']}
                 textColor={'black'}
-                onPress={()=>{  }}
+                onPress={()=>{ this.props.navigation.navigate('SignUpScreen') }}
               />
             </View>
           </View>
@@ -112,3 +125,13 @@ const styles = StyleSheet.create({
     textAlign:'center'
   },
 });
+
+const mapStateToProps = (state) => {
+  return {
+      state: state,
+  }
+}
+const mapDispatchToProps = dispatch => 
+    bindActionCreators(actions, dispatch);
+
+export default connect(mapStateToProps,mapDispatchToProps)(HomeScreen);

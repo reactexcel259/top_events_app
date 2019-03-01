@@ -70,18 +70,52 @@ class SignUpScreen extends React.Component {
 
   changeProgress = () => {
     const { progress, firstName, lastName, email, password } = this.state;    
-    if(progress < 2 ){
-      this.setState({ progress: progress +1 })
-    } else if (progress == 2) {
-      let payload = {
-        name: {
-          first: firstName,
-          last: lastName 
-        },
-        email: email,
-        password: password
+    if(progress ==1 ){
+      if( firstName != '' && lastName != '' ) {
+        this.setState({ progress: progress +1 })
+      } else {
+        if(Platform.OS == 'android') {
+          ToastAndroid.showWithGravityAndOffset(
+            'Please fill all fields',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else if( Platform.OS == 'ios'){
+          Alert.alert(
+            'Warning!',
+            'Please fill all fields'
+          )
+        }
       }
-      this.props.getRegisterRequest(payload)
+    } else if (progress == 2) {
+      if(email != '' && password != '' ){
+        let payload = {
+          name: {
+            first: firstName,
+            last: lastName 
+          },
+          email: email,
+          password: password
+        }
+        this.props.getRegisterRequest(payload)
+      } else {
+        if(Platform.OS == 'android') {
+          ToastAndroid.showWithGravityAndOffset(
+            'Please fill all fields',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else if( Platform.OS == 'ios'){
+          Alert.alert(
+            'Warning!',
+            'Please fill all fields'
+          )
+        }
+      }
     } else if(progress == 3) {
       this.props.navigation.navigate('HomeTab')
     }

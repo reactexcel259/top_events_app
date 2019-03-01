@@ -37,7 +37,6 @@ const userComments = [
 
 export default class Comments extends Component {
   _renderItem = ({ item, index }) => {
-    // console.log(item ,'&&&&&&&&&&&&&&&&&&&&&&&');
     
     return (
       <View style={styles.commentWrapper}>
