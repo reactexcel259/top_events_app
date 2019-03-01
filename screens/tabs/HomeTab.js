@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet,Dimensions, ScrollView ,ActivityIndicator,FlatList } from "react-native";
+import { Text, View, StyleSheet,Dimensions, ScrollView ,ActivityIndicator,AsyncStorage,FlatList } from "react-native";
 import VideosComponent from "../../components/VideosComponent";
 import Events from "../../components/Events";
 import CustomHeader from ".././../components/header";
@@ -44,7 +44,6 @@ class HomeTab extends Component {
   onViewAll=(key)=>{
     const events = this.props.getEventData.register.eventData;
     events.forEach(event=>{
-      console.log(event,'evem',events)
       if(Object.keys(event).join() === key){
         this.props.navigation.navigate('ViewAllCard' ,{eventDetails:event[Object.keys(event).join()].data},);
       }
@@ -72,15 +71,14 @@ class HomeTab extends Component {
   }
 
     return(
-                    <Events
-                      key={index}
-                      eventData={item[Object.keys(item).join()].data}
-                      categoryId={Object.keys(item).join()}
-                      backgroundColor={backgroundColor}
-                      onViewAll={(key)=>this.onViewAll(key)}
-                      onEventDescription={(item)=>this.onEventDescription(item)}
-                    />
-
+    <Events
+      key={index}
+      eventData={item[Object.keys(item).join()].data}
+      categoryId={Object.keys(item).join()}
+      backgroundColor={backgroundColor}
+      onViewAll={(key)=>this.onViewAll(key)}
+      onEventDescription={(item)=>this.onEventDescription(item)}
+    />
     )
   }
   _keyExtractor=(item, index) => (item, index)

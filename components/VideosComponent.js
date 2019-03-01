@@ -14,7 +14,6 @@ import Touch from 'react-native-touch';
 
 export default class VideosComponent extends PureComponent {
   _renderItem = ({ item, index }) => {
-    console.log(item, "&&&&&&&&&&&&&&&&&&&&&&");
     let image = item.image == undefined ? "" : item.image.secure_url;
     return (
       <View
