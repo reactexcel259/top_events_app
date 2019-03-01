@@ -21,7 +21,7 @@ import CustomeButton from '../button'
 export default class Locations extends React.Component {
   
   render() {
-    const { onPress } = this.props
+    const { onPress, onSearchChange, search } = this.props
     return (
       <LinearGradient
           style={styles.mainContainer}
@@ -36,7 +36,9 @@ export default class Locations extends React.Component {
         <View style={styles.searchContainer} >
           <FontAwesome name="search" size={20} style={{ margin: 7,color: 'gray' }} />
           <TextInput
+            value={search}
             style={styles.searchBox}
+            onChangeText={(text) => onSearchChange(text)}
             placeholder="Search city"
           />
         </View>
