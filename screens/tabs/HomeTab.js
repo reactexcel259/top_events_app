@@ -72,15 +72,6 @@ class HomeTab extends Component {
   }
 
     return(
-<<<<<<< HEAD
-            <Events
-              key={index}
-              eventData={item[Object.keys(item).join()].data}
-              categoryId={Object.keys(item).join()}
-              backgroundColor={backgroundColor}
-              onViewAll={(key)=>this.onViewAll(key)}
-            />
-=======
                     <Events
                       key={index}
                       eventData={item[Object.keys(item).join()].data}
@@ -89,7 +80,6 @@ class HomeTab extends Component {
                       onViewAll={(key)=>this.onViewAll(key)}
                       onEventDescription={(item)=>this.onEventDescription(item)}
                     />
->>>>>>> 05d6a5635766a526d29aa1245acd8a3b668194d1
 
     )
   }
