@@ -17,10 +17,23 @@ const image = [
   },
   {
     image: "../assets/images/photo2.png"
+  },
+  {
+    image: "../assets/images/photo2.png"
+  },
+  {
+    image: "../assets/images/photo2.png"
+  },
+  {
+    image: "../assets/images/photo2.png"
   }
 ]
 
 export default class HomePageModal extends Component {
+  constructor(props){
+    super(props);
+    this.state={isOpen:true}
+  }
   render() {
     const data = image.map((data, i) => {
       return (
@@ -39,12 +52,12 @@ export default class HomePageModal extends Component {
         backdropPressToClose={true}
         swipeToClose={false}
         style={styles.modal}
-        isOpen={true}
+        isOpen={this.state.isOpen}
         position={"bottom"}
       >
         <View style={{backgroundColor:'transparent'}}>
           <View style={{backgroundColor:'transparent',paddingBottom:20}}>
-            <EvilIcons name='close' size={40} color="#fff"/>
+            <EvilIcons onPress={()=>this.setState({isOpen:false})} name='close' size={40} color="#fff"/>
           </View>
           <View style={{backgroundColor:'#fff',borderRadius:12}}>
           <LinearGradient
