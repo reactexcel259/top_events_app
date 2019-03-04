@@ -59,3 +59,26 @@ export function* getUserDataRequest(action) {
      yield put(actions.getUserDataError(e));
    }
 }
+
+export function* userPasswordRequest(action) { 
+  let token = action.payload;
+  let header = {
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization':token
+    }
+  }
+  console.log(action,'check',header)
+  try {
+     const response = yield call(fireAjax, "PUT", "/user/updatePassword",header,'');
+    console.log(response.data,'response')
+     if (response.data.success) {
+        yield put(actions.userPasswordSuccess(response.data));
+     } else {
+       yield put(actions.userPasswordError(response.data));      
+     }
+   } catch (e) {
+     console.log(e,'error')
+     yield put(actions.userPasswordError(e));
+   }
+}

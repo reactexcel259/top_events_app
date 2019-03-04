@@ -65,28 +65,31 @@ class MyAccountScreen extends React.Component {
        
         <View style={{flex:1}} >
        
-          <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
-            <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
-              <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/user.png')}  />
-              <Text style={{fontSize:17,marginLeft:20}} > Profile Settings </Text>
+          <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('ProfileSetting') }} >
+            <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
+                <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
+                  <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/user.png')}  />
+                  <Text style={{fontSize:17,marginLeft:20}} > Profile Settings </Text>
+                </View>
+                <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
+                    <FontAwesome 
+                    name={'angle-right'} size={32} color="lightgray" />
+                </View>
             </View>
-            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
-                <FontAwesome 
-                name={'angle-right'} size={32} color="lightgray" />
-            </View>
-          </View>
-
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('AccountSetting') }} >
           <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15,marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
             <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
               <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/settings.png')}  />
-              <Text style={{fontSize:17,marginLeft:20}} > Accont settings </Text>
+              <Text style={{fontSize:17,marginLeft:20}} > Account settings </Text>
             </View>
             <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
                 <FontAwesome 
                 name={'angle-right'} size={32} color="lightgray" />
             </View>
           </View>
-
+          </TouchableOpacity>          
+          <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('ManageNotification') }} >
           <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15,marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
             <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
               <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/bell.png')}  />
@@ -97,7 +100,7 @@ class MyAccountScreen extends React.Component {
                 name={'angle-right'} size={32} color="lightgray" />
             </View>
           </View>
-       
+          </TouchableOpacity>       
         </View>
 
         <View style={styles.miniContainer} >

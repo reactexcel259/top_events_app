@@ -114,7 +114,7 @@ class HomeTab extends Component {
                   <View style={styles.secondText}>
                     <Text style={styles.kingstonText}>Kingston</Text>
                     <View>
-                      <Text style={styles.changText}>Chang</Text>
+                      <Text style={styles.changText}>Change</Text>
                     </View>
                   </View>
                 </View>
