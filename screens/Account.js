@@ -27,7 +27,9 @@ class MyAccountScreen extends React.Component {
   };
   constructor(props){
     super(props)
-   
+    this.state = {
+      userData: {}
+    }
   }
 
   logout = async () => {
@@ -35,7 +37,16 @@ class MyAccountScreen extends React.Component {
     this.props.navigation.popToTop();
   }
 
+  componentWillMount() {
+    const { user } = this.props;
+    this.setState({
+      userData: user.user.data.data
+    })
+  }
+
   render() {
+    const { userData } = this.state;
+    console.log(userData,'aaa')
     return (
       <View style={styles.mainContainer}>
         <View style={{flex:1,height:Layout.window.height * 0.3,borderBottomLeftRadius:40,borderBottomRightRadius:40}} >
@@ -132,7 +143,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-      state: state,
+      user: state.user,
   }
 }
 const mapDispatchToProps = dispatch => 

@@ -37,10 +37,10 @@ class HomeTab extends Component {
 
   async componentDidUpdate() {
     const { getCategoryData ,getStateAndCityData, user} = this.props;
-    // if(user.user.data.length == 0 ){
-    //   let token  = user.user.status.token;
-    //   this.props.getUserDataRequest(token);
-    // }
+    if(user.user.data.length == 0 ){
+      let token  = user.user.status.token;
+      this.props.getUserDataRequest(token);
+    }
     if (getCategoryData.isSuccess && !this.state.isCategoryId) {
       getCategoryData.status.data.forEach(eventId => {
         let id = eventId._id;
