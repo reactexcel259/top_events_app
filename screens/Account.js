@@ -46,7 +46,6 @@ class MyAccountScreen extends React.Component {
 
   render() {
     const { userData } = this.state;
-    console.log(userData,'aaa')
     return (
       <View style={styles.mainContainer}>
         <View style={{flex:1,height:Layout.window.height * 0.3,borderBottomLeftRadius:40,borderBottomRightRadius:40}} >
@@ -116,7 +115,7 @@ class MyAccountScreen extends React.Component {
 
         <View style={styles.miniContainer} >
             <View style={{alignItems:'center',marginTop:10}} >
-              <Text style={{color:'lightgray',textAlign:'center'}} > Full Name </Text>
+              <Text style={{color:'lightgray',textAlign:'center'}} > {userData.name['first']} {userData.name['last']} </Text>
             </View>
         </View>
 
