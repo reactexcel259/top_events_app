@@ -36,9 +36,9 @@ class HomeTab extends Component {
 
   async componentDidUpdate() {
     const { getCategoryData ,getStateAndCityData, user} = this.props;
-    // console.log(this.props)
     // if(user.user.data.length == 0 ){
-    //   this.props.getUserDataRequest({token:user.user.status.token});
+    //   let token  = user.user.status.token;
+    //   this.props.getUserDataRequest(token);
     // }
     if (getCategoryData.isSuccess && !this.state.isCategoryId) {
       getCategoryData.status.data.forEach(eventId => {
@@ -50,7 +50,7 @@ class HomeTab extends Component {
     }
     if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId) {
       this.props.getStateAndCityEvent(
-        getStateAndCityData.status.data[0].cities[0]._id
+        getStateAndCityData.status.data[0]._id
       );
       this.setState({ isStateAndCityId: true });
     }

@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     position:'absolute',
     height:Layout.window.height * 0.52,
     width:Layout.window.width * 0.95,
-    top:Layout.window.height - 450,
+    top:Layout.window.height * 0.38,
     marginLeft:10,
     backgroundColor:'white',
     borderRadius:10,

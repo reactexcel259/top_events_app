@@ -41,19 +41,19 @@ class MyAccountScreen extends React.Component {
         <View style={{flex:1,height:Layout.window.height * 0.3,borderBottomLeftRadius:40,borderBottomRightRadius:40}} >
           <LinearGradient
             colors={['#FF6CC9','#8559F0']}
-            style={{ height:Layout.window.height * 0.3 ,justifyContent:'center',borderBottomLeftRadius:40,borderBottomRightRadius:40}}
+            style={{ height:Layout.window.height * 0.35 ,justifyContent:'center',borderBottomLeftRadius:40,borderBottomRightRadius:40}}
             start={[0, 0]}
             end={[1, 0]}
           >
-            <View style={{alignItems:'center'}} >
+            <View style={{alignItems:'center',marginTop:30}} >
               <Text style={{color:'white',fontSize:20,fontWeight:'600'}} > Account </Text>
             </View>
-            <View style={{alignItems:'flex-end',marginRight:10}} >
+            <View style={{alignItems:'flex-end',marginRight:10,marginTop:-10}} >
               <TouchableOpacity onPress={this.logout} >
                 <Text style={{color:'white',fontSize:16}} > Log out </Text>
               </TouchableOpacity>
             </View>        
-            <View style={{alignItems:'center',marginTop:30}} >
+            <View style={{alignItems:'center',marginTop:30,marginBottom:20}} >
               <FontAwesome
               name="user-circle"
               color="white"
@@ -65,7 +65,7 @@ class MyAccountScreen extends React.Component {
        
         <View style={{flex:1}} >
        
-          <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15,marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
+          <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
             <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
               <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/user.png')}  />
               <Text style={{fontSize:17,marginLeft:20}} > Profile Settings </Text>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     position:'absolute',
     height:Layout.window.height * 0.070,
     width:Layout.window.width * 0.75,
-    top:Layout.window.height - 515,
+    top:Layout.window.height *0.32,
     marginLeft:50,
     backgroundColor:'white',
     borderRadius:50,

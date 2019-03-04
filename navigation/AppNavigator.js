@@ -11,7 +11,11 @@ import CityEventDescription from '../screens/CityEventDescription';
 import TabNavigation from './BottomTabNavigation';
 import Card from '../components/card';
 import ViewAllCard from '../screens/ViewAllCard';
+import ProfileSettingScreen from '../screens/ProfileSetting';
+
+
 export default createAppContainer(createStackNavigator({
+  // ProfileSetting: ProfileSettingScreen,
   Home: HomeScreen,
   HomeTab:TabNavigation,
   SignUpScreen:SignUpScreen,

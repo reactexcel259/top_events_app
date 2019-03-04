@@ -39,21 +39,23 @@ export function* getLoginRequest(action) {
 }
 
 export function* getUserDataRequest(action) { 
-  let token = action.payload.token;
+  let token = action.payload;
   let header = {
     headers: {
       'Authorization':token
     }
   }
+  console.log(action,'check',header)
   try {
-     const response = yield call(fireAjax, "POST", "/social/login",header,);
-  
+     const response = yield call(fireAjax, "POST", "/social/login",header,'');
+    console.log(response.data,'response')
      if (response.data.success) {
         yield put(actions.getUserDataSuccess(response.data));
      } else {
        yield put(actions.getUserDataError(response.data));      
      }
    } catch (e) {
+     console.log(e,'error')
      yield put(actions.getUserDataError(e));
    }
 }

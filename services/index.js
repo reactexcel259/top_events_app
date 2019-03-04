@@ -16,9 +16,9 @@ export default function fireAjax(method, URL, headers, data) {
     };
   }
   if (method === "GET") {
-    return axios.get(url , config,data);
+    return axios.get(url ,config,data);
   } else if (method === "POST") {
-    return axios.post(url, data, config);
+    return axios.post(url,data, config);
   } else if (method === "PUT") {
     return axios.put(url, data, config);
   }
