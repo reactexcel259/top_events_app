@@ -17,7 +17,7 @@ import CheckIn from '../screens/CheckIn';
 
 export default createAppContainer(createStackNavigator({
   // ProfileSetting: ProfileSettingScreen,
-  CheckIn:CheckIn,
+  // CheckIn:CheckIn,
   Home: HomeScreen,
   HomeTab:TabNavigation,
   SignUpScreen:SignUpScreen,

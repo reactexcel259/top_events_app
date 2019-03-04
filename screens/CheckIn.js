@@ -1,15 +1,33 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Image, TextInput } from "react-native";
+import { Text, View, StyleSheet, Image, TextInput,FlatList } from "react-native";
 import { LinearGradient } from "expo";
 import Layout from "../constants/Layout";
 import Touch from "react-native-touch";
 
 export default class CheckIn extends Component {
+
+    constructor(props){
+        super(props);
+        this.state={addedImage:[]}
+    }
+
   onAddPhoto = async () => {
-    await Expo.ImagePicker.launchImageLibraryAsync();
+      console.log('ggggggg');
+      let res = await Expo.ImagePicker.launchImageLibraryAsync();
+      console.log(res ,'lllllllllll');
+//    this.setState({addedImage:[...this.state.addedImage,imagePath.uri]}) 
   };
 
+  _renderItem=({item,index})=>{
+    return(
+        <View style={[styles.addedimageWrapper,{marginRight:index == 4 ? 28 :7}]}>
+            <Image style={{width:"100%",height:"100%"}} resizeMode='cover' source={require('../assets/images/photo2.png')} />
+        </View>
+    )
+  }
   render() {
+      console.log(this.state.addedImage ,'llllllll');
+      
     return (
       <View>
         <LinearGradient
@@ -28,13 +46,13 @@ export default class CheckIn extends Component {
             />
           </View>
         </LinearGradient>
-        <View style={styles.bottomContentWrapper}>
+        {/* <View style={styles.bottomContentWrapper}> */}
           <View style={{ flexDirection: "column" }}>
             <View style={styles.inputView}>
               <TextInput placeholder="Add your message here" />
             </View>
             <View style={styles.addphotoView}>
-              <Touch onPress={() => this.onAddPhoto()}>
+              <Touch onPress={this.onAddPhoto}>
                 <View style={styles.addimageView}>
                   <Image
                     style={styles.addImage}
@@ -48,6 +66,15 @@ export default class CheckIn extends Component {
               </View>
             </View>
           </View>
+              <View style={styles.addedImageView}>
+                    <FlatList
+                    style={{paddingLeft:15}}
+                    data={[1,2,3,4,5]}
+                    keyExtractor={(index,item)=>(item)}
+                    renderItem={this._renderItem}
+                    horizontal={true}
+                    />
+              </View>
           <View style={styles.buttonView}>
             <LinearGradient
               start={{ x: 0, y: 1 }}
@@ -61,7 +88,7 @@ export default class CheckIn extends Component {
               <Text style={styles.cancelText}>Cancel</Text>
             </View>
           </View>
-        </View>
+        {/* </View> */}
       </View>
     );
   }
@@ -94,8 +121,7 @@ const styles = StyleSheet.create({
   addphotoView: {
     flexDirection: "row",
     alignItems: "center",
-    borderWidth:1,
-    height:200
+    // height:100
   },
   submitButton: {
     width: Layout.window.width / 1.6,
@@ -104,7 +130,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 30,
-    marginBottom: 50
+    marginBottom: 40
   },
   buttonView: {
     flexDirection: "column",
@@ -119,7 +145,8 @@ const styles = StyleSheet.create({
     paddingLeft: 15
   },
   inputView: {
-    marginBottom: 20
+    marginBottom: 20,
+    marginTop:60
   },
   addphotoTextView: {
     marginLeft: 15
@@ -143,5 +170,12 @@ const styles = StyleSheet.create({
   addImage: {
     width: "100%",
     height: "100%"
+  },
+  addedImageView:{
+      height:130,
+  },
+  addedimageWrapper:{
+      width:130,
+      height:130
   }
 });
