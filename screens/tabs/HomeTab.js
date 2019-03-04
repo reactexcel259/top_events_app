@@ -33,7 +33,6 @@ class HomeTab extends Component {
 
   async componentDidMount() {
     const getInterest =await getItem("user_info")
-    console.log( getInterest,'events'); 
     // await this.props.getCategory();
     getInterest.interest.forEach(eventId => {
       let id = eventId._id;
@@ -158,7 +157,6 @@ class HomeTab extends Component {
                 // events.map((event, index) => {
                 //   let cetegoryId;
                 //   let backgroundColor;
-                //   console.log(event, "OOOOOOOOOOOO");
                 //   if (Object.keys(event).join() === "shopping") {
                 //     backgroundColor = "#8559F0";
                 //   } else if (Object.keys(event).join() === "sport") {

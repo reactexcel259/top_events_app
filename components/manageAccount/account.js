@@ -17,7 +17,6 @@ import CustomeButton from '../button';
 export default class Account extends React.Component {
   render() {
     const { title, email, newPassword, newEmail, onChange, confirmPassword, buttonText, buttonPress, type } = this.props
-    console.log(this.props)
     return (
       <View style={{flex:1,justifyContent:'space-between',backgroundColor:'white',borderRadius:10,marginLeft:10,marginRight:10}} >
         <View>

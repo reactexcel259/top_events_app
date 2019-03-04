@@ -39,14 +39,12 @@ class ChangePassword extends React.Component {
 
   componentWillMount() {
     const { navigation } = this.props
-    console.log(navigation,'check ')
     this.setState({
       pageType: navigation.state.params.pageType
     })
   }
   componentWillReceiveProps(nextProps){
     const { navigation } = this.props
-    console.log(navigation,'check ')
     this.setState({
       pageType: navigation.state.params.pageType
     })
