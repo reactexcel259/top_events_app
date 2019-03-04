@@ -20,6 +20,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-autocomplete-input": "^3.6.0",
     "react-native-get-location": "^1.1.2",
+    "react-native-modalbox": "^1.7.1",
     "react-native-snap-carousel": "^3.7.5",
     "react-native-touch": "0.0.2",
     "react-navigation": "^3.0.9",
