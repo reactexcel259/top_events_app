@@ -21,8 +21,6 @@ export default class Intrest extends React.Component {
   
   render() {
     const {  onPress,id, data, category } = this.props
-      console.log(this.props,"checkthisprops");
-      
       return (
       // <View  >
         <LinearGradient

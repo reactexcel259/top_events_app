@@ -16,6 +16,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "android": {
+      "package": "com.TopEventsinJamaica",
+      "permissions" : [
+        "ACCESS_FINE_LOCATION",
+        "READ_EXTERNAL_STORAGE",
+        "MANAGE_DOCUMENTS",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

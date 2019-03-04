@@ -13,8 +13,8 @@ import Card from '../components/card';
 import ViewAllCard from '../screens/ViewAllCard';
 export default createAppContainer(createStackNavigator({
   Home: HomeScreen,
-  SignUpScreen:SignUpScreen,
   HomeTab:TabNavigation,
+  SignUpScreen:SignUpScreen,
   CityEventDescription:CityEventDescription,
   setup: SetupScreen,
   permission: PermissionScreen,
