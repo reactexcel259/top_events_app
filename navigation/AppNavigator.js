@@ -12,10 +12,12 @@ import TabNavigation from './BottomTabNavigation';
 import Card from '../components/card';
 import ViewAllCard from '../screens/ViewAllCard';
 import ProfileSettingScreen from '../screens/ProfileSetting';
+import CheckIn from '../screens/CheckIn';
 
 
 export default createAppContainer(createStackNavigator({
   // ProfileSetting: ProfileSettingScreen,
+  CheckIn:CheckIn,
   Home: HomeScreen,
   HomeTab:TabNavigation,
   SignUpScreen:SignUpScreen,
