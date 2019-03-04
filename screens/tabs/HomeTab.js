@@ -17,6 +17,7 @@ import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAnd
 import Touch from 'react-native-touch';
 import Layout from "../../constants/Layout";
 import HomePageModal from '../../components/HomePageModal';
+import {getItem} from '../../services/storage';
 
 class HomeTab extends Component {
   static navigationOptions = {
@@ -31,24 +32,31 @@ class HomeTab extends Component {
   }
 
   async componentDidMount() {
-    await this.props.getCategory();
+    const getInterest =await getItem("user_info")
+    console.log( getInterest,'events'); 
+    // await this.props.getCategory();
+    getInterest.interest.forEach(eventId => {
+      let id = eventId._id;
+        let key = eventId.key;
+        this.props.getEvent({ id, key });
+    })
     await this.props.getStateAndCity();
   }
 
   async componentDidUpdate() {
     const { getCategoryData ,getStateAndCityData, user} = this.props;
-    // if(user.user.data.length == 0 ){
-    //   let token  = user.user.status.token;
-    //   this.props.getUserDataRequest(token);
-    // }
-    if (getCategoryData.isSuccess && !this.state.isCategoryId) {
-      getCategoryData.status.data.forEach(eventId => {
-        let id = eventId._id;
-        let key = eventId.key;
-        this.props.getEvent({ id, key });
-      });
-      this.setState({ isCategoryId: true });
+    if(user.user.data.length == 0 ){
+      let token  = user.user.status.token;
+      this.props.getUserDataRequest(token);
     }
+    // if (getCategoryData.isSuccess && !this.state.isCategoryId) {
+    //   getCategoryData.status.data.forEach(eventId => {
+    //     let id = eventId._id;
+    //     let key = eventId.key;
+    //     this.props.getEvent({ id, key });
+    //   });
+    //   this.setState({ isCategoryId: true });
+    // }
     if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId) {
       this.props.getStateAndCityEvent(
         getStateAndCityData.status.data[0]._id
@@ -98,13 +106,14 @@ class HomeTab extends Component {
   _keyExtractor = (item, index) => (item, index);
 
   render() {
+    
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const cityEvents = this.props.getStateAndCityEventData.status;
     return (
       <View style={styles.wrapper}>
         <CustomHeader isCenter={true} centerImage={true} centerTitle={true} />
-        {eventsLength == 6 && cityEvents !== undefined ? (
+        {cityEvents !== undefined ? (
           <ScrollView>
             <HomePageModal />
             <View style={styles.mainWrapper}>
@@ -116,11 +125,11 @@ class HomeTab extends Component {
                   <View style={styles.secondText}>
                     <Text style={styles.kingstonText}>Kingston</Text>
                     <View>
-                      <Text style={styles.changText}>Chang</Text>
+                      <Text style={styles.changText}>Change</Text>
                     </View>
                   </View>
                 </View>
-                {cityEvents !== undefined && (
+                {(eventsLength >0 && cityEvents !== undefined) && (
                   <VideosComponent
                     cityData={cityEvents}
                     onEventDescription={item => this.onEventDescription(item)}

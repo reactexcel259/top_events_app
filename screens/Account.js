@@ -27,7 +27,9 @@ class MyAccountScreen extends React.Component {
   };
   constructor(props){
     super(props)
-   
+    this.state = {
+      userData: {}
+    }
   }
 
   logout = async () => {
@@ -35,7 +37,15 @@ class MyAccountScreen extends React.Component {
     this.props.navigation.popToTop();
   }
 
+  componentWillMount() {
+    const { user } = this.props;
+    this.setState({
+      userData: user.user.data.data
+    })
+  }
+
   render() {
+    const { userData } = this.state;
     return (
       <View style={styles.mainContainer}>
         <View style={{flex:1,height:Layout.window.height * 0.3,borderBottomLeftRadius:40,borderBottomRightRadius:40}} >
@@ -65,28 +75,31 @@ class MyAccountScreen extends React.Component {
        
         <View style={{flex:1}} >
        
-          <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
-            <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
-              <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/user.png')}  />
-              <Text style={{fontSize:17,marginLeft:20}} > Profile Settings </Text>
+          <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('ProfileSetting') }} >
+            <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
+                <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
+                  <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/user.png')}  />
+                  <Text style={{fontSize:17,marginLeft:20}} > Profile Settings </Text>
+                </View>
+                <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
+                    <FontAwesome 
+                    name={'angle-right'} size={32} color="lightgray" />
+                </View>
             </View>
-            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
-                <FontAwesome 
-                name={'angle-right'} size={32} color="lightgray" />
-            </View>
-          </View>
-
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('AccountSetting') }} >
           <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15,marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
             <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
               <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/settings.png')}  />
-              <Text style={{fontSize:17,marginLeft:20}} > Accont settings </Text>
+              <Text style={{fontSize:17,marginLeft:20}} > Account settings </Text>
             </View>
             <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
                 <FontAwesome 
                 name={'angle-right'} size={32} color="lightgray" />
             </View>
           </View>
-
+          </TouchableOpacity>          
+          <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('ManageNotification') }} >
           <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15,marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
             <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
               <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/bell.png')}  />
@@ -97,12 +110,12 @@ class MyAccountScreen extends React.Component {
                 name={'angle-right'} size={32} color="lightgray" />
             </View>
           </View>
-       
+          </TouchableOpacity>       
         </View>
 
         <View style={styles.miniContainer} >
             <View style={{alignItems:'center',marginTop:10}} >
-              <Text style={{color:'lightgray',textAlign:'center'}} > Full Name </Text>
+              {/* <Text style={{color:'lightgray',textAlign:'center'}} > {userData.name['first']} {userData.name['last']} </Text> */}
             </View>
         </View>
 
@@ -129,7 +142,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-      state: state,
+      user: state.user,
   }
 }
 const mapDispatchToProps = dispatch => 

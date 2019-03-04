@@ -45,6 +45,7 @@ class ProfileSettingScreen extends React.Component {
 
   goBack = () => {
     const { navigation } = this.props;
+    this.props.navigation.goBack();
   }
 
   selectInterests = (id) => {
@@ -60,11 +61,11 @@ class ProfileSettingScreen extends React.Component {
     }
     this.setState({interest:int})
   }
-  
+
   render() {
     const { getCategoryData } = this.props;
     const { interest } = this.state;
-    console.log(interest)
+    // console.log(interest)
     return (
       <View style={styles.mainContainer}>
         <CustomHeader
@@ -75,19 +76,69 @@ class ProfileSettingScreen extends React.Component {
           centerTitle={'Profile settings'}
         />    
 
-        <View style={{flex:1,backgroundColor:'lightgray'}} >
-        
-        {
-          interest &&
-          <Intrest
-            {...this.state}
-            {...this.props}
-            category={getCategoryData}
-            data={interest}
-            selectInterests={(id)=>{this.selectInterests(id)}}
-            
-          />
-        }
+        <View style={{flex:1,backgroundColor:'black'}} >
+        <View style={{backgroundColor:'lightgray',height:Layout.window.height * 0.40}} >
+          <View style={{height:Layout.window.height * 0.08,backgroundColor:'lightgray',justifyContent:'center'}} >
+            <Text style={{margin:10,fontWeight:'500'}} > Interest </Text>
+          </View>
+          {
+            interest &&
+            <View style={styles.intrestContainer} >
+            <View style={{flexDirection:'row',flexWrap:'wrap',margin:10}} >
+              <FlatList
+                  data={interest}
+                  extraData={this.state}
+                  keyExtractor={(item, index) => item.name}
+                  numColumns={3}
+                  style={styles.flatList}
+                  renderItem={({item})=>{
+                    let selected = item.selected !== undefined ? item.selected : false;
+                    return(
+                      <TouchableOpacity onPress={()=>{this.selectInterests(item._id)}}>
+                          <LinearGradient
+                            colors={selected?['#FF6CC9','#8559F0']:['rgba(255,255,255,0)','rgba(255,255,255,0)']}
+                            style={{ flex: 1 }}
+                            start={[0, 0]}
+                            end={[1, 0]}
+                            style={styles.bubbleContainer}
+                            >
+                            <Text style={[styles.bubbleText,selected?{color:'black'}:{color:'lightgray'}]} > {item.name} </Text>
+                          </LinearGradient> 
+                      </TouchableOpacity>
+                    )
+                  }}
+                  />
+            </View>
+          </View>
+          }
+        </View>
+
+        <View style={{backgroundColor:'lightgray',height:Layout.window.height * 0.20}} >
+          <View style={{height:Layout.window.height * 0.08,backgroundColor:'lightgray',justifyContent:'center'}} >
+            <Text style={{margin:10,fontWeight:'500'}} > Age </Text>
+          </View>
+            <View style={styles.intrestContainer} >
+            <View style={{flexDirection:'row',flexWrap:'wrap',margin:10}} >                                
+            {/* age */}
+            </View>
+          </View>
+        </View>
+
+        <View style={{backgroundColor:'lightgray',flex:1}} >
+          <View style={{height:Layout.window.height * 0.08,backgroundColor:'lightgray',justifyContent:'center'}} >
+            <Text style={{margin:10,fontWeight:'500'}} > Location </Text>
+          </View>
+            <View style={styles.intrestContainer} >
+            <View style={{flexDirection:'row',flexWrap:'wrap',margin:10}} >
+              <View style={styles.secondText}>
+                <Text style={styles.kingstonText}>Kingston</Text>
+                <View>
+                  <Text style={styles.changText}>Change</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
           
         </View>
       </View>
@@ -97,10 +148,26 @@ class ProfileSettingScreen extends React.Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor:'white'
+    backgroundColor:'lightgray'
+  },
+  secondText: {
+    flex:1,
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  kingstonText: {
+    fontWeight: "bold",
+    fontSize: 20,
+    marginBottom: 5
+  },
+  changText: {
+    color: "#FF6CC9"
   },
   flatList:{
     flexDirection: 'column',
+  },
+  ageFlatList:{
+    flexDirection: 'row',
   },
   bubbleText:{
     alignSelf:'center',
@@ -110,8 +177,10 @@ const styles = StyleSheet.create({
     fontWeight:'900'
   },
   intrestContainer:{
-    margin:10,
-    justifyContent:'space-between'
+    // margin:10,
+    flex:1,
+    justifyContent:'space-between',
+    backgroundColor:'white'
   },
   bubbleContainer:{
     borderWidth:1,

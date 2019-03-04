@@ -41,21 +41,83 @@ export function* getLoginRequest(action) {
 export function* getUserDataRequest(action) { 
   let token = action.payload;
   let header = {
-    headers: {
-      'Authorization':token
-    }
+      "Authorization":token
   }
-  console.log(action,'check',header)
   try {
-     const response = yield call(fireAjax, "POST", "/social/login",header,'');
-    console.log(response.data,'response')
+     const response = yield call(fireAjax, "GET", "/user",header,'');
      if (response.data.success) {
         yield put(actions.getUserDataSuccess(response.data));
      } else {
        yield put(actions.getUserDataError(response.data));      
      }
    } catch (e) {
-     console.log(e,'error')
      yield put(actions.getUserDataError(e));
+   }
+}
+
+export function* userPasswordRequest(action) { 
+  let token = action.payload;
+  let header = {
+      "Content-Type": "application/json",
+      'Authorization':token
+  }
+  console.log(action,'check',header)
+  try {
+     const response = yield call(fireAjax, "PUT", "/user/updatePassword",header,'');
+    console.log(response.data,'response')
+     if (response.data.success) {
+        yield put(actions.userPasswordSuccess(response.data));
+     } else {
+       yield put(actions.userPasswordError(response.data));      
+     }
+   } catch (e) {
+     console.log(e,'error')
+     yield put(actions.userPasswordError(e));
+   }
+}
+
+export function* userDataRequest(action) { 
+  let token = action.payload.token;
+  let id = action.payload.id;
+  let header = {
+      "Content-Type": "application/json",
+      'Authorization':token
+  }
+  console.log(action,'check',header)
+  try {
+     const response = yield call(fireAjax, "PUT", `/user/updatePassword/${id}`,header,{
+       ...action.payload.data
+     });
+    console.log(response.data,'response')
+     if (response.data.success) {
+        yield put(actions.userDataSuccess(response.data));
+        yield put(actions.getUserDataRequest(token));
+     } else {
+       yield put(actions.userDataError(response.data));      
+     }
+   } catch (e) {
+     console.log(e,'error')
+     yield put(actions.userDataError(e));
+   }
+}
+
+export function* userForgetPasswordRequest(action) { 
+  let token = action.payload.token;
+  let header = {
+      "Content-Type": "application/json",
+      'Authorization':token
+  }
+  console.log(action,'check',header)
+  try {
+     const response = yield call(fireAjax, "POST", `/forget/password`,header,'');
+    console.log(response.data,'response')
+     if (response.data.success) {
+        yield put(actions.userForgetPasswordSuccess(response.data));
+     } else {
+       yield put(actions.userForgetPasswordError(response.data));
+     }
+   } catch (e) {
+     console.log(e,'error')
+     yield put(actions.userForgetPasswordError(e));
    }
 }

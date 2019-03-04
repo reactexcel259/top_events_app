@@ -10,6 +10,8 @@ const initialState = {
    message: "",
    status:{},
    data:[],
+   passwordReset:{},
+   updateData:{},
  }
 };
 
@@ -57,6 +59,48 @@ const getRegisterSuccess = (state, action) =>
    }
  });
 
+ const userPasswordRequest = (state, action) =>
+ update(state, {
+   user: {
+     passwordReset: { $set: true },
+   }
+ });
+
+const userPasswordSuccess = (state, action) =>
+ update(state, {
+   user: {
+     passwordReset: { $set: action.payload }
+   }
+ });
+
+ const userPasswordError = (state, action) =>
+ update(state, {
+   user: {
+     passwordReset: { $set: action.payload }
+   }
+ });
+
+ const userDataRequest = (state, action) =>
+ update(state, {
+   user: {
+     updateData: { $set: true },
+   }
+ });
+
+const userDataSuccess = (state, action) =>
+ update(state, {
+   user: {
+     updateData: { $set: action.payload }
+   }
+ });
+
+ const userDataError = (state, action) =>
+ update(state, {
+   user: {
+    updateData: { $set: action.payload }
+   }
+ });
+
 export default handleActions(
  {
    [constants.GET_REGISTER_REQUEST]: getRegisterRequest,
@@ -66,6 +110,14 @@ export default handleActions(
    [constants.GET_LOGIN_REQUEST]: getRegisterRequest,
    [constants.GET_LOGIN_SUCCESS]: getRegisterSuccess,
    [constants.GET_LOGIN_ERROR]: getRegisterError,
+
+   [constants.USER_PASSWORD_REQUEST]: userPasswordRequest,
+   [constants.USER_PASSWORD_SUCCESS]: userPasswordSuccess,
+   [constants.USER_PASSWORD_ERROR]: userPasswordError,
+
+   [constants.USER_DATA_REQUEST]: userDataRequest,
+   [constants.USER_DATA_SUCCESS]: userDataSuccess,
+   [constants.USER_DATA_ERROR]: userDataError,
 
    [constants.GET_USER_DATA_SUCCESS]: getUserDataSuccess,
 

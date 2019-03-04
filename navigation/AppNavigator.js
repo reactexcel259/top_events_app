@@ -13,17 +13,24 @@ import Card from '../components/card';
 import ViewAllCard from '../screens/ViewAllCard';
 import ProfileSettingScreen from '../screens/ProfileSetting';
 import CheckIn from '../screens/CheckIn';
+import ChangePassword from '../screens/ChangePassword';
+import AccountSettingScreen from '../screens/AccountSetting';
+import ManageNotificationScreen from '../screens/ManageNotification';
 
 
 export default createAppContainer(createStackNavigator({
   // ProfileSetting: ProfileSettingScreen,
-  // CheckIn:CheckIn,
+  CheckIn:CheckIn,
   Home: HomeScreen,
   HomeTab:TabNavigation,
   SignUpScreen:SignUpScreen,
   CityEventDescription:CityEventDescription,
+  ChangePassword: ChangePassword,
   setup: SetupScreen,
   permission: PermissionScreen,
+  ProfileSetting: ProfileSettingScreen,
+  AccountSetting: AccountSettingScreen,
+  ManageNotification: ManageNotificationScreen,
 },
 {
   defaultNavigationOptions: {

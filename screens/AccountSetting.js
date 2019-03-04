@@ -31,6 +31,7 @@ class AccountSettingScreen extends React.Component {
 
   goBack = () => {
     const { navigation } = this.props;
+    this.props.navigation.goBack();    
   }
 
   render() {
@@ -44,8 +45,36 @@ class AccountSettingScreen extends React.Component {
           centerTitle={'Account settings'}
         />    
 
-        <View style={{flex:1,margin:20}} >
-          
+        <View style={{flex:1,marginTop:20}} >
+        <TouchableOpacity onPress={()=>{
+            this.props.navigation.navigate('ChangePassword',{pageType: 'changeEmail'})
+          }} >          
+          <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
+            <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
+              <Image style={{height:20,width:20}} mode='contain' source={require('../assets/images/email.png')}  />
+              <Text style={{fontSize:17,marginLeft:20}} > Update e-mail address </Text>
+            </View>
+            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
+                <FontAwesome 
+                name={'angle-right'} size={32} color="lightgray" />
+            </View>
+          </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>{
+            this.props.navigation.navigate('ChangePassword',{pageType: 'changePassword'})
+          }} >
+          <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
+            <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
+              <Image style={{height:20,width:16}} mode='contain' source={require('../assets/images/password.png')}  />
+              <Text style={{fontSize:17,marginLeft:20}} > Change password </Text>
+            </View>
+            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
+                <FontAwesome 
+                name={'angle-right'} size={32} color="lightgray" />
+            </View>
+          </View>
+          </TouchableOpacity>
+
         </View>
       </View>
     );

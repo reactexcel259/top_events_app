@@ -12,6 +12,21 @@ export const getLoginRequest=createAction(constants.GET_LOGIN_REQUEST);
 export const getLoginSuccess=createAction(constants.GET_LOGIN_SUCCESS);
 export const getLoginError=createAction(constants.GET_LOGIN_ERROR);
 
+//action for update user password
+export const userPasswordRequest=createAction(constants.USER_PASSWORD_REQUEST);
+export const userPasswordSuccess=createAction(constants.USER_PASSWORD_SUCCESS);
+export const userPasswordError=createAction(constants.USER_PASSWORD_ERROR);
+
+//action for update user data
+export const userDataRequest=createAction(constants.USER_DATA_REQUEST);
+export const userDataSuccess=createAction(constants.USER_DATA_SUCCESS);
+export const userDataError=createAction(constants.USER_DATA_ERROR);
+
+//action for forget password
+export const userForgetPasswordRequest=createAction(constants.USER_FORGET_PASSWORD_REQUEST);
+export const userForgetPasswordSuccess=createAction(constants.USER_FORGET_PASSWORD_SUCCESS);
+export const userForgetPasswordError=createAction(constants.USER_FORGET_PASSWORD_ERROR);
+
 //action for user data
 export const getUserDataRequest=createAction(constants.GET_USER_DATA_REQUEST);
 export const getUserDataSuccess=createAction(constants.GET_USER_DATA_SUCCESS);
