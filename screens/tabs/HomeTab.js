@@ -16,6 +16,7 @@ const { height, width } = Dimensions.get("window");
 import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAndCityEventRequest, getUserDataRequest} from "../../redux/action";
 import Touch from 'react-native-touch';
 import Layout from "../../constants/Layout";
+import HomePageModal from '../../components/HomePageModal';
 
 class HomeTab extends Component {
   static navigationOptions = {
@@ -105,6 +106,7 @@ class HomeTab extends Component {
         <CustomHeader isCenter={true} centerImage={true} centerTitle={true} />
         {eventsLength == 6 && cityEvents !== undefined ? (
           <ScrollView>
+            <HomePageModal />
             <View style={styles.mainWrapper}>
               <View style={styles.kingstoneView}>
                 <View style={styles.kingstoneTitle}>

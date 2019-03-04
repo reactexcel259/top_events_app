@@ -30,8 +30,9 @@ export default class Locations extends React.Component {
     return data.filter(city => city.name.search(regex) >= 0);
   }
   render() {
-    const { onPress, onSearchChange, search, stateAndCity, selected } = this.props
+    const { onPress, onSearchChange, search, stateAndCity, selected, onCancelPress } = this.props
     const films = this.findFilm(search);
+    let checkSelected = Object.keys(search).length ? selected  ? true : false : false;
     return (
       <LinearGradient
           style={styles.mainContainer}
@@ -42,17 +43,31 @@ export default class Locations extends React.Component {
         <View style={styles.headerContainer} >
           <Text style={styles.headerText} > Add Location </Text>
         </View>
-        <View style={styles.intrestContainer} >
-        <View style={styles.searchContainer} >
-          <FontAwesome name="search" size={20} style={{ margin: 7,color: 'gray' }} />
-              <TextInput
-                value={search}
-                style={styles.searchBox}
-                onChangeText={(text) => onSearchChange(text,true)}
-                placeholder="Search city"
-              />
+        {/* <View style={styles.intrestContainer} > */}
+        <View style={{flexDirection:'row', margin:20}}>
+          <View style={[Object.keys(search).length ? styles.searchPresent :styles.searchContainer]} >
+            <FontAwesome name="search" size={20} style={{ margin: 7,color: 'gray' }} />
+            <TextInput
+              value={search}
+              style={[Object.keys(search).length ? styles.searchBoxResults : styles.searchBox ]}
+              onChangeText={(text) => onSearchChange(text,true)}
+              placeholder="Search city"
+            />
         </View>
-        {films.length >= 1 && selected?
+        {Object.keys(search).length?
+            <View style={styles.buttonOuter}>
+              <TouchableOpacity style={styles.buttonContainer} onPress={onCancelPress}>
+                <Text style={styles.buttonText}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+            </View>
+              :null
+        }
+        </View>
+        {/* </View> */}
+        <View style={styles.underLine}/>
+        {films.length >= 1 &&  checkSelected?
           <FlatList
             data={films}
             keyExtractor={(item, index) => item._id}
@@ -78,7 +93,6 @@ export default class Locations extends React.Component {
               <Text style={{color:'white',fontSize:14, marginLeft:5}} > Use Current location </Text>
           </View>
         </TouchableOpacity>}
-        </View>
           <View style={{flex:1,justifyContent:'flex-end',alignItems:'center',marginBottom:50}} >
               <CustomeButton
                 buttonText={"Next"}
@@ -110,7 +124,8 @@ const styles = StyleSheet.create({
   },
   intrestContainer:{
     margin:20,
-    justifyContent:'space-between'
+    justifyContent:'space-between',
+    borderWidth:1
   },
 
   searchContainer:{
@@ -128,7 +143,7 @@ const styles = StyleSheet.create({
   },
   locationBox:{
     flexDirection:'row',
-    marginTop:20
+    margin:20
   },
   autoSerach:{
     // position:'absolute',
@@ -136,14 +151,45 @@ const styles = StyleSheet.create({
   suggestionContainer:{
     paddingTop:10,
     paddingBottom:10,
-    borderBottomWidth:1,
+    borderBottomWidth:0.3,
     borderBottomColor:'#dcdde1',
-    marginLeft:32,
-    marginRight:10,
+    marginLeft:52,
   },
   suggestionText:{
     color:'#dcdde1',
     paddingTop:5,
     paddingBottom:5
+  },
+  searchBoxResults:{
+    width:Layout.window.width * 0.60,
+    height:40,
+  },
+  searchPresent:{
+    flexDirection:'row',
+    borderRadius:5,
+    borderWidth:1,
+    borderColor:'#dcdde1',
+    backgroundColor:'#f5f6fa',
+    height:45,
+    alignItems:'center',
+    width:Layout.window.width * 0.70,
+  },
+  buttonContainer:{
+    width:Layout.window.width * 0.20,
+    justifyContent:'center',
+    alignItems:'center',
+    height:45,
+    zIndex:22222
+  },
+  buttonOuter:{
+    marginLeft:10
+  },
+  buttonText:{
+    color:'#f5f6fa'
+  },
+  underLine:{
+    borderBottomWidth:0.6,
+    marginTop:5,
+    borderBottomColor:'#f5f6fa'
   }
 });

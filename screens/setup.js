@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   Button,
+  Alert,
   ActivityIndicator,
 } from 'react-native';
 import { WebBrowser, LinearGradient, Location, Permissions, Constants,  } from 'expo';
@@ -66,18 +67,40 @@ class SetupScreen extends React.Component {
   }
 
   useCurrentLocation = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
+    const response = await Location.hasServicesEnabledAsync()
+    if (!response) {
       this.setState({
-        errorMessage: 'Permission to access location was denied',
+        mapError: true,
       });
+      Alert.alert(
+        'Location Permission Denied',
+        'Please turn on your device location, to access this service',
+        [
+          {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        {cancelable: false},
+      );
+    }else {
+      let { status,error } = await Permissions.askAsync(Permissions.LOCATION);
+      let location = await Location.getCurrentPositionAsync({enableHighAccuracy:true});
+      this.getGeoAddress(location.coords.latitude, location.coords.longitude);
+    }
+  };
+  findFilm(query) {
+    if (query === '') {
+      return [];
     }
 
-    let location = await Location.getCurrentPositionAsync({enableHighAccuracy:true});
-    this.getGeoAddress(location.coords.latitude, location.coords.longitude);
-  };
-  findSelectedId = () => {
+    const { data } = this.props.getStateAndCityData.status;
     
+    const regex = new RegExp(`${query.trim()}`, 'i');
+    return data.filter(city => city.name.search(regex) >= 0);
   }
   selectInterests = (id) => {
     let int = this.state.interest;
@@ -114,7 +137,12 @@ class SetupScreen extends React.Component {
           break;
       }
     }
-    
+    let result = this.findFilm(storableLocation.state);
+    if(result.length){
+      this.setState({search:result[0].name})
+    }else{
+      this.setState({search:this.props.getStateAndCityData.status.data[0].name})
+    }
   }
   onBackPress = () => {
     const { step } = this.state;
@@ -131,6 +159,9 @@ class SetupScreen extends React.Component {
       selected: val
     })
   }
+  onCancelPress = () => {
+    this.setState({search:'',selected:false})
+  }
 
   render() {
     const { step, interest, search } =this.state
@@ -142,7 +173,6 @@ class SetupScreen extends React.Component {
         <CustomHeader
           step={step}
           isLeft={true}
-          // headerColors={['#FF6CC9','#FF6CC9']}
           leftIcon={'angle-left'}
           leftPress={this.onBackPress}
         />
@@ -165,7 +195,8 @@ class SetupScreen extends React.Component {
                   stateAndCity={getStateAndCityData}
                   useCurrentLocation={()=>{this.useCurrentLocation()}}
                   onSearchChange={this.onSearchChange}
-                  onPress={()=>{ this.props.navigation.navigate('SignUpScreen') }}            
+                  onPress={()=>{ this.props.navigation.navigate('SignUpScreen') }}
+                  onCancelPress={this.onCancelPress}            
                 />
               }
        </View>
