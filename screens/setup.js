@@ -22,6 +22,7 @@ import Intrest from '../components/intro/intrest'
 import Locations from '../components/intro/location';
 import Interest from '../Josn/Index';
 import {getStateAndCityRequest, getCategoryRequest} from '../redux/action';
+import {setItem, getItem} from '../services/storage';
 
 
 class SetupScreen extends React.Component {
@@ -36,7 +37,8 @@ class SetupScreen extends React.Component {
       interest:[],
       location: null,
       search:'',
-      stateCity:[]
+      stateCity:[],
+      selectedInt:[],
     }
   }
   
@@ -52,9 +54,6 @@ class SetupScreen extends React.Component {
     await this.props.getCategory(); 
     await this.props.getStateAndCity();
     const {getStateAndCityData,getCategoryData} = this.props;
-    console.log(getStateAndCityData,getCategoryData,"getStateAndCityData,getCategoryData");
-    
-    // this.setState({interest:getCategoryData.status.data, stateCity:getStateAndCityData.status.data})
   }
   
   componentWillReceiveProps(nextProps){
@@ -76,7 +75,6 @@ class SetupScreen extends React.Component {
         'Location Permission Denied',
         'Please turn on your device location, to access this service',
         [
-          {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
           {
             text: 'Cancel',
             onPress: () => console.log('Cancel Pressed'),
@@ -104,12 +102,17 @@ class SetupScreen extends React.Component {
   }
   selectInterests = (id) => {
     let int = this.state.interest;
+    let selectedInt = this.state.selectedInt;
     for (let index = 0; index < int.length; index++) {
       if(int[index]._id === id){
         if(int[index] !== undefined && int[index].selected){
           int[index]["selected"] = false ;
+           let a = selectedInt.filter(person => person._id != id);
+           this.setState({selectedInt:a})
         }else {
           int[index]["selected"] = true ;
+          selectedInt.push(int[index])
+          this.setState({selectedInt:selectedInt})
         }
       }
     }
@@ -163,11 +166,40 @@ class SetupScreen extends React.Component {
     this.setState({search:'',selected:false})
   }
 
+  onNextPress = ( ) => {
+    const { step, selectedInt, search } = this.state;
+    if(selectedInt.length){
+      this.setState({step: step + 1,})
+    }else{
+      this.setState({selectedInt:this.props.getCategoryData.status.data, step: step + 1})
+    }
+  }
+  onPressLocation = () => {
+    const { search, selectedInt} = this.state;
+    if(!Object.keys(this.state.search).length){
+      Alert.alert(
+        'Add Location',
+        'Please add your location !!',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        {cancelable: false},
+      );
+    } else {
+      let filters = this.findFilm(search);
+      let results = filters.length ? filters[0] : this.props.getStateAndCityData.status.data[0];
+      setItem("user_info", JSON.stringify({ interest: selectedInt,location:results}));
+      this.props.navigation.navigate('SignUpScreen')
+    }
+  }
   render() {
     const { step, interest, search } =this.state
     const {getStateAndCityData,getCategoryData} = this.props;
-    
-    
     return (
       <View style={styles.container}>
         <CustomHeader
@@ -183,7 +215,7 @@ class SetupScreen extends React.Component {
                   {...this.state}
                   category={getCategoryData}
                   data={interest}
-                  onPress={()=>{ this.setState({step: step + 1}) }}
+                  onPress={()=>{this.onNextPress()}}
                   selectInterests={(id)=>{this.selectInterests(id)}}
                 />
               }
@@ -195,7 +227,7 @@ class SetupScreen extends React.Component {
                   stateAndCity={getStateAndCityData}
                   useCurrentLocation={()=>{this.useCurrentLocation()}}
                   onSearchChange={this.onSearchChange}
-                  onPress={()=>{ this.props.navigation.navigate('SignUpScreen') }}
+                  onPress={()=>{ this.onPressLocation() }}
                   onCancelPress={this.onCancelPress}            
                 />
               }
