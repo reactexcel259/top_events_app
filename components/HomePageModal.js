@@ -189,8 +189,8 @@ const styles = StyleSheet.create({
     fontSize:17
   },
   peopleLiked: {
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
     marginLeft: -15,
     borderRadius: 1,
     borderWidth: 2,
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     paddingBottom:27
   },
   checkedPeople:{
-    marginLeft:30,
+    marginLeft:10,
     
   }
   
