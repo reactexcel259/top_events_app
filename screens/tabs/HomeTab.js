@@ -75,6 +75,8 @@ class HomeTab extends Component {
     this.props.navigation.navigate("CityEventDescription", { item: item });
   };
   _renderItem = ({ item, index }) => {
+    console.log(item,"sectionlist");
+    
     let cetegoryId;
     let backgroundColor;
     if (Object.keys(item).join() === "shopping") {
@@ -102,7 +104,7 @@ class HomeTab extends Component {
       />
     );
   };
-  _keyExtractor = (item, index) => (item, index);
+  _keyExtractor = (item, index) => (index.toString());
 
   render() {
     
@@ -154,32 +156,6 @@ class HomeTab extends Component {
                     // extraData={events}
                   />
                 )
-                // events.map((event, index) => {
-                //   let cetegoryId;
-                //   let backgroundColor;
-                //   if (Object.keys(event).join() === "shopping") {
-                //     backgroundColor = "#8559F0";
-                //   } else if (Object.keys(event).join() === "sport") {
-                //     backgroundColor = "#FEEA3F";
-                //   } else if (Object.keys(event).join() === "food") {
-                //     backgroundColor = "#FF523E";
-                //   } else if (Object.keys(event).join() === "conferences") {
-                //     backgroundColor = "#00D5E4";
-                //   } else if (Object.keys(event).join() === "health_wellness") {
-                //     backgroundColor = "#00ED7C";
-                //   } else {
-                //     backgroundColor = "#FF6CC9";
-                //   }
-                //   return (
-                //     <Events
-                //       key={index}
-                //       eventData={event[Object.keys(event).join()].data}
-                //       categoryId={Object.keys(event).join()}
-                //       backgroundColor={backgroundColor}
-                //       onViewAll={(key)=>this.onViewAll(key)}
-                //     />
-                //   );
-                // })
                 }
               </View>
             </View>
