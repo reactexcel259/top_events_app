@@ -12,12 +12,15 @@ import TabNavigation from './BottomTabNavigation';
 import Card from '../components/card';
 import ViewAllCard from '../screens/ViewAllCard';
 import ProfileSettingScreen from '../screens/ProfileSetting';
-import ManageNotificationScreen from '../screens/ManageNotification';
-import AccountSettingScreen from '../screens/AccountSetting';
+import CheckIn from '../screens/CheckIn';
 import ChangePassword from '../screens/ChangePassword';
+import AccountSettingScreen from '../screens/AccountSetting';
+import ManageNotificationScreen from '../screens/ManageNotification';
 
 
 export default createAppContainer(createStackNavigator({
+  // ProfileSetting: ProfileSettingScreen,
+  CheckIn:CheckIn,
   Home: HomeScreen,
   HomeTab:TabNavigation,
   SignUpScreen:SignUpScreen,
