@@ -7,6 +7,8 @@ import {
   FlatList,
   TextInput,
   ToastAndroid,
+  Platform,
+  Alert,
   ActivityIndicator,
   TouchableOpacity
 } from "react-native";
@@ -19,6 +21,7 @@ import * as actions from '../redux/action';
 import CustomHeader from '../components/header';
 import CustomeButton from '../components/button';
 import Account from '../components/manageAccount/account';
+import { validateEmail } from '../services/validation';
 
 class ChangePassword extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -33,21 +36,80 @@ class ChangePassword extends React.Component {
       email:'',
       newPassword:'',
       confirmPassword:'',
-      newEmail: ''
+      newEmail: '',
+      loader:false,
+      loaderType:'',
     }
   }
 
   componentWillMount() {
-    const { navigation } = this.props
+    const { navigation, user } = this.props
     this.setState({
       pageType: navigation.state.params.pageType
     })
+    if(navigation.state.params.pageType == 'changeEmail'){
+        this.setState({
+          email: user.user.data.data.email
+        })
+      } else {
+        this.setState({
+          email:''
+        })
+      }
   }
   componentWillReceiveProps(nextProps){
-    const { navigation } = this.props
+    const { navigation, user } = nextProps;
+    const { loaderType } = this.state;
     this.setState({
       pageType: navigation.state.params.pageType
     })
+    if(user.user.passwordReset && user.user.passwordReset.success && loaderType == 'changePassword' ){
+      this.setState({
+        loader: false,
+        newPassword:'',
+        confirmPassword:'',
+        loaderType:''
+      })
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Your Profile is updated',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){
+        Alert.alert(
+          'Success',
+          'Your Profile is updated'
+        )
+      }
+      this.goBack()
+    }
+
+    if(user.user.updateData && user.user.updateData.success && loaderType == 'changeEmail' ){
+      this.setState({
+        loader: false,
+        newPassword:'',
+        confirmPassword:'',
+        loaderType:''
+      })
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Your Profile is updated',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){
+        Alert.alert(
+          'Success',
+          'Your Profile is updated'
+        )
+      }
+      this.goBack()
+    }
   }
 
   onChange = (text,field) => {
@@ -71,16 +133,91 @@ class ChangePassword extends React.Component {
   }
 
   onPress = () => {
-    const { pageType, email, newEmail, confirmPassword, password } = this.state;
+    const { pageType, email, newEmail, confirmPassword, newPassword } = this.state;
     const { user } = this.props;
-    console.log(user,'asd')
+    let token = user.user.status.token;
+    let id = user.user.data.data._id
     let payload;
     if(pageType == 'resetPassword'){
-
+      if(email == '' || !validateEmail(email) ){
+        if(Platform.OS == 'android') {
+          ToastAndroid.showWithGravityAndOffset(
+            'Please Enter Your Register Email',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else if( Platform.OS == 'ios'){
+          Alert.alert(
+            'Warning!',
+            'Please Enter Your Register Email'
+          )
+        }
+      } else {
+        payload = {
+          email
+        }
+        this.props.userForgetPasswordRequest(payload)
+        this.goBack()
+      }
     } else if (pageType == 'changePassword'){
-
+      if(newPassword === confirmPassword){
+        payload = {
+          token,
+          password:newPassword,
+        }
+        this.setState({
+          loader:true,
+          loaderType:'changePassword'
+        })
+        this.props.userPasswordRequest(payload);
+      } else {
+        if(Platform.OS == 'android') {
+          ToastAndroid.showWithGravityAndOffset(
+            'Password and confirm password is not match',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else if( Platform.OS == 'ios'){
+          Alert.alert(
+            'Warning!',
+            'Password and confirm password is not match'
+          )
+        }
+      }
     } else if(pageType == 'changeEmail'){
-      payload
+      if(newEmail == '' || !validateEmail(newEmail)){
+        if(Platform.OS == 'android') {
+          ToastAndroid.showWithGravityAndOffset(
+            'Please Enter Your Register Email',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else if( Platform.OS == 'ios'){
+          Alert.alert(
+            'Warning!',
+            'Please Enter Your Register Email'
+          )
+        }
+      } else {
+        payload = {
+          id,
+          token,
+          data:{
+            email: newEmail
+          }
+        }
+        this.setState({
+          loader:true,
+          loaderType:'changeEmail'
+        })
+        this.props.userDataRequest(payload)
+      }
     }
   }
 
@@ -95,7 +232,7 @@ class ChangePassword extends React.Component {
   }
 
   render() {
-    const { pageType ,email, newPassword, confirmPassword } = this.state;
+    const { pageType ,email, newPassword, confirmPassword, loader } = this.state;
     let pageTitle;
     let buttonTitle;
     if(pageType == 'changePassword'){
@@ -116,6 +253,15 @@ class ChangePassword extends React.Component {
           start={[1, 0]}
           end={[0, 1]}
         >
+
+          {
+            loader ?
+            <ActivityIndicator
+               size="large      " 
+               color="white" 
+                style={styles.activityIndicator}
+              />
+              :
           <View style={{flex:1,marginTop:20}} >
             <TouchableOpacity onPress={this.goBack} >
             <View style={{alignItems:'flex-end',marginTop:30,marginRight:20}} >
@@ -141,19 +287,20 @@ class ChangePassword extends React.Component {
               newPassword={newPassword}
               confirmPassword={confirmPassword}
               onChange={this.onChange}
-            />
+              />
             <View style={{marginBottom:50,marginTop:25}} >
             {
               pageType == 'changePassword' &&
               <TouchableOpacity onPress={()=>{ 
                 this.props.navigation.setParams({pageType:'resetPassword'})
-               }} >
+              }} >
                 <Text style={{color:'white',textAlign:'center'}} > Reset Password </Text>
               </TouchableOpacity>
             }
             </View>
           
           </View>
+          }
         </LinearGradient>
       </View>
     );
@@ -164,6 +311,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor:'white'
   },
+  activityIndicator:{
+    marginTop:Layout.window.height * 0.3
+  }
 });
 
 const mapStateToProps = (state) => {

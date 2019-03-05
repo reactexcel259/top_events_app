@@ -77,9 +77,7 @@ class HomeTab extends Component {
   onEventDescription = item => {
     this.props.navigation.navigate("CityEventDescription", { item: item });
   };
-  _renderItem = ({ item, index }) => {
-    console.log(item,"sectionlist");
-    
+  _renderItem = ({ item, index }) => {    
     let cetegoryId;
     let backgroundColor;
     if (Object.keys(item).join() === "shopping") {

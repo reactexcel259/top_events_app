@@ -115,7 +115,7 @@ class MyAccountScreen extends React.Component {
 
         <View style={styles.miniContainer} >
             <View style={{alignItems:'center',marginTop:10}} >
-              {/* <Text style={{color:'lightgray',textAlign:'center'}} > {userData.name['first']} {userData.name['last']} </Text> */}
+              <Text style={{color:'lightgray',textAlign:'center'}} > {userData.name['first']} {userData.name['last']} </Text>
             </View>
         </View>
 
