@@ -17,6 +17,7 @@ import Layout from "../../constants/Layout";
 import { LinearGradient, Font } from 'expo';
 import * as actions from '../../redux/action';
 import Card from '../../components/card';
+import { withNavigationFocus } from 'react-navigation';
 
 class Wishlist extends React.Component {
   constructor(props){
@@ -33,15 +34,24 @@ class Wishlist extends React.Component {
   };
   async componentDidMount(){
     let token =this.props.user.user.status.token
+
     await this.props.getInterestedEventRequest(token)
   }
   
   componentWillReceiveProps(nextProps){
+    console.log(this.props.isFocused,"this.props.isFocused");
     const {status,isLoading} = this.props.getInterestedEvent
     if(nextProps.getInterestedEvent.status.data !== undefined){
       if(nextProps.getInterestedEvent.status !== status){
         this.setState({wishList:nextProps.getInterestedEvent.status.data.results})
       }    
+    }
+  }
+  async componentDidUpdate(prevProps){
+    console.log(this.props.isFocused,"this.props.isFocusedDidUpdate");
+    if(prevProps.isFocused !== this.props.isFocused){
+      let token =this.props.user.user.status.token
+      await this.props.getInterestedEventRequest(token)
     }
   }
   _renderItem=({item,index})=>{
@@ -59,6 +69,7 @@ class Wishlist extends React.Component {
 
   render() {
     const {status,isLoading} = this.props.getInterestedEvent
+    
     return (
       <View style={styles.mainContainer}>
         {
@@ -69,8 +80,8 @@ class Wishlist extends React.Component {
           showsVerticalScrollIndicator={false}
           renderItem={this._renderItem}
           />:
-          <View>
-            <Text>Loading........</Text>
+          <View style={styles.loaderStyle}>
+            <ActivityIndicator size="large" color="#00ff00" />
           </View>
         }
       </View>
@@ -82,6 +93,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor:'white'
   },
+  loaderStyle:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
+  }
 });
 
 const mapStateToProps = (state) => {
@@ -94,5 +110,5 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => 
     bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps,mapDispatchToProps)(Wishlist);
+export default connect(mapStateToProps,mapDispatchToProps)(withNavigationFocus(Wishlist));
     
