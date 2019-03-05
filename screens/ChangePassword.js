@@ -39,14 +39,12 @@ class ChangePassword extends React.Component {
 
   componentWillMount() {
     const { navigation } = this.props
-    console.log(navigation,'check ')
     this.setState({
       pageType: navigation.state.params.pageType
     })
   }
   componentWillReceiveProps(nextProps){
     const { navigation } = this.props
-    console.log(navigation,'check ')
     this.setState({
       pageType: navigation.state.params.pageType
     })
@@ -73,7 +71,17 @@ class ChangePassword extends React.Component {
   }
 
   onPress = () => {
+    const { pageType, email, newEmail, confirmPassword, password } = this.state;
+    const { user } = this.props;
+    console.log(user,'asd')
+    let payload;
+    if(pageType == 'resetPassword'){
 
+    } else if (pageType == 'changePassword'){
+
+    } else if(pageType == 'changeEmail'){
+      payload
+    }
   }
 
   goBack = () => {
@@ -160,7 +168,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-      state: state,
+      user: state.user,
   }
 }
 const mapDispatchToProps = dispatch => 
