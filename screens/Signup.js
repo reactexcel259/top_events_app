@@ -233,7 +233,7 @@ class SignUpScreen extends React.Component {
             />
           </View>
 
-          <View style={{alignItems:'center',marginBottom:50}} >
+          <View style={{alignItems:'center',marginBottom:20}} >
               {
                 progress == 1 && !login &&
                 <TouchableOpacity onPress={()=>{ this.setState({login:true}) }} >
