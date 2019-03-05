@@ -197,7 +197,7 @@ export default class CheckIn extends Component {
             <View>
               <Touch
                 onPress={
-                  this.state.isDone ? () => this.onDone() : () => console.log()
+                  this.state.isDone ? this.onDone : () => console.log()
                 }
               >
                 <Text style={styles.cancelText}>Cancel</Text>
