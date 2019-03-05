@@ -63,7 +63,7 @@ export default class CustomHeader extends React.Component {
           step &&
         <View style={[styles.progress,{width: Layout.window.width * stepWidth}]} >
           <LinearGradient
-            colors={gradieantColor? gradieantColor : ['#8559F0','#8559F0']}
+            colors={['#8559F0','#8559F0']}
             style={{ flex: 1 }}
             start={[0, 0]}
             end={[1, 0]}
@@ -71,7 +71,7 @@ export default class CustomHeader extends React.Component {
         </View>
         }
       <LinearGradient
-        colors={["#FF6CC9","#8559F0"]}
+        colors={gradieantColor? gradieantColor :["#FF6CC9","#8559F0"]}
         style={[gradieantStyle ? gradieantStyle :{ flex: 1,justifyContent:'center' }]}
         start={gradieantStart? gradieantStart : [0, 0]}
         end={gradieantEnd? gradieantEnd : [1, 0]}
@@ -84,7 +84,7 @@ export default class CustomHeader extends React.Component {
             {
               leftIcon &&
               <TouchableOpacity onPress={leftPress} >
-                <View>
+                <View style={{height:40,width:40}} >
                 <FontAwesome 
                 name={leftIcon} onPress={leftPress} size={32} color="white" />
                 </View>
@@ -101,7 +101,7 @@ export default class CustomHeader extends React.Component {
        } 
        {
          isCenter ?
-        <View style={styles.containerCenter} >
+        <View style={[styles.containerCenter,isLeft ? {marginLeft:-40}:{}]} >
             <View >
               {
                 centerImage &&
@@ -149,7 +149,7 @@ export default class CustomHeader extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer:{
-    height: Layout.window.height * 0.14,
+    height: 80,
     justifyContent:'center',
     elevation:1,
   },
@@ -171,7 +171,8 @@ const styles = StyleSheet.create({
     alignItems:'flex-start'
   },
   containerCenter:{
-    justifyContent:'center'
+    justifyContent:'center',
+    alignItems:'center'
   },
   centerText:{
     fontWeight: '500',
