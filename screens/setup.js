@@ -205,6 +205,7 @@ class SetupScreen extends React.Component {
         <CustomHeader
           step={step}
           isLeft={true}
+          gradieantColor={["#FF6CC9","#FF6CC9"]}
           leftIcon={'angle-left'}
           leftPress={this.onBackPress}
         />

@@ -19,14 +19,13 @@ import ManageNotificationScreen from '../screens/ManageNotification';
 
 
 export default createAppContainer(createStackNavigator({
-  // ProfileSetting: ProfileSettingScreen,
-  CheckIn:CheckIn,
   Home: HomeScreen,
   HomeTab:TabNavigation,
   SignUpScreen:SignUpScreen,
   CityEventDescription:CityEventDescription,
   ChangePassword: ChangePassword,
   setup: SetupScreen,
+  CheckIn:CheckIn,
   permission: PermissionScreen,
   ProfileSetting: ProfileSettingScreen,
   AccountSetting: AccountSettingScreen,
