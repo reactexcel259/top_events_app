@@ -71,7 +71,17 @@ class ChangePassword extends React.Component {
   }
 
   onPress = () => {
+    const { pageType, email, newEmail, confirmPassword, password } = this.state;
+    const { user } = this.props;
+    console.log(user,'asd')
+    let payload;
+    if(pageType == 'resetPassword'){
 
+    } else if (pageType == 'changePassword'){
+
+    } else if(pageType == 'changeEmail'){
+      payload
+    }
   }
 
   goBack = () => {
@@ -158,7 +168,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-      state: state,
+      user: state.user,
   }
 }
 const mapDispatchToProps = dispatch => 
