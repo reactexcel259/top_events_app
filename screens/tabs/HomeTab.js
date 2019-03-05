@@ -45,7 +45,6 @@ class HomeTab extends Component {
   async componentDidMount() {
     const getInterest =await getItem("user_info")
     if(getInterest.interest !== undefined){
-      console.log(getInterest,"getInterest");
       
       getInterest.interest.forEach(eventId => {
         let id = eventId._id;
@@ -231,7 +230,6 @@ class HomeTab extends Component {
     } else {
       backgroundColor = "#FF6CC9";
     }
-
     return (
       <Events
         key={index}

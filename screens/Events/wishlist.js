@@ -21,6 +21,9 @@ import Card from '../../components/card';
 class Wishlist extends React.Component {
   constructor(props){
     super(props)
+    this.state = {
+      wishList:[]
+    }
    
   }
   static navigationOptions = ({ navigation }) => {
@@ -28,7 +31,19 @@ class Wishlist extends React.Component {
       header: null
     };
   };
-
+  async componentDidMount(){
+    let token =this.props.user.user.status.token
+    await this.props.getInterestedEventRequest(token)
+  }
+  
+  componentWillReceiveProps(nextProps){
+    const {status,isLoading} = this.props.getInterestedEvent
+    if(nextProps.getInterestedEvent.status.data !== undefined){
+      if(nextProps.getInterestedEvent.status !== status){
+        this.setState({wishList:nextProps.getInterestedEvent.status.data.results})
+      }    
+    }
+  }
   _renderItem=({item,index})=>{
     return(
         <View>
@@ -43,24 +58,20 @@ class Wishlist extends React.Component {
   }
 
   render() {
-    const eventsLength = this.props.getEventData.register.eventData.length;
-    const events = this.props.getEventData.register.eventData;
-    let eventDetails 
-    let data = events.forEach(event=>{
-      if(Object.keys(event).join() === 'sport'){
-        eventDetails = event[Object.keys(event).join()].data
-      }
-      });
+    const {status,isLoading} = this.props.getInterestedEvent
     return (
       <View style={styles.mainContainer}>
         {
-          eventDetails &&
+          !isLoading  ?
           <FlatList 
-          data={eventDetails.results}
+          data={this.state.wishList}
           keyExtractor={(item,index)=>(index.toString())}
           showsVerticalScrollIndicator={false}
           renderItem={this._renderItem}
-          />
+          />:
+          <View>
+            <Text>Loading........</Text>
+          </View>
         }
       </View>
     );
@@ -75,7 +86,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-      getEventData: state.getEvent, 
+      user: state.user, 
+      getInterestedEvent:state.getInterestedEvent
+      
   }
 }
 const mapDispatchToProps = dispatch => 

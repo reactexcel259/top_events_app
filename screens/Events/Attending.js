@@ -33,7 +33,7 @@ class Attending extends React.Component {
 
   async componentDidMount(){
     let token =this.props.user.user.status.token
-    await this.props.getInterestedEventRequest(token)
+    // await this.props.getInterestedEventRequest(token)
   }
 
   _renderItem=({item,index})=>{
@@ -52,6 +52,8 @@ class Attending extends React.Component {
 
   render() {
     const eventsLength = this.props.getEventData.register.eventData.length;
+    console.log(this.props.getEventData,"changes Need to added");
+    
     const events = this.props.getEventData.register.eventData;
     let eventDetails 
     let data = events.forEach(event=>{
