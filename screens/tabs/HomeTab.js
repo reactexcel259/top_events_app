@@ -33,8 +33,6 @@ class HomeTab extends Component {
 
   async componentDidMount() {
     const getInterest =await getItem("user_info")
-    console.log(getInterest ,'OOOOOOOOOOOOOOOOOOOO');
-    
     if(getInterest !== undefined){
       getInterest.interest.forEach(eventId => {
         let id = eventId._id;
