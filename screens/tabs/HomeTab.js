@@ -44,7 +44,9 @@ class HomeTab extends Component {
 
   async componentDidMount() {
     const getInterest =await getItem("user_info")
-    if(getInterest !== undefined){
+    if(getInterest.interest !== undefined){
+      console.log(getInterest,"getInterest");
+      
       getInterest.interest.forEach(eventId => {
         let id = eventId._id;
         let key = eventId.key;
@@ -157,7 +159,7 @@ class HomeTab extends Component {
       selected: val
     })
   }
-  onPressLocation = () => {
+  onPressLocation = async() => {
     const { search, selectedInt} = this.state;
     if(!Object.keys(this.state.search).length){
       Alert.alert(
@@ -178,7 +180,9 @@ class HomeTab extends Component {
       let results;
       if(filters.length){
         results = filters[0]
-        setItem("user_info", JSON.stringify({ interest: selectedInt,location:results}));
+        setItem("user_info", JSON.stringify({ location:results}));
+        await this.props.getStateAndCityEvent(results._id);
+        this.setState({changeLocationModal:false})
       }else {
         Alert.alert(
           'Add Location',
