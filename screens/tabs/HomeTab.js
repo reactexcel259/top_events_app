@@ -6,7 +6,9 @@ import {
   Dimensions,
   ScrollView,
   ActivityIndicator,
-  FlatList
+  FlatList,
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import VideosComponent from "../../components/VideosComponent";
 import Events from "../../components/Events";
@@ -17,7 +19,10 @@ import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAnd
 import Touch from 'react-native-touch';
 import Layout from "../../constants/Layout";
 import HomePageModal from '../../components/HomePageModal';
-import {getItem} from '../../services/storage';
+import {setItem,getItem} from '../../services/storage';
+import ChangeLocation from '../../components/ChangeLocation';
+import { WebBrowser, LinearGradient, Location, Permissions, Constants,  } from 'expo';
+
 
 class HomeTab extends Component {
   static navigationOptions = {
@@ -27,13 +32,21 @@ class HomeTab extends Component {
     super(props);
     this.state = {
       isCategoryId: false,
-      isStateAndCityId: false
+      isStateAndCityId: false,
+      changeLocationModal:false,
+      interest:[],
+      location: null,
+      search:'',
+      stateCity:[],
+      selectedInt:[],
     };
   }
 
   async componentDidMount() {
     const getInterest =await getItem("user_info")
-    if(getInterest !== undefined){
+    if(getInterest.interest !== undefined){
+      console.log(getInterest,"getInterest");
+      
       getInterest.interest.forEach(eventId => {
         let id = eventId._id;
         let key = eventId.key;
@@ -74,10 +87,135 @@ class HomeTab extends Component {
       }
     });
   };
+  useCurrentLocation = async () => {
+    const response = await Location.hasServicesEnabledAsync()
+    if (!response) {
+      this.setState({
+        mapError: true,
+      });
+      Alert.alert(
+        'Location Permission Denied',
+        'Please turn on your device location, to access this service',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        {cancelable: false},
+      );
+    }else {
+      let { status,error } = await Permissions.askAsync(Permissions.LOCATION);
+      let location = await Location.getCurrentPositionAsync({enableHighAccuracy:true});
+      this.getGeoAddress(location.coords.latitude, location.coords.longitude);
+    }
+  };
+
+  findFilm(query) {
+    if (query === '') {
+      return [];
+    }
+
+    const { data } = this.props.getStateAndCityData.status;
+    
+    const regex = new RegExp(`${query.trim()}`, 'i');
+    return data.filter(city => city.name.search(regex) >= 0);
+  }
+
+  getGeoAddress = async (myLat,myLon) => {
+    let response = await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + myLat + ',' + myLon + '&key=' + "AIzaSyBB7Tc7njRoyjegBDmqAVj09AKWbdRrTCI");
+    const responses = await response.json();
+    const results = responses.results
+    let storableLocation = {};
+    for (var ac = 0; ac < results[0].address_components.length; ac++) {
+      var component = results[0].address_components[ac];
+
+      switch (component.types[0]) {
+        case "locality":
+          storableLocation.city = component.long_name;
+          break;
+        case "administrative_area_level_1":
+          storableLocation.state = component.long_name;
+          break;
+        case "country":
+          storableLocation.country = component.long_name;
+          storableLocation.registered_country_iso_code =
+            component.short_name;
+          break;
+      }
+    }
+    let result = this.findFilm(storableLocation.state);
+    if(result.length){
+      this.setState({search:result[0].name})
+    }else{
+      this.setState({search:this.props.getStateAndCityData.status.data[0].name})
+    }
+  }
+  onSearchChange = (text,val) => {
+    this.setState({
+      search: text,
+      selected: val
+    })
+  }
+  onPressLocation = async() => {
+    const { search, selectedInt} = this.state;
+    if(!Object.keys(this.state.search).length){
+      Alert.alert(
+        'Add Location',
+        'Please add your location !!',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        {cancelable: false},
+      );
+    } else {
+      let filters = this.findFilm(search);
+      let results;
+      if(filters.length){
+        results = filters[0]
+        setItem("user_info", JSON.stringify({ location:results}));
+        await this.props.getStateAndCityEvent(results._id);
+        this.setState({changeLocationModal:false})
+      }else {
+        Alert.alert(
+          'Add Location',
+          'Please add a correct location',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ],
+          {cancelable: false},
+        );
+      }
+    }
+  }
+  onCancelPress = () => {
+    this.setState({search:'',selected:false})
+  }
+  componentWillReceiveProps(nextProps){
+    const {getStateAndCityData,getCategoryData} = this.props;
+    if(getStateAndCityData.status !== nextProps.getStateAndCityData.status){
+      this.setState({stateCity:nextProps.getStateAndCityData.status.data})
+    }else if (getCategoryData.status !== nextProps.getCategoryData.status){
+      this.setState({interest:nextProps.getCategoryData.status.data})
+    }
+  }
+
   onEventDescription = item => {
     this.props.navigation.navigate("CityEventDescription", { item: item });
   };
-  _renderItem = ({ item, index }) => {    
+  _renderItem = ({ item, index }) => {
     let cetegoryId;
     let backgroundColor;
     if (Object.keys(item).join() === "shopping") {
@@ -108,7 +246,8 @@ class HomeTab extends Component {
   _keyExtractor = (item, index) => (index.toString());
 
   render() {
-    
+    const { changeLocationModal } = this.state;
+    const {getStateAndCityData} = this.props;
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const cityEvents = this.props.getStateAndCityEventData.status;
@@ -118,6 +257,15 @@ class HomeTab extends Component {
         {cityEvents !== undefined ? (
           <ScrollView>
             <HomePageModal />
+            <ChangeLocation
+              {...this.state} 
+              changeLocationModal={changeLocationModal}
+              stateAndCity={getStateAndCityData}
+              useCurrentLocation={()=>{this.useCurrentLocation()}}
+              onSearchChange={this.onSearchChange}
+              onPress={()=>{this.onPressLocation()}}
+              onCancelPress={this.onCancelPress}  
+            />
             <View style={styles.mainWrapper}>
               <View style={styles.kingstoneView}>
                 <View style={styles.kingstoneTitle}>
@@ -126,9 +274,9 @@ class HomeTab extends Component {
                   </View>
                   <View style={styles.secondText}>
                     <Text style={styles.kingstonText}>Kingston</Text>
-                    <View>
+                    <TouchableOpacity onPress={()=>{this.setState({changeLocationModal:true})}}>
                       <Text style={styles.changText}>Change</Text>
-                    </View>
+                    </TouchableOpacity>
                   </View>
                 </View>
                 {(eventsLength >0 && cityEvents !== undefined) && (

@@ -57,7 +57,7 @@ class Wishlist extends React.Component {
           eventDetails &&
           <FlatList 
           data={eventDetails.results}
-          // keyExtractor={(item,index)=>(item.title)}
+          keyExtractor={(item,index)=>(index.toString())}
           showsVerticalScrollIndicator={false}
           renderItem={this._renderItem}
           />
