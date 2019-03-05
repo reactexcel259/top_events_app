@@ -21,7 +21,6 @@ export default class Intrest extends React.Component {
   
   render() {
     const {  onPress,id, data, category, selectedInt } = this.props
-    console.log(data,"dadasa");
     
       return (
       // <View  >

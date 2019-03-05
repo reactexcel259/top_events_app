@@ -3,9 +3,11 @@ import fireAjax from '../../services/index';
 import {call,put} from "redux-saga/effects";
 
 export function* postAddLikeRequest(action) {
-
+  const header = {
+    "Authorization":action.payload.token
+  };
  try {
-    const response = yield call(fireAjax, "PUT", `/events/addInterest/${action.payload.eventId}`, {token:action.payload.token});
+    const response = yield call(fireAjax, "PUT", `/events/addInterest/${action.payload.eventId}`, header, null);
     if (response) {
       yield put(actions.postEventLikeSuccess(response.data));
     }

@@ -321,7 +321,6 @@ class CityEventDescription extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state, "222222222222222222222222");
   return {
     getEventDescription: state.getEventDescription,
     user:state.user,

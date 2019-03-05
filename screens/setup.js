@@ -227,7 +227,7 @@ class SetupScreen extends React.Component {
                   stateAndCity={getStateAndCityData}
                   useCurrentLocation={()=>{this.useCurrentLocation()}}
                   onSearchChange={this.onSearchChange}
-                  onPress={()=>{ this.onPressLocation() }}
+                  onPress={()=>{this.onPressLocation()}}
                   onCancelPress={this.onCancelPress}            
                 />
               }

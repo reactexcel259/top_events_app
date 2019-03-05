@@ -65,7 +65,6 @@ class ProfileSettingScreen extends React.Component {
   render() {
     const { getCategoryData } = this.props;
     const { interest } = this.state;
-    // console.log(interest)
     return (
       <View style={styles.mainContainer}>
         <CustomHeader

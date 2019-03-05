@@ -17,6 +17,7 @@ import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAnd
 import Touch from 'react-native-touch';
 import Layout from "../../constants/Layout";
 import HomePageModal from '../../components/HomePageModal';
+import {getItem} from '../../services/storage';
 
 class HomeTab extends Component {
   static navigationOptions = {
@@ -31,7 +32,13 @@ class HomeTab extends Component {
   }
 
   async componentDidMount() {
-    await this.props.getCategory();
+    const getInterest =await getItem("user_info")
+    // await this.props.getCategory();
+    getInterest.interest.forEach(eventId => {
+      let id = eventId._id;
+        let key = eventId.key;
+        this.props.getEvent({ id, key });
+    })
     await this.props.getStateAndCity();
   }
 
@@ -41,14 +48,14 @@ class HomeTab extends Component {
       let token  = user.user.status.token;
       this.props.getUserDataRequest(token);
     }
-    if (getCategoryData.isSuccess && !this.state.isCategoryId) {
-      getCategoryData.status.data.forEach(eventId => {
-        let id = eventId._id;
-        let key = eventId.key;
-        this.props.getEvent({ id, key });
-      });
-      this.setState({ isCategoryId: true });
-    }
+    // if (getCategoryData.isSuccess && !this.state.isCategoryId) {
+    //   getCategoryData.status.data.forEach(eventId => {
+    //     let id = eventId._id;
+    //     let key = eventId.key;
+    //     this.props.getEvent({ id, key });
+    //   });
+    //   this.setState({ isCategoryId: true });
+    // }
     if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId) {
       this.props.getStateAndCityEvent(
         getStateAndCityData.status.data[0]._id
@@ -68,6 +75,8 @@ class HomeTab extends Component {
     this.props.navigation.navigate("CityEventDescription", { item: item });
   };
   _renderItem = ({ item, index }) => {
+    console.log(item,"sectionlist");
+    
     let cetegoryId;
     let backgroundColor;
     if (Object.keys(item).join() === "shopping") {
@@ -95,16 +104,17 @@ class HomeTab extends Component {
       />
     );
   };
-  _keyExtractor = (item, index) => (item, index);
+  _keyExtractor = (item, index) => (index.toString());
 
   render() {
+    
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const cityEvents = this.props.getStateAndCityEventData.status;
     return (
       <View style={styles.wrapper}>
         <CustomHeader isCenter={true} centerImage={true} centerTitle={true} />
-        {eventsLength == 6 && cityEvents !== undefined ? (
+        {cityEvents !== undefined ? (
           <ScrollView>
             <HomePageModal />
             <View style={styles.mainWrapper}>
@@ -120,7 +130,7 @@ class HomeTab extends Component {
                     </View>
                   </View>
                 </View>
-                {cityEvents !== undefined && (
+                {(eventsLength >0 && cityEvents !== undefined) && (
                   <VideosComponent
                     cityData={cityEvents}
                     onEventDescription={item => this.onEventDescription(item)}
@@ -146,33 +156,6 @@ class HomeTab extends Component {
                     // extraData={events}
                   />
                 )
-                // events.map((event, index) => {
-                //   let cetegoryId;
-                //   let backgroundColor;
-                //   console.log(event, "OOOOOOOOOOOO");
-                //   if (Object.keys(event).join() === "shopping") {
-                //     backgroundColor = "#8559F0";
-                //   } else if (Object.keys(event).join() === "sport") {
-                //     backgroundColor = "#FEEA3F";
-                //   } else if (Object.keys(event).join() === "food") {
-                //     backgroundColor = "#FF523E";
-                //   } else if (Object.keys(event).join() === "conferences") {
-                //     backgroundColor = "#00D5E4";
-                //   } else if (Object.keys(event).join() === "health_wellness") {
-                //     backgroundColor = "#00ED7C";
-                //   } else {
-                //     backgroundColor = "#FF6CC9";
-                //   }
-                //   return (
-                //     <Events
-                //       key={index}
-                //       eventData={event[Object.keys(event).join()].data}
-                //       categoryId={Object.keys(event).join()}
-                //       backgroundColor={backgroundColor}
-                //       onViewAll={(key)=>this.onViewAll(key)}
-                //     />
-                //   );
-                // })
                 }
               </View>
             </View>
