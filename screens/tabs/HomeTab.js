@@ -33,14 +33,19 @@ class HomeTab extends Component {
 
   async componentDidMount() {
     const getInterest =await getItem("user_info")
-    // await this.props.getCategory();
-    getInterest.interest.forEach(eventId => {
-      let id = eventId._id;
+    console.log(getInterest ,'OOOOOOOOOOOOOOOOOOOO');
+    
+    if(getInterest !== undefined){
+      getInterest.interest.forEach(eventId => {
+        let id = eventId._id;
         let key = eventId.key;
         this.props.getEvent({ id, key });
-    })
+      })
+    }else{
+      await this.props.getCategory();
+    }
     await this.props.getStateAndCity();
-  }
+}
 
   async componentDidUpdate() {
     const { getCategoryData ,getStateAndCityData, user} = this.props;
@@ -48,14 +53,14 @@ class HomeTab extends Component {
       let token  = user.user.status.token;
       this.props.getUserDataRequest(token);
     }
-    // if (getCategoryData.isSuccess && !this.state.isCategoryId) {
-    //   getCategoryData.status.data.forEach(eventId => {
-    //     let id = eventId._id;
-    //     let key = eventId.key;
-    //     this.props.getEvent({ id, key });
-    //   });
-    //   this.setState({ isCategoryId: true });
-    // }
+    if (getCategoryData.isSuccess && !this.state.isCategoryId) {
+      getCategoryData.status.data.forEach(eventId => {
+        let id = eventId._id;
+        let key = eventId.key;
+        this.props.getEvent({ id, key });
+      });
+      this.setState({ isCategoryId: true });
+    }
     if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId) {
       this.props.getStateAndCityEvent(
         getStateAndCityData.status.data[0]._id
