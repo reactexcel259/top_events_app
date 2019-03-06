@@ -27,7 +27,7 @@ class ViewAllCard extends Component {
     const {register} = this.props.getEventData;
     let currentData = register.events.data !== undefined ? register.events.data.results : register.events;
     return (
-      <View style={{paddingBottom:Layout.window.height*0.08, flex:1 }}>
+      <View style={{paddingBottom:Layout.window.height*0.005, flex:1 }}>
         <CustomHeader  
           isCenter={true} 
           isLeft={true} 

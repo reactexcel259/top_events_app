@@ -46,6 +46,9 @@ export default class Events extends Component {
       </View>
     );
   };
+  findKey = (data) =>{
+    this.props.onViewAll(data[0].categories)
+  }
   _keyExtractor=(item, index) => (item._id)
   render() {
     return (
@@ -61,7 +64,7 @@ export default class Events extends Component {
             <Text style={styles.eventSectionText}>
               {this.props.categoryId && this.props.categoryId.toUpperCase()}
             </Text>
-            <Touch activeOpacity={0.1} onPress={() => this.props.onViewAll(this.props.categoryId)}>
+            <Touch activeOpacity={0.1} onPress={() => this.findKey(this.props.eventData.results)}>
               <Text> 
                 View all{" "}
                 {this.props.eventData && this.props.eventData.results.length}

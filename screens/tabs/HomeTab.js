@@ -99,13 +99,12 @@ class HomeTab extends Component {
       this.setState({ isStateAndCityId: true });
     }
   }
-  onViewAll = async key => {
-    const {status} = this.props.getCategoryData;
-    let eventsDetails = status.data.find(element => element.key == key)
-    this.props.getEventById({id:eventsDetails._id,key:eventsDetails.key})
-    console.log(this.props.getEventData.register.events,"this.props.getEventData.register.events");
+  
+  onViewAll = async category => {
+    this.props.getEventById({id:category._id,key:category.key})
     this.props.navigation.navigate('ViewAllCard');
   };
+
   useCurrentLocation = async () => {
     const response = await Location.hasServicesEnabledAsync()
     if (!response) {
