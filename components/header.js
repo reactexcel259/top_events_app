@@ -18,17 +18,16 @@ import { MonoText } from '../components/StyledText';
 export default class CustomHeader extends React.Component {
   renderIcon = (icon) => {
     return icon.map((value,i)=>{
-      console.log(value,'asd',(value !=="heart-o" || value !=="heart" ))
       return (
           <TouchableOpacity key={i} onPress={value =="share-google" ? ()=>this.props.onShare() : ()=>this.props.onEventLike()} >
             <View style={{width:40}} >
-            {value !=="share-alt" && (value !=="heart-o" || value !=="heart" ) ? 
+            {value !=="share-alt" && (value != "heart-o" || value != "heart" ) ? 
             <FontAwesome
               key={i} 
-              name={value} size={32} style={{margin:5}} color="white" />
+              name={value} size={30} style={{margin:5}} color="white" />
             :<FontAwesome
               key={i} 
-              name={value} size={25} style={{margin:5}} color="white" />}
+              name={value} size={30} style={{margin:5}} color="white" />}
             </View>
           </TouchableOpacity>
       )
