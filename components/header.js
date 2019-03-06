@@ -24,10 +24,10 @@ export default class CustomHeader extends React.Component {
             {value !=="share-alt" && (value != "heart-o" || value != "heart" ) ? 
             <FontAwesome
               key={i} 
-              name={value} size={30} style={{margin:5}} color="white" />
+              name={value} size={25} style={{margin:5}} color="white" />
             :<FontAwesome
               key={i} 
-              name={value} size={30} style={{margin:5}} color="white" />}
+              name={value} size={25} style={{margin:5}} color="white" />}
             </View>
           </TouchableOpacity>
       )

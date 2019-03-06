@@ -48,13 +48,6 @@ class SignUpScreen extends React.Component {
 
   async componentWillMount() {
     const { navigation } = this.props;
-    const { interest } = this.state;
-    if(interest.length == 0 ) {
-      let interestList = await getItem('user_interest');
-      this.setState({
-        interest: interestList.interest
-      })
-    }
     if( navigation.state.params && navigation.state.params.isLogin){
       this.setState({
         login: true
@@ -63,6 +56,15 @@ class SignUpScreen extends React.Component {
       this.setState({
         login:false
       })
+    }
+    const { interest } = this.state;
+    if(interest.length == 0 ) {
+      let interestList = await getItem('user_interest');
+      if(interestList.interest){
+      this.setState({
+        interest: interestList.interest
+      })
+      }
     }
   }
 

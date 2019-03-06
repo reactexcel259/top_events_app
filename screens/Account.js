@@ -33,9 +33,9 @@ class MyAccountScreen extends React.Component {
   }
 
   logout = async () => {
-     AsyncStorage.setItem('user','');
-     AsyncStorage.setItem('user_info','');
-     AsyncStorage.setItem('user_interest','');
+      AsyncStorage.setItem('user',null);
+      AsyncStorage.setItem('user_info',null);
+      AsyncStorage.setItem('user_interest',null);
     this.props.navigation.popToTop();
   }
 

@@ -51,15 +51,15 @@ class HomeTab extends Component {
   async componentDidMount() {
     const getUpdatedInterest =await getItem('user_updated_interest')
     const getInterest =await getItem("user_interest")
-    if(getInterest !== undefined){
-      if(getInterest.interest && getInterest.interest.length >0){
+    if(getInterest !== undefined && getInterest.interest != undefined ){
+      if( getInterest.interest.length >0){
       
       getInterest.interest.forEach(eventId => {
         let id = eventId._id;
         let key = eventId.key;
         this.props.getEvent({ id, key });
       })
-    }
+    } 
     }else{
       await this.props.getCategory();
     }
