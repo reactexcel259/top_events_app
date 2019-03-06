@@ -247,7 +247,6 @@ class HomeTab extends Component {
     } else {
       backgroundColor = "#FF6CC9";
     }
-
     return (
       <Events
         key={index}
@@ -269,7 +268,7 @@ class HomeTab extends Component {
     const cityEvents = this.props.getStateAndCityEventData.status;
     return (
       <View style={styles.wrapper}>
-        <CustomHeader isCenter={true} centerImage={true} centerTitle={true} />
+        <CustomHeader isCenter={true} centerImage={true} />
         {cityEvents !== undefined ? (
           <ScrollView>
             <HomePageModal />

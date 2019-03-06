@@ -40,7 +40,7 @@ class Notifications extends React.Component {
         <View style={{flex:1,margin:20}} >
           <FlatList
           data={['asd']}
-          // keyExtractor={(item, index) => item.uuid}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <View style={{flexDirection:'row',borderBottomWidth: 1,height:100}} >
               <View style={{width:Layout.window.width * 0.25}} >

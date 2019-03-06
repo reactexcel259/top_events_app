@@ -84,7 +84,7 @@ export default class CustomHeader extends React.Component {
             {
               leftIcon &&
               <TouchableOpacity onPress={leftPress} >
-                <View style={{height:50,width:100}} >
+                <View style={{height:40,width:40}} >
                 <FontAwesome 
                 name={leftIcon} onPress={leftPress} size={32} color="white" />
                 </View>
@@ -101,7 +101,7 @@ export default class CustomHeader extends React.Component {
        } 
        {
          isCenter ?
-        <View style={styles.containerCenter} >
+        <View style={[styles.containerCenter,isLeft ? {marginLeft:-40}:{}]} >
             <View >
               {
                 centerImage &&
@@ -149,7 +149,7 @@ export default class CustomHeader extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer:{
-    height: Layout.window.height * 0.14,
+    height: 80,
     justifyContent:'center',
     elevation:1,
   },
@@ -171,7 +171,8 @@ const styles = StyleSheet.create({
     alignItems:'flex-start'
   },
   containerCenter:{
-    justifyContent:'center'
+    justifyContent:'center',
+    alignItems:'center'
   },
   centerText:{
     fontWeight: '500',
