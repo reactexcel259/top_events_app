@@ -22,6 +22,7 @@ import SignUpContainer from '../components/signup/signup';
 import DetailsContainer from '../components/signup/details';
 import WelcomeContainer from '../components/signup/welcome';
 import {setItem, getItem} from '../services/storage';
+import { validateEmail } from '../services/validation';
 
 
 class SignUpScreen extends React.Component {
@@ -35,10 +36,10 @@ class SignUpScreen extends React.Component {
     super(props);
     this.state = {
       progress: 1,
-      firstName:'asd',
-      lastName:'asd',
-      email:'vishal.8026@gmail.com',
-      password:'123',
+      firstName:'',
+      lastName:'',
+      email:'',
+      password:'',
       login:false,
       loader: false,
       interest: [],
@@ -67,21 +68,11 @@ class SignUpScreen extends React.Component {
 
   componentWillReceiveProps(nextProps){
     const { login } = this.state;
-    if(nextProps.user.user.isSuccess){
-      if(Platform.OS == 'android') {
-        ToastAndroid.showWithGravityAndOffset(
-          login ? 'Login Successfull' :'We have send you verified email to your E-mail id. Please Check',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
-        );
-      } else if( Platform.OS == 'ios'){
+    if(nextProps.user.user.isSuccess && nextProps.user.user.status.session){      
         Alert.alert(
           'Congrats!',
           login ? 'Login Successfull' :'We have send you verified email to your E-mail id. Please Check '
         )
-      }
       this.setState({
         loader:false,
         email:'',
@@ -113,6 +104,11 @@ class SignUpScreen extends React.Component {
           login ? 'Login Failed' : 'This email id is already registered.'
         )
       }
+    } else if ( login && !nextProps.user.user.status.session ) {
+      Alert.alert(
+          'Login Error!',
+          'Please Verify Your Email.'
+        )
     }
   }
 
@@ -138,7 +134,7 @@ class SignUpScreen extends React.Component {
         }
       }
     } else if (progress == 2) {
-      if(email != '' && password != '' ){
+      if(email != '' && password != '' && validateEmail(email) ){
         let payload = {
           name: {
             first: firstName,
@@ -195,13 +191,18 @@ class SignUpScreen extends React.Component {
 
   login = () => {
     const { email, password } = this.state;
-    if(email != '' && password != ''){
+    if(email != '' && password != '' && validateEmail(email) ){
       let payload = {
         email,
         password
       }
       this.setState({ loader: true })      
       this.props.getLoginRequest(payload)
+    } else if ( !validateEmail(email) ) {
+      Alert.alert(
+          'Warning!',
+          'Enter Correct Email ID'
+        )
     }
   }
 

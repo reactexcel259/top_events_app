@@ -24,12 +24,14 @@ export function* getRegisterRequest(action) {
 
 export function* getLoginRequest(action) { 
   try {
-     const response = yield call(fireAjax, "POST", "/social/login",'', {
+     const response = yield call(fireAjax, "POST", "/signin",'', {
      ...action.payload
      });
   
      if (response.data.success) {
+       if(response.data.session){
         AsyncStorage.setItem('user', JSON.stringify(response.data));
+       }
         yield put(actions.getLoginSuccess(response.data));
         let token = response.data.token;
         yield put(actions.getUserDataRequest(token));
