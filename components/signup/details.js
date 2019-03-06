@@ -47,7 +47,7 @@ export default class DetailsContainer extends React.Component {
 
           <View style={{alignItems:'center'}} >
             <CustomeButton
-              buttonText={"Next"}
+              buttonText={"Sign Up"}
               buttonSize={'small'}
               gradientColor={['#FF6CC9','#8559F0']}
               textColor={'white'}
