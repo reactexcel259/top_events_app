@@ -12,9 +12,9 @@ const initialState = {
 const getEventDescriptionRequest = (state, action) =>{
     return(
  update(state, {
-     isLoading: { $set: false },
+     isLoading: { $set: true },
      isError: { $set: false },
-     message: { $set: "RequestSucccessfull" }
+     isSuccess: { $set: false }
  }))};
 
 const getEventDescriptionSuccess = (state, action) =>

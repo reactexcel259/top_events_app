@@ -3,6 +3,7 @@ import * as actions from "../action"
 import {BASE_URL} from "../../config/index";
 import fireAjax from "../../services/index"
 import {call,put} from "redux-saga/effects"
+import {setItem, getItem} from '../../services/storage';
 
 export function* getRegisterRequest(action) { 
  try {
@@ -48,6 +49,8 @@ export function* getUserDataRequest(action) {
   try {
      const response = yield call(fireAjax, "GET", "/user",header,'');
      if (response.data.success) {
+       let interest = response.data.data.interests
+        setItem("user_interest", JSON.stringify({ interest: interest}));
         yield put(actions.getUserDataSuccess(response.data));
      } else {
        yield put(actions.getUserDataError(response.data));      
