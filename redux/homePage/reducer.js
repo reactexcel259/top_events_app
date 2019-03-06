@@ -97,7 +97,12 @@ const userDataSuccess = (state, action) =>
  const userDataError = (state, action) =>
  update(state, {
    user: {
-    updateData: { $set: action.payload }
+    updateData: { 
+      $set: {
+        error:true,
+        message: action.payload
+        } 
+      }
    }
  });
 

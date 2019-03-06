@@ -86,7 +86,7 @@ class ChangePassword extends React.Component {
       }
       this.goBack()
     }
-
+    console.log(user.user,'asd')
     if(user.user.updateData && user.user.updateData.success && loaderType == 'changeEmail' ){
       this.setState({
         loader: false,

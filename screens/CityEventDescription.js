@@ -85,13 +85,13 @@ class CityEventDescription extends Component {
     }
   };
   onEventLike=()=>{
-    this.setState({isLiked:true})
+    this.setState({isLiked:!this.state.isLiked})
     let token =this.props.user.user.status.token
     let eventId=this.props.navigation.state.params.item._id
     this.props.eventLikeRequest({token ,eventId})
   }
   render() {
-
+    const { isLiked } = this.state;
     const data = image.map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
@@ -105,6 +105,7 @@ class CityEventDescription extends Component {
     const eventData = this.props.getEventDescription;
     const item =
       eventData.isSuccess && this.props.getEventDescription.status.data;
+    let rightIcon = isLiked ? ['heart','share-alt'] : ["heart-o", "share-alt"]
     return (
       <View>
         <CustomHeader
@@ -115,7 +116,7 @@ class CityEventDescription extends Component {
           leftPress={() => this.props.navigation.goBack()}
           leftIcon="angle-left"
           isRight={true}
-          rightIcon={["heart", "share-google"]}
+          rightIcon={rightIcon}
           onEventLike={()=>this.onEventLike()}
         />
         {eventData.isSuccess ? (
@@ -529,13 +530,11 @@ const styles = StyleSheet.create({
     height: "50%"
   },
   loaderView: {
-    zIndex:100,
-    position: "absolute",
     flex: 1,
     flexDirection: "column",
     alignSelf: "center",
     justifyContent: "center",
-    alignContent: "center",
-    top: height / 2.4
+    alignItems: "center",
+    top: height * 0.4
   }
 });

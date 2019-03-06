@@ -18,16 +18,17 @@ import { MonoText } from '../components/StyledText';
 export default class CustomHeader extends React.Component {
   renderIcon = (icon) => {
     return icon.map((value,i)=>{
+      console.log(value,'asd',(value !=="heart-o" || value !=="heart" ))
       return (
-          <TouchableOpacity onPress={value =="share-google" ? ()=>this.props.onShare() : ()=>this.props.onEventLike()} >
-            <View>
-            {value !=="share-google" && value !=="heart" ? 
+          <TouchableOpacity key={i} onPress={value =="share-google" ? ()=>this.props.onShare() : ()=>this.props.onEventLike()} >
+            <View style={{width:40}} >
+            {value !=="share-alt" && (value !=="heart-o" || value !=="heart" ) ? 
             <FontAwesome
               key={i} 
               name={value} size={32} style={{margin:5}} color="white" />
-            :<EvilIcons
+            :<FontAwesome
               key={i} 
-              name={value} size={32} style={{margin:5}} color="white" />}
+              name={value} size={25} style={{margin:5}} color="white" />}
             </View>
           </TouchableOpacity>
       )
@@ -84,7 +85,7 @@ export default class CustomHeader extends React.Component {
             {
               leftIcon &&
               <TouchableOpacity onPress={leftPress} >
-                <View style={{height:40,width:40}} >
+                <View style={{width:40}} >
                 <FontAwesome 
                 name={leftIcon} onPress={leftPress} size={32} color="white" />
                 </View>

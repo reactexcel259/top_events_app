@@ -55,13 +55,16 @@ class MyAccountScreen extends React.Component {
             start={[0, 0]}
             end={[1, 0]}
           >
-            <View style={{alignItems:'center',marginTop:30}} >
+            <View style={{flexDirection:'row',justifyContent:'space-between'}} >
+            <View style={{flex:1}} />
+            <View style={{flex:1,alignItems:'center',marginTop:30,marginLeft:5}} >
               <Text style={{color:'white',fontSize:20,fontWeight:'600'}} > Account </Text>
             </View>
-            <View style={{alignItems:'flex-end',marginRight:10,marginTop:-10}} >
+            <View style={{flex:1,alignItems:'flex-end',marginRight:10,marginTop:30}} >
               <TouchableOpacity onPress={this.logout} >
                 <Text style={{color:'white',fontSize:16}} > Log out </Text>
               </TouchableOpacity>
+            </View>
             </View>        
             <View style={{alignItems:'center',marginTop:30,marginBottom:20}} >
               <FontAwesome
