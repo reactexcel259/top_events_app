@@ -32,8 +32,10 @@ class MyAccountScreen extends React.Component {
     }
   }
 
-  logout = async () => {
+  logout = () => {
      AsyncStorage.setItem('user','');
+     AsyncStorage.setItem('user_info','');
+     AsyncStorage.setItem('user_interest','');
     this.props.navigation.popToTop();
   }
 
@@ -61,7 +63,7 @@ class MyAccountScreen extends React.Component {
               <Text style={{color:'white',fontSize:20,fontWeight:'600'}} > Account </Text>
             </View>
             <View style={{flex:1,alignItems:'flex-end',marginRight:10,marginTop:30}} >
-              <TouchableOpacity onPress={this.logout} >
+              <TouchableOpacity onPress={() => this.logout} >
                 <Text style={{color:'white',fontSize:16}} > Log out </Text>
               </TouchableOpacity>
             </View>
