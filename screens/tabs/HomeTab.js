@@ -280,6 +280,7 @@ class HomeTab extends Component {
               onSearchChange={this.onSearchChange}
               onPress={()=>{this.onPressLocation()}}
               onCancelPress={this.onCancelPress}  
+              closeModal={()=>{this.setState({changeLocationModal:false})}}
             />
             <View style={styles.mainWrapper}>
               <View style={styles.kingstoneView}>

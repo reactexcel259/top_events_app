@@ -37,7 +37,7 @@ export default class ChangeLocation extends Component {
           end={{ x: 1, y: 1 }}
           colors={["#ff6cc9", "#8559f0"]}
         >
-        <TouchableOpacity style={styles.headerContainer} >
+        <TouchableOpacity onPress={()=>{this.props.closeModal()}} style={styles.headerContainer} >
           <Text style={styles.headerText} > X </Text>
         </TouchableOpacity>
         {/* <View style={styles.intrestContainer} > */}
@@ -109,10 +109,7 @@ const styles = StyleSheet.create({
         flex: 1
       },
       headerContainer:{
-        marginTop:20,
-        marginBottom:10,
-        marginLeft:16,
-        padding:20,
+        padding:18,
         alignItems:'flex-start'
       },
       headerText:{

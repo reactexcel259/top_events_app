@@ -36,7 +36,8 @@ class ProfileSettingScreen extends React.Component {
 
   async componentWillMount() {
     await this.props.getCategoryRequest();
-    // getItem('')
+    let userInterset = getItem('user_interest');
+    console.log(userInterset,'dasdasdassd');
   }
 
   componentWillReceiveProps(nextProps) {
