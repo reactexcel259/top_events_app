@@ -193,7 +193,9 @@ class SetupScreen extends React.Component {
     } else {
       let filters = this.findFilm(search);
       let results = filters.length ? filters[0] : this.props.getStateAndCityData.status.data[0];
-      setItem("user_info", JSON.stringify({ interest: selectedInt,location:results}));
+      setItem("user_info", JSON.stringify({location:results}));
+      setItem("user_interest", JSON.stringify({ interest: selectedInt}));
+      setItem("user_updated_interest", JSON.stringify({ updatedInsterest: selectedInt}));
       this.props.navigation.navigate('SignUpScreen')
     }
   }
@@ -205,6 +207,7 @@ class SetupScreen extends React.Component {
         <CustomHeader
           step={step}
           isLeft={true}
+          gradieantColor={["#FF6CC9","#FF6CC9"]}
           leftIcon={'angle-left'}
           leftPress={this.onBackPress}
         />

@@ -111,6 +111,7 @@ class CityEventDescription extends Component {
           isCenter={true}
           isLeft={true}
           onShare={() => this.onShare()}
+          gradieantColor={["#FF6CC9","#FF6CC9"]}
           leftPress={() => this.props.navigation.goBack()}
           leftIcon="angle-left"
           isRight={true}

@@ -56,13 +56,13 @@ export function* getUserDataRequest(action) {
 }
 
 export function* userPasswordRequest(action) { 
-  let token = action.payload;
+  let token = action.payload.token;
   let header = {
       "Content-Type": "application/json",
       'Authorization':token
   }
   try {
-     const response = yield call(fireAjax, "PUT", "/user/updatePassword",header,'');
+     const response = yield call(fireAjax, "PUT", "/user/updatePassword",header,{password:action.payload.password});
      if (response.data.success) {
         yield put(actions.userPasswordSuccess(response.data));
      } else {
@@ -96,13 +96,15 @@ export function* userDataRequest(action) {
 }
 
 export function* userForgetPasswordRequest(action) { 
-  let token = action.payload.token;
-  let header = {
-      "Content-Type": "application/json",
-      'Authorization':token
-  }
+  // let token = action.payload.token;
+  // let header = {
+  //     "Content-Type": "application/json",
+  //     'Authorization':token
+  // }
   try {
-     const response = yield call(fireAjax, "POST", `/forget/password`,header,'');
+     const response = yield call(fireAjax, "POST", `/forget/password`,'',{
+       ...action.payload
+     });
      if (response.data.success) {
         yield put(actions.userForgetPasswordSuccess(response.data));
      } else {

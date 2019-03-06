@@ -27,6 +27,7 @@ export default createAppContainer(createStackNavigator({
   CityEventDescription:CityEventDescription,
   ChangePassword: ChangePassword,
   setup: SetupScreen,
+  CheckIn:CheckIn,
   permission: PermissionScreen,
   ProfileSetting: ProfileSettingScreen,
   AccountSetting: AccountSettingScreen,

@@ -31,9 +31,9 @@ class Attending extends React.Component {
     };
   };
 
-  componentDidMount(){
+  async componentDidMount(){
     let token =this.props.user.user.status.token
-    this.props.getInterestedEventRequest(token)
+    await this.props.getInterestedEventRequest(token)
   }
 
   _renderItem=({item,index})=>{
@@ -65,7 +65,7 @@ class Attending extends React.Component {
         eventDetails &&
         <FlatList 
         data={eventDetails.results}
-        // keyExtractor={(item,index)=>(item.title)}
+        keyExtractor={(item,index)=>(index.toString())}
         showsVerticalScrollIndicator={false}
         renderItem={this._renderItem}
         />

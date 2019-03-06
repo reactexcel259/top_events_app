@@ -31,7 +31,8 @@ export default class Account extends React.Component {
                 <TextInput
                 style={styles.textInput}
                 value={newPassword}
-                onChangeText={(text)=>{ onChange(text,'firstname') }}            
+                secureTextEntry                
+                onChangeText={(text)=>{ onChange(text,'newPassword') }}            
                 placeholder={'New Password'}
                 />
               }
@@ -49,6 +50,7 @@ export default class Account extends React.Component {
                 <TextInput
                 style={styles.textInput}
                 value={email}
+                editable={false}
                 onChangeText={(text)=>{ onChange(text,'email') }}            
                 placeholder={'your Email'}
                 />
@@ -60,7 +62,8 @@ export default class Account extends React.Component {
                 <TextInput
                 style={styles.textInput}
                 value={confirmPassword}
-                onChangeText={(text)=>{ onChange(text,'lastname') }}
+                secureTextEntry                
+                onChangeText={(text)=>{ onChange(text,'confirmPassword') }}
                 placeholder={'Comfirm Password'}
                 />
               }

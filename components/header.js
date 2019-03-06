@@ -63,7 +63,7 @@ export default class CustomHeader extends React.Component {
           step &&
         <View style={[styles.progress,{width: Layout.window.width * stepWidth}]} >
           <LinearGradient
-            colors={gradieantColor? gradieantColor : ['#8559F0','#8559F0']}
+            colors={['#8559F0','#8559F0']}
             style={{ flex: 1 }}
             start={[0, 0]}
             end={[1, 0]}
@@ -71,7 +71,7 @@ export default class CustomHeader extends React.Component {
         </View>
         }
       <LinearGradient
-        colors={["#FF6CC9","#8559F0"]}
+        colors={gradieantColor? gradieantColor :["#FF6CC9","#8559F0"]}
         style={[gradieantStyle ? gradieantStyle :{ flex: 1,justifyContent:'center' }]}
         start={gradieantStart? gradieantStart : [0, 0]}
         end={gradieantEnd? gradieantEnd : [1, 0]}
@@ -84,7 +84,7 @@ export default class CustomHeader extends React.Component {
             {
               leftIcon &&
               <TouchableOpacity onPress={leftPress} >
-                <View>
+                <View style={{height:50,width:100}} >
                 <FontAwesome 
                 name={leftIcon} onPress={leftPress} size={32} color="white" />
                 </View>
