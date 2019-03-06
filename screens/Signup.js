@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
   ToastAndroid,
   Alert,
   View,
@@ -20,6 +21,8 @@ import LoginContainer from '../components/signup/login';
 import SignUpContainer from '../components/signup/signup';
 import DetailsContainer from '../components/signup/details';
 import WelcomeContainer from '../components/signup/welcome';
+import {setItem, getItem} from '../services/storage';
+
 
 class SignUpScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -32,17 +35,25 @@ class SignUpScreen extends React.Component {
     super(props);
     this.state = {
       progress: 1,
-      firstName:'',
-      lastName:'',
-      email:'',
-      password:'',
+      firstName:'asd',
+      lastName:'asd',
+      email:'vishal.8026@gmail.com',
+      password:'123',
       login:false,
       loader: false,
+      interest: [],
     }
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     const { navigation } = this.props;
+    const { interest } = this.state;
+    if(interest.length == 0 ) {
+      let interestList = await getItem('user_interest');
+      this.setState({
+        interest: interestList.interest
+      })
+    }
     if( navigation.state.params && navigation.state.params.isLogin){
       this.setState({
         login: true
@@ -59,7 +70,7 @@ class SignUpScreen extends React.Component {
     if(nextProps.user.user.isSuccess){
       if(Platform.OS == 'android') {
         ToastAndroid.showWithGravityAndOffset(
-          login ? 'Login Successfull' :'Registration Successful',
+          login ? 'Login Successfull' :'We have send you verified email to your E-mail id. Please Check',
           ToastAndroid.LONG,
           ToastAndroid.BOTTOM,
           25,
@@ -68,7 +79,7 @@ class SignUpScreen extends React.Component {
       } else if( Platform.OS == 'ios'){
         Alert.alert(
           'Congrats!',
-          login ? 'Login Successfull' :'Registration Successful'
+          login ? 'Login Successfull' :'We have send you verified email to your E-mail id. Please Check '
         )
       }
       this.setState({
@@ -80,17 +91,33 @@ class SignUpScreen extends React.Component {
       })
       this.props.closeSuccessModel()
       if(this.state.progress != 3 && !login){
+        this.props.navigation.setParams({isLogin:true})
         this.setState({
-          progress: 3
+          login:true
         })
       } else if(login){
         this.props.navigation.navigate('HomeTab')        
+      }
+    } else if(nextProps.user.user.isError){
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          login ? 'Login Failed' : 'This email id is already registered.',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){
+        Alert.alert(
+          'Congrats!',
+          login ? 'Login Failed' : 'This email id is already registered.'
+        )
       }
     }
   }
 
   changeProgress = () => {
-    const { progress, firstName, lastName, email, password } = this.state;    
+    const { progress, firstName, lastName, email, password, interest } = this.state;    
     if(progress ==1 ){
       if( firstName != '' && lastName != '' ) {
         this.setState({ progress: progress +1 })
@@ -118,7 +145,8 @@ class SignUpScreen extends React.Component {
             last: lastName 
           },
           email: email,
-          password: password
+          password: password,
+          interests: interest
         }
         this.setState({ loader: true })
         this.props.getRegisterRequest(payload)
@@ -139,7 +167,7 @@ class SignUpScreen extends React.Component {
         }
       }
     } else if(progress == 3) {
-      this.props.navigation.navigate('HomeTab')
+      // this.props.navigation.navigate('HomeTab')
     }
   }
 
@@ -209,7 +237,7 @@ class SignUpScreen extends React.Component {
   backPress = () => {
     const { navigation } = this.props;
     if ( navigation.state.params && navigation.state.params.isLogin ){
-      navigation.goBack()
+      navigation.popToTop()
     } else {
       this.setState({ login: false })
     }
@@ -217,6 +245,7 @@ class SignUpScreen extends React.Component {
   
   render() {
     const { progress, firstName, lastName, email, password, login } = this.state;
+    const { user } = this.props;
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -240,12 +269,6 @@ class SignUpScreen extends React.Component {
                   <Text style={{color:'white',fontSize:17}} > Sign in </Text>
                 </TouchableOpacity>
               }
-              {/* {
-                login &&
-                <TouchableOpacity onPress={()=>{ this.setState({login:false}) }} >
-                  <Text style={{color:'white',fontSize:17}} > Sign Up </Text>
-                </TouchableOpacity>
-              } */}
               {
                 progress == 2  &&
                 <TouchableOpacity onPress={this.laterPress} >
@@ -255,7 +278,11 @@ class SignUpScreen extends React.Component {
           </View>
         </View>
           <View style={styles.miniContainer} >
-          {
+          { user.user.isLoading ?
+          <View style={{flex:1,justifyContent:'center',alignItems:'center'}} >
+            <ActivityIndicator size="large" color="black" animating={user.user.isLoading} />
+          </View>
+          :
             login ?
              <LoginContainer
               onPress={this.login}

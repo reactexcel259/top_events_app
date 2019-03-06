@@ -73,6 +73,7 @@ class HomeTab extends Component {
     //   })
     // }
     const { getCategoryData ,getStateAndCityData, user} = this.props;
+    console.log(user.user)
     if(user.user.data.length == 0 ){
       let token  = user.user.status.token;
       this.props.getUserDataRequest(token);
