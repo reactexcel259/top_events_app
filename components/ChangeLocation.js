@@ -37,9 +37,9 @@ export default class ChangeLocation extends Component {
           end={{ x: 1, y: 1 }}
           colors={["#ff6cc9", "#8559f0"]}
         >
-        <View style={styles.headerContainer} >
-          <Text style={styles.headerText} > Add Location </Text>
-        </View>
+        <TouchableOpacity style={styles.headerContainer} >
+          <Text style={styles.headerText} > X </Text>
+        </TouchableOpacity>
         {/* <View style={styles.intrestContainer} > */}
         <View style={{flexDirection:'row', margin:20}}>
           <View style={[Object.keys(search).length ? styles.searchPresent :styles.searchContainer]} >
@@ -111,8 +111,9 @@ const styles = StyleSheet.create({
       headerContainer:{
         marginTop:20,
         marginBottom:10,
-        justifyContent:'center',
-        alignItems:'center'
+        marginLeft:16,
+        padding:20,
+        alignItems:'flex-start'
       },
       headerText:{
         fontWeight:'600',
