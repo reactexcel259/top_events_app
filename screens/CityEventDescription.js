@@ -94,7 +94,7 @@ class CityEventDescription extends Component {
 
     const data = image.map((data, i) => {
       return (
-        <View style={[styles.peopleLiked, { zIndex: image.length - i }]}>
+        <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
           <Image
             style={styles.peopleLikedImage}
             source={require("../assets/images/photo2.png")}
