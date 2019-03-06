@@ -18,9 +18,9 @@ const initialState = {
 const getRegisterRequest = (state, action) =>
  update(state, {
    user: {
-     isLoading: { $set: false },
+     isLoading: { $set: true },
      isError: { $set: false },
-     isSuccess: { $set: true },
+     isSuccess: { $set: false },
      message: { $set: "succcessfull" }
    }
  });

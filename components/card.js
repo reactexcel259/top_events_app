@@ -51,7 +51,7 @@ export default class Card extends React.Component {
           justifyContent: "space-between",
           backgroundColor: "white",
           borderRadius: 5,
-          height: Layout.window.height/1.9,
+          height: Layout.window.height/1.7,
           margin: 10,
           marginTop: StatusBar.currentHeight
         }}

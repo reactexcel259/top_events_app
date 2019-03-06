@@ -195,7 +195,6 @@ class SetupScreen extends React.Component {
       let results = filters.length ? filters[0] : this.props.getStateAndCityData.status.data[0];
       setItem("user_info", JSON.stringify({location:results}));
       setItem("user_interest", JSON.stringify({ interest: selectedInt}));
-      setItem("user_updated_interest", JSON.stringify({ updatedInsterest: selectedInt}));
       this.props.navigation.navigate('SignUpScreen')
     }
   }

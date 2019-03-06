@@ -11,7 +11,7 @@ export function* getRegisterRequest(action) {
     });
 
     if (response.data.success) {
-        AsyncStorage.setItem('user', JSON.stringify(response.data));
+        // AsyncStorage.setItem('user', JSON.stringify(response.data));
         yield put(actions.getRegisterSuccess(response.data));
     } else {
       yield put(actions.getRegisterError(response.data));      
@@ -30,6 +30,8 @@ export function* getLoginRequest(action) {
      if (response.data.success) {
         AsyncStorage.setItem('user', JSON.stringify(response.data));
         yield put(actions.getLoginSuccess(response.data));
+        let token = response.data.token;
+        yield put(actions.getUserDataRequest(token));
      } else {
        yield put(actions.getLoginError(response.data));      
      }
