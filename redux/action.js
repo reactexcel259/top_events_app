@@ -38,6 +38,11 @@ export const getEventRequest=createAction(constants.GET_EVENT_REQUEST);
 export const getEventSuccess=createAction(constants.GET_EVENT_SUCCESS);
 export const getEventError=createAction(constants.GET_EVENT_ERROR);
 
+//action for EventsById
+export const getEventByIdRequest=createAction(constants.GET_EVENTBYID_REQUEST);
+export const getEventByIdSuccess=createAction(constants.GET_EVENTBYID_SUCCESS);
+export const getEventByIdError=createAction(constants.GET_EVENTBYID_ERROR);
+
 //action for getCategory
 
 export const getCategoryRequest=createAction(constants.GET_CATEGORY_REQUEST);

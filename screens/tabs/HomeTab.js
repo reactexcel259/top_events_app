@@ -15,7 +15,13 @@ import Events from "../../components/Events";
 import CustomHeader from ".././../components/header";
 import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
-import { getEventRequest, getCategoryRequest ,getStateAndCityRequest,getStateAndCityEventRequest, getUserDataRequest} from "../../redux/action";
+import { getEventRequest, 
+  getCategoryRequest ,
+  getStateAndCityRequest,
+  getStateAndCityEventRequest, 
+  getUserDataRequest,
+  getEventByIdRequest,
+} from "../../redux/action";
 import Touch from 'react-native-touch';
 import Layout from "../../constants/Layout";
 import HomePageModal from '../../components/HomePageModal';
@@ -96,13 +102,12 @@ class HomeTab extends Component {
       this.setState({ isStateAndCityId: true });
     }
   }
-  onViewAll = key => {
-    const events = this.props.getEventData.register.eventData;
-    events.forEach(event=>{
-      if(Object.keys(event).join() === key){
-        this.props.navigation.navigate('ViewAllCard' ,{eventDetails:event[Object.keys(event).join()].data},);
-      }
-    });
+  onViewAll = async key => {
+    const {status} = this.props.getCategoryData;
+    let eventsDetails = status.data.find(element => element.key == key)
+    this.props.getEventById({id:eventsDetails._id,key:eventsDetails.key})
+    console.log(this.props.getEventData.register.events,"this.props.getEventData.register.events");
+    this.props.navigation.navigate('ViewAllCard');
   };
   useCurrentLocation = async () => {
     const response = await Location.hasServicesEnabledAsync()
@@ -319,7 +324,6 @@ class HomeTab extends Component {
                     removeClippedSubviews={true}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
-                    // extraData={events}
                   />
                 )
                 }
@@ -351,7 +355,8 @@ const mapDispatchToProps = dispatch => {
     getCategory: () => dispatch(getCategoryRequest()),
     getUserDataRequest: (token) => dispatch(getUserDataRequest(token)),
     getStateAndCity:()=>dispatch(getStateAndCityRequest()),
-    getStateAndCityEvent:(cityId)=>dispatch(getStateAndCityEventRequest(cityId))
+    getStateAndCityEvent:(cityId)=>dispatch(getStateAndCityEventRequest(cityId)),
+    getEventById:(eventId)=>dispatch(getEventByIdRequest(eventId))
   };
 };
 export default connect(

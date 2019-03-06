@@ -21,3 +21,23 @@ export function* getEventRequest(action) {
     yield put(actions.getEventError());
   }
 }
+
+export function* getEventByIdRequest(action) {
+  try {
+    const response = yield call(
+      fireAjax,
+      "GET",
+      `/events?categories=${
+        action.payload.id
+      }`,
+      {
+        ...action.payload
+      }
+    );
+    if (response) {
+      yield put(actions.getEventByIdSuccess({event:response.data}));
+    }
+  } catch (e) {
+    yield put(actions.getEventByIdError());
+  }
+}

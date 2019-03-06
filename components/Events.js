@@ -62,7 +62,7 @@ export default class Events extends Component {
               {this.props.categoryId && this.props.categoryId.toUpperCase()}
             </Text>
             <Touch activeOpacity={0.1} onPress={() => this.props.onViewAll(this.props.categoryId)}>
-              <Text>
+              <Text> 
                 View all{" "}
                 {this.props.eventData && this.props.eventData.results.length}
               </Text>

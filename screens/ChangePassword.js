@@ -257,7 +257,7 @@ class ChangePassword extends React.Component {
           {
             loader ?
             <ActivityIndicator
-               size="large      " 
+               size="large" 
                color="white" 
                 style={styles.activityIndicator}
               />
