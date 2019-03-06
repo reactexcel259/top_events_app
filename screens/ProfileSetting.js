@@ -18,7 +18,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as actions from "../redux/action";
 import CustomHeader from "../components/header";
 import Intrest from "../components/intro/intrest";
-import { setItem } from "../services/storage";
+import { setItem, getItem } from "../services/storage";
 
 class ProfileSettingScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -36,11 +36,14 @@ class ProfileSettingScreen extends React.Component {
 
   async componentWillMount() {
     await this.props.getCategoryRequest();
+    let userInterset = getItem('user_interest');
+    console.log(userInterset,'dasdasdassd');
   }
 
   componentWillReceiveProps(nextProps) {
     const { getCategoryData } = this.props;
     if (getCategoryData.status !== nextProps.getCategoryData.status) {
+
       this.setState({ interest: nextProps.getCategoryData.status.data });
     }
   }
@@ -66,35 +69,13 @@ class ProfileSettingScreen extends React.Component {
           }
         }
       this.setState({interest:int})
-      // if (int[index]._id === id) {
-      //   if (int[index] !== undefined && int[index].selected) {
-      //     // this.setState({ selectedInt: [...this.state.selectedInt, int[index]] });
-      //     int[index]["selected"] = false;
-      //   } else {
-      //     int[index]["selected"] = true;
-          
-      //   }
-      // }
     }
-
-    console.log(this.state.selectedInt, "oooooo");
-    // for(let index = 0; index < int.length; index++){
-    //   if(selectedInt.length >0){
-    //   if(int[index]._id === id && selectedInt[index]._id !==id){
-    //     this.setState({ selectedInt: [...this.state.selectedInt, int[index]] });
-    //   }
-    // }else{
-    //   this.setState({ selectedInt: [...this.state.selectedInt, int[index]] });
-    // }
-    // }
-    //  setItem("user_updated_interest", JSON.stringify({ updatedInsterest: selectedInt}));
     setItem("user_interest", JSON.stringify({ interest: selectedInt}));
   };
 
   render() {
     const { getCategoryData } = this.props;
     const { interest,selectedInt } = this.state;
-    console.log(selectedInt,"selectedInt");
     
     return (
       <View style={styles.mainContainer}>

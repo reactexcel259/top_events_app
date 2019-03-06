@@ -81,7 +81,7 @@ class MyAccountScreen extends React.Component {
                   <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/user.png')}  />
                   <Text style={{fontSize:17,marginLeft:20}} > Profile Settings </Text>
                 </View>
-                <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
+                <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center',marginTop:-8}} >
                     <FontAwesome 
                     name={'angle-right'} size={32} color="lightgray" />
                 </View>
@@ -93,7 +93,7 @@ class MyAccountScreen extends React.Component {
               <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/settings.png')}  />
               <Text style={{fontSize:17,marginLeft:20}} > Account settings </Text>
             </View>
-            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
+            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center', marginTop:-8}} >
                 <FontAwesome 
                 name={'angle-right'} size={32} color="lightgray" />
             </View>
@@ -105,7 +105,7 @@ class MyAccountScreen extends React.Component {
               <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/bell.png')}  />
               <Text style={{fontSize:17,marginLeft:20}} > Manage notification </Text>
             </View>
-            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
+            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center', marginTop:-8}} >
                 <FontAwesome 
                 name={'angle-right'} size={32} color="lightgray" />
             </View>

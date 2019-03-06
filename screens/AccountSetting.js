@@ -54,7 +54,7 @@ class AccountSettingScreen extends React.Component {
               <Image style={{height:20,width:20}} mode='contain' source={require('../assets/images/email.png')}  />
               <Text style={{fontSize:17,marginLeft:20}} > Update e-mail address </Text>
             </View>
-            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
+            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center', marginTop:-8}} >
                 <FontAwesome 
                 name={'angle-right'} size={32} color="lightgray" />
             </View>
@@ -68,7 +68,7 @@ class AccountSettingScreen extends React.Component {
               <Image style={{height:20,width:16}} mode='contain' source={require('../assets/images/password.png')}  />
               <Text style={{fontSize:17,marginLeft:20}} > Change password </Text>
             </View>
-            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center'}} >
+            <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center', marginTop:-8}} >
                 <FontAwesome 
                 name={'angle-right'} size={32} color="lightgray" />
             </View>
