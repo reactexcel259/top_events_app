@@ -17,6 +17,7 @@ import CustomeButton from '../components/button'
 import Layout from '../constants/Layout';
 import * as actions from '../redux/action';
 import { MonoText } from '../components/StyledText';
+import {isIphoneX} from '../constants/Layout';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -62,7 +63,6 @@ class HomeScreen extends React.Component {
             </View>
             <View style={{alignSelf:'center',paddingBottom:20}} >
               <CustomeButton
-                
                 buttonText={"Sign In"}
                 gradientColor={['#FFFFFF','#FFFFFF']}
                 textColor={'black'}
@@ -82,12 +82,12 @@ const styles = StyleSheet.create({
     flex:1
   },
   image :{
-    height: Layout.window.height,
+    height: Layout.window.height * 1.2,
     width: Layout.window.width
   },
   ovalContainer:{
     width:Layout.window.width * 0.94 ,
-    height:Layout.window.height * 0.52,
+    height: isIphoneX() ? Layout.window.height * 0.44 :Layout.window.height * 0.52,
     backgroundColor:'#ffffff',
     opacity:0.93,
     position:'absolute',

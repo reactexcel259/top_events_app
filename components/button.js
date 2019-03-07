@@ -11,9 +11,11 @@ import {
 import { WebBrowser, LinearGradient } from 'expo';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
+import {isIphone} from '../constants/Layout';
 
 export default class CustomeButton extends React.Component {
   render() {
+    
     const { buttonText, buttonSize, textColor, gradientColor, onPress } = this.props
     return (
       <View style={styles.container}>
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     width:Layout.window.width * 0.350
   },
   buttonContainer: {
-    height:40, 
+    height:isIphone() ? 46 : 40, 
     width:Layout.window.width * 0.610
   },
   buttonText: {
