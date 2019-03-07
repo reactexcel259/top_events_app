@@ -60,11 +60,11 @@ class SignUpScreen extends React.Component {
     const { interest } = this.state;
     if(interest.length == 0 ) {
       let interestList = await getItem('user_interest');
-      if(interestList.interest){
-      this.setState({
-        interest: interestList.interest
-      })
-      }
+        if(interestList && interestList.interest){
+          this.setState({
+            interest: interestList.interest
+          })
+        }
     }
   }
 
@@ -315,9 +315,9 @@ const styles = StyleSheet.create({
   },
   miniContainer : {
     position:'absolute',
-    height:Layout.window.height * 0.52,
+    height:Layout.window.height * 0.54,
     width:Layout.window.width * 0.95,
-    top:Layout.window.height * 0.38,
+    top:Layout.window.height * 0.36,
     marginLeft:10,
     backgroundColor:'white',
     borderRadius:10,

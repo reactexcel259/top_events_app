@@ -22,10 +22,7 @@ export default class LoginContainer extends React.Component {
     return (
       <View style={styles.container}>
       <TouchableOpacity onPress={iconPress} >
-      <View>
-      <FontAwesome
-      name={'arrow-left'} size={20} style={{margin:5}} color="black" />
-      </View>
+        <EvilIcons name={'chevron-left'} size={35}  color="black" />
       </TouchableOpacity>
        <View style={styles.labelContainer} >
           <Text style={styles.label} >Login </Text>
@@ -88,12 +85,13 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     flexDirection:'column',
-    justifyContent:'space-between',
-    margin:20
+    justifyContent:'space-evenly',
+    marginLeft:20,
+    marginRight:20,
+    marginBottom:10
   },
   labelContainer:{
     alignItems:'center',
-    marginTop:10
   },
   label:{
     fontWeight:'600',
@@ -126,6 +124,7 @@ const styles = StyleSheet.create({
     marginBottom:30
   },
   signupContainer:{
+    marginTop:15,
     marginBottom:5,
     flexDirection:'row'
   }

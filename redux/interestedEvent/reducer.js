@@ -4,10 +4,12 @@ import * as constants from '../constant';
 
 const initialState = {
    isLoading: false,
+   attendingLoading:false,
    isError: false,
    isSuccess: false,
    message: "",
-   status:[]
+   status:[],
+   attending:[],
 };
 
 const getInterestedEventRequest = (state, action) =>{
@@ -26,10 +28,26 @@ const getInterestedEventSuccess = (state, action) =>
      status: { $set: action.payload }
  });
 
+ const getAttendingEventsRequest = (state, action) =>
+ update(state, {
+    attendingLoading: { $set: true },
+ });
+
+ const getAttendingEventSuccess = (state, action) =>
+ update(state, {
+     attendingLoading: { $set: false },
+     isError: { $set: false },
+     isSuccess: { $set: true },
+     attending: { $set: action.payload }
+ });
+
+
 export default handleActions(
  {
    [constants.GET_INTERSTEDEVENT_REQUEST]: getInterestedEventRequest,
-   [constants.GET_INTERSTEDEVENT_SUCCESS]: getInterestedEventSuccess
+   [constants.GET_INTERSTEDEVENT_SUCCESS]: getInterestedEventSuccess,
+   [constants.GET_ATTENDING_EVENT_REQUEST]: getAttendingEventsRequest,
+   [constants.GET_ATTENDING_EVENT_SUCCESS]: getAttendingEventSuccess,
  },
  initialState
 );

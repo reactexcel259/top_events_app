@@ -18,11 +18,15 @@ import { LinearGradient, Font } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 import * as actions from '../../redux/action';
 import Card from '../../components/card';
-import {getInterestedEventRequest} from '../../redux/action';
+import {getAttendingEventRequest} from '../../redux/action';
+import { withNavigationFocus } from 'react-navigation';
 
 class Attending extends React.Component {
   constructor(props){
     super(props)
+    this.state = {
+      attendingEvents:[]
+    }
    
   }
   static navigationOptions = ({ navigation }) => {
@@ -33,10 +37,27 @@ class Attending extends React.Component {
 
   async componentDidMount(){
     let token =this.props.user.user.status.token
-    // await this.props.getInterestedEventRequest(token)
+    await this.props.getAttendingEventRequest(token)
+  }
+  
+  componentWillReceiveProps(nextProps){
+    const {attending,isLoading} = this.props.getInterestedEvent
+    if(nextProps.getInterestedEvent.attending.data !== undefined){
+      if(nextProps.getInterestedEvent.attending !== attending){
+        this.setState({attendingEvents:nextProps.getInterestedEvent.attending.data.results})
+      }    
+    }
   }
 
+  async componentDidUpdate(prevProps){
+    if(prevProps.isFocused !== this.props.isFocused){
+      let token =this.props.user.user.status.token
+      await this.props.getAttendingEventRequest(token)
+    }
+  }
   _renderItem=({item,index})=>{
+    console.log(item,"cecececececcecec");
+    
     return(
         <View>
             <Touch 
@@ -45,32 +66,37 @@ class Attending extends React.Component {
             >
                 <Card item={item}/>
             </Touch>
+
         </View>
     )
   }
   
 
   render() {
-    const eventsLength = this.props.getEventData.register.eventData.length;
-    console.log(this.props.getEventData,"changes Need to added");
-    
-    const events = this.props.getEventData.register.eventData;
-    let eventDetails 
-    let data = events.forEach(event=>{
-      if(Object.keys(event).join() === 'sport'){
-        eventDetails = event[Object.keys(event).join()].data
-      }
-      });
+    const {status,attendingLoading} = this.props.getInterestedEvent
+    const {attendingEvents} = this.state;
     return (
       <View style={styles.mainContainer}>
         {
-        eventDetails &&
-        <FlatList 
-        data={eventDetails.results}
-        keyExtractor={(item,index)=>(index.toString())}
-        showsVerticalScrollIndicator={false}
-        renderItem={this._renderItem}
-        />
+          !attendingLoading  ?
+            <View style={styles.mainContainer} >
+                {attendingEvents.length?<FlatList 
+                data={this.state.attendingEvents}
+                keyExtractor={(item,index)=>(index.toString())}
+                showsVerticalScrollIndicator={false}
+                renderItem={this._renderItem}
+                />:
+                <View style={styles.suggestion}>
+                    <Text>
+                      Your are not attending any event yet !!
+                    </Text>
+                </View>
+                }
+            </View>
+            :
+          <View style={styles.loaderStyle}>
+            <ActivityIndicator size="large" color="#00ff00" />
+          </View>
         }
       </View>
     );
@@ -79,18 +105,28 @@ class Attending extends React.Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor:'lightgray'
+    backgroundColor:'white'
   },
+  suggestion:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  loaderStyle:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
+  }
 });
 
 const mapStateToProps = (state) => {
   return {
-      getEventData: state.getEvent, 
+      getInterestedEvent:state.getInterestedEvent,
       user:state.user,
   }
 }
 const mapDispatchToProps = dispatch => 
     bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps,mapDispatchToProps)(Attending);
+export default connect(mapStateToProps,mapDispatchToProps)(withNavigationFocus(Attending));
     

@@ -82,3 +82,9 @@ export const getInterestedEventRequest=createAction(constants.GET_INTERSTEDEVENT
 export const getInterestedEventSuccess=createAction(constants.GET_INTERSTEDEVENT_SUCCESS);
 export const getInterestedEventError=createAction(constants.GET_INTERSTEDEVENT_ERROR);
 
+//action for attending events 
+
+export const getAttendingEventRequest=createAction(constants.GET_ATTENDING_EVENT_REQUEST);
+export const getAttendingEventSuccess=createAction(constants.GET_ATTENDING_EVENT_SUCCESS);
+export const getAttendingEventError=createAction(constants.GET_ATTENDING_EVENT_ERROR);
+

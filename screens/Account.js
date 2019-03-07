@@ -33,10 +33,13 @@ class MyAccountScreen extends React.Component {
   }
 
   logout = async () => {
-      AsyncStorage.setItem('user',null);
-      AsyncStorage.setItem('user_info',null);
-      AsyncStorage.setItem('user_interest',null);
-    this.props.navigation.popToTop();
+      // await AsyncStorage.setItem('user',null);
+      // await AsyncStorage.setItem('user_info',null);
+      // await AsyncStorage.setItem('user_interest',null);
+      let keys = ['user','user_info','user_interest'];
+      let a = await AsyncStorage.multiRemove(keys);
+      console.log(a,"console.log");
+      this.props.navigation.popToTop();
   }
 
   componentWillMount() {

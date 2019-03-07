@@ -16,3 +16,18 @@ export function* getInterestedEventRequest(action) {
     yield put(actions.getInterestedEventError());
   }
  }
+
+export function* getAttendingEventRequest(action) {
+  const header = {
+        "Authorization":action.payload
+      };
+    
+  try {
+    const response = yield call(fireAjax, "GET", `/getUserCheckedinEvent`,header,null);
+    if (response) {
+      yield put(actions.getAttendingEventSuccess(response.data));
+    }
+  } catch (e) {
+    yield put(actions.getAttendingEventError());
+  }
+}

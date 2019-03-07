@@ -9,6 +9,7 @@ import {postAddCommentRequest} from './addComment/action';
 import {getEventDescriptionRequest} from './getEventDescription/action';
 import {postAddLikeRequest} from './addLikeOnEvent/action';
 import { getInterestedEventRequest} from  './interestedEvent/action';
+import { getAttendingEventRequest } from './interestedEvent/action';
 
 
 export function* watchActions() {
@@ -27,6 +28,7 @@ export function* watchActions() {
   yield takeLatest(constants.GET_EVENTDESCRIPTION_REQUEST ,getEventDescriptionRequest);
   yield takeLatest(constants.POST_EVENT_LIKE_REQUEST ,postAddLikeRequest);
   yield takeLatest(constants.GET_INTERSTEDEVENT_REQUEST ,getInterestedEventRequest);
+  yield takeLatest(constants.GET_ATTENDING_EVENT_REQUEST ,getAttendingEventRequest);
 }
 
 export default function* rootSaga() {
