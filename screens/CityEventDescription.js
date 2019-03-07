@@ -92,6 +92,8 @@ class CityEventDescription extends Component {
   }
   render() {
     const { isLiked } = this.state;
+    const {user} = this.props.user;
+    let rightIcon ;
     const data = image.map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
@@ -103,9 +105,14 @@ class CityEventDescription extends Component {
       );
     });
     const eventData = this.props.getEventDescription;
-    const item =
-      eventData.isSuccess && this.props.getEventDescription.status.data;
-    let rightIcon = isLiked ? ['heart','share-alt'] : ["heart-o", "share-alt"]
+    const item = eventData.isSuccess && this.props.getEventDescription.status.data;
+    let interestedArray = !item ? [] : item.interested;
+    const checkInterested = interestedArray.find(going => going.email == user.data.data.email);
+    if(isLiked){
+      rightIcon =  ['heart','share-alt'] ;
+    }else{
+      rightIcon = checkInterested && Object.keys(checkInterested).length && !isLiked ? ['heart','share-alt'] : ["heart-o", "share-alt"];
+    }
     return (
       <View>
         <CustomHeader
@@ -183,7 +190,7 @@ class CityEventDescription extends Component {
                         colors={["#ff6cc9", "#8559f0"]}
                         style={styles.button}
                       >
-                        <Text style={styles.buttonText}>Joing event</Text>
+                        <Text style={styles.buttonText}> Joing event</Text>
                       </LinearGradient>
                       <LinearGradient
                         colors={["#ff6cc9", "#8559f0"]}
@@ -361,13 +368,13 @@ const styles = StyleSheet.create({
   eventWrapper: {
     marginTop: 20,
     marginBottom: 2,
-    paddingLeft: 30
+    paddingLeft: 20
   },
   website: {},
   time: {
     marginTop: 20,
     flexDirection: "row",
-    paddingLeft: 30
+    paddingLeft: 20
   },
   timeWrapper: {
     marginTop: -5
@@ -414,7 +421,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: Layout.window.width / 1.7,
-    height: Layout.window.width * 0.15,
+    height: Layout.window.width * 0.12,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -429,7 +436,8 @@ const styles = StyleSheet.create({
   firstChild: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    height: Layout.window.height - 100
+    height: Layout.window.height * 0.80,
+    marginBottom:20 
   },
   tab: {
     flexDirection: "row",

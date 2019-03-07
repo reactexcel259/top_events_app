@@ -31,3 +31,18 @@ export function* getAttendingEventRequest(action) {
     yield put(actions.getAttendingEventError());
   }
 }
+
+export function* postJoiningEventsRequest(action) {
+  const header = {
+        "Authorization":action.payload
+      };
+    
+  try {
+    const response = yield call(fireAjax, "GET", `/getUserCheckedinEvent`,header,null);
+    if (response) {
+      yield put(actions.getAttendingEventSuccess(response.data));
+    }
+  } catch (e) {
+    yield put(actions.getAttendingEventError());
+  }
+}

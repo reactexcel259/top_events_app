@@ -88,3 +88,8 @@ export const getAttendingEventRequest=createAction(constants.GET_ATTENDING_EVENT
 export const getAttendingEventSuccess=createAction(constants.GET_ATTENDING_EVENT_SUCCESS);
 export const getAttendingEventError=createAction(constants.GET_ATTENDING_EVENT_ERROR);
 
+//action for join events 
+
+export const postJoiningEventsRequest=createAction(constants.POST_JOINING_EVENTS_REQUEST);
+export const postJoiningEventsSuccess=createAction(constants.POST_JOINING_EVENTS_SUCCESS);
+export const postJoiningEventsError=createAction(constants.POST_JOINING_EVENTS_ERROR);

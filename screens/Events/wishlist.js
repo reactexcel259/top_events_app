@@ -56,10 +56,12 @@ class Wishlist extends React.Component {
     return(
         <View>
             <Touch 
-            activeOpacity={0.05}
+            // activeOpacity={0.05}
             onPress={()=>this.props.navigation.navigate("CityEventDescription",{item:item})}
             >
-                <Card item={item}/>
+                <Card item={item}
+                  isWishlist={true}
+                />
             </Touch>
         </View>
     )
@@ -68,6 +70,7 @@ class Wishlist extends React.Component {
   render() {
     const {status,isLoading} = this.props.getInterestedEvent
     const {wishList} = this.state;
+
     return (
       <View style={styles.mainContainer}>
         {

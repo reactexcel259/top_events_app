@@ -14,7 +14,7 @@ import Layout from "../constants/Layout";
 import { LinearGradient, Font } from "expo";
 import { FontAwesome } from "@expo/vector-icons";
 import moment from 'moment'
-
+ 
 const image = [
   {
     image: "../assets/images/photo2.png"
@@ -32,7 +32,7 @@ const image = [
 
 export default class Card extends React.Component {
   render() {
-    const { isWishlist ,item} = this.props;
+    const { isWishlist ,item, favorites} = this.props;
     const data = image.map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
@@ -48,21 +48,21 @@ export default class Card extends React.Component {
         style={{
           elevation: 5,
           flexDirection: "column",
-          justifyContent: "space-between",
+          justifyContent: "space-evenly",
           backgroundColor: "white",
           borderRadius: 5,
-          height: Layout.window.height/1.7,
+          height:isWishlist? Layout.window.height/2.1 : Layout.window.height/1.7,
           margin: 10,
           marginTop: StatusBar.currentHeight
         }}
       >
-      <Text style={{paddingLeft:5,paddingTop:5,paddingBottom:5}}>
+      {!isWishlist?<Text style={{paddingLeft:5,paddingTop:5,paddingBottom:5}}>
         { item ?
           moment(item.start).format("D MMM, dddd")
           :
           moment().format("D MMM, dddd")
         }
-      </Text>
+      </Text>:null}
         <Image
           source={
             item.image ?
@@ -151,6 +151,7 @@ export default class Card extends React.Component {
               justifyContent: "space-between",
               alignItems: "center",
               flexDirection: "row",
+              marginTop:10,
               marginBottom: 10
             }}
           >
@@ -161,14 +162,19 @@ export default class Card extends React.Component {
                 marginLeft: 5
               }}
             >
-              <Image source={require("../assets/images/heart.png")} />
+              <View style={styles.peopleWrapper}>
+                  <View style={styles.peppleLikedWrapper}>{data}</View>
+                  <Text style={styles.totalPeople}>
+                    {item.interested.length} 
+                  </Text>
+              </View>
             </View>
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "center",
+                justifyContent: "flex-end",
                 marginRight: 15,
-                width: Layout.window.width * 0.5
+                width: Layout.window.width * 0.3
               }}
             >
               <Text style={{ alignSelf: "center", color: "#F66BCC" }}>
@@ -197,9 +203,11 @@ export default class Card extends React.Component {
                 marginLeft: 5
               }}
             >
-              <Image source={require("../assets/images/heart.png")} />
-              {/* <Image source={require('../assets/images/heart_full.png')}  /> */}
-            </View>
+              {!favorites ? 
+                <Image source={require("../assets/images/heart.png")} />
+                :<Image source={require('../assets/images/heart_full.png')} />
+              }
+               </View>
                 <View style={{ flexDirection:'row' ,marginLeft:Layout.window.width*.2 }}>
                     {data}
                 </View>
@@ -258,5 +266,36 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 24,
     position: "absolute",
-  }
+  },
+  peopleLiked: {
+    width: 35,
+    height: 35,
+    marginLeft: -20,
+    borderRadius: 1,
+    borderWidth: 2,
+    borderColor: "#fff",
+    borderRadius: 28,
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  peopleLikedImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 24,
+    position: "absolute"
+  },
+  peppleLikedWrapper: {
+    flexDirection: "row"
+  },
+  peopleWrapper: {
+    flexDirection: "row",
+    // width: "100%",
+    paddingLeft: 20,
+    marginTop: 0,
+    alignItems: "center"
+  },
+  totalPeople: {
+    marginLeft: 5
+  },
 });
