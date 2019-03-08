@@ -8,7 +8,8 @@ import {
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
-  Alert
+  Alert,
+  Image
 } from "react-native";
 import VideosComponent from "../../components/VideosComponent";
 import Events from "../../components/Events";
@@ -51,6 +52,10 @@ class HomeTab extends Component {
   async componentDidMount() {
     const getUpdatedInterest =await getItem('user_updated_interest')
     const getInterest = await getItem("user_interest")
+    const getLocation = await getItem("user_info");
+    if(getLocation && getLocation.location !== undefined){
+      this.setState({search:getLocation.location.name})
+    }
     if(getInterest && getInterest.interest != undefined ){
       if( getInterest.interest.length >0){
       getInterest.interest.forEach(eventId => {
@@ -282,9 +287,22 @@ class HomeTab extends Component {
                     <Text>Events in</Text>
                   </View>
                   <View style={styles.secondText}>
-                    <Text style={styles.kingstonText}>Kingston</Text>
+                    <Text style={styles.kingstonText}>{this.state.search}</Text>
                     <TouchableOpacity onPress={()=>{this.setState({changeLocationModal:true})}}>
-                      <Text style={styles.changText}>Change</Text>
+                      <View style={{flexDirection:'row', marginTop:3}} >
+                        <Image
+                          style={{width:20,height:20}}
+                          resizeMode='cover'
+                          source={require('../../assets/images/location.png')}
+                        />
+                        <View style={{margin:5}}/>
+                        <Image
+                          style={{width:65,height:20}}
+                          resizeMode='cover'
+                          source={require('../../assets/images/Change.png')}
+                        />
+                        {/* <View style={{margin:5}}/> */}
+                      </View>
                     </TouchableOpacity>
                   </View>
                 </View>

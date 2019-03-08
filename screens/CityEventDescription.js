@@ -107,12 +107,17 @@ class CityEventDescription extends Component {
     const eventData = this.props.getEventDescription;
     const item = eventData.isSuccess && this.props.getEventDescription.status.data;
     let interestedArray = !item ? [] : item.interested;
+    let checkedInarry = !item ? [] : item.checkedinBy;
+    const checkedIn = checkedInarry.find(going => going.email == user.data.data.email) 
+    const checkedInBy = checkedIn && Object.keys(checkedIn).length ? true : false;
     const checkInterested = interestedArray.find(going => going.email == user.data.data.email);
     if(isLiked){
       rightIcon =  ['heart','share-alt'] ;
     }else{
       rightIcon = checkInterested && Object.keys(checkInterested).length && !isLiked ? ['heart','share-alt'] : ["heart-o", "share-alt"];
     }
+    console.log(item,"item");
+    
     return (
       <View>
         <CustomHeader
@@ -190,7 +195,13 @@ class CityEventDescription extends Component {
                         colors={["#ff6cc9", "#8559f0"]}
                         style={styles.button}
                       >
-                        <Text style={styles.buttonText}> Joing event</Text>
+                        {checkedInBy?
+                          <View style={styles.insideButton}>
+                              <Text style={[styles.buttonText,{color:'black'}]}>
+                                You're going
+                              </Text>
+                          </View>
+                        :<Text style={styles.buttonText}> Joing event</Text>}
                       </LinearGradient>
                       <LinearGradient
                         colors={["#ff6cc9", "#8559f0"]}
@@ -418,6 +429,16 @@ const styles = StyleSheet.create({
   },
   dateDay: {
     fontWeight: "bold"
+  },
+  insideButton:{
+    width: Layout.window.width / 1.74,
+    height: Layout.window.width * 0.111 ,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    borderRadius: 40,
+    backgroundColor:'white'
   },
   button: {
     width: Layout.window.width / 1.7,

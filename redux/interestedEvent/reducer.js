@@ -5,11 +5,13 @@ import * as constants from '../constant';
 const initialState = {
    isLoading: false,
    attendingLoading:false,
+   postingLoading:false,
    isError: false,
    isSuccess: false,
    message: "",
    status:[],
    attending:[],
+   joinedTrue:false
 };
 
 const getInterestedEventRequest = (state, action) =>{
@@ -41,6 +43,15 @@ const getInterestedEventSuccess = (state, action) =>
      attending: { $set: action.payload }
  });
 
+ const postJoiningEventsRequest = (state, action) =>
+ update(state, {
+    postingLoading: { $set: true },
+ });
+ const postJoiningEventsSuccess = (state, action) =>
+ update(state, {
+    postingLoading: { $set: false },
+    joinedTrue:{$set:true}
+ });
 
 export default handleActions(
  {
@@ -48,6 +59,8 @@ export default handleActions(
    [constants.GET_INTERSTEDEVENT_SUCCESS]: getInterestedEventSuccess,
    [constants.GET_ATTENDING_EVENT_REQUEST]: getAttendingEventsRequest,
    [constants.GET_ATTENDING_EVENT_SUCCESS]: getAttendingEventSuccess,
+   [constants.POST_JOINING_EVENTS_REQUEST]: postJoiningEventsRequest,
+   [constants.POST_JOINING_EVENTS_SUCCESS]: postJoiningEventsSuccess,
  },
  initialState
 );

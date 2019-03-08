@@ -64,7 +64,7 @@ class Attending extends React.Component {
             activeOpacity={0.05}
             onPress={()=>this.props.navigation.navigate("CityEventDescription",{item:item})}
             >
-                <Card item={item}/>
+                <Card item={item} going={true} eventJoin={()=>{console.log('TestWrap')}}/>
             </Touch>
 
         </View>

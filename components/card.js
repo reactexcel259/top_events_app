@@ -32,7 +32,7 @@ const image = [
 
 export default class Card extends React.Component {
   render() {
-    const { isWishlist ,item, favorites} = this.props;
+    const { isWishlist ,item, favorites, eventWishList, going} = this.props;
     const data = image.map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
@@ -200,10 +200,11 @@ export default class Card extends React.Component {
               style={{
                 alignSelf: "flex-start",
                 alignSelf: "center",
-                marginLeft: 5
+                marginLeft: 10,
+                marginTop:5
               }}
             >
-              {!favorites ? 
+              {!eventWishList ? 
                 <Image source={require("../assets/images/heart.png")} />
                 :<Image source={require('../assets/images/heart_full.png')} />
               }
@@ -214,28 +215,39 @@ export default class Card extends React.Component {
             <View
               style={{
                 flexDirection: "row",
-                // justifyContent: "space-between",
                 marginRight: 5,
-                // borderWidth:1
-                // width: Layout.window.width * 0.5
               }}
             >
               <View>
-                <LinearGradient
-                  start={{ x: 0, y: 1 }}
-                  end={{ x: 1, y: 1 }}
-                  colors={["#ff6cc9", "#8559f0"]}
-                  style={{
-                    // borderWidth: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 20,
-                    width: 100,
-                    height: 40
-                  }}
-                >
-                  <Text style={{ alignSelf: "center" }}> You're going </Text>
-                </LinearGradient>
+                <TouchableOpacity onPress={()=>{this.props.eventJoin(item)}}>
+                  <LinearGradient
+                    start={{ x: 0, y: 1 }}
+                    end={{ x: 1, y: 1 }}
+                    colors={["#ff6cc9", "#8559f0"]}
+                    style={{
+                      // borderWidth: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 20,
+                      width: 100,
+                      height: 35
+                    }}
+                  >
+                    {going?
+                      <View style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 20,
+                        width: 98,
+                        height: 33,
+                        backgroundColor:'white'
+                      }}>
+                        <Text> You're going</Text>
+                      </View>:
+                      <Text style={{ alignSelf: "center", color:'white' }}>Join event</Text>
+                    }
+                  </LinearGradient>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

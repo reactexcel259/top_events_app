@@ -23,7 +23,7 @@ export function* getAttendingEventRequest(action) {
       };
     
   try {
-    const response = yield call(fireAjax, "GET", `/getUserCheckedinEvent`,header,null);
+    const response = yield call(fireAjax, "GET", `/getCheckedInEvents`,header,null);
     if (response) {
       yield put(actions.getAttendingEventSuccess(response.data));
     }
@@ -34,15 +34,14 @@ export function* getAttendingEventRequest(action) {
 
 export function* postJoiningEventsRequest(action) {
   const header = {
-        "Authorization":action.payload
+        "Authorization":action.payload.token
       };
-    
   try {
-    const response = yield call(fireAjax, "GET", `/getUserCheckedinEvent`,header,null);
+    const response = yield call(fireAjax, "PUT", `/events/addCheckedIn/${action.payload.id}`,header,null);
     if (response) {
-      yield put(actions.getAttendingEventSuccess(response.data));
+      yield put(actions.postJoiningEventsSuccess(response.data));
     }
   } catch (e) {
-    yield put(actions.getAttendingEventError());
+    yield put(actions.postJoiningEventsError());
   }
 }

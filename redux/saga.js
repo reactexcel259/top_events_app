@@ -28,7 +28,7 @@ export function* watchActions() {
   yield takeLatest(constants.POST_EVENT_LIKE_REQUEST ,postAddLikeRequest);
   yield takeLatest(constants.GET_INTERSTEDEVENT_REQUEST ,getInterestedEventRequest);
   yield takeLatest(constants.GET_ATTENDING_EVENT_REQUEST ,getAttendingEventRequest);
-  yield takeLatest(constants.POST_JOINING_EVENTS_REQUEST ,getAttendingEventRequest);
+  yield takeLatest(constants.POST_JOINING_EVENTS_REQUEST ,postJoiningEventsRequest);
 }
 
 export default function* rootSaga() {
