@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, SafeAreaView } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { AppLoading, Asset, Font, Icon, SplashScreen } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import {store} from './redux/store';
 import { Provider } from "react-redux";
@@ -25,21 +25,46 @@ export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   }; 
-
-  render() {
-     return (
-      <SafeAreaView style={{flex:1}} >
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <Provider store={store} >
-          <AppNavigator />
-        </Provider>
-      </View>
-      </SafeAreaView>
-    )
+  componentDidMount() {
+    // SplashScreen.preventAutoHide();
   }
-
-}
+  render() {
+      if (!this.state.isLoadingComplete) {
+        return (
+          <AppLoading
+            startAsync={this._loadResourcesAsync}
+            onError={this._handleLoadingError}
+            onFinish={this._handleFinishLoading}
+            autoHideSplash={false}
+          />
+        );
+      } else {
+        return (
+          <SafeAreaView style={{flex:1}} >
+            <View style={styles.container}>
+              {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+              <Provider store={store} >
+                <AppNavigator />
+              </Provider>
+            </View>
+          </SafeAreaView>
+        );
+      }
+    }
+    _loadResourcesAsync = async () => {
+      
+    };
+  
+    _handleLoadingError = error => {
+      // In this case, you might want to report the error to your error
+      // reporting service, for example Sentry
+      console.warn(error);
+    };
+  
+    _handleFinishLoading = () => {
+      this.setState({ isLoadingComplete: true });
+    };
+  }
 
 const styles = StyleSheet.create({
   container: {

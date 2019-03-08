@@ -478,7 +478,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     borderRadius: 50,
-    paddingTop: 30,
+    paddingTop: 15,
     paddingBottom: 30
   },
   mapDescription: {

@@ -18,20 +18,22 @@ import Layout from '../constants/Layout';
 import * as actions from '../redux/action';
 import { MonoText } from '../components/StyledText';
 import {isIphoneX} from '../constants/Layout';
+import { Asset, SplashScreen } from 'expo';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
 
-  componentWillMount() {
-    AsyncStorage.getItem('user').then((data)=>{
+  async componentWillMount() {
+    await AsyncStorage.getItem('user').then((data)=>{
       if(data != null){
         let payload = JSON.parse(data)
         this.props.getLoginSuccess(payload)
         this.props.navigation.navigate('HomeTab')
       }
     })
+    SplashScreen.hide();
   }
 
   render() {
