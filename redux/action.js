@@ -93,3 +93,6 @@ export const getAttendingEventError=createAction(constants.GET_ATTENDING_EVENT_E
 export const postJoiningEventsRequest=createAction(constants.POST_JOINING_EVENTS_REQUEST);
 export const postJoiningEventsSuccess=createAction(constants.POST_JOINING_EVENTS_SUCCESS);
 export const postJoiningEventsError=createAction(constants.POST_JOINING_EVENTS_ERROR);
+
+//action for setAddEventDefault
+export const setAddEventDefault=createAction(constants.SET_ADD_EVENT_DEFAULT);
