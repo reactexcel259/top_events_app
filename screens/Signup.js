@@ -73,7 +73,7 @@ class SignUpScreen extends React.Component {
     if(nextProps.user.user.isSuccess && nextProps.user.user.status.session){      
         Alert.alert(
           'Congrats!',
-          login ? 'Login Successfull' :'We have send you verified email to your E-mail id. Please Check '
+          login ? 'Login Successfull' :'Sign Up successfully !!'
         )
       this.setState({
         loader:false,
@@ -106,12 +106,12 @@ class SignUpScreen extends React.Component {
           login ? 'Login Failed' : 'This email id is already registered.'
         )
       }
-    } else if ( login && !nextProps.user.user.status.session ) {
-      Alert.alert(
-          'Login Error!',
-          'Please Verify Your Email.'
+    } else if (!nextProps.user.user.status.session && nextProps.user.user.status.session !== undefined ){
+        Alert.alert(
+          'Alert !!',
+          `${nextProps.user.user.status.message}`
         )
-    }
+    } 
   }
 
   changeProgress = () => {

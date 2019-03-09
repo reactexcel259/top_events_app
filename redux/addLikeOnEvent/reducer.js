@@ -12,7 +12,7 @@ const initialState = {
 const postAddLikeRequest = (state, action) =>{
     return(
  update(state, {
-     isLoading: { $set: false },
+     isLoading: { $set: true },
      isError: { $set: false },
      message: { $set: "RequestSucccessfull" }
  }))};
