@@ -4,7 +4,15 @@ import Card from '../components/card';
 import Touch from 'react-native-touch';
 import CustomHeader from '../components/header';
 import Layout from '../constants/Layout';
-import {getStateAndCityRequest, getCategoryRequest, postJoiningEventsRequest, getEventByIdRequest,setAddEventDefault} from '../redux/action';
+import {getStateAndCityRequest, 
+  getCategoryRequest, 
+  postJoiningEventsRequest, 
+  getEventByIdRequest,
+  setAddEventDefault,
+  postEventLikeRequest,
+  setLikeEventsDefault
+} 
+  from '../redux/action';
 import { connect } from "react-redux";
 
 
@@ -25,12 +33,25 @@ class ViewAllCard extends Component {
       this.setState({categories:categories})
       this.props.postJoiningEvent({token,id})
     }
+    addTofab = (item) => {
+      let token =this.props.user.user.status.token;
+      let eventId = item._id;
+      let categories = item.categories;
+      this.setState({categories:categories})
+      this.props.eventLikeRequest({token,eventId})
+    }
     componentWillReceiveProps(nextProps){
       const {categories} = this.state;
       const {joinedTrue} = this.props.getInterestedEvent;
+      const {isSuccess} = this.props.postAddLikeEvent
       if(nextProps.getInterestedEvent.joinedTrue  && this.props.joinedTrue !== nextProps.getInterestedEvent.joinedTrue){
         this.props.getEventById({id:categories._id,key:categories.key});
-            this.props.setAddEvents();
+        this.props.setAddEvents();
+      }
+      if(nextProps.postAddLikeEvent.isSuccess && this.props.isSuccess !== nextProps.postAddLikeEvent.isSuccess){
+        this.props.getEventById({id:categories._id,key:categories.key});
+        this.props.setLikeEvents();
+        
       }
     }
     _renderItem=({item,index})=>{
@@ -41,12 +62,6 @@ class ViewAllCard extends Component {
       const wishList = checkInterested && Object.keys(checkInterested).length ? true : false; 
       const checkedInByArray = checkedInBy.find(going => going.email == user.data.data.email);
       let going = checkedInByArray && Object.keys(checkedInByArray).length  ? true :false;
-      // const showLoader = item._id == this.state.id && postingLoading  ? true : false;
-      // if(item._id == this.state.id){
-      //   going = true;
-      // } else {
-      //   going = 
-      // }
         return(
             <View>
                 <TouchableOpacity 
@@ -57,6 +72,7 @@ class ViewAllCard extends Component {
                       going={going} 
                       item={item} 
                       loading={false}
+                      addTofab={(item)=>{this.addTofab(item)}}
                       eventJoin={(item)=>{this.eventJoin(item)}}
                     />
                 </TouchableOpacity>
@@ -66,8 +82,8 @@ class ViewAllCard extends Component {
   render() {
     const {register} = this.props.getEventData;
     const {postingLoading} = this.props.getInterestedEvent
+    const {isLoading} = this.props.postAddLikeEvent;
     let currentData = register.events.data !== undefined ? register.events.data.results : register.events;
-    // let interestedArray = !currentData ? [] : currentData.interested;
     return (
       <View style={{paddingBottom:Layout.window.height*0.005, flex:1 }}>
         <CustomHeader  
@@ -77,7 +93,7 @@ class ViewAllCard extends Component {
           leftIcon='angle-left' 
           centerTitle="My event" 
         />
-        {register.isLoading || postingLoading ?
+        {register.isLoading || postingLoading || isLoading ?
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
             <ActivityIndicator size="small" color="#00ff00" />
           </View>:
@@ -99,6 +115,7 @@ const mapStateToProps = state => {
     getEventData: state.getEvent,
     user:state.user,
     getInterestedEvent:state.getInterestedEvent,
+    postAddLikeEvent: state.postAddLikeEvent,
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -108,6 +125,8 @@ const mapDispatchToProps = dispatch => {
     postJoiningEvent:(data) => dispatch(postJoiningEventsRequest(data)),
     getEventById:(eventId)=>dispatch(getEventByIdRequest(eventId)),
     setAddEvents : () => dispatch(setAddEventDefault()),
+    eventLikeRequest:(token, eventId)=>dispatch(postEventLikeRequest(token ,eventId)),
+    setLikeEvents:()=>dispatch(setLikeEventsDefault())
   };
 };
 

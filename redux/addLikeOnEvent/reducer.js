@@ -24,11 +24,16 @@ const postAddLikeSuccess = (state, action) =>
      isSuccess: { $set: true },
      status: { $set: action.payload }
  });
+const setLikeEventDefault = (state, action) =>
+    update(state, {
+        isSuccess: { $set: false },
+    });
 
 export default handleActions(
  {
    [constants.POST_EVENT_LIKE_REQUEST]: postAddLikeRequest,
-   [constants.POST_EVENT_LIKE_SUCCESS]: postAddLikeSuccess
+   [constants.POST_EVENT_LIKE_SUCCESS]: postAddLikeSuccess,
+   [constants.SET_LIKE_EVENTS_DEFAULT]: setLikeEventDefault
  },
  initialState
 );
