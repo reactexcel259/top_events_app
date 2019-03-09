@@ -96,7 +96,7 @@ class ChangePassword extends React.Component {
       })
       if(Platform.OS == 'android') {
         ToastAndroid.showWithGravityAndOffset(
-          'Your Profile is updated',
+          'Your password has been changed',
           ToastAndroid.LONG,
           ToastAndroid.BOTTOM,
           25,
@@ -105,7 +105,7 @@ class ChangePassword extends React.Component {
       } else if( Platform.OS == 'ios'){
         Alert.alert(
           'Success',
-          'Your Profile is updated'
+          'Your password has been changed'
         )
       }
       this.goBack()

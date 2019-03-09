@@ -6,20 +6,20 @@ import {store} from './redux/store';
 import { Provider } from "react-redux";
 
 
-XMLHttpRequest = GLOBAL.originalXMLHttpRequest
-  ? GLOBAL.originalXMLHttpRequest
-  : GLOBAL.XMLHttpRequest;
+// XMLHttpRequest = GLOBAL.originalXMLHttpRequest
+//   ? GLOBAL.originalXMLHttpRequest
+//   : GLOBAL.XMLHttpRequest;
 
-// fetch logger
-global._fetch = fetch;
-global.fetch = function(uri, options, ...args) {
-  return global._fetch(uri, options, ...args).then(response => {
-    console.log("Fetch", { request: { uri, options, ...args }, response });
-    return response;
-  });
-};
+// // fetch logger
+// global._fetch = fetch;
+// global.fetch = function(uri, options, ...args) {
+//   return global._fetch(uri, options, ...args).then(response => {
+//     console.log("Fetch", { request: { uri, options, ...args }, response });
+//     return response;
+//   });
+// };
 
-global.FormData = global.originalFormData;
+// global.FormData = global.originalFormData;
 
 export default class App extends React.Component {
   state = {
