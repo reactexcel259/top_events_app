@@ -97,7 +97,7 @@ class HomeTab extends Component {
   }
   
   onViewAll = async category => {
-    this.props.getEventById({id:category._id,key:category.key})
+    this.props.getEventById({id:category._id,key:category.key}) 
     this.props.navigation.navigate('ViewAllCard');
   };
 

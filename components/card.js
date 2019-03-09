@@ -32,7 +32,7 @@ const image = [
 
 export default class Card extends React.Component {
   render() {
-    const { isWishlist ,item, favorites, eventWishList, going} = this.props;
+    const { isWishlist ,item, favorites, eventWishList, going, loading} = this.props;
     const data = image.map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
@@ -233,7 +233,13 @@ export default class Card extends React.Component {
                       height: 35
                     }}
                   >
-                    {going?
+                    {loading?
+                      <ActivityIndicator
+                        size="small" 
+                        color="#00ff00"
+                      />
+                      :
+                      (going?
                       <View style={{
                         alignItems: "center",
                         justifyContent: "center",
@@ -245,7 +251,7 @@ export default class Card extends React.Component {
                         <Text> You're going</Text>
                       </View>:
                       <Text style={{ alignSelf: "center", color:'white' }}>Join event</Text>
-                    }
+                    )}
                   </LinearGradient>
                 </TouchableOpacity>
               </View>

@@ -39,6 +39,8 @@ export function* postJoiningEventsRequest(action) {
   try {
     const response = yield call(fireAjax, "PUT", `/events/addCheckedIn/${action.payload.id}`,header,null);
     if (response) {
+      console.log(response.data,"sectionLoves");
+      
       yield put(actions.postJoiningEventsSuccess(response.data));
     }
   } catch (e) {

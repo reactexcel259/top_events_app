@@ -52,6 +52,10 @@ const getInterestedEventSuccess = (state, action) =>
     postingLoading: { $set: false },
     joinedTrue:{$set:true}
  });
+ const setAddEventDefault =(state, action) =>
+ update(state, {
+    joinedTrue:{$set:false}
+ });
 
 export default handleActions(
  {
@@ -61,6 +65,7 @@ export default handleActions(
    [constants.GET_ATTENDING_EVENT_SUCCESS]: getAttendingEventSuccess,
    [constants.POST_JOINING_EVENTS_REQUEST]: postJoiningEventsRequest,
    [constants.POST_JOINING_EVENTS_SUCCESS]: postJoiningEventsSuccess,
+   [constants.SET_ADD_EVENT_DEFAULT]:setAddEventDefault,
  },
  initialState
 );
