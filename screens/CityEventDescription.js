@@ -84,8 +84,10 @@ class CityEventDescription extends Component {
     const checkInterested = interestedArray.find(
       going => going.email == user.data.data.email
     );
+    console.log(checkInterested,'jjjjjjjjjj')
     if (checkInterested && Object.keys(checkInterested).length) {
       if (prevState.isLiked !== this.state.isLiked) {
+        console.log("cdu")
         this.setState({ isLiked: true });
       }
     }
@@ -122,6 +124,7 @@ class CityEventDescription extends Component {
     let token = this.props.user.user.status.token;
     let eventId = this.props.navigation.state.params.item._id;
     this.props.eventLikeRequest({ token, eventId });
+    console.log("onEventlike")
   };
   render() {
     console.log(this.props.userLike, "=====");

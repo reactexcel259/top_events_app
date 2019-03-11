@@ -96,3 +96,6 @@ export const postJoiningEventsError=createAction(constants.POST_JOINING_EVENTS_E
 
 //action for setAddEventDefault
 export const setAddEventDefault=createAction(constants.SET_ADD_EVENT_DEFAULT);
+
+//action for setLikeEventDefault
+export const setLikeEventsDefault=createAction(constants.SET_LIKE_EVENTS_DEFAULT)

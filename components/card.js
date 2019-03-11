@@ -196,19 +196,21 @@ export default class Card extends React.Component {
               marginBottom: 10
             }}
           >
-            <View
+            <TouchableOpacity
+              onPress={()=>{this.props.addTofab(item)}}
               style={{
                 alignSelf: "flex-start",
                 alignSelf: "center",
-                marginLeft: 10,
-                marginTop:5
+                marginLeft: 5,
+                marginTop:5,
+                padding:5
               }}
             >
               {!eventWishList ? 
                 <Image source={require("../assets/images/heart.png")} />
                 :<Image source={require('../assets/images/heart_full.png')} />
               }
-               </View>
+               </TouchableOpacity>
                 <View style={{ flexDirection:'row' ,marginLeft:Layout.window.width*.2 }}>
                     {data}
                 </View>
