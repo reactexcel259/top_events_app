@@ -141,7 +141,9 @@ export default class Card extends React.Component {
                 source={require("../assets/images/web.png")}
                 style={{ margin: 4 }}
               />
-              <Text style={{flexWrap:'wrap',marginRight:5}} > {item.website} </Text>
+              <Text style={{flex:1}} > 
+              {item.website} 
+              </Text>
             </View>
           </View>
         </View>

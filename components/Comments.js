@@ -5,6 +5,9 @@ import Touch from 'react-native-touch';
 
 export default class Comments extends Component {
   _renderItem = ({ item, index }) => {
+    console.log(item,'aaaasad',this.props)
+    let liked = item.likedBy.findIndex(val => { console.log(val,this.props.userId);  return val == this.props.userId} )
+    console.log(liked,'asd')
     return (
       <View style={styles.commentWrapper}>
         <View style={styles.userDetails}>
@@ -48,8 +51,8 @@ export default class Comments extends Component {
         </View>
         <View style={styles.linkWrapper}>
           <View style={styles.likeView}>
-            <Image source={require("../assets/images/heart_full.png")} />
-            <Text style={styles.totalLikeText}>{item.totalLikes}</Text>
+            <Image source={require("../assets/images/like_full.png")} style={{height:20,width:20}} />
+            <Text style={styles.totalLikeText}>{item.likedBy.length}</Text>
           </View>
           <View style={styles.TextComment}>
             <Text>{item.totalComment} Comments</Text>
@@ -61,11 +64,20 @@ export default class Comments extends Component {
               onPress={()=>this.props.onLike(item._id)}
               >
             <View style={styles.likePng}>
+              {
+                liked == -1 ?
               <Image
                 resizeMode="contain"
                 style={styles.socialPng}
                 source={require("../assets/images/like.png")}
               />
+              :
+              <Image
+                resizeMode="contain"
+                style={styles.socialPng}
+                source={require("../assets/images/like_full.png")}
+              />
+              }
             </View>
             <Text style={styles.text}>Like</Text>
             </Touch>
@@ -91,7 +103,7 @@ export default class Comments extends Component {
         <FlatList
           data={this.props.userComments}
           extraData={this.props.userComments}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => item._id}
           renderItem={this._renderItem}
         />
       </View>

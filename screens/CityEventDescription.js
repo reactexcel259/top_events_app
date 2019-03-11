@@ -422,6 +422,7 @@ class CityEventDescription extends Component {
                     onSubmit={this.onComment}
                   />
                   <Comments 
+                    userId={user.data.data._id}
                     userComments={item.comments} 
                     onLike={this.onLike}
                   />
@@ -505,7 +506,6 @@ const styles = StyleSheet.create({
     width: 35,
     height: 35,
     marginLeft: -20,
-    borderRadius: 1,
     borderWidth: 2,
     borderColor: "#fff",
     borderRadius: 28,
@@ -562,7 +562,7 @@ const styles = StyleSheet.create({
   firstChild: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    height: Layout.window.height * 0.8,
+    height: Layout.window.height * 0.85,
     marginBottom: 20
   },
   tab: {
