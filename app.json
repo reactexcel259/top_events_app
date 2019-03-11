@@ -13,7 +13,7 @@
     "icon": "./assets/images/icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain"
+      "resizeMode": "cover"
     },
     "android": {
       "package": "com.TopEventsinJamaica",
