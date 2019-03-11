@@ -6,8 +6,11 @@ import {call,put} from "redux-saga/effects"
 import {setItem, getItem} from '../../services/storage';
 
 export function* getRegisterRequest(action) { 
+  const header = {
+    "isAppRequest":true
+  };
  try {
-    const response = yield call(fireAjax, "POST", "/user/register",'', {
+    const response = yield call(fireAjax, "POST", "/user/register",header, {
     ...action.payload
     });
 
