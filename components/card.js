@@ -169,23 +169,25 @@ export default class Card extends React.Component {
                   </Text>
               </View>
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "flex-end",
-                marginRight: 15,
-                width: Layout.window.width * 0.3
-              }}
-            >
-              <Text style={{ alignSelf: "center", color: "#F66BCC" }}>
-                {" "}
-                Intreseted{" "}
-              </Text>
-              <Image
-                source={require("../assets/images/heart_full.png")}
-                style={{ margin: 4 }}
-              />
-            </View>
+            <TouchableOpacity onPress={()=>{this.props.onWishListItemPress(item)}}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                  marginRight: 15,
+                  width: Layout.window.width * 0.3
+                }}
+              >
+                <Text style={{ alignSelf: "center", color: "#F66BCC" }}>
+                  {" "}
+                  Intreseted{" "}
+                </Text>
+                <Image
+                  source={require("../assets/images/heart_full.png")}
+                  style={{ margin: 4 }}
+                />
+              </View>
+            </TouchableOpacity>
           </View>
         ) : (
           <View

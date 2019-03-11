@@ -38,12 +38,17 @@ class Wishlist extends React.Component {
     await this.props.getInterestedEventRequest(token)
   }
   
-  componentWillReceiveProps(nextProps){
-    const {status,isLoading} = this.props.getInterestedEvent
+  async componentWillReceiveProps(nextProps){
+    const {status,isLoading, joinedTrue} = this.props.getInterestedEvent
     if(nextProps.getInterestedEvent.status.data !== undefined){
       if(nextProps.getInterestedEvent.status !== status){
         this.setState({wishList:nextProps.getInterestedEvent.status.data.results})
       }    
+    } 
+    if(nextProps.postAddLikeEvent.isSuccess && this.props.isSuccess !== nextProps.postAddLikeEvent.isSuccess){
+      let token =this.props.user.user.status.token
+      await this.props.getInterestedEventRequest(token)
+      this.props.setLikeEventsDefault();
     }
   }
   async componentDidUpdate(prevProps){
@@ -51,6 +56,13 @@ class Wishlist extends React.Component {
       let token =this.props.user.user.status.token
       await this.props.getInterestedEventRequest(token)
     }
+  }
+  onWishListItemPress = (item) => {
+    let token =this.props.user.user.status.token;
+    let eventId = item._id;
+    let categories = item.categories;
+    this.setState({categories:categories})
+    this.props.postEventLikeRequest({token,eventId})
   }
   _renderItem=({item,index})=>{
     return(
@@ -60,6 +72,7 @@ class Wishlist extends React.Component {
             onPress={()=>this.props.navigation.navigate("CityEventDescription",{item:item})}
             >
                 <Card item={item}
+                  onWishListItemPress={(item)=>{this.onWishListItemPress(item)}}
                   isWishlist={true}
                 />
             </Touch>
@@ -68,13 +81,19 @@ class Wishlist extends React.Component {
   }
 
   render() {
-    const {status,isLoading} = this.props.getInterestedEvent
+    const {status,isLoading, attendingLoading} = this.props.getInterestedEvent
     const {wishList} = this.state;
-
+    const {postAddLikeEvent} = this.props;
+    // console.log(status,isLoading,postingLoading,"dasdasdsadasdasdsadasdasd");
+    
+    // const {postingLoading} = this.props.getInterestedEvent
     return (
       <View style={styles.mainContainer}>
         {
-          !isLoading  ?
+          isLoading || attendingLoading || postAddLikeEvent.isLoading  ?
+          <View style={styles.loaderStyle}>
+            <ActivityIndicator size="large" color="#00ff00" />
+          </View>:
           <View style={styles.mainContainer}>
             {wishList.length?<FlatList 
             data={this.state.wishList}
@@ -87,10 +106,7 @@ class Wishlist extends React.Component {
                 No event is added to wishlist yet !!
               </Text>
             </View>
-            }
-          </View>:
-          <View style={styles.loaderStyle}>
-            <ActivityIndicator size="large" color="#00ff00" />
+        }
           </View>
         }
       </View>
@@ -117,8 +133,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
       user: state.user, 
-      getInterestedEvent:state.getInterestedEvent
-      
+      getInterestedEvent:state.getInterestedEvent,
+      postAddLikeEvent: state.postAddLikeEvent,
   }
 }
 const mapDispatchToProps = dispatch => 
