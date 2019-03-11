@@ -21,6 +21,7 @@ const getRegisterRequest = (state, action) =>
      isLoading: { $set: true },
      isError: { $set: false },
      isSuccess: { $set: false },
+     status: { $set: {} }
    }
  });
 

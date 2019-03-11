@@ -5,7 +5,7 @@ import {getEventRequest, getEventByIdRequest} from './tabs/homeTab/action';
 import {getCategoryRequest} from './getCategory/actions';
 import {getStateAndCityRequest} from './stateAndCity/action';
 import {getStateAndCityEventRequest} from './stateAndCityEvent/action';
-import {postAddCommentRequest} from './addComment/action';
+import {postAddCommentRequest, postLikeCommentRequest} from './addComment/action';
 import {getEventDescriptionRequest} from './getEventDescription/action';
 import {postAddLikeRequest} from './addLikeOnEvent/action';
 import { getInterestedEventRequest, getAttendingEventRequest, postJoiningEventsRequest} from  './interestedEvent/action';
@@ -24,6 +24,7 @@ export function* watchActions() {
   yield takeLatest(constants.GET_STATEANDCITY_REQUEST ,getStateAndCityRequest);
   yield takeLatest(constants.GET_STATEANDCITYEVENT_REQUEST ,getStateAndCityEventRequest);
   yield takeLatest(constants.POST_ADDCOMMENT_REQUEST ,postAddCommentRequest);
+  yield takeLatest(constants.POST_LIKECOMMENT_REQUEST ,postLikeCommentRequest);
   yield takeLatest(constants.GET_EVENTDESCRIPTION_REQUEST ,getEventDescriptionRequest);
   yield takeLatest(constants.POST_EVENT_LIKE_REQUEST ,postAddLikeRequest);
   yield takeLatest(constants.GET_INTERSTEDEVENT_REQUEST ,getInterestedEventRequest);

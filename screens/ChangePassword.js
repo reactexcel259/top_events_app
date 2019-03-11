@@ -86,7 +86,6 @@ class ChangePassword extends React.Component {
       }
       this.goBack()
     }
-    console.log(user.user,'asd')
     if(user.user.updateData && user.user.updateData.success && loaderType == 'changeEmail' ){
       this.setState({
         loader: false,
@@ -162,7 +161,22 @@ class ChangePassword extends React.Component {
         this.goBack()
       }
     } else if (pageType == 'changePassword'){
-      if(newPassword === confirmPassword){
+      if( newPassword == '' || confirmPassword == '' ){
+        if(Platform.OS == 'android') {
+          ToastAndroid.showWithGravityAndOffset(
+            'Please Enter Password',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else if( Platform.OS == 'ios'){
+          Alert.alert(
+            'Warning!',
+            'Please Enter Password'
+          )
+        }
+      } else if(newPassword === confirmPassword ){
         payload = {
           token,
           password:newPassword,

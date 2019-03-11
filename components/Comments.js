@@ -1,43 +1,11 @@
 import React, { Component } from "react";
 import { Text, View, FlatList, Image, StyleSheet } from "react-native";
 import Layout from "../constants/Layout";
-
-const userComments = [
-  {
-    image: "",
-    name: "Julia Adams",
-    time: "12:12",
-    date: "13.07.2019",
-    totalComment: "2",
-    totalLikes: "2",
-    text:
-      "Thankyou! I can feel the vibe , Greets from switzerland....lets keep on  dancing..."
-  },
-  {
-    image: "",
-    name: "Julia Adams",
-    time: "12:12",
-    date: "13.07.2019",
-    totalComment: "2",
-    totalLikes: "2",
-    text:
-      "Thankyou! I can feel the vibe , Greets from switzerland....lets keep on  dancing..."
-  },
-  {
-    image: "",
-    name: "Julia Adams",
-    time: "12:12",
-    date: "13.07.2019",
-    totalComment: "2",
-    totalLikes: "2",
-    text:
-      "Thankyou! I can feel the vibe , Greets from switzerland....lets keep on  dancing..."
-  }
-];
+import Touch from 'react-native-touch';
 
 export default class Comments extends Component {
   _renderItem = ({ item, index }) => {
-    
+    let liked = item.likedBy.findIndex(val =>  val == this.props.userId )
     return (
       <View style={styles.commentWrapper}>
         <View style={styles.userDetails}>
@@ -46,7 +14,7 @@ export default class Comments extends Component {
             source={require("../assets/images/guide-small.png")}
           />
           <View style={styles.detailsWrapper}>
-            <Text style={styles.usernameText}>{item.user_id.name.first}{' '}{item.user_id.name.last}</Text>
+            <Text style={styles.usernameText}>{ item.user_id.name && item.user_id.name.first}{' '}{ item.user_id.name && item.user_id.name.last}</Text>
             <View style={styles.momentWrapper}>
               <Text style={styles.date}>13.07.2019</Text>
               <Text style={styles.date}>12:12</Text>
@@ -57,49 +25,57 @@ export default class Comments extends Component {
           <Text style={styles.commentText}>{item.comment}</Text>
         </View>
         <View style={styles.sharedImageView}>
-          <FlatList
-            style={{ paddingLeft: 12 }}
-            data={userComments}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index}
-            renderItem={({ item, index }) => {
-              return (
-                <View
-                  style={[
-                    styles.userSharedView,
-                    { marginRight: index == userComments.length - 1 ? 25 : 5 }
-                  ]}
-                >
-                  <Image
-                    resizeMode="cover"
-                    style={styles.userShareImage}
-                    source={require("../assets/images/photo.png")}
-                  />
-                </View>
-              );
-            }}
-          />
+         <View
+            style={[
+              styles.userSharedView,
+              { marginRight:  5 }
+            ]}
+          >
+          {
+            item.image &&
+            <Image
+              resizeMode="cover"
+              style={styles.userShareImage}
+              source={{uri:item.image}}
+            />
+          }
+          </View>
         </View>
         <View style={styles.linkWrapper}>
           <View style={styles.likeView}>
-            <Image source={require("../assets/images/heart_full.png")} />
-            <Text style={styles.totalLikeText}>{item.totalLikes}</Text>
+            <Image source={require("../assets/images/like_full.png")} style={{height:15,width:15}} />
+            <Text style={styles.totalLikeText}>{item.likedBy.length}</Text>
           </View>
           <View style={styles.TextComment}>
-            <Text>{item.totalComment} Comments</Text>
+            <Text style={{color:'grey'}} >{item.totalComment} Comments</Text>
           </View>
         </View>
+        <View style={styles.line} />
         <View style={styles.likeandcommentView}>
           <View style={styles.like}>
+            <Touch
+              onPress={()=>this.props.onLike(item._id)}
+              >
+              <View style={{flexDirection:'row',justifyContent:'center'}} >
             <View style={styles.likePng}>
+              {
+                liked == -1 ?
               <Image
                 resizeMode="contain"
                 style={styles.socialPng}
                 source={require("../assets/images/like.png")}
               />
+              :
+              <Image
+                resizeMode="contain"
+                style={styles.socialPng}
+                source={require("../assets/images/like_full.png")}
+              />
+              }
             </View>
             <Text style={styles.text}>Like</Text>
+            </View>
+            </Touch>
           </View>
           <View style={styles.like}>
             <View style={styles.commentPng}>
@@ -121,7 +97,8 @@ export default class Comments extends Component {
       <View style={{ flex: 1 }}>
         <FlatList
           data={this.props.userComments}
-          keyExtractor={(item, index) => index}
+          extraData={this.props.userComments}
+          keyExtractor={(item, index) => item._id}
           renderItem={this._renderItem}
         />
       </View>
@@ -137,6 +114,12 @@ const styles = StyleSheet.create({
   commentWrapper: {
     borderTopWidth: 4,
     borderColor: "#f2f2f2"
+  },
+  line:{
+    borderColor:'#f2f2f2',
+    borderWidth:1,
+    height:1,
+    margin:10
   },
   userDetails: {
     paddingLeft: 20,
@@ -194,19 +177,20 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   likePng: {
-    width: 25,
-    height: 25
+    width: 20,
+    height: 20
   },
   commentPng: {
-    width: 28,
-    height: 28
+    width: 20,
+    height: 20
   },
   socialPng: {
     width: "100%",
     height: "100%"
   },
   text: {
-    paddingLeft: 7
+    paddingLeft: 7,
+    color: "grey",    
   },
   totalLikeText: {
     paddingLeft: 5

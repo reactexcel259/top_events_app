@@ -25,7 +25,10 @@ import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
 import {
   getEventDescriptionRequest,
-  postEventLikeRequest
+  postEventLikeRequest,
+  postAddCommentRequest,
+  cleanCommentSuccess,
+  postLikeCommentRequest,
 } from "../redux/action";
 
 const image = [
@@ -60,7 +63,8 @@ class CityEventDescription extends Component {
       isDiscussionTab: false,
       isPlay: false,
       isEventDescription: false,
-      isLiked: false
+      isLiked: false,
+      comment: '',
     };
   }
   componentDidMount() {
@@ -96,6 +100,13 @@ class CityEventDescription extends Component {
     ) {
       ToastAndroid.show(message, ToastAndroid.SHORT);
     }
+    if(this.props.postAddComment.isSuccess){
+      this.setState({
+        comment: ''
+      })
+      this.props.cleanCommentSuccess()
+      this.props.eventDescription(this.props.navigation.state.params.item._id);      
+    }
   }
 
   onShare = async () => {
@@ -123,8 +134,40 @@ class CityEventDescription extends Component {
     let eventId = this.props.navigation.state.params.item._id;
     await this.props.eventLikeRequest({ token, eventId });
   };
+
+  onCommentTextChange = (text) => {
+    this.setState({
+      comment: text
+    })
+  }
+
+  onComment = () => {
+    const { comment } = this.state;
+    const { navigation, postAddCommentRequest, user } = this.props;
+    let payload = {
+      id: navigation.state.params.item._id,
+      token : user.user.status.token,
+      data: {
+        comment: comment
+      }
+    }
+    postAddCommentRequest(payload);
+    this.setState({
+      comment:""
+    })
+  }
+
+  onLike = (id) => {
+    const { user } = this.props;
+    let payload = {
+      token : user.user.status.token,
+      id: id
+    }
+    this.props.postLikeCommentRequest(payload)
+  }
+
   render() {
-    const { isLiked } = this.state;
+    const { isLiked, comment } = this.state;
     const { user } = this.props.user;
     let rightIcon;
     const data = image.map((data, i) => {
@@ -161,7 +204,6 @@ class CityEventDescription extends Component {
           ? ["heart", "share-alt"]
           : ["heart-o", "share-alt"];
     }
-    console.log(item, "item");
 
     return (
       <View>
@@ -250,7 +292,7 @@ class CityEventDescription extends Component {
                             </Text>
                           </View>
                         ) : (
-                          <Text style={styles.buttonText}> Joing event</Text>
+                          <Text style={styles.buttonText}> Join Event</Text>
                         )}
                       </LinearGradient>
                       <LinearGradient
@@ -374,8 +416,16 @@ class CityEventDescription extends Component {
               )}
               {this.state.isDiscussionTab && (
                 <View style={styles.discussionWrapper}>
-                  <CommentSection />
-                  <Comments userComments={item.comments} />
+                  <CommentSection 
+                    comment={comment}
+                    onChange={this.onCommentTextChange}
+                    onSubmit={this.onComment}
+                  />
+                  <Comments 
+                    userId={user.data.data._id}
+                    userComments={item.comments} 
+                    onLike={this.onLike}
+                  />
                 </View>
               )}
             </View>
@@ -394,7 +444,8 @@ const mapStateToProps = state => {
   return {
     getEventDescription: state.getEventDescription,
     user: state.user,
-    userLike: state.postAddLikeEvent
+    userLike: state.postAddLikeEvent,
+    postAddComment: state.postAddComment,
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -402,7 +453,10 @@ const mapDispatchToProps = dispatch => {
     eventDescription: id => dispatch(getEventDescriptionRequest(id)),
     eventLikeRequest: (token, eventId) =>
       dispatch(postEventLikeRequest(token, eventId)),
-    
+    postAddCommentRequest: (payload) => 
+      dispatch(postAddCommentRequest(payload)),
+    cleanCommentSuccess: () => dispatch(cleanCommentSuccess()),
+    postLikeCommentRequest: (payload) => dispatch(postLikeCommentRequest(payload))
   };
 };
 export default connect(
@@ -452,7 +506,6 @@ const styles = StyleSheet.create({
     width: 35,
     height: 35,
     marginLeft: -20,
-    borderRadius: 1,
     borderWidth: 2,
     borderColor: "#fff",
     borderRadius: 28,
@@ -509,7 +562,7 @@ const styles = StyleSheet.create({
   firstChild: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    height: Layout.window.height * 0.8,
+    height: Layout.window.height * 0.85,
     marginBottom: 20
   },
   tab: {

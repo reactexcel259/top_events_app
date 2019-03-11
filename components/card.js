@@ -141,7 +141,9 @@ export default class Card extends React.Component {
                 source={require("../assets/images/web.png")}
                 style={{ margin: 4 }}
               />
-              <Text> {item.website} </Text>
+              <Text style={{flex:1}} > 
+              {item.website} 
+              </Text>
             </View>
           </View>
         </View>
@@ -180,7 +182,7 @@ export default class Card extends React.Component {
               >
                 <Text style={{ alignSelf: "center", color: "#F66BCC" }}>
                   {" "}
-                  Intreseted{" "}
+                  Interested{" "}
                 </Text>
                 <Image
                   source={require("../assets/images/heart_full.png")}

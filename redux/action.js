@@ -3,6 +3,7 @@ import * as constants from './constant';
 
 //General Action 
 export const closeSuccessModel= createAction(constants.CLOSE_SUCCESS_MODAL);
+export const cleanCommentSuccess = createAction(constants.CLEAN_COMMENT_SUCCESS);
 //action for register
 export const getRegisterRequest=createAction(constants.GET_REGISTER_REQUEST);
 export const getRegisterSuccess=createAction(constants.GET_REGISTER_SUCCESS);
@@ -64,6 +65,11 @@ export const getStateAndCityEventError=createAction(constants.GET_STATEANDCITYEV
 export const postAddCommentRequest=createAction(constants.POST_ADDCOMMENT_REQUEST);
 export const postAddCommentSuccess=createAction(constants.POST_ADDCOMMENT_SUCCESS);
 export const postAddCommentError=createAction(constants.POST_ADDCOMMENT_ERROR);
+
+//action for like comment
+export const postLikeCommentRequest=createAction(constants.POST_LIKECOMMENT_REQUEST);
+export const postLikeCommentSuccess=createAction(constants.POST_LIKECOMMENT_SUCCESS);
+export const postLikeCommentError=createAction(constants.POST_LIKECOMMENT_ERROR);
 
 //action for eventDescription
 export const getEventDescriptionRequest=createAction(constants.GET_EVENTDESCRIPTION_REQUEST);

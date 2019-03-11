@@ -6,16 +6,11 @@ import {postAddCommentRequest} from '../redux/action';
 import {connect} from 'react-redux';
 
  class CommentSection extends Component {
-   constructor(props){
-     super(props);
-     this.state={
-       comment:''
-     }
-   }
   onAddImage=async()=>{
     await Expo.ImagePicker.launchImageLibraryAsync();
   }
   render() {
+    const { comment, onSubmit, onChange } = this.props;
     return (
       <View style={{ flex: 1, paddingBottom: 20 }}>
         <View style={styles.wrapper}>
@@ -26,15 +21,28 @@ import {connect} from 'react-redux';
           <TextInput
             multiline={true}
             style={styles.inputText}
+            value={comment}
+            onChangeText={(text)=> { onChange(text) }}
             placeholder="Ask question or share your experience here"
           />
-          <View style={styles.addImageView}>
-          <Touch 
-            onPress={()=>this.onAddImage()}
-            >
-            <Image  resizeMode='contain' style={styles.addImage} source={require("../assets/images/add-photo.png")} />
-          </Touch>
-          </View>
+          {
+            comment == "" ?
+            <View style={styles.addImageView}>
+              <Touch 
+              onPress={()=>this.onAddImage()}
+              >
+                <Image  resizeMode='contain' style={styles.addImage} source={require("../assets/images/add-photo.png")} />
+              </Touch>
+            </View>
+            :
+            <View>
+              <Touch 
+              onPress={onSubmit}
+              >
+                <Text style={{color:'#FF6CC9'}} >Send</Text>
+              </Touch>
+            </View>
+          }
         </View>
       </View>
     );
