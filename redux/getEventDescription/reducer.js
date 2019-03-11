@@ -6,7 +6,8 @@ const initialState = {
    isLoading: false,
    isError: false,
    isSuccess: false,
-   message: ""
+   message: "",
+   selectedItem:null,
 };
 
 const getEventDescriptionRequest = (state, action) =>{
@@ -25,10 +26,15 @@ const getEventDescriptionSuccess = (state, action) =>
      status: { $set: action.payload }
  });
 
+const setSelectedEvent = (state,action) => 
+    update(state, {
+        selectedItem: { $set: action.payload },
+    });
 export default handleActions(
  {
    [constants.GET_EVENTDESCRIPTION_REQUEST]: getEventDescriptionRequest,
-   [constants.GET_EVENTDESCRIPTION_SUCCESS]: getEventDescriptionSuccess
+   [constants.GET_EVENTDESCRIPTION_SUCCESS]: getEventDescriptionSuccess,
+   [constants.SET_SELECTED_EVENT]: setSelectedEvent,
  },
  initialState
 );

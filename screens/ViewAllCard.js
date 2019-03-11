@@ -10,10 +10,12 @@ import {getStateAndCityRequest,
   getEventByIdRequest,
   setAddEventDefault,
   postEventLikeRequest,
-  setLikeEventsDefault
+  setLikeEventsDefault,
+  setSelectedEvent
 } 
   from '../redux/action';
 import { connect } from "react-redux";
+import { withNavigationFocus } from 'react-navigation';
 
 
 class ViewAllCard extends Component {
@@ -30,29 +32,35 @@ class ViewAllCard extends Component {
       let token =this.props.user.user.status.token;
       let id = item._id;
       let categories = item.categories;
-      this.setState({categories:categories})
+      this.props.setEvent(item)
       this.props.postJoiningEvent({token,id})
     }
     addTofab = (item) => {
       let token =this.props.user.user.status.token;
       let eventId = item._id;
       let categories = item.categories;
-      this.setState({categories:categories})
+      this.props.setEvent(item)
       this.props.eventLikeRequest({token,eventId})
     }
     componentWillReceiveProps(nextProps){
       const {categories} = this.state;
       const {joinedTrue} = this.props.getInterestedEvent;
-      const {isSuccess} = this.props.postAddLikeEvent
-      if(nextProps.getInterestedEvent.joinedTrue  && this.props.joinedTrue !== nextProps.getInterestedEvent.joinedTrue){
-        this.props.getEventById({id:categories._id,key:categories.key});
+      const {isSuccess} = this.props.postAddLikeEvent;
+      const {selectedItem} = nextProps.getEventDescription
+      if(nextProps.isFocused){
+        if(nextProps.getInterestedEvent.joinedTrue  && this.props.joinedTrue !== nextProps.getInterestedEvent.joinedTrue){
+        this.props.getEventById({id:selectedItem.categories._id,key:selectedItem.categories.key});
         this.props.setAddEvents();
+        }
+        if(nextProps.postAddLikeEvent.isSuccess && this.props.isSuccess !== nextProps.postAddLikeEvent.isSuccess){
+          this.props.getEventById({id:selectedItem.categories._id,key:selectedItem.categories.key});
+          this.props.setLikeEvents();
+        }
       }
-      if(nextProps.postAddLikeEvent.isSuccess && this.props.isSuccess !== nextProps.postAddLikeEvent.isSuccess){
-        this.props.getEventById({id:categories._id,key:categories.key});
-        this.props.setLikeEvents();
-        
-      }
+    }
+    sendToDetails = (item) => {
+      this.props.setEvent(item)
+      this.props.navigation.navigate("CityEventDescription",{item:item})
     }
     _renderItem=({item,index})=>{
       const { user } = this.props.user;
@@ -65,7 +73,7 @@ class ViewAllCard extends Component {
         return(
             <View>
                 <TouchableOpacity 
-                onPress={()=>this.props.navigation.navigate("CityEventDescription",{item:item})}
+                onPress={()=>{this.sendToDetails(item)}}
                 >
                     <Card 
                       eventWishList={wishList} 
@@ -116,6 +124,7 @@ const mapStateToProps = state => {
     user:state.user,
     getInterestedEvent:state.getInterestedEvent,
     postAddLikeEvent: state.postAddLikeEvent,
+    getEventDescription: state.getEventDescription,
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -126,11 +135,12 @@ const mapDispatchToProps = dispatch => {
     getEventById:(eventId)=>dispatch(getEventByIdRequest(eventId)),
     setAddEvents : () => dispatch(setAddEventDefault()),
     eventLikeRequest:(token, eventId)=>dispatch(postEventLikeRequest(token ,eventId)),
-    setLikeEvents:()=>dispatch(setLikeEventsDefault())
+    setLikeEvents:()=>dispatch(setLikeEventsDefault()),
+    setEvent:(categories)=>dispatch(setSelectedEvent(categories)),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps)
-  (ViewAllCard);
+  (withNavigationFocus(ViewAllCard));

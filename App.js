@@ -10,7 +10,7 @@ import { Provider } from "react-redux";
 //   ? GLOBAL.originalXMLHttpRequest
 //   : GLOBAL.XMLHttpRequest;
 
-// // fetch logger
+// fetch logger
 // global._fetch = fetch;
 // global.fetch = function(uri, options, ...args) {
 //   return global._fetch(uri, options, ...args).then(response => {

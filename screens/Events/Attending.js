@@ -57,15 +57,17 @@ class Attending extends React.Component {
         this.setState({attendingEvents:nextProps.getInterestedEvent.attending.data.results})
       }    
     }
-    if(nextProps.getInterestedEvent.joinedTrue  && this.props.joinedTrue !== nextProps.getInterestedEvent.joinedTrue){
-      let token =this.props.user.user.status.token
-      await this.props.getAttendingEventRequest(token)
-      this.props.setAddEventDefault();
-    }
-    if(nextProps.postAddLikeEvent.isSuccess && this.props.isSuccess !== nextProps.postAddLikeEvent.isSuccess){
-      let token =this.props.user.user.status.token
-      await this.props.getAttendingEventRequest(token)
-      this.props.setLikeEventsDefault();
+    if(nextProps.isFocused){
+      if(nextProps.getInterestedEvent.joinedTrue  && this.props.joinedTrue !== nextProps.getInterestedEvent.joinedTrue){
+        let token =this.props.user.user.status.token
+        this.props.setAddEventDefault();
+        await this.props.getAttendingEventRequest(token)
+      }
+      if(nextProps.postAddLikeEvent.isSuccess && this.props.isSuccess !== nextProps.postAddLikeEvent.isSuccess){
+        let token =this.props.user.user.status.token
+        this.props.setLikeEventsDefault();
+        await this.props.getAttendingEventRequest(token)
+      }
     }
   }
 

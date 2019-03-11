@@ -45,10 +45,12 @@ class Wishlist extends React.Component {
         this.setState({wishList:nextProps.getInterestedEvent.status.data.results})
       }    
     } 
-    if(nextProps.postAddLikeEvent.isSuccess && this.props.isSuccess !== nextProps.postAddLikeEvent.isSuccess){
-      let token =this.props.user.user.status.token
-      await this.props.getInterestedEventRequest(token)
-      this.props.setLikeEventsDefault();
+    if(nextProps.isFocused){
+      if(nextProps.postAddLikeEvent.isSuccess && this.props.isSuccess !== nextProps.postAddLikeEvent.isSuccess){
+        let token =this.props.user.user.status.token
+        this.props.setLikeEventsDefault();
+        await this.props.getInterestedEventRequest(token)
+      }
     }
   }
   async componentDidUpdate(prevProps){

@@ -23,7 +23,10 @@ import { Circle } from "react-native-svg";
 import moment from "moment";
 import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
-import { getEventDescriptionRequest,postEventLikeRequest } from "../redux/action";
+import {
+  getEventDescriptionRequest,
+  postEventLikeRequest
+} from "../redux/action";
 
 const image = [
   {
@@ -57,7 +60,7 @@ class CityEventDescription extends Component {
       isDiscussionTab: false,
       isPlay: false,
       isEventDescription: false,
-      isLiked:false
+      isLiked: false
     };
   }
   componentDidMount() {
@@ -65,6 +68,36 @@ class CityEventDescription extends Component {
       this.props.eventDescription(this.props.navigation.state.params.item._id);
     }
   }
+  componentDidUpdate(prevProps, prevState) {
+    const { isLiked } = this.state;
+    const { user } = this.props.user;
+    const eventData = this.props.getEventDescription;
+    const item =
+      eventData.isSuccess && this.props.getEventDescription.status.data;
+    let interestedArray = !item ? [] : item.interested;
+    let checkedInarry = !item ? [] : item.checkedinBy;
+    const checkedIn = checkedInarry.find(
+      going => going.email == user.data.data.email
+    );
+    const checkedInBy =
+      checkedIn && Object.keys(checkedIn).length ? true : false;
+    const checkInterested = interestedArray.find(
+      going => going.email == user.data.data.email
+    );
+    if (checkInterested && Object.keys(checkInterested).length) {
+      if (prevState.isLiked !== this.state.isLiked) {
+        this.setState({ isLiked: true });
+      }
+    }
+    const message = isLiked ? "Added to Wishlist" : "Removed from Wishlist";
+    if (
+      this.props.userLike.isSuccess &&
+      prevProps.userLike.isSuccess !== this.props.userLike.isSuccess
+    ) {
+      ToastAndroid.show(message, ToastAndroid.SHORT);
+    }
+  }
+
   onShare = async () => {
     try {
       const result = await Share.share({
@@ -84,19 +117,22 @@ class CityEventDescription extends Component {
       alert(error.message);
     }
   };
-  onEventLike=()=>{
-    this.setState({isLiked:!this.state.isLiked})
-    let token =this.props.user.user.status.token
-    let eventId=this.props.navigation.state.params.item._id
-    this.props.eventLikeRequest({token ,eventId})
-  }
+  onEventLike = async() => {
+    this.setState({ isLiked: !this.state.isLiked });
+    let token = this.props.user.user.status.token;
+    let eventId = this.props.navigation.state.params.item._id;
+    await this.props.eventLikeRequest({ token, eventId });
+  };
   render() {
     const { isLiked } = this.state;
-    const {user} = this.props.user;
-    let rightIcon ;
+    const { user } = this.props.user;
+    let rightIcon;
     const data = image.map((data, i) => {
       return (
-        <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
+        <View
+          key={i}
+          style={[styles.peopleLiked, { zIndex: image.length - i }]}
+        >
           <Image
             style={styles.peopleLikedImage}
             source={require("../assets/images/photo2.png")}
@@ -105,38 +141,48 @@ class CityEventDescription extends Component {
       );
     });
     const eventData = this.props.getEventDescription;
-    const item = eventData.isSuccess && this.props.getEventDescription.status.data;
+    const item =
+      eventData.isSuccess && this.props.getEventDescription.status.data;
     let interestedArray = !item ? [] : item.interested;
     let checkedInarry = !item ? [] : item.checkedinBy;
-    const checkedIn = checkedInarry.find(going => going.email == user.data.data.email) 
-    const checkedInBy = checkedIn && Object.keys(checkedIn).length ? true : false;
-    const checkInterested = interestedArray.find(going => going.email == user.data.data.email);
-    if(isLiked){
-      rightIcon =  ['heart','share-alt'] ;
-    }else{
-      rightIcon = checkInterested && Object.keys(checkInterested).length && !isLiked ? ['heart','share-alt'] : ["heart-o", "share-alt"];
+    const checkedIn = checkedInarry.find(
+      going => going.email == user.data.data.email
+    );
+    const checkedInBy =
+      checkedIn && Object.keys(checkedIn).length ? true : false;
+    const checkInterested = interestedArray.find(
+      going => going.email == user.data.data.email
+    );
+    if (isLiked) {
+      rightIcon = ["heart", "share-alt"];
+    } else {
+      rightIcon =
+        checkInterested && Object.keys(checkInterested).length && !isLiked
+          ? ["heart", "share-alt"]
+          : ["heart-o", "share-alt"];
     }
-    console.log(item,"item");
-    
+    console.log(item, "item");
+
     return (
       <View>
         <CustomHeader
           isCenter={true}
           isLeft={true}
           onShare={() => this.onShare()}
-          gradieantColor={["#FF6CC9","#FF6CC9"]}
+          gradieantColor={["#FF6CC9", "#FF6CC9"]}
           leftPress={() => this.props.navigation.goBack()}
           leftIcon="angle-left"
           isRight={true}
           rightIcon={rightIcon}
-          onEventLike={()=>this.onEventLike()}
+          onEventLike={() => this.onEventLike()}
         />
         {eventData.isSuccess ? (
           <ScrollView>
-            {(!this.props.userLike.isSuccess && this.state.isLiked) &&  <View style={styles.loaderView}>
-            <ActivityIndicator color="#FF6CC9" size="large" />
-          </View>}
-          { this.props.userLike.isSuccess && ToastAndroid.show('Added to favorite', ToastAndroid.SHORT)}
+            {!this.props.userLike.isSuccess && this.state.isLiked && (
+              <View style={styles.loaderView}>
+                <ActivityIndicator color="#FF6CC9" size="large" />
+              </View>
+            )}
             <View>
               <LinearGradient colors={["#ff6cc9", "#8559f0"]}>
                 <View style={styles.firstSectionWrapper}>
@@ -195,13 +241,17 @@ class CityEventDescription extends Component {
                         colors={["#ff6cc9", "#8559f0"]}
                         style={styles.button}
                       >
-                        {checkedInBy?
+                        {checkedInBy ? (
                           <View style={styles.insideButton}>
-                              <Text style={[styles.buttonText,{color:'black'}]}>
-                                You're going
-                              </Text>
+                            <Text
+                              style={[styles.buttonText, { color: "black" }]}
+                            >
+                              You're going
+                            </Text>
                           </View>
-                        :<Text style={styles.buttonText}> Joing event</Text>}
+                        ) : (
+                          <Text style={styles.buttonText}> Joing event</Text>
+                        )}
                       </LinearGradient>
                       <LinearGradient
                         colors={["#ff6cc9", "#8559f0"]}
@@ -343,14 +393,16 @@ class CityEventDescription extends Component {
 const mapStateToProps = state => {
   return {
     getEventDescription: state.getEventDescription,
-    user:state.user,
-    userLike:state.postAddLikeEvent
+    user: state.user,
+    userLike: state.postAddLikeEvent
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     eventDescription: id => dispatch(getEventDescriptionRequest(id)),
-    eventLikeRequest:(token, eventId)=>dispatch(postEventLikeRequest(token ,eventId))
+    eventLikeRequest: (token, eventId) =>
+      dispatch(postEventLikeRequest(token, eventId)),
+    
   };
 };
 export default connect(
@@ -430,15 +482,15 @@ const styles = StyleSheet.create({
   dateDay: {
     fontWeight: "bold"
   },
-  insideButton:{
+  insideButton: {
     width: Layout.window.width / 1.74,
-    height: Layout.window.width * 0.111 ,
+    height: Layout.window.width * 0.111,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
     borderRadius: 40,
-    backgroundColor:'white'
+    backgroundColor: "white"
   },
   button: {
     width: Layout.window.width / 1.7,
@@ -457,8 +509,8 @@ const styles = StyleSheet.create({
   firstChild: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    height: Layout.window.height * 0.80,
-    marginBottom:20 
+    height: Layout.window.height * 0.8,
+    marginBottom: 20
   },
   tab: {
     flexDirection: "row",
