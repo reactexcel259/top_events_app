@@ -119,7 +119,7 @@ class MyAccountScreen extends React.Component {
 
         <View style={styles.miniContainer} >
             <View style={{alignItems:'center',marginTop:10}} >
-              <Text style={{color:'lightgray',textAlign:'center'}} > 
+              <Text style={{textAlign:'center'}} > 
                {
                  userData && userData.name ?
                 `${userData.name['first']} ${userData.name['last']}` 
