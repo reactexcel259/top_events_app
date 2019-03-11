@@ -1,5 +1,5 @@
 import React from 'react';
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import { createAppContainer, createStackNavigator, NavigationActions } from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
 import SetupScreen from '../screens/setup';
 import PermissionScreen from '../screens/permissionScreen';
@@ -18,15 +18,13 @@ import AccountSettingScreen from '../screens/AccountSetting';
 import ManageNotificationScreen from '../screens/ManageNotification';
 
 
-export default createAppContainer(createStackNavigator({
-  // ProfileSetting: ProfileSettingScreen,
-  // CheckIn:CheckIn,
+const Routers = createAppContainer(createStackNavigator({
   Home: HomeScreen,
-  HomeTab:TabNavigation,
+  setup: SetupScreen,
   SignUpScreen:SignUpScreen,
+  HomeTab:TabNavigation,
   CityEventDescription:CityEventDescription,
   ChangePassword: ChangePassword,
-  setup: SetupScreen,
   CheckIn:CheckIn,
   permission: PermissionScreen,
   ProfileSetting: ProfileSettingScreen,
@@ -39,3 +37,23 @@ export default createAppContainer(createStackNavigator({
   }
 }
 )); 
+
+const defaultGetStateForAction = Routers.router.getStateForAction;
+
+Routers.router.getStateForAction = (action, state) => {
+  if (
+    state &&
+    state.routes.length > 1 &&
+    state.routes[1].index == 0 &&
+    action.type === NavigationActions.BACK
+  ) {
+    // Returning null from getStateForAction means that the action
+    // has been handled/blocked, but there is not a new state
+    return null;
+  } else {
+    return defaultGetStateForAction(action, state);
+  }
+  
+};
+
+export default Routers;

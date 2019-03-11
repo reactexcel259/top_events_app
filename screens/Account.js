@@ -33,12 +33,8 @@ class MyAccountScreen extends React.Component {
   }
 
   logout = async () => {
-      // await AsyncStorage.setItem('user',null);
-      // await AsyncStorage.setItem('user_info',null);
-      // await AsyncStorage.setItem('user_interest',null);
       let keys = ['user','user_info','user_interest'];
       let a = await AsyncStorage.multiRemove(keys);
-      console.log(a,"console.log");
       this.props.navigation.popToTop();
   }
 
@@ -125,8 +121,10 @@ class MyAccountScreen extends React.Component {
             <View style={{alignItems:'center',marginTop:10}} >
               <Text style={{color:'lightgray',textAlign:'center'}} > 
                {
-                 userData && userData.name &&
+                 userData && userData.name ?
                 `${userData.name['first']} ${userData.name['last']}` 
+                :
+                `${userData.email}`
               } 
               </Text>
             </View>

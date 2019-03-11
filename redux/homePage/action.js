@@ -90,7 +90,6 @@ export function* userDataRequest(action) {
       "Content-Type": "application/json",
       'Authorization':token
   }
-  console.log(action,id,token)
   try {
      const response = yield call(fireAjax, "PUT", `/user/update/${id}`,header,{
        ...action.payload.data

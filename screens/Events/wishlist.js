@@ -70,7 +70,6 @@ class Wishlist extends React.Component {
   render() {
     const {status,isLoading} = this.props.getInterestedEvent
     const {wishList} = this.state;
-console.log("wishlist render")
     return (
       <View style={styles.mainContainer}>
         {

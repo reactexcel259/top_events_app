@@ -15,7 +15,7 @@ import { LinearGradient, Font } from 'expo';
 
 
 const HomeStack = createStackNavigator({
-  Home: HomeTab,
+  Homes: HomeTab,
   ViewAllCard:ViewAllCard,
   CityEventDescription:CityEventDescription,
 

@@ -56,7 +56,6 @@ class Attending extends React.Component {
     }
   }
   _renderItem=({item,index})=>{
-    console.log(item,"cecececececcecec");
     
     return(
         <View>

@@ -1,43 +1,10 @@
 import React, { Component } from "react";
 import { Text, View, FlatList, Image, StyleSheet } from "react-native";
 import Layout from "../constants/Layout";
-
-const userComments = [
-  {
-    image: "",
-    name: "Julia Adams",
-    time: "12:12",
-    date: "13.07.2019",
-    totalComment: "2",
-    totalLikes: "2",
-    text:
-      "Thankyou! I can feel the vibe , Greets from switzerland....lets keep on  dancing..."
-  },
-  {
-    image: "",
-    name: "Julia Adams",
-    time: "12:12",
-    date: "13.07.2019",
-    totalComment: "2",
-    totalLikes: "2",
-    text:
-      "Thankyou! I can feel the vibe , Greets from switzerland....lets keep on  dancing..."
-  },
-  {
-    image: "",
-    name: "Julia Adams",
-    time: "12:12",
-    date: "13.07.2019",
-    totalComment: "2",
-    totalLikes: "2",
-    text:
-      "Thankyou! I can feel the vibe , Greets from switzerland....lets keep on  dancing..."
-  }
-];
+import Touch from 'react-native-touch';
 
 export default class Comments extends Component {
   _renderItem = ({ item, index }) => {
-    
     return (
       <View style={styles.commentWrapper}>
         <View style={styles.userDetails}>
@@ -46,7 +13,7 @@ export default class Comments extends Component {
             source={require("../assets/images/guide-small.png")}
           />
           <View style={styles.detailsWrapper}>
-            <Text style={styles.usernameText}>{item.user_id.name.first}{' '}{item.user_id.name.last}</Text>
+            <Text style={styles.usernameText}>{ item.user_id.name && item.user_id.name.first}{' '}{ item.user_id.name && item.user_id.name.last}</Text>
             <View style={styles.momentWrapper}>
               <Text style={styles.date}>13.07.2019</Text>
               <Text style={styles.date}>12:12</Text>
@@ -57,29 +24,27 @@ export default class Comments extends Component {
           <Text style={styles.commentText}>{item.comment}</Text>
         </View>
         <View style={styles.sharedImageView}>
-          <FlatList
-            style={{ paddingLeft: 12 }}
-            data={userComments}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index}
-            renderItem={({ item, index }) => {
-              return (
-                <View
-                  style={[
-                    styles.userSharedView,
-                    { marginRight: index == userComments.length - 1 ? 25 : 5 }
-                  ]}
-                >
-                  <Image
-                    resizeMode="cover"
-                    style={styles.userShareImage}
-                    source={require("../assets/images/photo.png")}
-                  />
-                </View>
-              );
-            }}
-          />
+         <View
+            style={[
+              styles.userSharedView,
+              { marginRight:  5 }
+            ]}
+          >
+          {
+            item.image ? 
+            <Image
+              resizeMode="cover"
+              style={styles.userShareImage}
+              source={{uri:item.image}}
+            />
+            :
+            <Image
+              resizeMode="cover"
+              style={styles.userShareImage}
+              source={require("../assets/images/photo.png")}
+            />
+          }
+          </View>
         </View>
         <View style={styles.linkWrapper}>
           <View style={styles.likeView}>
@@ -92,6 +57,9 @@ export default class Comments extends Component {
         </View>
         <View style={styles.likeandcommentView}>
           <View style={styles.like}>
+            <Touch 
+              onPress={()=>this.props.onLike(item._id)}
+              >
             <View style={styles.likePng}>
               <Image
                 resizeMode="contain"
@@ -100,6 +68,7 @@ export default class Comments extends Component {
               />
             </View>
             <Text style={styles.text}>Like</Text>
+            </Touch>
           </View>
           <View style={styles.like}>
             <View style={styles.commentPng}>
@@ -121,6 +90,7 @@ export default class Comments extends Component {
       <View style={{ flex: 1 }}>
         <FlatList
           data={this.props.userComments}
+          extraData={this.props.userComments}
           keyExtractor={(item, index) => index}
           renderItem={this._renderItem}
         />

@@ -25,7 +25,10 @@ import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
 import {
   getEventDescriptionRequest,
-  postEventLikeRequest
+  postEventLikeRequest,
+  postAddCommentRequest,
+  cleanCommentSuccess,
+  postLikeCommentRequest,
 } from "../redux/action";
 
 const image = [
@@ -60,7 +63,8 @@ class CityEventDescription extends Component {
       isDiscussionTab: false,
       isPlay: false,
       isEventDescription: false,
-      isLiked: false
+      isLiked: false,
+      comment: '',
     };
   }
   componentDidMount() {
@@ -84,10 +88,8 @@ class CityEventDescription extends Component {
     const checkInterested = interestedArray.find(
       going => going.email == user.data.data.email
     );
-    console.log(checkInterested,'jjjjjjjjjj')
     if (checkInterested && Object.keys(checkInterested).length) {
       if (prevState.isLiked !== this.state.isLiked) {
-        console.log("cdu")
         this.setState({ isLiked: true });
       }
     }
@@ -97,6 +99,13 @@ class CityEventDescription extends Component {
       prevProps.userLike.isSuccess !== this.props.userLike.isSuccess
     ) {
       ToastAndroid.show(message, ToastAndroid.SHORT);
+    }
+    if(this.props.postAddComment.isSuccess){
+      this.setState({
+        comment: ''
+      })
+      this.props.cleanCommentSuccess()
+      this.props.eventDescription(this.props.navigation.state.params.item._id);      
     }
   }
 
@@ -124,11 +133,41 @@ class CityEventDescription extends Component {
     let token = this.props.user.user.status.token;
     let eventId = this.props.navigation.state.params.item._id;
     this.props.eventLikeRequest({ token, eventId });
-    console.log("onEventlike")
   };
+
+  onCommentTextChange = (text) => {
+    this.setState({
+      comment: text
+    })
+  }
+
+  onComment = () => {
+    const { comment } = this.state;
+    const { navigation, postAddCommentRequest, user } = this.props;
+    let payload = {
+      id: navigation.state.params.item._id,
+      token : user.user.status.token,
+      data: {
+        comment: comment
+      }
+    }
+    postAddCommentRequest(payload);
+    this.setState({
+      comment:""
+    })
+  }
+
+  onLike = (id) => {
+    const { user } = this.props;
+    let payload = {
+      token : user.user.status.token,
+      id: id
+    }
+    this.props.postLikeCommentRequest(payload)
+  }
+
   render() {
-    console.log(this.props.userLike, "=====");
-    const { isLiked } = this.state;
+    const { isLiked, comment } = this.state;
     const { user } = this.props.user;
     let rightIcon;
     const data = image.map((data, i) => {
@@ -165,7 +204,6 @@ class CityEventDescription extends Component {
           ? ["heart", "share-alt"]
           : ["heart-o", "share-alt"];
     }
-    console.log(item, "item");
 
     return (
       <View>
@@ -254,7 +292,7 @@ class CityEventDescription extends Component {
                             </Text>
                           </View>
                         ) : (
-                          <Text style={styles.buttonText}> Joing event</Text>
+                          <Text style={styles.buttonText}> Join Event</Text>
                         )}
                       </LinearGradient>
                       <LinearGradient
@@ -378,8 +416,15 @@ class CityEventDescription extends Component {
               )}
               {this.state.isDiscussionTab && (
                 <View style={styles.discussionWrapper}>
-                  <CommentSection />
-                  <Comments userComments={item.comments} />
+                  <CommentSection 
+                    comment={comment}
+                    onChange={this.onCommentTextChange}
+                    onSubmit={this.onComment}
+                  />
+                  <Comments 
+                    userComments={item.comments} 
+                    onLike={this.onLike}
+                  />
                 </View>
               )}
             </View>
@@ -398,14 +443,19 @@ const mapStateToProps = state => {
   return {
     getEventDescription: state.getEventDescription,
     user: state.user,
-    userLike: state.postAddLikeEvent
+    userLike: state.postAddLikeEvent,
+    postAddComment: state.postAddComment,
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     eventDescription: id => dispatch(getEventDescriptionRequest(id)),
     eventLikeRequest: (token, eventId) =>
-      dispatch(postEventLikeRequest(token, eventId))
+      dispatch(postEventLikeRequest(token, eventId)),
+    postAddCommentRequest: (payload) => 
+      dispatch(postAddCommentRequest(payload)),
+    cleanCommentSuccess: () => dispatch(cleanCommentSuccess()),
+    postLikeCommentRequest: (payload) => dispatch(postLikeCommentRequest(payload))
   };
 };
 export default connect(
