@@ -5,9 +5,7 @@ import Touch from 'react-native-touch';
 
 export default class Comments extends Component {
   _renderItem = ({ item, index }) => {
-    console.log(item,'aaaasad',this.props)
-    let liked = item.likedBy.findIndex(val => { console.log(val,this.props.userId);  return val == this.props.userId} )
-    console.log(liked,'asd')
+    let liked = item.likedBy.findIndex(val =>  val == this.props.userId )
     return (
       <View style={styles.commentWrapper}>
         <View style={styles.userDetails}>
@@ -34,35 +32,31 @@ export default class Comments extends Component {
             ]}
           >
           {
-            item.image ? 
+            item.image &&
             <Image
               resizeMode="cover"
               style={styles.userShareImage}
               source={{uri:item.image}}
-            />
-            :
-            <Image
-              resizeMode="cover"
-              style={styles.userShareImage}
-              source={require("../assets/images/photo.png")}
             />
           }
           </View>
         </View>
         <View style={styles.linkWrapper}>
           <View style={styles.likeView}>
-            <Image source={require("../assets/images/like_full.png")} style={{height:20,width:20}} />
+            <Image source={require("../assets/images/like_full.png")} style={{height:15,width:15}} />
             <Text style={styles.totalLikeText}>{item.likedBy.length}</Text>
           </View>
           <View style={styles.TextComment}>
-            <Text>{item.totalComment} Comments</Text>
+            <Text style={{color:'grey'}} >{item.totalComment} Comments</Text>
           </View>
         </View>
+        <View style={styles.line} />
         <View style={styles.likeandcommentView}>
           <View style={styles.like}>
-            <Touch 
+            <Touch
               onPress={()=>this.props.onLike(item._id)}
               >
+              <View style={{flexDirection:'row',justifyContent:'center'}} >
             <View style={styles.likePng}>
               {
                 liked == -1 ?
@@ -80,6 +74,7 @@ export default class Comments extends Component {
               }
             </View>
             <Text style={styles.text}>Like</Text>
+            </View>
             </Touch>
           </View>
           <View style={styles.like}>
@@ -119,6 +114,12 @@ const styles = StyleSheet.create({
   commentWrapper: {
     borderTopWidth: 4,
     borderColor: "#f2f2f2"
+  },
+  line:{
+    borderColor:'#f2f2f2',
+    borderWidth:1,
+    height:1,
+    margin:10
   },
   userDetails: {
     paddingLeft: 20,
@@ -176,19 +177,20 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   likePng: {
-    width: 25,
-    height: 25
+    width: 20,
+    height: 20
   },
   commentPng: {
-    width: 28,
-    height: 28
+    width: 20,
+    height: 20
   },
   socialPng: {
     width: "100%",
     height: "100%"
   },
   text: {
-    paddingLeft: 7
+    paddingLeft: 7,
+    color: "grey",    
   },
   totalLikeText: {
     paddingLeft: 5
