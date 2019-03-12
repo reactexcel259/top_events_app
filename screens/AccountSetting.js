@@ -65,7 +65,7 @@ class AccountSettingScreen extends React.Component {
           }} >
           <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
             <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
-              <Image style={{height:20,width:16}} mode='contain' source={require('../assets/images/password.png')}  />
+              <Image style={{height:23,width:20}} mode='contain' source={require('../assets/images/password.png')}  />
               <Text style={{fontSize:17,marginLeft:20, marginTop:-1}} > Change password </Text>
             </View>
             <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center', marginTop:-11}} >

@@ -43,8 +43,10 @@ const defaultGetStateForAction = Routers.router.getStateForAction;
 Routers.router.getStateForAction = (action, state) => {
   if (
     state &&
-    state.routes.length > 1 &&
-    state.routes[1].index == 0 &&
+    state.routes[state.index].routeName == "HomeTab" &&
+    state.routes[state.index].index == 0 &&
+    state.routes[state.index].routes[state.routes[state.index].index].routeName == "HomeStack" &&
+    state.routes[state.index].routes[state.routes[state.index].index].index == 0 &&
     action.type === NavigationActions.BACK
   ) {
     // Returning null from getStateForAction means that the action

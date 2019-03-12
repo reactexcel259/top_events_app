@@ -207,6 +207,10 @@ class CityEventDescription extends Component {
       ? ["heart", "share-alt"]
       : ["heart-o", "share-alt"];
     }
+    let isPassed;
+    if(item){
+     isPassed = moment().diff(moment(item.start),'days')
+    }
     const data = item && item.interested.map((data, i) => {
       return (
         <View
@@ -308,7 +312,7 @@ class CityEventDescription extends Component {
                         marginTop: 30
                       }}
                     >
-                    <TouchableOpacity onPress={()=>{  this.eventJoin()}}>
+                    <TouchableOpacity onPress={()=>{ (isPassed && isPassed < 0) &&  this.eventJoin() }}>
                       <LinearGradient
                         start={{ x: 0, y: 1 }}
                         end={{ x: 1, y: 1 }}
@@ -320,11 +324,14 @@ class CityEventDescription extends Component {
                             <Text
                               style={[styles.buttonText, { color: "black" }]}
                             >
-                              You're going
+                               You're going
                             </Text>
                           </View>
                         ) : (
-                          <Text style={styles.buttonText}> Join Event</Text>
+                          <Text style={styles.buttonText}> 
+                          { (isPassed && isPassed > 0) ?  `Event Closed` : 'Join Event' }
+                          
+                          </Text>
                         )}
                       </LinearGradient>
                       </TouchableOpacity>

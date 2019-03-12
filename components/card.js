@@ -51,6 +51,7 @@ export default class Card extends React.Component {
         </View>
       );
     });
+    const isPassed = moment().diff(moment(item.start),'days');
     return (
       <View
         style={{
@@ -233,7 +234,7 @@ export default class Card extends React.Component {
               }}
             >
               <View>
-                <TouchableOpacity onPress={()=>{this.props.eventJoin(item)}}>
+                <TouchableOpacity onPress={()=>{ isPassed < 0 && this.props.eventJoin(item)}}>
                   <LinearGradient
                     start={{ x: 0, y: 1 }}
                     end={{ x: 1, y: 1 }}
@@ -264,7 +265,9 @@ export default class Card extends React.Component {
                       }}>
                         <Text> You're going</Text>
                       </View>:
-                      <Text style={{ alignSelf: "center", color:'white' }}>Join event</Text>
+                      <Text style={{ alignSelf: "center", color:'white' }}>
+                        {isPassed < 0 ? `Join event` : `Event Closed`}
+                      </Text>
                     )}
                   </LinearGradient>
                 </TouchableOpacity>
