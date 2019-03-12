@@ -199,6 +199,7 @@ class CityEventDescription extends Component {
       );
     });
     const eventData = this.props.getEventDescription;
+    const goingData = this.props.getInterestedEvent;
     const item =
       eventData.isSuccess && this.props.getEventDescription.status.data;
     let interestedArray = !item ? [] : item.interested;
@@ -233,7 +234,15 @@ class CityEventDescription extends Component {
           rightIcon={rightIcon}
           onEventLike={() => this.onEventLike()}
         />
-        {eventData.isSuccess ? (
+        {
+          eventData.isLoading || goingData.postingLoading ? 
+           (
+            <View style={styles.loaderView}>
+              <ActivityIndicator color="#FF6CC9" size="large" />
+            </View>
+          )
+          :
+          eventData.isSuccess && (
           <ScrollView>
             {!this.props.userLike.isSuccess && this.state.isLiked && (
               <View style={styles.loaderView}>
@@ -447,11 +456,7 @@ class CityEventDescription extends Component {
               )}
             </View>
           </ScrollView>
-        ) : (
-          <View style={styles.loaderView}>
-            <ActivityIndicator color="#FF6CC9" size="large" />
-          </View>
-        )}
+        ) }
       </View>
     );
   }
