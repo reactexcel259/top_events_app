@@ -29,6 +29,8 @@ import {
   postAddCommentRequest,
   cleanCommentSuccess,
   postLikeCommentRequest,
+  postJoiningEventsRequest,
+  setAddEventDefault,
 } from "../redux/action";
 
 const image = [
@@ -107,6 +109,10 @@ class CityEventDescription extends Component {
       this.props.cleanCommentSuccess()
       this.props.eventDescription(this.props.navigation.state.params.item._id);      
     }
+    if(this.props.getInterestedEvent.joinedTrue  && prevProps.getInterestedEvent.joinedTrue !== this.props.getInterestedEvent.joinedTrue){
+        this.props.setAddEventDefault();
+        this.props.eventDescription(this.props.navigation.state.params.item._id);
+      }
   }
 
   onShare = async () => {
@@ -164,6 +170,15 @@ class CityEventDescription extends Component {
       id: id
     }
     this.props.postLikeCommentRequest(payload)
+  }
+
+  eventJoin = () => {
+    const { user, navigation } = this.props;
+    let payload= {
+      token: user.user.status.token,
+      id: navigation.state.params.item._id
+    }
+    this.props.postJoiningEventsRequest(payload)
   }
 
   render() {
@@ -277,6 +292,7 @@ class CityEventDescription extends Component {
                         marginTop: 30
                       }}
                     >
+                    <TouchableOpacity onPress={()=>{  this.eventJoin()}}>
                       <LinearGradient
                         start={{ x: 0, y: 1 }}
                         end={{ x: 1, y: 1 }}
@@ -295,6 +311,7 @@ class CityEventDescription extends Component {
                           <Text style={styles.buttonText}> Join Event</Text>
                         )}
                       </LinearGradient>
+                      </TouchableOpacity>
                       <LinearGradient
                         colors={["#ff6cc9", "#8559f0"]}
                         style={styles.bag}
@@ -446,6 +463,7 @@ const mapStateToProps = state => {
     user: state.user,
     userLike: state.postAddLikeEvent,
     postAddComment: state.postAddComment,
+    getInterestedEvent:state.getInterestedEvent,
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -456,7 +474,9 @@ const mapDispatchToProps = dispatch => {
     postAddCommentRequest: (payload) => 
       dispatch(postAddCommentRequest(payload)),
     cleanCommentSuccess: () => dispatch(cleanCommentSuccess()),
-    postLikeCommentRequest: (payload) => dispatch(postLikeCommentRequest(payload))
+    postLikeCommentRequest: (payload) => dispatch(postLikeCommentRequest(payload)),
+    postJoiningEventsRequest: (payload) => dispatch(postJoiningEventsRequest(payload)),
+    setAddEventDefault: () => dispatch(setAddEventDefault()),
   };
 };
 export default connect(
