@@ -185,30 +185,17 @@ class CityEventDescription extends Component {
     const { isLiked, comment } = this.state;
     const { user } = this.props.user;
     let rightIcon;
-    const data = image.map((data, i) => {
-      return (
-        <View
-          key={i}
-          style={[styles.peopleLiked, { zIndex: image.length - i }]}
-        >
-          <Image
-            style={styles.peopleLikedImage}
-            source={require("../assets/images/photo2.png")}
-          />
-        </View>
-      );
-    });
     const eventData = this.props.getEventDescription;
     const goingData = this.props.getInterestedEvent;
     const item =
-      eventData.isSuccess && this.props.getEventDescription.status.data;
+    eventData.isSuccess && this.props.getEventDescription.status.data;
     let interestedArray = !item ? [] : item.interested;
     let checkedInarry = !item ? [] : item.checkedinBy;
     const checkedIn = checkedInarry.find(
       going => going.email == user.data.data.email
     );
     const checkedInBy =
-      checkedIn && Object.keys(checkedIn).length ? true : false;
+    checkedIn && Object.keys(checkedIn).length ? true : false;
     const checkInterested = interestedArray.find(
       going => going.email == user.data.data.email
     );
@@ -216,11 +203,31 @@ class CityEventDescription extends Component {
       rightIcon = ["heart", "share-alt"];
     } else {
       rightIcon =
-        checkInterested && Object.keys(checkInterested).length && !isLiked
-          ? ["heart", "share-alt"]
-          : ["heart-o", "share-alt"];
+      checkInterested && Object.keys(checkInterested).length && !isLiked
+      ? ["heart", "share-alt"]
+      : ["heart-o", "share-alt"];
     }
-
+    const data = item && item.interested.map((data, i) => {
+      return (
+        <View
+          key={i}
+          style={[styles.peopleLiked, { zIndex: image.length - i }]}
+        >
+        {
+          data.image ?
+          <Image
+          style={styles.peopleLikedImage}
+          source={{uri:data.image}}
+          />
+          :
+          <Image
+          style={styles.peopleLikedImage}
+          source={require("../assets/images/photo2.png")}
+          />
+        }
+        </View>
+      );
+    });
     return (
       <View>
         <CustomHeader

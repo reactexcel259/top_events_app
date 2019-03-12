@@ -24,7 +24,6 @@ import WelcomeContainer from '../components/signup/welcome';
 import {setItem, getItem} from '../services/storage';
 import { validateEmail } from '../services/validation';
 
-
 class SignUpScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {

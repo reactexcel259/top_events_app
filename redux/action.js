@@ -107,3 +107,9 @@ export const setAddEventDefault=createAction(constants.SET_ADD_EVENT_DEFAULT);
 export const setLikeEventsDefault=createAction(constants.SET_LIKE_EVENTS_DEFAULT);
 
 export const setSelectedEvent= createAction(constants.SET_SELECTED_EVENT)
+
+//action for notification
+
+export const getNotificationRequest = createAction(constants.GET_NOTIFICATION_REQUEST);
+export const getNotificationSuccess = createAction(constants.GET_NOTIFICATION_SUCCESS);
+export const getNotificationError = createAction(constants.GET_NOTIFICATION_ERROR);

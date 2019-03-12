@@ -33,13 +33,21 @@ const image = [
 export default class Card extends React.Component {
   render() {
     const { isWishlist ,item, favorites, eventWishList, going, loading} = this.props;
-    const data = image.map((data, i) => {
+    const data = item.interested.map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
+          {
+          data.image ?
           <Image
-            style={styles.peopleLikedImage}
-            source={require("../assets/images/photo2.png")}
+          style={styles.peopleLikedImage}
+          source={{uri:data.image}}
           />
+          :
+          <Image
+          style={styles.peopleLikedImage}
+          source={require("../assets/images/photo2.png")}
+          />
+        }
         </View>
       );
     });

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     borderRadius: 25
   },
   buttonSmallContainer: {
-    height:40, 
+    height: Platform.OS == 'ios' ? 50 : 40, 
     width:Layout.window.width * 0.350
   },
   buttonContainer: {
