@@ -8,6 +8,7 @@ import {
   TextInput,
   ToastAndroid,
   Platform,
+  AsyncStorage,
   Alert,
   ActivityIndicator,
   TouchableOpacity
@@ -72,29 +73,6 @@ class ChangePassword extends React.Component {
       })
       if(Platform.OS == 'android') {
         ToastAndroid.showWithGravityAndOffset(
-          'Your Profile is updated',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
-        );
-      } else if( Platform.OS == 'ios'){
-        Alert.alert(
-          'Success',
-          'Your Profile is updated'
-        )
-      }
-      this.goBack()
-    }
-    if(user.user.updateData && user.user.updateData.success && loaderType == 'changeEmail' ){
-      this.setState({
-        loader: false,
-        newPassword:'',
-        confirmPassword:'',
-        loaderType:''
-      })
-      if(Platform.OS == 'android') {
-        ToastAndroid.showWithGravityAndOffset(
           'Your password has been changed',
           ToastAndroid.LONG,
           ToastAndroid.BOTTOM,
@@ -109,6 +87,27 @@ class ChangePassword extends React.Component {
       }
       this.goBack()
     }
+    if(user.user.updateData && user.user.updateData.success && loaderType == 'changeEmail' ){
+      this.setState({
+        loader: false,
+        newPassword:'',
+        confirmPassword:'',
+        loaderType:''
+      })
+        Alert.alert(
+          'Success',
+          'Your Email has been changed. Please Login again',
+          [
+            {text: 'OK', onPress: () => this.logout()},
+          ],
+        )
+    }
+  }
+
+  logout = async () => {
+      let keys = ['user','user_info','user_interest'];
+      let a = await AsyncStorage.multiRemove(keys);
+      this.props.navigation.popToTop();
   }
 
   onChange = (text,field) => {
