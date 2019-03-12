@@ -147,7 +147,14 @@ const styles = StyleSheet.create({
     marginLeft:50,
     backgroundColor:'white',
     borderRadius:50,
-    elevation:2
+    elevation:5,
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowRadius: 5,
+    shadowOpacity: 1.0,
+    shadowColor: '#f2f2f2'
   },
 });
 
