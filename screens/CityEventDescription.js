@@ -252,6 +252,7 @@ class CityEventDescription extends Component {
         </View>
       );
     });
+    let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
     return (
       <View>
         <CustomHeader
@@ -321,7 +322,12 @@ class CityEventDescription extends Component {
                     <View style={styles.peopleWrapper}>
                       <View style={styles.peppleLikedWrapper}>{data}</View>
                       <Text style={styles.totalPeople}>
-                        {item.interested.length} people interested
+                      {
+                        (!isGoing || isGoing == -1 ) ?
+                        `${item.interested.length} people interested`
+                        :
+                        `You and ${item.interested.length - 1} people interested`
+                      }
                       </Text>
                     </View>
                     <View
