@@ -5,6 +5,7 @@ import Touch from 'react-native-touch';
 
 export default class Comments extends Component {
   _renderItem = ({ item, index }) => {
+    console.log(item,'asdasd')
     let liked = item.likedBy.findIndex(val =>  val == this.props.userId )
     return (
       <View style={styles.commentWrapper}>
@@ -96,6 +97,7 @@ export default class Comments extends Component {
     return (
       <View style={{ flex: 1 }}>
         <FlatList
+          inverted
           data={this.props.userComments}
           extraData={this.props.userComments}
           keyExtractor={(item, index) => item._id}

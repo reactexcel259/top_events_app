@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Dimensions,
+  Linking,
   ActivityIndicator,
   Share,
   ToastAndroid
@@ -32,6 +33,7 @@ import {
   postJoiningEventsRequest,
   setAddEventDefault,
 } from "../redux/action";
+import { Platform } from "expo-core";
 
 const image = [
   {
@@ -181,6 +183,24 @@ class CityEventDescription extends Component {
     this.props.postJoiningEventsRequest(payload)
   }
 
+  openMap = () => {
+    const { getEventDescription } = this.props;
+    let url = Platform.OS == 'ios' ? 
+    `maps:${getEventDescription.status.data.EventLocation[0]},${getEventDescription.status.data.EventLocation[1]}`
+    :
+    `geo:${getEventDescription.status.data.EventLocation[0]},${getEventDescription.status.data.EventLocation[1]}`
+
+    Linking.canOpenURL(url).then(supported => {
+      if(supported){
+        return Linking.openURL(url);
+      } else {
+        let browser_url = `https://www.google.com/maps/@${getEventDescription.status.data.EventLocation[0]},${getEventDescription.status.data.EventLocation[1]}`
+        return Linking.openURL(browser_url);
+      }
+    })
+    
+  }
+
   render() {
     const { isLiked, comment } = this.state;
     const { user } = this.props.user;
@@ -296,7 +316,7 @@ class CityEventDescription extends Component {
                         style={styles.icon}
                         source={require("../assets/images/cost.png")}
                       />
-                      <Text style={styles.dollar}>from {item.Price}</Text>
+                      <Text style={styles.dollar}>from ${item.Price}</Text>
                     </View>
                     <View style={styles.peopleWrapper}>
                       <View style={styles.peppleLikedWrapper}>{data}</View>
@@ -369,9 +389,11 @@ class CityEventDescription extends Component {
                           Kingston ,Concert Hall
                         </Text>
                       </View>
-                      <View style={styles.getDirectionButton}>
-                        <Text style={styles.buttonText}>Get Direction</Text>
-                      </View>
+                      <TouchableOpacity onPress={this.openMap}>                      
+                        <View style={styles.getDirectionButton}>
+                          <Text style={styles.buttonText}>Get Direction</Text>
+                        </View>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 )}

@@ -41,7 +41,8 @@ class HomeScreen extends React.Component {
       <View style={styles.container}>
         <Image
           style={styles.image}
-          source={require('../assets/images/photo.png')}
+          // resizeMode='cover'
+          source={require('../assets/images/photo1.png')}
         />
         <View style={styles.ovalContainer}>
           <View style={styles.ovalContent} >
@@ -88,20 +89,20 @@ const styles = StyleSheet.create({
     width: Layout.window.width
   },
   ovalContainer:{
-    width:Layout.window.width * 0.94 ,
+    width:Layout.window.width * 0.84 ,
     height: isIphoneX() ? Layout.window.height * 0.44 :Layout.window.height * 0.52,
     backgroundColor:'#ffffff',
     opacity:0.93,
     position:'absolute',
-    top: Layout.window.height * 0.50, 
+    top: Layout.window.height * 0.40, 
     left: 0, 
     right: 0, 
     bottom: 0,
-    marginLeft:10,
-    marginRight:10,
-    // borderRadius:25,
-    borderTopStartRadius:30,
-    borderTopEndRadius:30
+    marginLeft:30,
+    marginRight:20,
+    borderRadius:30,
+    // borderTopStartRadius:30,
+    // borderTopEndRadius:30
   },
   ovalContent:{
     flex:1,
