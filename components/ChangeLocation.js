@@ -63,10 +63,13 @@ export default class ChangeLocation extends Component {
         }
         </View>
         {/* </View> */}
-        <View style={styles.underLine}/>
+        
         {films.length >= 1 &&  checkSelected?
           <FlatList
             data={films}
+            ListHeaderComponent={()=>{
+              return <View style={styles.underLine}/>
+            }}
             keyExtractor={(item, index) => item._id}
             renderItem={({item})=>{
               return(

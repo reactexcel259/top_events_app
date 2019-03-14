@@ -67,8 +67,8 @@ class HomeScreen extends React.Component {
             <View style={{alignSelf:'center',paddingBottom:20}} >
               <CustomeButton
                 buttonText={"Sign In"}
-                gradientColor={['#FFFFFF','#FFFFFF']}
-                textColor={'black'}
+                gradientColor={['#ffffff','#ffffff']}
+                textColor={'#8559F0'}
                 onPress={()=>{ this.props.navigation.navigate('SignUpScreen',{isLogin:true}) }}
               />
             </View>
@@ -124,7 +124,9 @@ const styles = StyleSheet.create({
   },
   suggestion:{
     // padding:20,
-    fontSize:15,
+    fontSize:17,
+    fontWeight:'500',
+    width: Layout.window.width * 0.45,
     textAlign:'center'
   },
 });

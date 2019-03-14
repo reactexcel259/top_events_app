@@ -15,7 +15,9 @@ export default class Comments extends Component {
             source={require("../assets/images/guide-small.png")}
           />
           <View style={styles.detailsWrapper}>
-            <Text style={styles.usernameText}>{ item.user_id.name && item.user_id.name.first}{' '}{ item.user_id.name && item.user_id.name.last}</Text>
+            <Text style={styles.usernameText}>
+              { item && item.user_id && item.user_id.name && item.user_id.name != null && `${item.user_id.name.first} ${item.user_id.name.last} ` }
+              </Text>
             <View style={styles.momentWrapper}>
               <Text style={styles.date}>13.07.2019</Text>
               <Text style={styles.date}>12:12</Text>

@@ -30,7 +30,7 @@ export default class Locations extends React.Component {
     return data.filter(city => city.name.search(regex) >= 0);
   }
   render() {
-    const { onPress, onSearchChange, search, stateAndCity, selected, onCancelPress } = this.props
+    const { onPress, onSearchChange, isChange, search, stateAndCity, onChangeSearch, selected, onCancelPress } = this.props
     const films = this.findFilm(search);
     let checkSelected = Object.keys(search).length ? selected  ? true : false : false;
     return (
@@ -45,6 +45,12 @@ export default class Locations extends React.Component {
         </View>
         {/* <View style={styles.intrestContainer} > */}
         <View style={{flexDirection:'row', margin:20}}>
+        {
+        isChange ? 
+          <View style={{flex:1}}>
+            <Text style={{color:'white'}} > {search} </Text>
+          </View>
+        :
           <View style={[Object.keys(search).length ? styles.searchPresent :styles.searchContainer]} >
             <FontAwesome name="search" size={20} style={{ margin: 7,color: 'gray' }} />
             <TextInput
@@ -53,8 +59,8 @@ export default class Locations extends React.Component {
               onChangeText={(text) => onSearchChange(text,true)}
               placeholder="Search city"
             />
-        </View>
-        {Object.keys(search).length?
+        </View>}
+        {Object.keys(search).length && !isChange ?
             <View style={styles.buttonOuter}>
               <TouchableOpacity style={styles.buttonContainer} onPress={onCancelPress}>
                 <Text style={styles.buttonText}>
@@ -64,12 +70,23 @@ export default class Locations extends React.Component {
             </View>
               :null
         }
+        {isChange?
+            <View style={{flexDirection:'row',marginLeft:10}}>
+              <TouchableOpacity style={{flexDirection:'row'}}  onPress={onChangeSearch}>
+              <FontAwesome name="location-arrow" size={20} style={{ marginTop: 2,marginRight:5,color: 'black' }} />            
+              <Text style={{color:'white',fontSize:14, marginLeft:5}} > Change </Text>
+              </TouchableOpacity>
+            </View>
+              :null
+        }
         </View>
         {/* </View> */}
-        <View style={styles.underLine}/>
         {films.length >= 1 &&  checkSelected?
           <FlatList
             data={films}
+            ListHeaderComponent={()=>{
+              return <View style={styles.underLine}/>
+            }}
             keyExtractor={(item, index) => item._id}
             renderItem={({item})=>{
               return(
@@ -173,6 +190,14 @@ const styles = StyleSheet.create({
     height:45,
     alignItems:'center',
     width:Layout.window.width * 0.70,
+  },
+  buttonChangeContainer:{
+    width:Layout.window.width * 0.30,
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+    height:45,
+    zIndex:22222
   },
   buttonContainer:{
     width:Layout.window.width * 0.20,

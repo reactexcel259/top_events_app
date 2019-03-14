@@ -39,6 +39,7 @@ class SetupScreen extends React.Component {
       search:'',
       stateCity:[],
       selectedInt:[],
+      isChange:false,
     }
   }
   
@@ -157,9 +158,26 @@ class SetupScreen extends React.Component {
   }
 
   onSearchChange = (text,val) => {
+    if(val){
+      this.setState({
+        search: text,
+        selected: val,
+        isChange: false
+      })
+    } else {
+      this.setState({
+        search: text,
+        selected: val,
+        isChange: true,
+        oldSearch:''
+      })
+    }
+  }
+
+  onChangeSearch = () => {
     this.setState({
-      search: text,
-      selected: val
+      oldSearch: this.state.search,
+      isChange:false,
     })
   }
   onCancelPress = () => {
@@ -229,6 +247,7 @@ class SetupScreen extends React.Component {
                   stateAndCity={getStateAndCityData}
                   useCurrentLocation={()=>{this.useCurrentLocation()}}
                   onSearchChange={this.onSearchChange}
+                  onChangeSearch={this.onChangeSearch}
                   onPress={()=>{this.onPressLocation()}}
                   onCancelPress={this.onCancelPress}            
                 />
