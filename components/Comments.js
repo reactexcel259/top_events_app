@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, View, FlatList, Image, StyleSheet } from "react-native";
 import Layout from "../constants/Layout";
 import Touch from 'react-native-touch';
+import moment from 'moment'
 
 export default class Comments extends Component {
   _renderItem = ({ item, index }) => {
@@ -19,8 +20,8 @@ export default class Comments extends Component {
               { item && item.user_id && item.user_id.name && item.user_id.name != null && `${item.user_id.name.first} ${item.user_id.name.last} ` }
               </Text>
             <View style={styles.momentWrapper}>
-              <Text style={styles.date}>13.07.2019</Text>
-              <Text style={styles.date}>12:12</Text>
+              <Text style={styles.date}>{ item.createdAt ? moment(item.createdAt).format('DD.MM.YYYY') : `13.07.2019`}</Text>
+              <Text style={styles.date}> { item.createdAt ? moment(item.createdAt).format('HH:MM') : `12:12`} </Text>
             </View>
           </View>
         </View>

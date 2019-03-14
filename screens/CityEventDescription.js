@@ -231,7 +231,7 @@ class CityEventDescription extends Component {
     if(item){
      isPassed = moment().diff(moment(item.start),'days')
     }
-    const data = item && item.interested.map((data, i) => {
+    const data = item && item.interested.splice(0,10).map((data, i) => {
       return (
         <View
           key={i}
@@ -554,7 +554,9 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     paddingLeft: 20
   },
-  website: {},
+  website: {
+    color:'#FF6CC9'
+  },
   time: {
     marginTop: 20,
     flexDirection: "row",
@@ -597,7 +599,9 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   totalPeople: {
-    marginLeft: 15
+    marginLeft: 15,
+    flexWrap:'wrap',
+    flex:1
   },
   dateDay: {
     fontWeight: "bold"

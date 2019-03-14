@@ -8,6 +8,7 @@ import {getStateAndCityEventRequest} from './stateAndCityEvent/action';
 import {postAddCommentRequest, postLikeCommentRequest} from './addComment/action';
 import {getEventDescriptionRequest} from './getEventDescription/action';
 import {postAddLikeRequest} from './addLikeOnEvent/action';
+import { getNotificationRequest } from './notification/action';
 import { getInterestedEventRequest, getAttendingEventRequest, postJoiningEventsRequest} from  './interestedEvent/action';
 
 
@@ -22,6 +23,7 @@ export function* watchActions() {
   yield takeLatest(constants.GET_EVENTBYID_REQUEST ,getEventByIdRequest);
   yield takeLatest(constants.GET_CATEGORY_REQUEST ,getCategoryRequest);
   yield takeLatest(constants.GET_STATEANDCITY_REQUEST ,getStateAndCityRequest);
+  yield takeLatest(constants.GET_NOTIFICATION_REQUEST ,getNotificationRequest);
   yield takeLatest(constants.GET_STATEANDCITYEVENT_REQUEST ,getStateAndCityEventRequest);
   yield takeLatest(constants.POST_ADDCOMMENT_REQUEST ,postAddCommentRequest);
   yield takeLatest(constants.POST_LIKECOMMENT_REQUEST ,postLikeCommentRequest);

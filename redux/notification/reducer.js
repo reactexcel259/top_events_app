@@ -37,9 +37,9 @@ const getNotificationError = (state, action) =>
 
 export default handleActions(
  {
-   [constants.GET_INTERSTEDEVENT_REQUEST]: getNotificationRequest,
-   [constants.GET_INTERSTEDEVENT_SUCCESS]: getNotificationSuccess,
-   [constants.GET_INTERSTEDEVENT_SUCCESS]: getNotificationError,
+   [constants.GET_NOTIFICATION_REQUEST]: getNotificationRequest,
+   [constants.GET_NOTIFICATION_SUCCESS]: getNotificationSuccess,
+   [constants.GET_NOTIFICATION_ERROR]: getNotificationError,
  },
  initialState
 );

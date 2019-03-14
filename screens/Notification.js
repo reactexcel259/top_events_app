@@ -17,6 +17,7 @@ import { LinearGradient, Font } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 import * as actions from '../redux/action';
 import CustomHeader from '../components/header';
+import moment from 'moment'
 
 class Notifications extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -26,10 +27,31 @@ class Notifications extends React.Component {
   };
   constructor(props){
     super(props)
-   
+    this.state = {
+      notificationList:[]
+    }
+  }
+
+  componentWillMount() {
+    const { user } = this.props;
+    let payload = {
+      token: user.status.token
+    }
+    this.props.getNotificationRequest(payload)
+  }
+
+  componentWillReceiveProps(nextProps){
+    const { notification } = nextProps;
+    if(notification.isSuccess){
+      this.setState({
+        notificationList:notification.status
+      })
+    }
   }
 
   render() {
+    const { notification } = this.props;
+    const { notificationList } = this.state;
     return (
       <View style={styles.mainContainer}>
         <CustomHeader
@@ -38,26 +60,56 @@ class Notifications extends React.Component {
         />    
 
         <View style={{flex:1,margin:20}} >
-          <FlatList
-          data={['asd']}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View style={{flexDirection:'row',borderBottomWidth: 1,height:100}} >
-              <View style={{width:Layout.window.width * 0.25}} >
-                <Image source={require('../assets/images/logo.png')} style={{height:60,width:60,borderRadius:5}} />
-              </View>
-              <View style={{flexDirection:'column',justifyContent:'space-between',marginBottom:20,flexWrap:'wrap',width:Layout.window.width * 0.62}} >
-                <View style={{flexWrap:'wrap',flex:1,}} >
-                  <Text  ><Text style={{fontWeight:'600'}} >Jamaica Dream weekend </Text>
-                   is coming up in 2 days. you were interested in this event. </Text>
+         {
+           notification.isLoading ? 
+           (
+            <View style={styles.loaderView}>
+              <ActivityIndicator color="#FF6CC9" size="large" />
+            </View>
+          )
+          :
+            <FlatList
+            inverted            
+            data={notificationList}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => {
+              let time = moment().diff(moment(item.createdAt),'days');
+              if(item.notificationType == "newEvent"){
+              return (
+              <View style={{flexDirection:'row',borderBottomWidth: 1,height:100}} >
+                <View style={{width:Layout.window.width * 0.25}} >
+                  {
+                    item.event_id.image ?
+                  <Image source={{uri:item.event_id.image.url}} style={{height:60,width:60,borderRadius:5}} />
+                  :
+                  <Image source={require('../assets/images/logo.png')} style={{height:60,width:60,borderRadius:5}} />
+                  }
                 </View>
-                <View>
-                  <Text style={{}} >Today</Text>
+                <View style={{flexDirection:'column',justifyContent:'space-between',marginBottom:20,flexWrap:'wrap',width:Layout.window.width * 0.62}} >
+                  <View style={{flexWrap:'wrap',flex:1,}} >
+                    <Text  ><Text style={{fontWeight:'600'}} > {item.event_id.title} </Text>
+                    {item.message} </Text>
+                  </View>
+                  <View>
+                    <Text style={{}} >
+                    {
+                      time == 0 && `Today`
+                    }
+                    {
+                      time >0 && time < 7 && `${time} days ago`
+                    }
+                    {
+                      time > 7  && `Last week`
+                    }
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            </View>  
-          )}
-        />
+              </View>  
+            )
+            } 
+            }}
+          />
+         }
         </View>
       </View>
     );
@@ -68,11 +120,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor:'white'
   },
+  loaderView: {
+    flexDirection: "column",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    top: Layout.window.height * 0.4
+  }
 });
 
 const mapStateToProps = (state) => {
   return {
-      state: state,
+      notification: state.notification,
+      user: state.user.user,
   }
 }
 const mapDispatchToProps = dispatch => 

@@ -9,12 +9,14 @@ import postAddComment from '../redux/addComment/reducer';
 import getEventDescription from '../redux/getEventDescription/reducer';
 import postAddLikeEvent from '../redux/addLikeOnEvent/reducer';
 import getInterestedEvent from '../redux/interestedEvent/reducer';
+import notification from '../redux/notification/reducer';
 
 
 export default combineReducers({
  user:user,
  navigation:navigation,
  getEvent:getEvent,
+ notification:notification,
  getCategory:getCategory,
  getStateAndCity:getStateAndCity,
  getStateAndCityEvent:getStateAndCityEvent,

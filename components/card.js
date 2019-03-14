@@ -33,7 +33,7 @@ const image = [
 export default class Card extends React.Component {
   render() {
     const { isWishlist ,item, favorites, eventWishList, going, loading} = this.props;
-    const data = item.interested.map((data, i) => {
+    const data = item.interested.splice(0,5).map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
           {
@@ -120,7 +120,7 @@ export default class Card extends React.Component {
                 source={require("../assets/images/cost.png")}
                 style={{ margin: 4 }}
               />
-              <Text> from {item.Price} </Text>
+              <Text> from $ {item.Price} </Text>
             </View>
           </View>
           <View
@@ -263,7 +263,7 @@ export default class Card extends React.Component {
                         height: 33,
                         backgroundColor:'white'
                       }}>
-                        <Text> You're going</Text>
+                        <Text> Added</Text>
                       </View>:
                       <Text style={{ alignSelf: "center", color:'white' }}>
                         {isPassed < 0 ? `Join event` : `Event Closed`}
@@ -331,6 +331,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   totalPeople: {
-    marginLeft: 5
+    marginLeft: 5,
+    flexWrap:'wrap',
+    flex:1
   },
 });

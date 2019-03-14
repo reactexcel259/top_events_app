@@ -66,9 +66,9 @@ class ViewAllCard extends Component {
       const { user } = this.props.user;
       const check  = item.interested;
       let checkedInBy = item.checkedinBy;
-      const checkInterested = check.find(going => going.email == user.data.data.email);
+      const checkInterested = check && check.find(going => going.email == user.data.data.email);
       const wishList = checkInterested && Object.keys(checkInterested).length ? true : false; 
-      const checkedInByArray = checkedInBy.find(going => going.email == user.data.data.email);
+      const checkedInByArray = checkedInBy && checkedInBy.find(going => going.email == user.data.data.email);
       let going = checkedInByArray && Object.keys(checkedInByArray).length  ? true :false;
         return(
             <View>
