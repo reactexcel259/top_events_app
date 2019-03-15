@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View ,StyleSheet ,Image} from "react-native";
+import { Text, View ,StyleSheet, TouchableOpacity, Image, Linking} from "react-native";
 import Layout from "../constants/Layout";
 import {LinearGradient} from 'expo';
 import Modal from "react-native-modalbox";
@@ -32,16 +32,85 @@ const image = [
 export default class HomePageModal extends Component {
   constructor(props){
     super(props);
-    this.state={isOpen:false}
+    this.state={isOpen:this.props.isOpen}
   }
+  onClose = () => {
+    const { removeItem } = this.props;
+    this.setState({
+      isOpen: false
+    },()=>{
+      removeItem();
+    })
+  }
+
+  componentWillReceiveProps(nextprops){
+    const { isOpen } = nextprops;
+    this.setState({
+      isOpen: isOpen
+    })
+  }
+
+  callCalander = () => {
+    const { item } = this.props;
+    let url = `http://www.google.com/calendar/event?action=TEMPLATE&dates=${item.start
+    .split("-")
+    .join("")
+    .split(":")
+    .join("")
+    .split(".")[0] + "Z"}%2F${item.end
+      .split("-")
+      .join("")
+      .split(":")
+      .join("")
+      .split(".")[0] + "Z"}&text=${
+        item.title
+        }&location=${item.EventPlace}&details=${
+        item.title
+        }`
+    Linking.canOpenURL(url).then(supported => {
+      if(supported){
+        this.onClose()
+        return Linking.openURL(url);
+      } else {
+        console.log('error')
+      }
+    })
+  }
+
+  onClick = () => {
+    const { type } = this.props;
+    if(type == 'calendar'){
+      this.callCalander()
+    }
+
+  }
+
+  onSubmit = () => {
+    const { type } = this.props;
+    if(type == 'calendar'){
+      this.setState({
+        isOpen:false
+      })
+    }
+  }
+
   render() {
-    const data = image.map((data, i) => {
+    const { title, isOpen, buttons, type, item } = this.props;
+    const data = item && item.interested.slice(0,5).map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
-          <Image
+          {
+            data.image?
+            <Image
+            style={styles.peopleLikedImage}
+            source={{uri:data.image}}
+            />
+            :
+            <Image
             style={styles.peopleLikedImage}
             source={require("../assets/images/photo2.png")}
-          />
+            />
+          }
         </View>
       );
     });
@@ -57,7 +126,7 @@ export default class HomePageModal extends Component {
       >
         <View style={{backgroundColor:'transparent'}}>
           <View style={{backgroundColor:'transparent',paddingBottom:20}}>
-            <EvilIcons onPress={()=>this.setState({isOpen:false})} name='close' size={40} color="#fff"/>
+            <EvilIcons onPress={this.onClose} name='close' size={40} color="#fff"/>
           </View>
           <View style={{backgroundColor:'#fff',borderRadius:12}}>
           <LinearGradient
@@ -67,7 +136,7 @@ export default class HomePageModal extends Component {
           style={styles.header}
           >
           <View>
-              <Text style={styles.headerText}>Happening now</Text>
+              <Text style={styles.headerText}>{title}</Text>
           </View>
           </LinearGradient>
           <View style={styles.wrapper}>
@@ -78,15 +147,37 @@ export default class HomePageModal extends Component {
                   <View style={styles.imageView}>
                     <Image style={{width:"100%",height:'100%'}} resizeMode='contain' source={require('../assets/images/photo2.png')} />
                   </View>
-                  <View style={styles.buttonsView}>
+                  {
+                    buttons.length == 2 &&
+                    <View style={styles.buttonsView}>
+                    <TouchableOpacity onPress={this.onClick} >
                     <LinearGradient
                     start={{ x: 0, y: 1 }}
                     end={{ x: 1, y: 1 }}
                     colors={["#ff6cc9", "#8559f0"]}
                     style={styles.checkGrandient}
                     >
-                          <Text style={styles.checkinText }>Check in</Text>
+                      <Text style={styles.checkinText }> {buttons[0]} </Text>
                     </LinearGradient>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                    <LinearGradient
+                    start={{ x: 0, y: 1 }}
+                    end={{ x: 1, y: 1 }}
+                    colors={["#ff6cc9", "#8559f0"]}
+                    style={styles.activityGradient}
+                    >
+                    <View style={styles.gradientChild}>
+                      <Text style={styles.activityText}> {buttons[1]} </Text>
+                      </View>
+                    </LinearGradient>
+                    </TouchableOpacity>
+                  </View>
+                  }
+                  {
+                    buttons.length == 1 &&
+                    <View style={styles.buttonsView}>
+                    <TouchableOpacity>
                     <LinearGradient
                     start={{ x: 0, y: 1 }}
                     end={{ x: 1, y: 1 }}
@@ -97,13 +188,14 @@ export default class HomePageModal extends Component {
                       <Text style={styles.activityText}>Activity</Text>
                       </View>
                     </LinearGradient>
+                    </TouchableOpacity>
                   </View>
+                  }
                 </View>
                 <View style={styles.likedPeopleView}>
                     {data}
                     <Text style={styles.checkedPeople}>233 checked in</Text>
                 </View>
-
           </View>
         </View>
         </View>

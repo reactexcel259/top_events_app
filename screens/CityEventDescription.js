@@ -33,6 +33,7 @@ import {
   postJoiningEventsRequest,
   setAddEventDefault,
 } from "../redux/action";
+import HomePageModal from '../components/HomePageModal';
 import { Platform } from "expo-core";
 
 const image = [
@@ -69,6 +70,9 @@ class CityEventDescription extends Component {
       isEventDescription: false,
       isLiked: false,
       comment: '',
+      calanderItem:'',
+      isCalander: true,
+      isModalCall: false
     };
   }
   componentDidMount() {
@@ -77,7 +81,7 @@ class CityEventDescription extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    const { isLiked } = this.state;
+    const { isLiked, isCalander, isModalCall } = this.state;
     const { user } = this.props.user;
     const eventData = this.props.getEventDescription;
     const item =
@@ -92,6 +96,12 @@ class CityEventDescription extends Component {
     const checkInterested = interestedArray.find(
       going => going.email == user.data.data.email
     );
+    if(checkedInBy && item && isCalander && !isModalCall ){
+      this.setState({
+        calanderItem: item,
+        isCalander: false
+      })
+    }
     if (checkInterested && Object.keys(checkInterested).length) {
       if (prevState.isLiked !== this.state.isLiked) {
         this.setState({ isLiked: true });
@@ -176,6 +186,20 @@ class CityEventDescription extends Component {
 
   eventJoin = () => {
     const { user, navigation } = this.props;
+    const eventData = this.props.getEventDescription;    
+    const item =
+    eventData.isSuccess && this.props.getEventDescription.status.data;
+    let checkedInarry = !item ? [] : item.checkedinBy;
+    const checkedIn = checkedInarry.find(
+      going => going.email == user.user.data.data.email
+    );
+    const checkedInBy =
+    checkedIn && Object.keys(checkedIn).length ? true : false;
+    if(!checkedInBy){
+      this.setState({
+        isModalCall: false
+      })
+    }
     let payload= {
       token: user.user.status.token,
       id: navigation.state.params.item._id
@@ -201,8 +225,43 @@ class CityEventDescription extends Component {
     
   }
 
+  data = (item) =>{
+    return(
+      item && item.interested.length > 0 ? item.interested.slice(0,6).map((data, i) => {
+        return (
+          <View
+          key={i}
+          style={[styles.peopleLiked, { zIndex: image.length - i }]}
+          >
+          {
+            data.image ?
+            <Image
+            style={styles.peopleLikedImage}
+            source={{uri:data.image}}
+            />
+            :
+            <Image
+            style={styles.peopleLikedImage}
+            source={require("../assets/images/photo2.png")}
+            />
+          }
+          </View>
+        );
+      })
+    :
+    null
+  )
+  }
+  removeCalanderItem = () => {
+    this.setState({
+      calanderItem: '', 
+      isCalander: true,
+      isModalCall: true
+    })
+  }
+
   render() {
-    const { isLiked, comment } = this.state;
+    const { isLiked, comment, calanderItem, isCalander } = this.state;
     const { user } = this.props.user;
     let rightIcon;
     const eventData = this.props.getEventDescription;
@@ -231,29 +290,8 @@ class CityEventDescription extends Component {
     if(item){
      isPassed = moment().diff(moment(item.start),'days')
     }
-    const data = item && item.interested.splice(0,10).map((data, i) => {
-      return (
-        <View
-          key={i}
-          style={[styles.peopleLiked, { zIndex: image.length - i }]}
-        >
-        {
-          data.image ?
-          <Image
-          style={styles.peopleLikedImage}
-          source={{uri:data.image}}
-          />
-          :
-          <Image
-          style={styles.peopleLikedImage}
-          source={require("../assets/images/photo2.png")}
-          />
-        }
-        </View>
-      );
-    });
-    let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
-    return (
+ let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
+ return (
       <View>
         <CustomHeader
           isCenter={true}
@@ -320,13 +358,13 @@ class CityEventDescription extends Component {
                       <Text style={styles.dollar}>from ${item.Price}</Text>
                     </View>
                     <View style={styles.peopleWrapper}>
-                      <View style={styles.peppleLikedWrapper}>{data}</View>
+                      <View style={styles.peppleLikedWrapper}>{this.data(item)}</View>
                       <Text style={styles.totalPeople}>
                       {
                         (!isGoing || isGoing == -1 ) ?
-                        `${item.interested.length} people interested`
+                        `${interestedArray.length} people interested`
                         :
-                        `You and ${item.interested.length - 1} people interested`
+                        `You and ${interestedArray.length - 1} people interested`
                       }
                       </Text>
                     </View>
@@ -350,7 +388,7 @@ class CityEventDescription extends Component {
                             <Text
                               style={[styles.buttonText, { color: "black" }]}
                             >
-                               You're going
+                              {(isPassed && isPassed > 0) ?  `Event Closed` : `You're going`}
                             </Text>
                           </View>
                         ) : (
@@ -499,6 +537,17 @@ class CityEventDescription extends Component {
             </View>
           </ScrollView>
         ) }
+        {
+          !isCalander &&
+          <HomePageModal
+          isOpen={calanderItem == '' ? false: true }
+          title="Add to your calendar"
+          buttons={['Add','Skip']}
+          type="calendar"
+          removeItem={this.removeCalanderItem}
+          item={calanderItem}
+          />
+        }
       </View>
     );
   }

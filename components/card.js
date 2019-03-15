@@ -33,7 +33,7 @@ const image = [
 export default class Card extends React.Component {
   render() {
     const { isWishlist ,item, favorites, eventWishList, going, loading} = this.props;
-    const data = item.interested.splice(0,5).map((data, i) => {
+    const data = item.interested.slice(0,5).map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
           {
@@ -263,7 +263,7 @@ export default class Card extends React.Component {
                         height: 33,
                         backgroundColor:'white'
                       }}>
-                        <Text> Added</Text>
+                        <Text> You're going</Text>
                       </View>:
                       <Text style={{ alignSelf: "center", color:'white' }}>
                         {isPassed < 0 ? `Join event` : `Event Closed`}

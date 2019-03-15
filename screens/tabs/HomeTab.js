@@ -269,7 +269,7 @@ class HomeTab extends Component {
         <CustomHeader isCenter={true} centerImage={true} />
         {cityEvents !== undefined ? (
           <ScrollView>
-            <HomePageModal />
+            {/* <HomePageModal /> */}
             <ChangeLocation
               {...this.state} 
               changeLocationModal={changeLocationModal}

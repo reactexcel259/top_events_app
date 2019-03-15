@@ -14,6 +14,7 @@ import {getStateAndCityRequest,
   setSelectedEvent
 } 
   from '../redux/action';
+import HomePageModal from '../components/HomePageModal';  
 import { connect } from "react-redux";
 import { withNavigationFocus } from 'react-navigation';
 
@@ -22,7 +23,8 @@ class ViewAllCard extends Component {
     constructor(props){
       super(props)
       this.state={
-        categories:[]
+        categories:[],
+        calanderItem:''
       }
     }
     static navigationOptions = {
@@ -48,6 +50,7 @@ class ViewAllCard extends Component {
       const {isSuccess} = this.props.postAddLikeEvent;
       const {selectedItem} = nextProps.getEventDescription
       if(nextProps.isFocused){
+        console.log(nextProps.getInterestedEvent,'check')
         if(nextProps.getInterestedEvent.joinedTrue  && this.props.joinedTrue !== nextProps.getInterestedEvent.joinedTrue){
         this.props.getEventById({id:selectedItem.categories._id,key:selectedItem.categories.key});
         this.props.setAddEvents();
@@ -63,6 +66,7 @@ class ViewAllCard extends Component {
       this.props.navigation.navigate("CityEventDescription",{item:item})
     }
     _renderItem=({item,index})=>{
+      console.log(item,'845')
       const { user } = this.props.user;
       const check  = item.interested;
       let checkedInBy = item.checkedinBy;
@@ -87,7 +91,14 @@ class ViewAllCard extends Component {
             </View>
         )
     }
+
+    removeCalanderItem = () => {
+      this.setState({
+        calanderItem: ''
+      })
+    }
   render() {
+    const { calanderItem } = this.state;
     const {register} = this.props.getEventData;
     const {postingLoading} = this.props.getInterestedEvent
     const {isLoading} = this.props.postAddLikeEvent;
@@ -113,6 +124,14 @@ class ViewAllCard extends Component {
           extraData={this.props}
           />
         }
+        <HomePageModal
+          isOpen={calanderItem == '' ? false: true }
+          title="Add to your calendar"
+          buttons={['Add','Skip']}
+          type="calendar"
+          removeItem={this.removeCalanderItem}
+          item={calanderItem}
+          />
       </View>
     )
   }

@@ -6,7 +6,6 @@ import moment from 'moment'
 
 export default class Comments extends Component {
   _renderItem = ({ item, index }) => {
-    console.log(item,'asdasd')
     let liked = item.likedBy.findIndex(val =>  val == this.props.userId )
     return (
       <View style={styles.commentWrapper}>
@@ -21,7 +20,7 @@ export default class Comments extends Component {
               </Text>
             <View style={styles.momentWrapper}>
               <Text style={styles.date}>{ item.createdAt ? moment(item.createdAt).format('DD.MM.YYYY') : `13.07.2019`}</Text>
-              <Text style={styles.date}> { item.createdAt ? moment(item.createdAt).format('HH:MM') : `12:12`} </Text>
+              <Text style={styles.date}> { item.createdAt && moment(item.createdAt).format('HH:mm')  } </Text>
             </View>
           </View>
         </View>

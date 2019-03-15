@@ -4,9 +4,7 @@ import {call,put} from "redux-saga/effects";
 
 export function* getEventDescriptionRequest(action) {
  try {
-    const response = yield call(fireAjax, "GET", `/getEvent/${action.payload}`, {
-    ...action.payload
-    });
+    const response = yield call(fireAjax, "GET", `/getEvent/${action.payload}`,'');
     if (response) {
       yield put(actions.getEventDescriptionSuccess(response.data));
     }
