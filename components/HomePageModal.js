@@ -92,10 +92,16 @@ export default class HomePageModal extends Component {
   }
 
   onSubmit = () => {
-    const { type } = this.props;
+    const { type,item} = this.props;
     if(type == 'calendar'){
       this.setState({
         isOpen:false
+      })
+    }else if(type == 'checkin'){
+      this.setState({
+        isOpen: false
+      },()=>{
+        this.props.navigation.navigate('Activity',{item})
       })
     }
   }

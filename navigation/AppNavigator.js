@@ -13,6 +13,7 @@ import Card from '../components/card';
 import ViewAllCard from '../screens/ViewAllCard';
 import ProfileSettingScreen from '../screens/ProfileSetting';
 import CheckIn from '../screens/CheckIn';
+import Activity from "../screens/Activity"
 import ChangePassword from '../screens/ChangePassword';
 import AccountSettingScreen from '../screens/AccountSetting';
 import ManageNotificationScreen from '../screens/ManageNotification';
@@ -26,6 +27,7 @@ const Routers = createAppContainer(createStackNavigator({
   CityEventDescription:CityEventDescription,
   ChangePassword: ChangePassword,
   CheckIn:CheckIn,
+  Activity: Activity,
   permission: PermissionScreen,
   ProfileSetting: ProfileSettingScreen,
   AccountSetting: AccountSettingScreen,

@@ -69,29 +69,50 @@ class Notifications extends React.Component {
           )
           :
             <FlatList
-            inverted            
+            inverted     
             data={notificationList}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {
               let time = moment().diff(moment(item.createdAt),'days');
-              if(item.notificationType == "newEvent"){
+              if(item.event_id){
               return (
-              <View style={{flexDirection:'row',borderBottomWidth: 1,height:100}} >
+              <View style={{flexDirection:'row',borderBottomWidth: 1, borderColor:"#efefef",alignItems:"center"}} >
                 <View style={{width:Layout.window.width * 0.25}} >
                   {
-                    item.event_id.image ?
+                    item.event_id && item.event_id.image ?
                   <Image source={{uri:item.event_id.image.url}} style={{height:60,width:60,borderRadius:5}} />
                   :
                   <Image source={require('../assets/images/logo.png')} style={{height:60,width:60,borderRadius:5}} />
                   }
                 </View>
-                <View style={{flexDirection:'column',justifyContent:'space-between',marginBottom:20,flexWrap:'wrap',width:Layout.window.width * 0.62}} >
+                <View style={{flexDirection:'column',justifyContent:'space-between',marginVertical:15,flexWrap:'wrap',width:Layout.window.width * 0.62}} >
                   <View style={{flexWrap:'wrap',flex:1,}} >
-                    <Text  ><Text style={{fontWeight:'600'}} > {item.event_id.title} </Text>
-                    {item.message} </Text>
+                   {item.notificationType === "newEvent" && 
+                   (
+                      <Text>
+                        {item.message} 
+                        <Text style={{fontWeight:'600'}} > {item.event_id.title} </Text>
+                      </Text>
+                    )}
+                    {item.notificationType === "upcomingEvent" && 
+                    (
+                      <Text>                          
+                          <Text style={{fontWeight:'600'}} > {item.event_id.title} </Text>
+                          {item.message} 
+                      </Text>
+                    )}
+                     {item.notificationType === "like" && 
+                    (
+                      <Text>                          
+                          <Text style={{fontWeight:'600'}} > {item.otherUsers} </Text>
+                          {item.message} in
+                          <Text style={{fontWeight:'600'}} > {`${item.event_id.title}`} </Text>
+
+                      </Text>
+                    )}
                   </View>
                   <View>
-                    <Text style={{}} >
+                    <Text style={{color:"darkgray"}} >
                     {
                       time == 0 && `Today`
                     }

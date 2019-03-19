@@ -291,6 +291,7 @@ class CityEventDescription extends Component {
      isPassed = moment().diff(moment(item.start),'days')
     }
  let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
+ console.log(calanderItem,item,'kjhgfcx')
  return (
       <View>
         <CustomHeader
@@ -314,11 +315,6 @@ class CityEventDescription extends Component {
           :
           eventData.isSuccess && (
           <ScrollView>
-            {/* {!this.props.userLike.isSuccess && this.state.isLiked && (
-              <View style={styles.loaderView}>
-                <ActivityIndicator color="tomato" size="large" />
-              </View>
-            )} */}
             <View>
               <LinearGradient colors={["#ff6cc9", "#8559f0"]}>
                 <View style={styles.firstSectionWrapper}>
@@ -355,7 +351,7 @@ class CityEventDescription extends Component {
                         style={styles.icon}
                         source={require("../assets/images/cost.png")}
                       />
-                      <Text style={styles.dollar}>from ${item.Price}</Text>
+                      <Text style={styles.dollar}>from $ {item.Price ? item.Price : 0}</Text>
                     </View>
                     <View style={styles.peopleWrapper}>
                       <View style={styles.peppleLikedWrapper}>{this.data(item)}</View>
@@ -393,7 +389,7 @@ class CityEventDescription extends Component {
                           </View>
                         ) : (
                           <Text style={styles.buttonText}> 
-                          { (isPassed && isPassed >= 0) ?  `Event Closed` : 'Join Event' }
+                          { (isPassed != undefined && isPassed >= 0) ?  `Event Closed` : 'Join Event' }
                           
                           </Text>
                         )}
@@ -421,8 +417,8 @@ class CityEventDescription extends Component {
                     <MapView
                       style={{ flex: 1, height: Layout.window.height * 0.23, borderRadius:15 }}
                       initialRegion={{
-                        latitude:  70.08,
-                        longitude:  36.09,
+                        latitude:  item.EventLocation[1],
+                        longitude:  item.EventLocation[0],
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421
                       }}
@@ -496,7 +492,7 @@ class CityEventDescription extends Component {
                   <View style={styles.video}>
                     <Carousel />
                     {
-                      item.VideoLink != "" &&
+                      (item.VideoLink != undefined && item.VideoLink != "") &&
                       <View style={styles.videoView}>
                         <Video
                           source={{
@@ -546,15 +542,16 @@ class CityEventDescription extends Component {
           !isCalander &&
           <HomePageModal
           {...this.props}
-          // isOpen={calanderItem == '' ? false: true }
-          isOpen = {(calanderItem == '' ? false: true) && !(isPassed  != undefined && isPassed >= 0)}
+          isOpen={calanderItem == '' ? false: true }
+          // isOpen = {(calanderItem == '' ? false: true) && !(isPassed  != undefined && isPassed >= 0)}
           title="Add to your calendar"
-          buttons={['Add','Skip']}
-          // buttons={['Check in','Activity']}
-          // type="checkin"
-          type="calendar"
+          // buttons={['Add','Skip']}
+          buttons={['Check in','Activity']}
+          type="checkin"
+          // type="calendar"
           removeItem={this.removeCalanderItem}
-          item={calanderItem}
+          // item={calanderItem}
+          item={item}
           />
         }
       </View>

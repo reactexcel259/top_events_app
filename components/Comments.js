@@ -6,6 +6,7 @@ import moment from 'moment'
 
 export default class Comments extends Component {
   _renderItem = ({ item, index }) => {
+    console.log(item,'asdasd')
     let liked = item.likedBy.findIndex(val =>  val == this.props.userId )
     return (
       <View style={styles.commentWrapper}>
