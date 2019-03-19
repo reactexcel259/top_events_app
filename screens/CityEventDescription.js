@@ -314,11 +314,11 @@ class CityEventDescription extends Component {
           :
           eventData.isSuccess && (
           <ScrollView>
-            {!this.props.userLike.isSuccess && this.state.isLiked && (
+            {/* {!this.props.userLike.isSuccess && this.state.isLiked && (
               <View style={styles.loaderView}>
-                <ActivityIndicator color="#FF6CC9" size="large" />
+                <ActivityIndicator color="tomato" size="large" />
               </View>
-            )}
+            )} */}
             <View>
               <LinearGradient colors={["#ff6cc9", "#8559f0"]}>
                 <View style={styles.firstSectionWrapper}>
@@ -376,7 +376,7 @@ class CityEventDescription extends Component {
                         marginTop: 30
                       }}
                     >
-                    <TouchableOpacity onPress={()=>{ (isPassed && isPassed < 0) &&  this.eventJoin() }}>
+                    <TouchableOpacity onPress={()=>{ (isPassed != undefined && isPassed < 0) &&  this.eventJoin() }}>
                       <LinearGradient
                         start={{ x: 0, y: 1 }}
                         end={{ x: 1, y: 1 }}
@@ -388,12 +388,12 @@ class CityEventDescription extends Component {
                             <Text
                               style={[styles.buttonText, { color: "black" }]}
                             >
-                              {(isPassed && isPassed > 0) ?  `Event Closed` : `You're going`}
+                              {(isPassed  != undefined && isPassed >= 0) ?  `Event Closed` : `You're going`}
                             </Text>
                           </View>
                         ) : (
                           <Text style={styles.buttonText}> 
-                          { (isPassed && isPassed > 0) ?  `Event Closed` : 'Join Event' }
+                          { (isPassed && isPassed >= 0) ?  `Event Closed` : 'Join Event' }
                           
                           </Text>
                         )}
@@ -417,15 +417,17 @@ class CityEventDescription extends Component {
                 </View>
                 {item.EventLocation && item.EventLocation !== undefined && (
                   <View style={styles.mapView}>
+                  <View style ={{borderRadius:10,overflow:'hidden'}}>
                     <MapView
-                      style={{ flex: 1, height: Layout.window.height * 0.23 }}
+                      style={{ flex: 1, height: Layout.window.height * 0.23, borderRadius:15 }}
                       initialRegion={{
-                        latitude: item.EventLocation[1],
-                        longitude: item.EventLocation[0],
+                        latitude:  70.08,
+                        longitude:  36.09,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421
                       }}
                     />
+                    </View>
                     <View style={styles.mapDescription}>
                       <View style={styles.lacationName}>
                         <Image source={require("../assets/images/map.png")} />
@@ -493,30 +495,33 @@ class CityEventDescription extends Component {
                   </View>
                   <View style={styles.video}>
                     <Carousel />
-                    <View style={styles.videoView}>
-                      <Video
-                        source={{
-                          uri: item.VideoLink
-                        }}
-                        rate={1.0}
-                        volume={1.0}
-                        isMuted={false}
-                        resizeMode="cover"
-                        shouldPlay={this.state.isPlay}
-                        isLooping={false}
-                        style={{ width: "100%", height: "100%" }}
-                      />
-                      <View style={styles.pasuePlayView}>
-                        <FontAwesome
-                          size={30}
-                          color="#8559f0"
-                          onPress={() =>
-                            this.setState({ isPlay: !this.state.isPlay })
-                          }
-                          name={this.state.isPlay ? "pause" : "play"}
-                        />
+                    {
+                      item.VideoLink != "" &&
+                      <View style={styles.videoView}>
+                        <Video
+                          source={{
+                            uri: item.VideoLink
+                          }}
+                          rate={1.0}
+                          volume={1.0}
+                          isMuted={false}
+                          resizeMode="cover"
+                          shouldPlay={this.state.isPlay}
+                          isLooping={false}
+                          style={{ width: "100%", height: "100%" }}
+                          />
+                        <View style={styles.pasuePlayView}>
+                          <FontAwesome
+                            size={30}
+                            color="#8559f0"
+                            onPress={() =>
+                              this.setState({ isPlay: !this.state.isPlay })
+                            }
+                            name={this.state.isPlay ? "pause" : "play"}
+                            />
+                        </View>
                       </View>
-                    </View>
+                    }
                   </View>
                 </View>
               )}
@@ -540,9 +545,13 @@ class CityEventDescription extends Component {
         {
           !isCalander &&
           <HomePageModal
-          isOpen={calanderItem == '' ? false: true }
+          {...this.props}
+          // isOpen={calanderItem == '' ? false: true }
+          isOpen = {(calanderItem == '' ? false: true) && !(isPassed  != undefined && isPassed >= 0)}
           title="Add to your calendar"
           buttons={['Add','Skip']}
+          // buttons={['Check in','Activity']}
+          // type="checkin"
           type="calendar"
           removeItem={this.removeCalanderItem}
           item={calanderItem}
@@ -723,9 +732,8 @@ const styles = StyleSheet.create({
   mapView: {
     paddingLeft: 15,
     paddingRight: 15,
-    borderRadius: 50,
     paddingTop: 15,
-    paddingBottom: 30
+    paddingBottom: 30,
   },
   mapDescription: {
     flexDirection: "row",

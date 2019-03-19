@@ -36,14 +36,19 @@ class ProfileSettingScreen extends React.Component {
 
   async componentWillMount() {
     await this.props.getCategoryRequest();
+    const { user } = this.props;
     let userInterset = getItem('user_interest');
   }
 
   componentWillReceiveProps(nextProps) {
-    const { getCategoryData } = this.props;
+    const { getCategoryData, user } = this.props;
     if (getCategoryData.status !== nextProps.getCategoryData.status) {
-
-      this.setState({ interest: nextProps.getCategoryData.status.data });
+      this.setState({ interest: nextProps.getCategoryData.status.data }
+        ,()=>{
+        if(user.data.data.interests){
+          this.selectedInt()
+        }
+      });
     }
   }
 
@@ -51,6 +56,28 @@ class ProfileSettingScreen extends React.Component {
     const { navigation } = this.props;
     this.props.navigation.goBack();
   };
+
+  selectedInt = () => {
+    const { user } = this.props;
+    let int = this.state.interest;
+    let selectedInt = Object.create(user.data.data.interests);
+    for (let index = 0; index < int.length; index++) {
+      let id  = selectedInt.find(data => data._id == int[index]._id )
+      if(int[index]._id === id._id){
+        if(int[index] !== undefined && int[index].selected){
+          int[index]["selected"] = false ;
+           let a = selectedInt.filter(person => person._id != id._id);
+           this.setState({selectedInt:a})
+        }else {
+          int[index]["selected"] = true ;
+          selectedInt.push(int[index])
+          this.setState({selectedInt:selectedInt})
+        }
+      }
+    this.setState({interest:int})
+  }
+  // setItem("user_interest", JSON.stringify({ interest: selectedInt}));
+  }
 
   selectInterests = async id => {
     let int = this.state.interest;
@@ -69,13 +96,14 @@ class ProfileSettingScreen extends React.Component {
         }
       this.setState({interest:int})
     }
-    setItem("user_interest", JSON.stringify({ interest: selectedInt}));
+    // setItem("user_interest", JSON.stringify({ interest: selectedInt}));
   };
 
   render() {
-    const { getCategoryData } = this.props;
+    const { getCategoryData, user } = this.props;
     const { interest,selectedInt } = this.state;
-    
+    let selectedInterest = user.data.data.interests ? user.data.data.interests : []
+    console.log(selectedInterest,'5555')
     return (
       <View style={styles.mainContainer}>
         <CustomHeader
@@ -117,20 +145,20 @@ class ProfileSettingScreen extends React.Component {
                       let selected =
                         item.selected !== undefined ? item.selected : false;
                       return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            this.selectInterests(item._id);
-                          }}
-                        >
-                          <LinearGradient
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.selectInterests(item._id);
+                        }}
+                      >
+                        <LinearGradient
                             colors={
                               selected
-                                ? ["#FF6CC9", "#8559F0"]
+                                ? [ "#FF6CC9", "#8559F0"]
                                 : ["rgba(255,255,255,0)", "rgba(255,255,255,0)"]
                             }
-                            style={{ flex: 1 }}
-                            start={[0, 0]}
-                            end={[1, 0]}
+                            style={{ flex: 1 , alignItems:'center'}}
+                            start={[0.0, 1.0]}
+                            end={[1.0, 1.0]}
                             style={styles.bubbleContainer}
                           >
                             <Text
@@ -145,7 +173,7 @@ class ProfileSettingScreen extends React.Component {
                               {item.name}{" "}
                             </Text>
                           </LinearGradient>
-                        </TouchableOpacity>
+                      </TouchableOpacity>
                       );
                     }}
                   />
@@ -160,7 +188,7 @@ class ProfileSettingScreen extends React.Component {
               height: Layout.window.height * 0.2
             }}
           >
-            <View
+            {/* <View
               style={{
                 height: Layout.window.height * 0.08,
                 backgroundColor: "lightgray",
@@ -168,7 +196,7 @@ class ProfileSettingScreen extends React.Component {
               }}
             >
               <Text style={{ margin: 10, fontWeight: "500" }}> Age </Text>
-            </View>
+            </View> */}
             <View style={styles.intrestContainer}>
               <View
                 style={{ flexDirection: "row", flexWrap: "wrap", margin: 10 }}
@@ -258,7 +286,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
+    user: state.user.user,
     getCategoryData: state.getCategory
   };
 };

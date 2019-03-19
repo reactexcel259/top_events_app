@@ -62,13 +62,9 @@ export default class CheckIn extends Component {
     );
   };
   onDone = () => {
-    if (this.state.value == "") {
-      alert("add a comment");
-    } else if (!this.state.addedImage.length > 0) {
-      alert("add a photo");
-    } else {
-      this.setState({ isDone: !this.state.isDone });
-    }
+      this.setState({ isDone: !this.state.isDone },()=>{
+        this.props.navigation.goBack()
+      });
   };
   _keyExtractor = (item, index) => item;
   render() {
@@ -197,7 +193,7 @@ export default class CheckIn extends Component {
             <View>
               <Touch
                 onPress={
-                  this.state.isDone ? this.onDone : () => console.log()
+                   this.onDone
                 }
               >
                 <Text style={styles.cancelText}>Cancel</Text>

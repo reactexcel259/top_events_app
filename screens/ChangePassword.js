@@ -255,7 +255,7 @@ class ChangePassword extends React.Component {
       pageTitle = 'Reset Password';
       buttonTitle = 'Send'
     } else if(pageType == 'changeEmail') {
-      pageTitle = 'Updated e-mail password';
+      pageTitle = 'Updated e-mail address';
       buttonTitle = 'Submit'
     }
     return (

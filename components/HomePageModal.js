@@ -78,9 +78,15 @@ export default class HomePageModal extends Component {
   }
 
   onClick = () => {
-    const { type } = this.props;
+    const { type, item } = this.props;
     if(type == 'calendar'){
       this.callCalander()
+    } else if(type == 'checkin'){
+      this.setState({
+        isOpen: false
+      },()=>{
+        this.props.navigation.navigate('CheckIn',{item})
+      })
     }
 
   }
@@ -141,11 +147,16 @@ export default class HomePageModal extends Component {
           </LinearGradient>
           <View style={styles.wrapper}>
                 <View style={styles.eventName}>
-                  <Text >Jamaica Carnival</Text>
+                  <Text >{item.title}</Text>
                 </View>
                 <View style={styles.contentWrapper}>
                   <View style={styles.imageView}>
+                    {
+                      item.image ?
+                      <Image style={{width:"100%",height:'100%'}} resizeMode='contain' source={{uri:item.image.url}} />
+                    :
                     <Image style={{width:"100%",height:'100%'}} resizeMode='contain' source={require('../assets/images/photo2.png')} />
+                    }
                   </View>
                   {
                     buttons.length == 2 &&
@@ -160,7 +171,7 @@ export default class HomePageModal extends Component {
                       <Text style={styles.checkinText }> {buttons[0]} </Text>
                     </LinearGradient>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.onSubmit} >
                     <LinearGradient
                     start={{ x: 0, y: 1 }}
                     end={{ x: 1, y: 1 }}
@@ -194,7 +205,7 @@ export default class HomePageModal extends Component {
                 </View>
                 <View style={styles.likedPeopleView}>
                     {data}
-                    <Text style={styles.checkedPeople}>233 checked in</Text>
+                    <Text style={styles.checkedPeople}>{item.interested.length} checked in</Text>
                 </View>
           </View>
         </View>
