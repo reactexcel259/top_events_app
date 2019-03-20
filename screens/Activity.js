@@ -11,16 +11,58 @@ import { LinearGradient } from "expo";
 import Touch from "react-native-touch";
 import Layout from "../constants/Layout";
 
+const image = [
+  {
+    image: "../assets/images/photo2.png"
+  },
+  {
+    image: "../assets/images/photo2.png"
+  },
+  {
+    image: "../assets/images/photo2.png"
+  },
+  {
+    image: "../assets/images/photo2.png"
+  },
+  {
+    image: "../assets/images/photo2.png"
+  },
+  {
+    image: "../assets/images/photo2.png"
+  },
+  {
+    image: "../assets/images/photo2.png"
+  }
+]
 export default class Activity extends Component {
 
-  onCloseActivity = () => this.props.navigation.goBack()
+  onCloseActivity = () => this.props.navigation.goBack();
+
+  onPressCheckin = () => this.props.navigation.navigate('CheckIn');
 
   render() {
     const item = this.props.navigation.getParam('item') || {};
-    console.log(item,'dsfdsfdfsdfs')
+    console.log(item,'item')
+    const images = item && item.interested.slice(0,5).map((user, i) => {
+      return (
+        <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
+          {
+            user.image?
+            <Image
+            style={styles.peopleLikedImage}
+            source={{uri:user.image}}
+            />
+            :
+            <Image
+            style={styles.peopleLikedImage}
+            source={require("../assets/images/photo2.png")}
+            />
+          }
+        </View>
+      );
+    });
     return (
      <ScrollView>
-       <View style={{zIndex:0,flex:1}}>
         <LinearGradient
             style={styles.linearGradient}
             start={{ x: 0, y: 1 }}
@@ -43,8 +85,27 @@ export default class Activity extends Component {
             </View>
         </LinearGradient>
         <View style={styles.eventDescriptionView} >
-            <Text>{item.title}</Text>
-        </View>
+            <Text style={styles.eventTitle}>
+                {item.title}
+            </Text>
+            <View style={styles.likedPeopleView}>
+                {images}
+            </View>
+            <View style={styles.checkedinTextView}>
+                <Text style={styles.checkedinText}>{item.checkedinBy.length} checked in</Text>
+            </View>
+            <Touch onPress ={this.onPressCheckin}>
+                <View style={styles.buttonView}>
+                    <LinearGradient
+                      start={{ x: 0, y: 1 }}
+                      end={{ x: 1, y: 1 }}
+                      colors={["#ff6cc9", "#8559f0"]}
+                      style={styles.submitButton}
+                    >
+                            <Text style={styles.submitText}>Check In</Text>
+                    </LinearGradient>
+              </View>
+          </Touch>
         </View>
      </ScrollView>
     )
@@ -85,7 +146,6 @@ const  styles = StyleSheet.create({
   },
   closeText : {
     color : "white",
-    textTransform : "uppercase",
   },
   activityText : {
     color: "white",
@@ -106,6 +166,63 @@ const  styles = StyleSheet.create({
     resizeMode:'center'
     },
   eventDescriptionView : {
-    marginTop:Layout.window.width * 0.3
+    marginTop:Layout.window.width * 0.25,
+    alignItems:"center"
+  },
+  eventTitle : {
+    fontSize: 20,
+    fontWeight: "600"
+  },
+  peopleLiked: {
+    width: 30,
+    height: 30,
+    marginLeft: -15,
+    borderRadius: 1,
+    borderWidth: 2,
+    borderColor: "#fff",
+    borderRadius: 28,
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  peopleLikedImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 24,
+    position: "absolute",
+  },
+  likedPeopleView:{
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+    paddingTop:10,
+    marginLeft:15
+  },
+  buttonView: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: 30
+  },
+  submitText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 17
+  },
+  submitButton: {
+    width: Layout.window.width / 1.6,
+    height: 60,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    marginTop: 22,
+    marginBottom: 22
+  },
+  checkedinTextView: {
+    marginBottom: 22,
+  },
+  checkedinText: {
+    color: "#ccc"
   }
 })
