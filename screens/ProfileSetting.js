@@ -18,7 +18,9 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as actions from "../redux/action";
 import CustomHeader from "../components/header";
 import Intrest from "../components/intro/intrest";
+import ChangeLocation from '../components/ChangeLocation';
 import { setItem, getItem } from "../services/storage";
+import * as _ from 'lodash';
 
 class ProfileSettingScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -30,7 +32,9 @@ class ProfileSettingScreen extends React.Component {
     super(props);
     this.state = {
       interest: [],
-      selectedInt: []
+      selectedInt: [],
+      changeLocationModal: false,
+      search:'',
     };
   }
 
@@ -60,7 +64,7 @@ class ProfileSettingScreen extends React.Component {
   selectedInt = () => {
     const { user } = this.props;
     let int = this.state.interest;
-    let selectedInt = Object.create(user.data.data.interests);
+    let selectedInt = _.cloneDeep(user.data.data.interests);
     for (let index = 0; index < int.length; index++) {
       let id  = selectedInt.find(data => data._id == int[index]._id )
       if(int[index]._id === id._id){
@@ -70,7 +74,8 @@ class ProfileSettingScreen extends React.Component {
            this.setState({selectedInt:a})
         }else {
           int[index]["selected"] = true ;
-          selectedInt.push(int[index])
+          console.log(int[index],'98')
+          selectedInt.push(int[index]._id)
           this.setState({selectedInt:selectedInt})
         }
       }
@@ -81,7 +86,7 @@ class ProfileSettingScreen extends React.Component {
 
   selectInterests = async id => {
     let int = this.state.interest;
-    let selectedInt = this.state.selectedInt;
+    let selectedInt = _.cloneDeep(this.state.selectedInt);
     for (let index = 0; index < int.length; index++) {
         if(int[index]._id === id){
           if(int[index] !== undefined && int[index].selected){
@@ -90,7 +95,7 @@ class ProfileSettingScreen extends React.Component {
              this.setState({selectedInt:a})
           }else {
             int[index]["selected"] = true ;
-            selectedInt.push(int[index])
+            selectedInt.push(int[index]._id)
             this.setState({selectedInt:selectedInt})
           }
         }
@@ -99,11 +104,131 @@ class ProfileSettingScreen extends React.Component {
     // setItem("user_interest", JSON.stringify({ interest: selectedInt}));
   };
 
+  useCurrentLocation = async () => {
+    const response = await Location.hasServicesEnabledAsync()
+    if (!response) {
+      this.setState({
+        mapError: true,
+      });
+      Alert.alert(
+        'Location Permission Denied',
+        'Please turn on your device location, to access this service',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        {cancelable: false},
+      );
+    }else {
+      let { status,error } = await Permissions.askAsync(Permissions.LOCATION);
+      let location = await Location.getCurrentPositionAsync({enableHighAccuracy:true});
+      this.getGeoAddress(location.coords.latitude, location.coords.longitude);
+    }
+  };
+
+  findFilm(query) {
+    if (query === '') {
+      return [];
+    }
+
+    const { data } = this.props.getStateAndCityData.status;
+    
+    const regex = new RegExp(`${query.trim()}`, 'i');
+    return data.filter(city => city.name.search(regex) >= 0);
+  }
+
+  getGeoAddress = async (myLat,myLon) => {
+    let response = await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + myLat + ',' + myLon + '&key=' + "AIzaSyBB7Tc7njRoyjegBDmqAVj09AKWbdRrTCI");
+    const responses = await response.json();
+    const results = responses.results
+    let storableLocation = {};
+    for (var ac = 0; ac < results[0].address_components.length; ac++) {
+      var component = results[0].address_components[ac];
+
+      switch (component.types[0]) {
+        case "locality":
+          storableLocation.city = component.long_name;
+          break;
+        case "administrative_area_level_1":
+          storableLocation.state = component.long_name;
+          break;
+        case "country":
+          storableLocation.country = component.long_name;
+          storableLocation.registered_country_iso_code =
+            component.short_name;
+          break;
+      }
+    }
+    let result = this.findFilm(storableLocation.state);
+    if(result.length){
+      this.setState({search:result[0].name})
+    }else{
+      this.setState({search:this.props.getStateAndCityData.status.data[0].name})
+    }
+  }
+  onSearchChange = (text,val) => {
+    this.setState({
+      search: text,
+      selected: val
+    },()=>{
+      if(val == false)
+        this.onPressLocation()
+    })
+  }
+  onPressLocation = async() => {
+    const { search } = this.state;
+    if(!Object.keys(this.state.search).length){
+      Alert.alert(
+        'Add Location',
+        'Please add your location !!',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        {cancelable: false},
+      );
+    } else {
+      let filters = this.findFilm(search);
+      let results;
+      if(filters.length){
+        results = filters[0]
+        setItem("user_info", JSON.stringify({ location:results}));
+        await this.props.getStateAndCityEventRequest(results._id);
+        this.setState({changeLocationModal:false})
+      }else {
+        Alert.alert(
+          'Add Location',
+          'Please add a correct location',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ],
+          {cancelable: false},
+        );
+      }
+    }
+  }
+  onCancelPress = () => {
+    this.setState({search:'',selected:false})
+  }
+
   render() {
-    const { getCategoryData, user } = this.props;
-    const { interest,selectedInt } = this.state;
+    console.log(this.state,'for interests')
+    const { getCategoryData, user, getStateAndCityData } = this.props;
+    const { interest, changeLocationModal } = this.state;
     let selectedInterest = user.data.data.interests ? user.data.data.interests : []
-    console.log(selectedInterest,'5555')
     return (
       <View style={styles.mainContainer}>
         <CustomHeader
@@ -115,6 +240,17 @@ class ProfileSettingScreen extends React.Component {
         />
 
         <View style={{ flex: 1, backgroundColor: "black" }}>
+        <ChangeLocation
+              {...this.state} 
+              changeLocationModal={changeLocationModal}
+              stateAndCity={getStateAndCityData}
+              useCurrentLocation={()=>{this.useCurrentLocation()}}
+              onSearchChange={this.onSearchChange}
+              onPress={()=>{this.onPressLocation()}}
+              onCancelPress={this.onCancelPress}  
+              closeModal={()=>{this.setState({changeLocationModal:false})}}
+            />
+
           <View
             style={{
               backgroundColor: "lightgray",
@@ -221,9 +357,11 @@ class ProfileSettingScreen extends React.Component {
                 style={{ flexDirection: "row", flexWrap: "wrap", margin: 10 }}
               >
                 <View style={styles.secondText}>
-                  <Text style={styles.kingstonText}>Kingston</Text>
+                  <Text style={styles.kingstonText}>{this.state.search}</Text>
                   <View>
+                  <TouchableOpacity onPress={()=>{this.setState({changeLocationModal:true})}}>
                     <Text style={styles.changText}>Change</Text>
+                  </TouchableOpacity>
                   </View>
                 </View>
               </View>
@@ -287,7 +425,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     user: state.user.user,
-    getCategoryData: state.getCategory
+    getCategoryData: state.getCategory,
+    getStateAndCityData: state.getStateAndCity,    
   };
 };
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

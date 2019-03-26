@@ -124,3 +124,23 @@ export function* userForgetPasswordRequest(action) {
      yield put(actions.userForgetPasswordError(e));
    }
 }
+
+export function* updateUserDataRequest(action) { 
+  let token = action.payload;
+  let id = action.payload.id;  
+  let header = {
+      "Authorization":token
+  }
+  try {
+     const response = yield call(fireAjax, "PUT", `/updateInterest/${id}`,header,{
+       ...action.payload.data
+     });
+     if (response.data.success) {
+        yield put(actions.updateUserDataSuccess(response.data));
+     } else {
+       yield put(actions.updateUserDataError(response.data));      
+     }
+   } catch (e) {
+     yield put(actions.updateUserDataError(e));
+   }
+}

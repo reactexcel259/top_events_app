@@ -124,7 +124,7 @@ class MyAccountScreen extends React.Component {
                  userData && userData.name ?
                 `${userData.name['first']} ${userData.name['last']}` 
                 :
-                `${userData.email}`
+                userData && `${userData.email}`
               } 
               </Text>
             </View>

@@ -62,7 +62,7 @@ export default class Events extends Component {
           />
           <View style={styles.eventHeaderText}>
             <Text style={styles.eventSectionText}>
-              {this.props.categoryId && this.props.categoryId.toUpperCase()}
+              {this.props.categoryId && this.props.categoryId !== 'health_wellness' ? this.props.categoryId.toUpperCase() :this.props.categoryId.toUpperCase().replace('_',' & ') }
             </Text>
             <Touch activeOpacity={0.1} onPress={() => this.findKey(this.props.eventData.results)}>
               <Text> 

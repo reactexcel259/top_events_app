@@ -8,8 +8,19 @@ import {
   Image
 } from "react-native";
 import { LinearGradient } from "expo";
+import { connect } from "react-redux";
 import Touch from "react-native-touch";
 import Layout from "../constants/Layout";
+import {
+  getEventDescriptionRequest,
+  postEventLikeRequest,
+  postAddCommentRequest,
+  cleanCommentSuccess,
+  postLikeCommentRequest,
+  postJoiningEventsRequest,
+  setAddEventDefault,
+} from "../redux/action";
+import Comments from "../components/Comments";
 
 const image = [
   {
@@ -34,15 +45,27 @@ const image = [
     image: "../assets/images/photo2.png"
   }
 ]
-export default class Activity extends Component {
+class Activity extends Component {
 
   onCloseActivity = () => this.props.navigation.goBack();
 
   onPressCheckin = () => this.props.navigation.navigate('CheckIn');
 
+  onLike = (id) => {
+    const { user } = this.props;
+    let payload = {
+      token : user.user.status.token,
+      id: id
+    }
+    this.props.postLikeCommentRequest(payload)
+  }
+
   render() {
-    const item = this.props.navigation.getParam('item') || {};
-    console.log(item,'item')
+    const { user } = this.props
+    const eventData = this.props.getEventDescription;
+    const item =
+    eventData.isSuccess ? this.props.getEventDescription.status.data : this.props.navigation.getParam('item');
+    // const item = this.props.navigation.getParam('item') || {};
     const images = item && item.interested.slice(0,5).map((user, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
@@ -84,6 +107,14 @@ export default class Activity extends Component {
                 <Image style={styles.image} source = {{uri:item.image.secure_url}} />
             </View>
         </LinearGradient>
+        {
+          eventData.isLoading ? 
+           (
+            <View style={styles.loaderView}>
+              <ActivityIndicator color="#FF6CC9" size="large" />
+            </View>
+          )
+          :
         <View style={styles.eventDescriptionView} >
             <Text style={styles.eventTitle}>
                 {item.title}
@@ -102,15 +133,50 @@ export default class Activity extends Component {
                       colors={["#ff6cc9", "#8559f0"]}
                       style={styles.submitButton}
                     >
-                            <Text style={styles.submitText}>Check In</Text>
+                      <Text style={styles.submitText}>Check In</Text>
                     </LinearGradient>
               </View>
           </Touch>
+          {item.comments &&
+            <Comments 
+            userId={user.user.data.data._id}
+            userComments={item.comments} 
+            // onLike={this.onLike}
+            />
+        }
         </View>
+        }
      </ScrollView>
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    getEventDescription: state.getEventDescription,
+    user: state.user,
+    userLike: state.postAddLikeEvent,
+    postAddComment: state.postAddComment,
+    getInterestedEvent:state.getInterestedEvent,
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    eventDescription: id => dispatch(getEventDescriptionRequest(id)),
+    eventLikeRequest: (token, eventId) =>
+      dispatch(postEventLikeRequest(token, eventId)),
+    postAddCommentRequest: (payload) => 
+      dispatch(postAddCommentRequest(payload)),
+    cleanCommentSuccess: () => dispatch(cleanCommentSuccess()),
+    postLikeCommentRequest: (payload) => dispatch(postLikeCommentRequest(payload)),
+    postJoiningEventsRequest: (payload) => dispatch(postJoiningEventsRequest(payload)),
+    setAddEventDefault: () => dispatch(setAddEventDefault()),
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Activity);
 
 const  styles = StyleSheet.create({
     linearGradient: {
@@ -152,18 +218,19 @@ const  styles = StyleSheet.create({
     fontWeight : "600",
   },
   imageView:{
-     position:"absolute",
+    position:"absolute",
     top:Layout.window.width * 0.3,
-     zIndex:1000,
+    zIndex:1000,
     width:Layout.window.width,
     height:Layout.window.width/2,
-    borderRadius:5,
+    borderRadius:15,
     overflow:"hidden"
   },
   image : {
     width:"100%",
     height:"100%",
-    resizeMode:'center'
+    resizeMode:'center',
+    borderRadius:20
     },
   eventDescriptionView : {
     marginTop:Layout.window.width * 0.25,

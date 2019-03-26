@@ -15,6 +15,7 @@ import Touch from 'react-native-touch';
 export default class VideosComponent extends PureComponent {
   _renderItem = ({ item, index }) => {
     let image = item.image == undefined ? "" : item.image.secure_url;
+    let data = this.props.cityData.data != undefined ?  this.props.cityData.data.results.length : this.props.cityData.length
     return (
       <View
         key={index}
@@ -22,7 +23,7 @@ export default class VideosComponent extends PureComponent {
           styles.cardWrapper,
           {
             marginRight:
-              index == this.props.cityData.data.results.length - 1 ? 23 : 7
+              index == data  - 1 ? 23 : 7
           }
         ]}
       >
@@ -39,8 +40,8 @@ export default class VideosComponent extends PureComponent {
           />
         </View>
         <View style={styles.imageTitle}>
-          <Text style={styles.nameText}>{item.title}</Text>
-          <Text style={styles.dateText}>
+          <Text style={[ this.props.cityData.data != undefined ? styles.nameText : {color:'white'} ]}>{item.title}</Text>
+          <Text style={[ this.props.cityData.data != undefined ? styles.dateText : {color:'white'} ]}>
             {moment(item.start).format("D MMM, dddd")}
           </Text>
         </View>
@@ -52,8 +53,8 @@ export default class VideosComponent extends PureComponent {
     return (
       <FlatList
         style={{ paddingLeft: 15 }}
-        data={this.props.cityData && this.props.cityData.data.results}
-        keyExtractor={(item, index) => item.title}
+        data={(this.props.cityData && this.props.cityData.data != undefined) ? this.props.cityData.data.results : this.props.cityData }
+        keyExtractor={(item, index) => item._id}
         renderItem={this._renderItem}
         horizontal={true}
         removeClippedSubviews={false}

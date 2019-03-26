@@ -166,7 +166,6 @@ const mapStateToProps = (state) => {
   return {
       getInterestedEvent:state.getInterestedEvent,
       user:state.user,
-      getInterestedEvent:state.getInterestedEvent,
       postAddLikeEvent: state.postAddLikeEvent,
   }
 }

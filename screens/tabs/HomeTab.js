@@ -16,10 +16,12 @@ import Events from "../../components/Events";
 import CustomHeader from ".././../components/header";
 import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
-import { getEventRequest, 
+import { getEventRequest,
+  getAttendingEventRequest,   
   getCategoryRequest ,
   getStateAndCityRequest,
   getStateAndCityEventRequest, 
+  getTodayEventRequest,
   getUserDataRequest,
   getEventByIdRequest,
 } from "../../redux/action";
@@ -46,6 +48,7 @@ class HomeTab extends Component {
       search:'',
       stateCity:[],
       selectedInt:[],
+      attendingEvents:[],
     };
   }
 
@@ -53,6 +56,7 @@ class HomeTab extends Component {
     const getUpdatedInterest =await getItem('user_updated_interest')
     const getInterest = await getItem("user_interest")
     const getLocation = await getItem("user_info");
+    let token =this.props.user.user.status.token
     if(getLocation && getLocation.location !== undefined){
       this.setState({search:getLocation.location.name})
     }
@@ -63,10 +67,12 @@ class HomeTab extends Component {
         let key = eventId.key;
         this.props.getEvent({ id, key });
       })
+      this.props.getTodayEventRequest()
     } 
     }else{
       await this.props.getCategory();
     }
+    await this.props.getAttendingEventRequest(token)
     await this.props.getStateAndCity();
 }
 
@@ -86,6 +92,7 @@ class HomeTab extends Component {
         let key = eventId.key;
         this.props.getEvent({ id, key });
       });
+      this.props.getTodayEventRequest()      
       this.setState({ isCategoryId: true });
     }
     if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId) {
@@ -171,6 +178,9 @@ class HomeTab extends Component {
     this.setState({
       search: text,
       selected: val
+    },()=>{
+      if(val == false)
+      this.onPressLocation()
     })
   }
   onPressLocation = async() => {
@@ -219,11 +229,24 @@ class HomeTab extends Component {
   }
   componentWillReceiveProps(nextProps){
     const {getStateAndCityData,getCategoryData} = this.props;
+    const {attending,isLoading,joinedTrue} = this.props.getInterestedEvent    
+    if(nextProps.getInterestedEvent.attending.data !== undefined){
+      if(nextProps.getInterestedEvent.attending !== attending){
+        this.setState({attendingEvents:nextProps.getInterestedEvent.attending.data.results})        
+        console.log(nextProps.getInterestedEvent.attending,'7ujh')
+        // this.checkIn();
+      }    
+    }
     if(getStateAndCityData.status !== nextProps.getStateAndCityData.status){
       this.setState({stateCity:nextProps.getStateAndCityData.status.data})
     }else if (getCategoryData.status !== nextProps.getCategoryData.status){
       this.setState({interest:nextProps.getCategoryData.status.data})
     }
+  }
+
+  checkIn = () => {
+    const {attending,isLoading,joinedTrue} = this.props.getInterestedEvent;
+    console.log(attending.data,'555')
   }
 
   onEventDescription = item => {
@@ -263,6 +286,7 @@ class HomeTab extends Component {
     const {getStateAndCityData} = this.props;
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
+    const thisWeekEvent = this.props.getEventData.register.todayEvent;
     const cityEvents = this.props.getStateAndCityEventData.status;
     return (
       <View style={styles.wrapper}>
@@ -322,6 +346,25 @@ class HomeTab extends Component {
                   onEventDescription={item => this.onEventDescription(item)}
                 />
               </View>
+              {
+                thisWeekEvent.data && thisWeekEvent.data.length > 0 &&
+                <LinearGradient
+                colors={["#FF6CC9","#8559F0"]}
+                style={{ flex: 1,justifyContent:'center' }}
+                start={[0, 0]}
+                end={[1, 0]}
+                >
+              <View style={{marginTop:15,marginBottom:15}}>
+                <View style={{paddingLeft:15,marginBottom:10}}>
+                  <Text style={styles.kingstonGradientText}>This Week</Text>
+                </View>
+                <VideosComponent
+                  cityData={thisWeekEvent.data}
+                  onEventDescription={item => this.onEventDescription(item)}
+                  />
+              </View>
+              </LinearGradient>
+              }
               <View style={styles.eventComponentView}>
                 {eventsLength > 0 && (
                   <FlatList
@@ -340,6 +383,16 @@ class HomeTab extends Component {
             <ActivityIndicator color="#FF6CC9" size="large" />
           </View>
         )}
+        {/* <HomePageModal
+          {...this.props}
+          // isOpen={calanderItem == '' ? false: true }
+          isOpen = {false}
+          title="Add to your calendar"
+          buttons={['Check in','Activity']}
+          type="checkin"
+          removeItem={this.removeCalanderItem}
+          item={item}
+          /> */}
       </View>
     );
   }
@@ -349,6 +402,7 @@ const mapStateToProps = state => {
     user: state.user,
     getCategoryData: state.getCategory,
     getEventData: state.getEvent,
+    getInterestedEvent: state.getInterestedEvent,
     getStateAndCityData: state.getStateAndCity,
     getStateAndCityEventData: state.getStateAndCityEvent
   };
@@ -357,9 +411,11 @@ const mapDispatchToProps = dispatch => {
   return {
     getEvent: (eventId, eventKey) =>
       dispatch(getEventRequest(eventId, eventKey)),
+    getAttendingEventRequest: (token) => dispatch(getAttendingEventRequest(token)),
     getCategory: () => dispatch(getCategoryRequest()),
     getUserDataRequest: (token) => dispatch(getUserDataRequest(token)),
     getStateAndCity:()=>dispatch(getStateAndCityRequest()),
+    getTodayEventRequest: () => dispatch(getTodayEventRequest()),
     getStateAndCityEvent:(cityId)=>dispatch(getStateAndCityEventRequest(cityId)),
     getEventById:(eventId)=>dispatch(getEventByIdRequest(eventId))
   };
@@ -389,6 +445,12 @@ const styles = StyleSheet.create({
   kingstonText: {
     fontWeight: "bold",
     fontSize: 20,
+    marginBottom: 5
+  },
+  kingstonGradientText: {
+    fontWeight: "bold",
+    fontSize: 15,
+    color:'white',
     marginBottom: 5
   },
   changText: {

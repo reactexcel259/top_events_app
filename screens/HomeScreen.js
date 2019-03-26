@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     flex:1
   },
   image :{
-    height: Layout.window.height * 1.2,
+    height: Layout.window.height ,
     width: Layout.window.width
   },
   ovalContainer:{

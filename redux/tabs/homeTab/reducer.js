@@ -10,6 +10,7 @@ const initialState = {
     message: "",
     eventData: [],
     events:[],
+    todayEvent:[],
   }
 };
 
@@ -54,12 +55,35 @@ const getEventSuccess = (state, action) =>
       }
     });
 
+    const getTodayEventRequest = (state, action) => {
+      return update(state, {
+        register: {
+          isLoading: { $set: true },
+          isError: { $set: false },
+          isSuccess: { $set: true },
+          message: { $set: "succcessfull" }
+        }
+      });
+    };
+    
+    const getTodayEventSuccess = (state, action) =>
+      update(state, {
+        register: {
+          isLoading: { $set: false },
+          isError: { $set: false },
+          isSuccess: { $set: true },
+          todayEvent: { $set: action.payload }
+        }
+      });
+
 export default handleActions(
   {
     [constants.GET_EVENT_REQUEST]: getEventRequest,
     [constants.GET_EVENT_SUCCESS]: getEventSuccess,
     [constants.GET_EVENTBYID_REQUEST]: getEventByIdRequest,
     [constants.GET_EVENTBYID_SUCCESS]: getEventByIdSuccess,
+    [constants.GET_TODAY_EVENT_REQUEST]: getTodayEventRequest,
+    [constants.GET_TODAY_EVENT_SUCCESS]: getTodayEventSuccess,
   },
   initialState
 );

@@ -23,6 +23,11 @@ export const userDataRequest=createAction(constants.USER_DATA_REQUEST);
 export const userDataSuccess=createAction(constants.USER_DATA_SUCCESS);
 export const userDataError=createAction(constants.USER_DATA_ERROR);
 
+//action for  update user interest 
+export const updateUserDataRequest=createAction(constants.UPDATE_USER_DATA_REQUEST);
+export const updateUserDataSuccess=createAction(constants.UPDATE_USER_DATA_SUCCESS);
+export const updateUserDataError=createAction(constants.UPDATE_USER_DATA_ERROR);
+
 //action for forget password
 export const userForgetPasswordRequest=createAction(constants.USER_FORGET_PASSWORD_REQUEST);
 export const userForgetPasswordSuccess=createAction(constants.USER_FORGET_PASSWORD_SUCCESS);
@@ -38,6 +43,10 @@ export const getUserDataError=createAction(constants.GET_USER_DATA_ERROR);
 export const getEventRequest=createAction(constants.GET_EVENT_REQUEST);
 export const getEventSuccess=createAction(constants.GET_EVENT_SUCCESS);
 export const getEventError=createAction(constants.GET_EVENT_ERROR);
+
+export const getTodayEventRequest=createAction(constants.GET_TODAY_EVENT_REQUEST);
+export const getTodayEventSuccess=createAction(constants.GET_TODAY_EVENT_SUCCESS);
+export const getTodayEventError=createAction(constants.GET_TODAY_EVENT_ERROR);
 
 //action for EventsById
 export const getEventByIdRequest=createAction(constants.GET_EVENTBYID_REQUEST);

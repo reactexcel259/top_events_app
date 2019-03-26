@@ -291,7 +291,7 @@ class CityEventDescription extends Component {
      isPassed = moment().diff(moment(item.start),'days')
     }
  let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
- console.log(calanderItem,item,'kjhgfcx')
+ console.log(this.state,'kjhgfcx',item)
  return (
       <View>
         <CustomHeader
@@ -422,7 +422,13 @@ class CityEventDescription extends Component {
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421
                       }}
-                    />
+                    >
+                      <MapView.Marker
+                        coordinate={{latitude: item.EventLocation[1],
+                            longitude: item.EventLocation[0],}}
+                        title={item.title}
+                      />
+                    </MapView>
                     </View>
                     <View style={styles.mapDescription}>
                       <View style={styles.lacationName}>
@@ -542,16 +548,16 @@ class CityEventDescription extends Component {
           !isCalander &&
           <HomePageModal
           {...this.props}
-          isOpen={calanderItem == '' ? false: true }
-          // isOpen = {(calanderItem == '' ? false: true) && !(isPassed  != undefined && isPassed >= 0)}
+          // isOpen={calanderItem == '' ? false: true }
+          isOpen = {(calanderItem == '' ? false: true) && !(isPassed  != undefined && isPassed >= 0)}
           title="Add to your calendar"
-          // buttons={['Add','Skip']}
-          buttons={['Check in','Activity']}
-          type="checkin"
-          // type="calendar"
+          buttons={['Add','Skip']}
+          // buttons={['Check in','Activity']}
+          // type="checkin"
+          type="calendar"
           removeItem={this.removeCalanderItem}
-          // item={calanderItem}
-          item={item}
+          item={calanderItem}
+          // item={item}
           />
         }
       </View>

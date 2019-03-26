@@ -124,14 +124,14 @@ class ViewAllCard extends Component {
           extraData={this.props}
           />
         }
-        <HomePageModal
+        {/* <HomePageModal
           isOpen={calanderItem == '' ? false: true }
           title="Add to your calendar"
           buttons={['Add','Skip']}
           type="calendar"
           removeItem={this.removeCalanderItem}
           item={calanderItem}
-          />
+          /> */}
       </View>
     )
   }
