@@ -19,7 +19,7 @@ export default class CustomHeader extends React.Component {
   renderIcon = (icon) => {
     return icon.map((value,i)=>{
       return (
-          <TouchableOpacity key={i} onPress={value =="share-google" ? ()=>this.props.onShare() : ()=>this.props.onEventLike()} >
+          <TouchableOpacity key={i} onPress={value =="share-alt" ? ()=>this.props.onShare() : ()=>this.props.onEventLike()} >
             <View style={{width:40}} >
             {value !=="share-alt" && (value != "heart-o" || value != "heart" ) ? 
             <FontAwesome
@@ -107,7 +107,7 @@ export default class CustomHeader extends React.Component {
                 centerImage &&
                 <Image
                   style={styles.logoImage}
-                  source={require('../assets/images/logo.png')}
+                  source={require('../assets/images/logo2.png')}
                 />
               }
               {

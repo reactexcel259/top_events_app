@@ -11,6 +11,7 @@ import {
   Alert,
   Image
 } from "react-native";
+import moment from 'moment';
 import VideosComponent from "../../components/VideosComponent";
 import Events from "../../components/Events";
 import CustomHeader from ".././../components/header";
@@ -24,13 +25,15 @@ import { getEventRequest,
   getTodayEventRequest,
   getUserDataRequest,
   getEventByIdRequest,
+  storeTokenRequest,
+  getLikeEventRequest,
 } from "../../redux/action";
 import Touch from 'react-native-touch';
 import Layout from "../../constants/Layout";
 import HomePageModal from '../../components/HomePageModal';
 import {setItem,getItem} from '../../services/storage';
 import ChangeLocation from '../../components/ChangeLocation';
-import { WebBrowser, LinearGradient, Location, Permissions, Constants,  } from 'expo';
+import { WebBrowser, LinearGradient, Location, Permissions, Constants, Notifications } from 'expo';
 
 
 class HomeTab extends Component {
@@ -48,17 +51,18 @@ class HomeTab extends Component {
       search:'',
       stateCity:[],
       selectedInt:[],
-      attendingEvents:[],
+      attendingEvents:'',
+      attendingEventList:[],
     };
   }
 
   async componentDidMount() {
     const getUpdatedInterest =await getItem('user_updated_interest')
-    const getInterest = await getItem("user_interest")
+    let getInterest;
     const getLocation = await getItem("user_info");
     let token =this.props.user.user.status.token
     if(getLocation && getLocation.location !== undefined){
-      this.setState({search:getLocation.location.name})
+      this.setState({search:getLocation.location.name}); 
     }
     if(getInterest && getInterest.interest != undefined ){
       if( getInterest.interest.length >0){
@@ -67,18 +71,61 @@ class HomeTab extends Component {
         let key = eventId.key;
         this.props.getEvent({ id, key });
       })
-      this.props.getTodayEventRequest()
     } 
     }else{
       await this.props.getCategory();
     }
+    this.props.getTodayEventRequest()
     await this.props.getAttendingEventRequest(token)
+    await this.props.getLikeEventRequest({token:token});
     await this.props.getStateAndCity();
+    await this.registerForPushNotificationsAsync();
+    this._notificationSubscription = Notifications.addListener(this._handleNotification);
 }
+
+ registerForPushNotificationsAsync = async () => {
+  const { status: existingStatus } = await Permissions.getAsync(
+    Permissions.NOTIFICATIONS
+  );
+  let finalStatus = existingStatus;
+
+  // only ask if permissions have not already been determined, because
+  // iOS won't necessarily prompt the user a second time.
+  if (existingStatus !== 'granted') {
+    // Android remote notification permissions are granted during the app
+    // install, so this will only ask on iOS
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+
+  // Stop here if the user did not grant permissions
+  if (finalStatus !== 'granted') {
+    return;
+  }
+
+  // Get the token that uniquely identifies this device
+  let token = await Notifications.getExpoPushTokenAsync();
+  let userToken =this.props.user.user.status.token
+  
+  let payload = {
+    token: userToken,
+    data: {
+      deviceToken:token
+    }
+  }
+  this.props.storeTokenRequest(payload)
+  // POST the token to your backend server from where you can retrieve it to send push notifications.
+  
+}
+
+_handleNotification = (notification) => {
+    console.log(notification,'idaaaaa')
+  };
 
   async componentDidUpdate() {
     const getUpdatedInterest =await getItem('user_updated_interest')
     const getInterest =await getItem("user_interest")
+    const getLocation = await getItem("user_info");    
     const { getCategoryData ,getStateAndCityData, user} = this.props;
     if(user.user.data.length == 0 ){
       let token  = user.user.status.token;
@@ -95,9 +142,9 @@ class HomeTab extends Component {
       this.props.getTodayEventRequest()      
       this.setState({ isCategoryId: true });
     }
-    if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId) {
+    if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId && getLocation && getLocation.location !== undefined) {
       this.props.getStateAndCityEvent(
-        getStateAndCityData.status.data[0]._id
+        getLocation.location._id
       );
       this.setState({ isStateAndCityId: true });
     }
@@ -230,11 +277,10 @@ class HomeTab extends Component {
   componentWillReceiveProps(nextProps){
     const {getStateAndCityData,getCategoryData} = this.props;
     const {attending,isLoading,joinedTrue} = this.props.getInterestedEvent    
-    if(nextProps.getInterestedEvent.attending.data !== undefined){
-      if(nextProps.getInterestedEvent.attending !== attending){
-        this.setState({attendingEvents:nextProps.getInterestedEvent.attending.data.results})        
-        console.log(nextProps.getInterestedEvent.attending,'7ujh')
-        // this.checkIn();
+    if(nextProps.getInterestedEvent.attending.data !== undefined && nextProps.getInterestedEvent.attending.data.results.length > 0 ){
+      if(nextProps.getInterestedEvent.attending !== attending ){
+        if(this.state.attendingEventList.length !== nextProps.getInterestedEvent.attending.data.results)
+          this.checkIn(nextProps.getInterestedEvent.attending);
       }    
     }
     if(getStateAndCityData.status !== nextProps.getStateAndCityData.status){
@@ -244,9 +290,29 @@ class HomeTab extends Component {
     }
   }
 
-  checkIn = () => {
-    const {attending,isLoading,joinedTrue} = this.props.getInterestedEvent;
-    console.log(attending.data,'555')
+  checkIn = (attending) => {
+    const { attendingEvents, attendingEventList } = this.state;
+      attending.data.results.length > 0 && attending.data.results.map((events)=> {
+        let diff = moment().diff(moment(events.start),'days')
+        if(attendingEventList.length > 0) {
+          let shownId = attendingEventList.find(id => id == events._id);
+          if(shownId == -1 && attendingEvents == '' && diff == 0 ){
+            attendingEventList.push(events._id);
+            this.setState({
+              attendingEvents: events,
+              attendingEventList: attendingEventList
+            })
+          }
+        } else {
+          if(attendingEvents == '' && diff == 0 ){
+            attendingEventList.push(events._id);
+            this.setState({
+              attendingEvents: events,
+              attendingEventList: attendingEventList
+            })
+          }
+        }
+      })
   }
 
   onEventDescription = item => {
@@ -257,7 +323,7 @@ class HomeTab extends Component {
     let backgroundColor;
     if (Object.keys(item).join() === "shopping") {
       backgroundColor = "#8559F0";
-    } else if (Object.keys(item).join() === "sport") {
+    } else if (Object.keys(item).join() === "sports") {
       backgroundColor = "#FEEA3F";
     } else if (Object.keys(item).join() === "food") {
       backgroundColor = "#FF523E";
@@ -279,21 +345,27 @@ class HomeTab extends Component {
       />
     );
   };
+
+  removeCalanderItem = () => {
+      this.setState({
+        attendingEvents: '', 
+      })
+    }
   _keyExtractor = (item, index) => (index.toString());
 
   render() {
-    const { changeLocationModal } = this.state;
+    const { changeLocationModal, attendingEvents } = this.state;
     const {getStateAndCityData} = this.props;
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const thisWeekEvent = this.props.getEventData.register.todayEvent;
     const cityEvents = this.props.getStateAndCityEventData.status;
+    const likeEvent = this.props.getEventData.register.likeEvent;
     return (
       <View style={styles.wrapper}>
         <CustomHeader isCenter={true} centerImage={true} />
-        {cityEvents !== undefined ? (
+        {this.props.getEventData.register.isLoading == false ? (
           <ScrollView>
-            {/* <HomePageModal /> */}
             <ChangeLocation
               {...this.state} 
               changeLocationModal={changeLocationModal}
@@ -308,7 +380,7 @@ class HomeTab extends Component {
               <View style={styles.kingstoneView}>
                 <View style={styles.kingstoneTitle}>
                   <View>
-                    <Text>Events in</Text>
+                    <Text>Events Location</Text>
                   </View>
                   <View style={styles.secondText}>
                     <Text style={styles.kingstonText}>{this.state.search}</Text>
@@ -341,10 +413,13 @@ class HomeTab extends Component {
                 <View style={styles.EventTitleView}>
                   <Text style={styles.kingstonText}>Events you might like</Text>
                 </View>
+                {
+                  likeEvent && likeEvent.data  &&
                 <VideosComponent
-                  cityData={cityEvents}
+                  cityData={likeEvent}
                   onEventDescription={item => this.onEventDescription(item)}
                 />
+                }
               </View>
               {
                 thisWeekEvent.data && thisWeekEvent.data.length > 0 &&
@@ -358,10 +433,13 @@ class HomeTab extends Component {
                 <View style={{paddingLeft:15,marginBottom:10}}>
                   <Text style={styles.kingstonGradientText}>This Week</Text>
                 </View>
+                {
+                  thisWeekEvent.data  &&
                 <VideosComponent
-                  cityData={thisWeekEvent.data}
+                  cityData={thisWeekEvent}
                   onEventDescription={item => this.onEventDescription(item)}
                   />
+                }
               </View>
               </LinearGradient>
               }
@@ -383,16 +461,18 @@ class HomeTab extends Component {
             <ActivityIndicator color="#FF6CC9" size="large" />
           </View>
         )}
-        {/* <HomePageModal
-          {...this.props}
-          // isOpen={calanderItem == '' ? false: true }
-          isOpen = {false}
-          title="Add to your calendar"
-          buttons={['Check in','Activity']}
-          type="checkin"
-          removeItem={this.removeCalanderItem}
-          item={item}
-          /> */}
+        {
+          attendingEvents != '' &&
+          <HomePageModal
+            {...this.props}
+            isOpen = {attendingEvents != '' ? true : false}
+            title="Happening now"
+            buttons={['Check in','Activity']}
+            type="checkin"
+            removeItem={this.removeCalanderItem}
+            item={attendingEvents}
+            />
+        }
       </View>
     );
   }
@@ -417,7 +497,9 @@ const mapDispatchToProps = dispatch => {
     getStateAndCity:()=>dispatch(getStateAndCityRequest()),
     getTodayEventRequest: () => dispatch(getTodayEventRequest()),
     getStateAndCityEvent:(cityId)=>dispatch(getStateAndCityEventRequest(cityId)),
-    getEventById:(eventId)=>dispatch(getEventByIdRequest(eventId))
+    getEventById:(eventId)=>dispatch(getEventByIdRequest(eventId)),
+    storeTokenRequest: (payload) => dispatch(storeTokenRequest(payload)),
+    getLikeEventRequest : (payload) => dispatch(getLikeEventRequest(payload))
   };
 };
 export default connect(

@@ -65,6 +65,25 @@ export function* getUserDataRequest(action) {
    }
 }
 
+export function* updateUserDataRequest(action) { 
+  let token = action.payload.token;
+  let header = {
+      "Authorization":token
+  }
+  try {
+     const response = yield call(fireAjax, "POST", "/add/interests",header,{ ... action.payload.data});
+     if (response.data) {
+        yield put(actions.getUserDataRequest(token));
+        yield put(actions.updateUserDataSuccess(response.data));
+     } else {
+       yield put(actions.updateUserDataError(response.data));      
+     }
+   } catch (e) {
+     console.log(e)
+     yield put(actions.updateUserDataError(e));
+   }
+}
+
 export function* userPasswordRequest(action) { 
   let token = action.payload.token;
   let header = {
@@ -106,11 +125,6 @@ export function* userDataRequest(action) {
 }
 
 export function* userForgetPasswordRequest(action) { 
-  // let token = action.payload.token;
-  // let header = {
-  //     "Content-Type": "application/json",
-  //     'Authorization':token
-  // }
   try {
      const response = yield call(fireAjax, "POST", `/forget/password`,'',{
        ...action.payload
@@ -125,22 +139,45 @@ export function* userForgetPasswordRequest(action) {
    }
 }
 
-export function* updateUserDataRequest(action) { 
-  let token = action.payload;
-  let id = action.payload.id;  
+export function* socialLoginRequest(action) {
+ try {
+   const { name, email } = action.payload;
+   let [first, ...last] = name.split(" ");
+   last = last.join(" ");
+   const response = yield call(fireAjax, "POST", "/social/login",'', {
+     email,
+     name: {
+       first,
+       last
+     }
+   });
+   if (response) {
+     if (response.data && response.data.token) {
+       AsyncStorage.setItem('user', JSON.stringify(response.data));
+       yield put(actions.getSocialLoginSuccess(response.data));
+     } else {
+       yield put(actions.getSocialLoginError());
+     }
+   }
+ } catch (e) {
+   yield put(actions.getSocialLoginError(e));
+ }
+}
+
+export function* storeTokenRequest(action) { 
+  let token = action.payload.token;
   let header = {
-      "Authorization":token
+      "Content-Type": "application/json",
+      'Authorization':token
   }
   try {
-     const response = yield call(fireAjax, "PUT", `/updateInterest/${id}`,header,{
+     const response = yield call(fireAjax, "POST", `/user/updateDeviceToken`,header,{
        ...action.payload.data
      });
-     if (response.data.success) {
-        yield put(actions.updateUserDataSuccess(response.data));
-     } else {
-       yield put(actions.updateUserDataError(response.data));      
+     if (response) {
+        yield put(actions.storeTokenSuccess(response.data));
      }
    } catch (e) {
-     yield put(actions.updateUserDataError(e));
+     yield put(actions.storeTokenError(e));
    }
 }

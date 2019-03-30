@@ -123,7 +123,7 @@ class Activity extends Component {
                 {images}
             </View>
             <View style={styles.checkedinTextView}>
-                <Text style={styles.checkedinText}>{item.checkedinBy.length} checked in</Text>
+                <Text style={styles.checkedinText}>{item.checkedinBy ? item.checkedinBy.length : 0} checked in</Text>
             </View>
             <Touch onPress ={this.onPressCheckin}>
                 <View style={styles.buttonView}>

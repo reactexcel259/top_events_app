@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   View,
+  KeyboardAvoidingView
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
 import { FontAwesome ,EvilIcons } from '@expo/vector-icons';
@@ -18,8 +19,9 @@ import CustomeButton from '../button'
 
 export default class LoginContainer extends React.Component {
   render() {
-    const { onPress, onChange, firstName, lastName, iconPress } = this.props;
+    const { onPress, onChange, firstName, lastName, iconPress, socialLogin } = this.props;
     return (
+      <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >      
       <View style={styles.container}>
       <TouchableOpacity onPress={iconPress} >
         <EvilIcons name={'chevron-left'} size={35}  color="black" />
@@ -61,21 +63,20 @@ export default class LoginContainer extends React.Component {
             <Text style={styles.signupLabel} >Sign in with </Text>
           </View>
           <View style={styles.imageContainer} >
+            <TouchableOpacity onPress={() => { socialLogin()}} >
             <Image
               style={styles.imageSize}
               source={require('../../assets/images/fbicon.png')}
             />
+            </TouchableOpacity>
             <Image
               style={[styles.imageSize,styles.imageMargin]}
               source={require('../../assets/images/googleLogo.png')}
             />
-            <Image
-              style={[styles.imageSize,styles.imageMargin]}
-              source={require('../../assets/images/instaIcon.png')}
-            />
           </View>
        </View>
       </View>
+      </KeyboardAvoidingView>      
     );
   }
 

@@ -8,14 +8,18 @@ import {
   FlatList,
   StatusBar,
   ScrollView,
-  Switch
+  Switch,
+  TouchableOpacity
 } from "react-native";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import * as actions from '../redux/action';
 import { LinearGradient } from "expo";
 import Layout from "../constants/Layout";
 import Touch from "react-native-touch";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 
-export default class CheckIn extends Component {
+class CheckIn extends Component {
   constructor(props) {
     super(props);
     this.state = { addedImage: [], buttonText: "", isDone: false, value: "" };
@@ -36,6 +40,25 @@ export default class CheckIn extends Component {
       this.setState({ addedImage });
     }
   };
+  onSubmit = () => {
+    const { value } = this.state;
+    const { navigation, postAddCommentRequest, user } = this.props;
+    let item = navigation.state.params.item;
+    let payload = {
+      id: item._id,
+      token : user.user.status.token,
+      data: {
+        comment: value
+      }
+    }
+    console.log(payload)
+    postAddCommentRequest(payload);
+    this.setState({
+      value:''
+    })
+    navigation.navigate("CityEventDescription", { item: item })
+  }
+
   _renderItem = ({ item, index }) => {
     return (
       <View
@@ -182,6 +205,7 @@ export default class CheckIn extends Component {
             </View>
           )}
           <View style={styles.buttonView}>
+          <TouchableOpacity onPress={this.onSubmit} >
             <LinearGradient
               start={{ x: 0, y: 1 }}
               end={{ x: 1, y: 1 }}
@@ -190,6 +214,7 @@ export default class CheckIn extends Component {
             >
               <Text style={styles.submitText}>Submit</Text>
             </LinearGradient>
+            </TouchableOpacity>
             <View>
               <Touch
                 onPress={
@@ -328,3 +353,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   }
 });
+
+
+const mapStateToProps = (state) => {
+  return {
+      user: state.user,
+  }
+}
+const mapDispatchToProps = dispatch => 
+    bindActionCreators(actions, dispatch);
+
+export default connect(mapStateToProps,mapDispatchToProps)(CheckIn);

@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
 import Layout from '../../constants/Layout';
@@ -16,8 +17,9 @@ import CustomeButton from '../button'
 
 export default class SignUpContainer extends React.Component {
   render() {
-    const { onPress, onChange, firstName, lastName } = this.props;
+    const { onPress, onChange, firstName, lastName, socialLogin } = this.props;
     return (
+      <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >      
       <View style={styles.container}>
        <View style={styles.labelContainer} >
           <Text style={styles.label} >Sign up </Text>
@@ -55,21 +57,20 @@ export default class SignUpContainer extends React.Component {
             <Text style={styles.signupLabel} >Sign up with </Text>
           </View>
           <View style={styles.imageContainer} >
+          <TouchableOpacity onPress={() => { socialLogin()}} >
             <Image
               style={styles.imageSize}
               source={require('../../assets/images/fbicon.png')}
             />
+            </TouchableOpacity>
             <Image
               style={[styles.imageSize,styles.imageMargin]}
               source={require('../../assets/images/googleLogo.png')}
             />
-            <Image
-              style={[styles.imageSize,styles.imageMargin]}
-              source={require('../../assets/images/instaIcon.png')}
-            />
           </View>
        </View>
       </View>
+      </KeyboardAvoidingView>            
     );
   }
 

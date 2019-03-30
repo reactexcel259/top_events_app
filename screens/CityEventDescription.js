@@ -11,7 +11,9 @@ import {
   Linking,
   ActivityIndicator,
   Share,
-  ToastAndroid
+  ToastAndroid,
+  KeyboardAvoidingView,
+  WebView
 } from "react-native";
 import Layout from "../constants/Layout";
 import { LinearGradient, MapView, Video } from "expo";
@@ -291,8 +293,8 @@ class CityEventDescription extends Component {
      isPassed = moment().diff(moment(item.start),'days')
     }
  let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
- console.log(this.state,'kjhgfcx',item)
  return (
+      <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >
       <View>
         <CustomHeader
           isCenter={true}
@@ -306,7 +308,7 @@ class CityEventDescription extends Component {
           onEventLike={() => this.onEventLike()}
         />
         {
-          eventData.isLoading || goingData.postingLoading ? 
+          eventData.isLoading  ? 
            (
             <View style={styles.loaderView}>
               <ActivityIndicator color="#FF6CC9" size="large" />
@@ -493,14 +495,14 @@ class CityEventDescription extends Component {
               {this.state.isAboutTab && (
                 <View style={styles.aboutUsWrapper}>
                   <View style={styles.eventDescription}>
-                    <Text>{item.categories.description}</Text>
+                    <Text>{item.content.brief}</Text>
                   </View>
                   <View style={styles.video}>
                     <Carousel />
                     {
                       (item.VideoLink != undefined && item.VideoLink != "") &&
                       <View style={styles.videoView}>
-                        <Video
+                        {/* <Video
                           source={{
                             uri: item.VideoLink
                           }}
@@ -511,7 +513,12 @@ class CityEventDescription extends Component {
                           shouldPlay={this.state.isPlay}
                           isLooping={false}
                           style={{ width: "100%", height: "100%" }}
-                          />
+                          /> */}
+                          {/* <WebView
+                              style={{width: "100%", height: "100%"}}
+                              javaScriptEnabled={true}
+                              source={{uri: item.VideoLink}}
+                          /> */}
                         <View style={styles.pasuePlayView}>
                           <FontAwesome
                             size={30}
@@ -561,6 +568,7 @@ class CityEventDescription extends Component {
           />
         }
       </View>
+      </KeyboardAvoidingView>
     );
   }
 }

@@ -15,7 +15,7 @@ export default class ChangeLocation extends Component {
     
         const { data } = this.props.stateAndCity.status;
         const regex = new RegExp(`${query.trim()}`, 'i');
-        return data.filter(city => city.name.search(regex) >= 0);
+        return data ? data.filter(city => city.name.search(regex) >= 0) : '';
     }
     render() {
         const {changeLocationModal, onPress, onSearchChange, search, stateAndCity, selected, onCancelPress } = this.props;

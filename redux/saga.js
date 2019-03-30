@@ -1,13 +1,14 @@
 import { takeLatest, takeEvery ,all } from "redux-saga/effects";
 import * as constants from "./constant";
-import { getRegisterRequest, getLoginRequest, getUserDataRequest, userPasswordRequest, userDataRequest, userForgetPasswordRequest } from "./homePage/action";
-import {getEventRequest, getEventByIdRequest, getTodayEventRequest} from './tabs/homeTab/action';
+import { getRegisterRequest, getLoginRequest, storeTokenRequest, socialLoginRequest, getUserDataRequest,updateUserDataRequest, userPasswordRequest, userDataRequest, userForgetPasswordRequest } from "./homePage/action";
+import {getEventRequest, getEventByIdRequest, getTodayEventRequest, getLikeEventRequest} from './tabs/homeTab/action';
 import {getCategoryRequest} from './getCategory/actions';
 import {getStateAndCityRequest} from './stateAndCity/action';
 import {getStateAndCityEventRequest} from './stateAndCityEvent/action';
 import {postAddCommentRequest, postLikeCommentRequest} from './addComment/action';
 import {getEventDescriptionRequest} from './getEventDescription/action';
 import {postAddLikeRequest} from './addLikeOnEvent/action';
+import { getInterestRequest } from './interest/action';
 import { getNotificationRequest } from './notification/action';
 import { getInterestedEventRequest, getAttendingEventRequest, postJoiningEventsRequest} from  './interestedEvent/action';
 
@@ -15,9 +16,14 @@ import { getInterestedEventRequest, getAttendingEventRequest, postJoiningEventsR
 export function* watchActions() {
   yield takeLatest(constants.GET_REGISTER_REQUEST, getRegisterRequest);
   yield takeLatest(constants.GET_LOGIN_REQUEST, getLoginRequest);
+  yield takeLatest(constants.GET_INTEREST_REQUEST, getInterestRequest);
+  yield takeLatest(constants.GET_SOCIAL_LOGIN_REQUEST, socialLoginRequest);
   yield takeLatest(constants.GET_USER_DATA_REQUEST, getUserDataRequest);
+  yield takeLatest(constants.STORE_TOKEN_REQUEST, storeTokenRequest);
+  yield takeLatest(constants.GET_LIKEEVENT_REQUEST, getLikeEventRequest);
   yield takeLatest(constants.USER_FORGET_PASSWORD_REQUEST, userForgetPasswordRequest);
   yield takeLatest(constants.USER_DATA_REQUEST, userDataRequest);
+  yield takeLatest(constants.UPDATE_USER_DATA_REQUEST, updateUserDataRequest);
   yield takeLatest(constants.USER_PASSWORD_REQUEST, userPasswordRequest);
   yield takeEvery(constants.GET_EVENT_REQUEST ,getEventRequest);
   yield takeEvery(constants.GET_TODAY_EVENT_REQUEST ,getTodayEventRequest);

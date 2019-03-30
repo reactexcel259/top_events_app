@@ -13,6 +13,20 @@ export const getLoginRequest=createAction(constants.GET_LOGIN_REQUEST);
 export const getLoginSuccess=createAction(constants.GET_LOGIN_SUCCESS);
 export const getLoginError=createAction(constants.GET_LOGIN_ERROR);
 
+export const getSocialLoginRequest=createAction(constants.GET_SOCIAL_LOGIN_REQUEST);
+export const getSocialLoginSuccess=createAction(constants.GET_SOCIAL_LOGIN_SUCCESS);
+export const getSocialLoginError=createAction(constants.GET_SOCIAL_LOGIN_ERROR);
+
+// device token
+export const storeTokenRequest=createAction(constants.STORE_TOKEN_REQUEST);
+export const storeTokenSuccess=createAction(constants.STORE_TOKEN_SUCCESS);
+export const storeTokenError=createAction(constants.STORE_TOKEN_ERROR);
+
+//get interest
+export const getInterestRequest=createAction(constants.GET_INTEREST_REQUEST);
+export const getInterestSuccess=createAction(constants.GET_INTEREST_SUCCESS);
+export const getInterestError=createAction(constants.GET_INTEREST_ERROR);
+
 //action for update user password
 export const userPasswordRequest=createAction(constants.USER_PASSWORD_REQUEST);
 export const userPasswordSuccess=createAction(constants.USER_PASSWORD_SUCCESS);
@@ -43,6 +57,10 @@ export const getUserDataError=createAction(constants.GET_USER_DATA_ERROR);
 export const getEventRequest=createAction(constants.GET_EVENT_REQUEST);
 export const getEventSuccess=createAction(constants.GET_EVENT_SUCCESS);
 export const getEventError=createAction(constants.GET_EVENT_ERROR);
+
+export const getLikeEventRequest=createAction(constants.GET_LIKEEVENT_REQUEST);
+export const getLikeEventSuccess=createAction(constants.GET_LIKEEVENT_SUCCESS);
+export const getLikeEventError=createAction(constants.GET_LIKEEVENT_ERROR);
 
 export const getTodayEventRequest=createAction(constants.GET_TODAY_EVENT_REQUEST);
 export const getTodayEventSuccess=createAction(constants.GET_TODAY_EVENT_SUCCESS);

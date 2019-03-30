@@ -26,6 +26,7 @@ class HomeScreen extends React.Component {
   };
 
   async componentWillMount() {
+    this.props.getInterestRequest()
     await AsyncStorage.getItem('user').then((data)=>{
       if(data != null){
         let payload = JSON.parse(data)

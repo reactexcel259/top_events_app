@@ -4,6 +4,7 @@ import Layout from "../constants/Layout";
 import Touch from 'react-native-touch';
 import {postAddCommentRequest} from '../redux/action';
 import {connect} from 'react-redux';
+import ImagePicker from 'react-native-image-picker';
 
  class CommentSection extends Component {
   onAddImage=async()=>{

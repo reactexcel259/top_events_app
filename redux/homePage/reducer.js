@@ -116,6 +116,10 @@ export default handleActions(
    [constants.GET_LOGIN_SUCCESS]: getRegisterSuccess,
    [constants.GET_LOGIN_ERROR]: getRegisterError,
 
+   [constants.GET_SOCIAL_LOGIN_REQUEST]: getRegisterRequest,
+   [constants.GET_SOCIAL_LOGIN_SUCCESS]: getRegisterSuccess,
+   [constants.GET_SOCIAL_LOGIN_ERROR]: getRegisterError,
+
    [constants.USER_PASSWORD_REQUEST]: userPasswordRequest,
    [constants.USER_PASSWORD_SUCCESS]: userPasswordSuccess,
    [constants.USER_PASSWORD_ERROR]: userPasswordError,

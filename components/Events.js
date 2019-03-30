@@ -74,7 +74,7 @@ export default class Events extends Component {
         </View>
         <FlatList
           style={{ paddingLeft: 15 }}
-          data={this.props.eventData.results}
+          data={this.props.eventData.results.slice(0,3)}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
           horizontal={true}

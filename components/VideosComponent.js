@@ -15,7 +15,7 @@ import Touch from 'react-native-touch';
 export default class VideosComponent extends PureComponent {
   _renderItem = ({ item, index }) => {
     let image = item.image == undefined ? "" : item.image.secure_url;
-    let data = this.props.cityData.data != undefined ?  this.props.cityData.data.results.length : this.props.cityData.length
+    let data = this.props.cityData.data != undefined ? this.props.cityData.data.results != undefined ? this.props.cityData.data.results.length : this.props.cityData.data.length : this.props.cityData.length
     return (
       <View
         key={index}
@@ -53,7 +53,7 @@ export default class VideosComponent extends PureComponent {
     return (
       <FlatList
         style={{ paddingLeft: 15 }}
-        data={(this.props.cityData && this.props.cityData.data != undefined) ? this.props.cityData.data.results : this.props.cityData }
+        data={this.props.cityData && this.props.cityData.data.results != undefined ? this.props.cityData.data.results : this.props.cityData.data  }
         keyExtractor={(item, index) => item._id}
         renderItem={this._renderItem}
         horizontal={true}

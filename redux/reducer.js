@@ -10,6 +10,7 @@ import getEventDescription from '../redux/getEventDescription/reducer';
 import postAddLikeEvent from '../redux/addLikeOnEvent/reducer';
 import getInterestedEvent from '../redux/interestedEvent/reducer';
 import notification from '../redux/notification/reducer';
+import interest from '../redux/interest/reducer';
 
 
 export default combineReducers({
@@ -17,6 +18,7 @@ export default combineReducers({
  navigation:navigation,
  getEvent:getEvent,
  notification:notification,
+ interest:interest,
  getCategory:getCategory,
  getStateAndCity:getStateAndCity,
  getStateAndCityEvent:getStateAndCityEvent,

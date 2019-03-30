@@ -58,3 +58,23 @@ export function* getEventByIdRequest(action) {
     yield put(actions.getEventByIdError());
   }
 }
+
+export function* getLikeEventRequest(action) {
+  const header = {
+      "Authorization":action.payload.token
+    };
+  try {
+    const response = yield call(
+      fireAjax,
+      "GET",
+      '/getEventsByInterests',
+      header
+    );
+    console.log(response.data)
+    if (response) {
+      yield put(actions.getLikeEventSuccess(response.data));
+    }
+  } catch (e) {
+    yield put(actions.getLikeEventError(e));
+  }
+}

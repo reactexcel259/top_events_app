@@ -11,6 +11,7 @@ const initialState = {
     eventData: [],
     events:[],
     todayEvent:[],
+    likeEvent:[],
   }
 };
 
@@ -68,13 +69,33 @@ const getEventSuccess = (state, action) =>
     
     const getTodayEventSuccess = (state, action) =>
       update(state, {
-        register: {
-          isLoading: { $set: false },
-          isError: { $set: false },
-          isSuccess: { $set: true },
-          todayEvent: { $set: action.payload }
-        }
-      });
+      register: {
+        isLoading: { $set: false },
+        isError: { $set: false },
+        isSuccess: { $set: true },
+        todayEvent: { $set: action.payload }
+      }
+    });
+
+  const getLikeEventRequest = (state, action) => {
+  return update(state, {
+    register: {
+      isLoading: { $set: false },
+      isError: { $set: false },
+      isSuccess: { $set: true },
+    }
+  });
+};
+
+const getLikeEventSuccess = (state, action) =>
+  update(state, {
+    register: {
+      isLoading: { $set: false },
+      isError: { $set: false },
+      isSuccess: { $set: true },
+      likeEvent: { $set: action.payload }
+    }
+  });
 
 export default handleActions(
   {
@@ -84,6 +105,8 @@ export default handleActions(
     [constants.GET_EVENTBYID_SUCCESS]: getEventByIdSuccess,
     [constants.GET_TODAY_EVENT_REQUEST]: getTodayEventRequest,
     [constants.GET_TODAY_EVENT_SUCCESS]: getTodayEventSuccess,
+    [constants.GET_LIKEEVENT_REQUEST]: getLikeEventRequest,
+    [constants.GET_LIKEEVENT_SUCCESS]: getLikeEventSuccess,
   },
   initialState
 );

@@ -10,6 +10,7 @@ import {
   Platform,
   AsyncStorage,
   Alert,
+  KeyboardAvoidingView,
   ActivityIndicator,
   TouchableOpacity
 } from "react-native";

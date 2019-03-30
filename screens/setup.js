@@ -21,7 +21,7 @@ import { MonoText } from '../components/StyledText';
 import Intrest from '../components/intro/intrest'
 import Locations from '../components/intro/location';
 import Interest from '../Josn/Index';
-import {getStateAndCityRequest, getCategoryRequest} from '../redux/action';
+import {getStateAndCityRequest, getCategoryRequest,getInterestRequest } from '../redux/action';
 import {setItem, getItem} from '../services/storage';
 
 
@@ -52,17 +52,18 @@ class SetupScreen extends React.Component {
    
   }
   async componentDidMount(){
-    await this.props.getCategory(); 
+    // await this.props.getCategory(); 
     await this.props.getStateAndCity();
+    await this.props.getInterestRequest();
     const {getStateAndCityData,getCategoryData} = this.props;
   }
   
   componentWillReceiveProps(nextProps){
-    const {getStateAndCityData,getCategoryData} = this.props;
+    const {getStateAndCityData,getCategoryData,getInterest} = this.props;
     if(getStateAndCityData.status !== nextProps.getStateAndCityData.status){
       this.setState({stateCity:nextProps.getStateAndCityData.status.data})
-    }else if (getCategoryData.status !== nextProps.getCategoryData.status){
-      this.setState({interest:nextProps.getCategoryData.status.data})
+    }else if (getInterest.status !== nextProps.getInterest.status){
+      this.setState({interest:nextProps.getInterest.status.message})
     }
   }
 
@@ -108,8 +109,9 @@ class SetupScreen extends React.Component {
       if(int[index]._id === id){
         if(int[index] !== undefined && int[index].selected){
           int[index]["selected"] = false ;
-           let a = selectedInt.filter(person => person._id != id);
-           this.setState({selectedInt:a})
+          let a = selectedInt.findIndex(person => person._id == id);
+          selectedInt.splice(a,1)
+          this.setState({selectedInt:selectedInt})
         }else {
           int[index]["selected"] = true ;
           selectedInt.push(int[index])
@@ -186,10 +188,11 @@ class SetupScreen extends React.Component {
 
   onNextPress = ( ) => {
     const { step, selectedInt, search } = this.state;
-    if(selectedInt.length){
+    console.log(selectedInt.length,'asd')
+    if(selectedInt.length>0){
       this.setState({step: step + 1,})
     }else{
-      this.setState({selectedInt:this.props.getCategoryData.status.data, step: step + 1})
+      Alert.alert("error",'Please select at least one')
     }
   }
   onPressLocation = () => {
@@ -218,7 +221,7 @@ class SetupScreen extends React.Component {
   }
   render() {
     const { step, interest, search } =this.state
-    const {getStateAndCityData,getCategoryData} = this.props;
+    const {getStateAndCityData,getCategoryData, getInterest} = this.props;
     return (
       <View style={styles.container}>
         <CustomHeader
@@ -233,7 +236,7 @@ class SetupScreen extends React.Component {
                 <Intrest
                   {...this.props}
                   {...this.state}
-                  category={getCategoryData}
+                  category={getInterest}
                   data={interest}
                   onPress={()=>{this.onNextPress()}}
                   selectInterests={(id)=>{this.selectInterests(id)}}
@@ -272,12 +275,14 @@ const mapStateToProps = state => {
   return {
     getStateAndCityData:state.getStateAndCity,
     getCategoryData: state.getCategory,
+    getInterest: state.interest
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     getStateAndCity:()=>dispatch(getStateAndCityRequest()),
     getCategory: () => dispatch(getCategoryRequest()),
+    getInterestRequest: () => dispatch(getInterestRequest()),
   };
 };
 

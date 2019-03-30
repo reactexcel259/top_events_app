@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
 import Layout from '../../constants/Layout';
@@ -18,6 +19,7 @@ export default class Account extends React.Component {
   render() {
     const { title, email, newPassword, newEmail, onChange, confirmPassword, buttonText, buttonPress, type } = this.props
     return (
+      <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={10}  behavior="padding" enabled >      
       <View style={{flex:1,justifyContent:'space-between',backgroundColor:'white',borderRadius:10,marginLeft:10,marginRight:10}} >
         <View>
           <Text style={{textAlign:'center',fontWeight:'500',fontSize:22,marginTop:20}} >
@@ -94,6 +96,7 @@ export default class Account extends React.Component {
               />
             </View>
       </View>
+      </KeyboardAvoidingView>      
     );
   }
 

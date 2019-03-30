@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "eventapp",
+    "name": "Jamaica Top Events",
     "slug": "eventapp",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -8,6 +8,9 @@
       "ios",
       "android"
     ],
+    "facebookAppId": "2194646720630049",
+    "facebookDisplayName": "events app",
+    "facebookScheme": "fb2194646720630049",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -17,6 +20,7 @@
     },
     "android": {
       "package": "com.TopEventsinJamaica",
+      "googleServicesFile":"./assets/google-services.json",
       "permissions" : [
         "ACCESS_FINE_LOCATION",
         "READ_EXTERNAL_STORAGE",

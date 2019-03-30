@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "501387798556",
+    "firebase_url": "https://jamicamobile.firebaseio.com",
+    "project_id": "jamicamobile",
+    "storage_bucket": "jamicamobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501387798556:android:790ee8d7ccd443ed",
+        "android_client_info": {
+          "package_name": "com.TopEventsinJamaica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501387798556-r23ej366bb44555rlc2hdvokbnc9l9aj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTtJ6dkL2zQBpN2bK2-N-1Fk2Dl7wZA1o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

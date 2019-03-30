@@ -9,12 +9,14 @@ import {
   ActivityIndicator,
   ToastAndroid,
   Alert,
+  KeyboardAvoidingView,
   View,
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as actions from '../redux/action';
+import { Facebook } from 'expo';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
 import LoginContainer from '../components/signup/login';
@@ -69,6 +71,7 @@ class SignUpScreen extends React.Component {
 
   componentWillReceiveProps(nextProps){
     const { login } = this.state;
+    console.log(nextProps.user.user,'8888')
     if(nextProps.user.user.isSuccess && nextProps.user.user.status.session){      
         Alert.alert(
           'Congrats!',
@@ -211,7 +214,8 @@ class SignUpScreen extends React.Component {
     const { progress, firstName, lastName, email, password, login } = this.state;    
     if( progress == 1) {
       return(
-        <SignUpContainer 
+        <SignUpContainer
+          socialLogin={this.socialLogin}           
           onPress={this.changeProgress}
           firstName={firstName}
           lastName={lastName}
@@ -233,6 +237,38 @@ class SignUpScreen extends React.Component {
           onPress={this.changeProgress}
         />
       )
+    }
+  }
+
+  socialLogin = async () => {
+    try {
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync('2194646720630049', {
+        permissions: ['public_profile', 'email'],
+        behavior: 'browser',
+      });
+      console.log(type,token,permissions)
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(`https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`).then(data => data.json()).then(res => {
+          return res;
+        })
+        let payload = {
+          email: response.email,
+          name : response.name
+        }
+        console.log(this.props,'777')
+        this.props.getSocialLoginRequest(payload)
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      console.log(`Facebook Login Error: ${message}`);
     }
   }
 
@@ -287,6 +323,7 @@ class SignUpScreen extends React.Component {
           :
             login ?
              <LoginContainer
+              socialLogin={this.socialLogin}
               onPress={this.login}
               email={email}
               iconPress={this.backPress}

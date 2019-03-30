@@ -39,17 +39,18 @@ class ProfileSettingScreen extends React.Component {
   }
 
   async componentWillMount() {
-    await this.props.getCategoryRequest();
+    // await this.props.getCategoryRequest();
+    await this.props.getInterestRequest();    
     const { user } = this.props;
     let userInterset = getItem('user_interest');
   }
 
   componentWillReceiveProps(nextProps) {
-    const { getCategoryData, user } = this.props;
-    if (getCategoryData.status !== nextProps.getCategoryData.status) {
-      this.setState({ interest: nextProps.getCategoryData.status.data }
+    const { getCategoryData, user, getInterest } = this.props;
+    if (getInterest.status !== nextProps.getInterest.status) {
+      this.setState({ interest: nextProps.getInterest.status.message }
         ,()=>{
-        if(user.data.data.interests){
+        if( user.data.data.interests && user.data.data.interests.length >0){
           this.selectedInt()
         }
       });
@@ -65,20 +66,23 @@ class ProfileSettingScreen extends React.Component {
     const { user } = this.props;
     let int = this.state.interest;
     let selectedInt = _.cloneDeep(user.data.data.interests);
+    let listInt = []
     for (let index = 0; index < int.length; index++) {
-      let id  = selectedInt.find(data => data._id == int[index]._id )
-      if(int[index]._id === id._id){
-        if(int[index] !== undefined && int[index].selected){
-          int[index]["selected"] = false ;
-           let a = selectedInt.filter(person => person._id != id._id);
-           this.setState({selectedInt:a})
-        }else {
-          int[index]["selected"] = true ;
-          console.log(int[index],'98')
-          selectedInt.push(int[index]._id)
-          this.setState({selectedInt:selectedInt})
+      let id  = selectedInt.find(data => data._id == int[index]._id)
+      if(id){
+        if(int[index]._id === id._id){
+          if(int[index] !== undefined && int[index].selected){
+            int[index]["selected"] = false ;
+            // let a = selectedInt.filter(person => person._id != id._id);
+            // this.setState({selectedInt:a})
+          }else {
+            int[index]["selected"] = true ;
+            listInt.push(int[index]._id)
+            this.setState({selectedInt:listInt})
+          }
         }
       }
+      console.log(int,'asdasd')
     this.setState({interest:int})
   }
   // setItem("user_interest", JSON.stringify({ interest: selectedInt}));
@@ -91,8 +95,9 @@ class ProfileSettingScreen extends React.Component {
         if(int[index]._id === id){
           if(int[index] !== undefined && int[index].selected){
             int[index]["selected"] = false ;
-             let a = selectedInt.filter(person => person._id != id);
-             this.setState({selectedInt:a})
+            let a = selectedInt.findIndex(person => person == id);
+            selectedInt.splice(a,1)
+            this.setState({selectedInt:selectedInt})
           }else {
             int[index]["selected"] = true ;
             selectedInt.push(int[index]._id)
@@ -103,6 +108,19 @@ class ProfileSettingScreen extends React.Component {
     }
     // setItem("user_interest", JSON.stringify({ interest: selectedInt}));
   };
+
+  updateUserInterest = () => {
+    const { selectedInt } = this.state;
+    const { user } = this.props;
+    let payload = {
+      token: user.status.token,
+      data: {
+        interests: selectedInt
+      }
+    };
+    // console.log(payload,this.props)
+    this.props.updateUserDataRequest(payload)
+  }
 
   useCurrentLocation = async () => {
     const response = await Location.hasServicesEnabledAsync()
@@ -224,10 +242,32 @@ class ProfileSettingScreen extends React.Component {
     this.setState({search:'',selected:false})
   }
 
+  checkChange = () => {
+    const { user } = this.props;
+    let list = _.cloneDeep(user.data.data.interests)
+    const { selectedInt } = this.state;
+    let check;
+    if(list){
+    check = list.map( data => {
+      let index = selectedInt.findIndex( id => id == data._id);
+      if(index != -1){
+        return false
+      } else {
+        return true
+      }
+    } )
+    } else if (selectedInt.length > 0) {
+      check = [true]
+    } else {
+      check = [false]
+    }
+    return check[0];
+  }
+
   render() {
-    console.log(this.state,'for interests')
     const { getCategoryData, user, getStateAndCityData } = this.props;
-    const { interest, changeLocationModal } = this.state;
+    const { interest, changeLocationModal, selectedInt } = this.state;
+    let isUpdate = user.data.data.interests && (user.data.data.interests.length != selectedInt.length) ? true : this.checkChange();
     let selectedInterest = user.data.data.interests ? user.data.data.interests : []
     return (
       <View style={styles.mainContainer}>
@@ -264,7 +304,19 @@ class ProfileSettingScreen extends React.Component {
                 justifyContent: "center"
               }}
             >
-              <Text style={{ margin: 10, fontWeight: "500" }}> Interest </Text>
+              <View style={{flex:1,flexDirection:'row',justifyContent:'space-between'}} >
+                <View>
+                  <Text style={{ margin: 10, fontWeight: "500" }}> Interest </Text>
+                </View>
+                <View>
+                  {
+                    isUpdate &&
+                    <TouchableOpacity onPress={this.updateUserInterest} >
+                      <Text style={{ margin: 10, fontWeight: "500",color:'white' }}> Save </Text>
+                    </TouchableOpacity>
+                  }
+                </View>
+              </View>
             </View>
             {interest && (
               <View style={styles.intrestContainer}>
@@ -426,7 +478,8 @@ const mapStateToProps = state => {
   return {
     user: state.user.user,
     getCategoryData: state.getCategory,
-    getStateAndCityData: state.getStateAndCity,    
+    getStateAndCityData: state.getStateAndCity,  
+    getInterest: state.interest,      
   };
 };
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

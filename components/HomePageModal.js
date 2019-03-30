@@ -4,6 +4,7 @@ import Layout from "../constants/Layout";
 import {LinearGradient} from 'expo';
 import Modal from "react-native-modalbox";
 import { FontAwesome ,EvilIcons } from '@expo/vector-icons';
+import moment from 'moment';
 
 const image = [
   {
@@ -52,7 +53,10 @@ export default class HomePageModal extends Component {
 
   callCalander = () => {
     const { item } = this.props;
-    let url = `http://www.google.com/calendar/event?action=TEMPLATE&dates=${item.start
+    console.log(item,'asd')
+    let url
+    if( item.start && item.end){
+     url = `http://www.google.com/calendar/event?action=TEMPLATE&dates=${item.start
     .split("-")
     .join("")
     .split(":")
@@ -67,6 +71,28 @@ export default class HomePageModal extends Component {
         }&location=${item.EventPlace}&details=${
         item.title
         }`
+    } else {
+       
+       url =  `http://www.google.com/calendar/event?action=TEMPLATE&dates=${JSON.stringify(moment(item.start))
+          .replace('"', "")
+          .split("-")
+          .join("")
+          .split(":")
+          .join("")
+          .split(".")[0] + "Z"}%2F${JSON.stringify(
+          moment(item.start)
+        )
+          .replace('"', "")
+          .split("-")
+          .join("")
+          .split(":")
+          .join("")
+          .split(".")[0] + "Z"}&text=${
+          item.title
+        }&location=${item.EventPlace}&details=${
+          item.title
+        }`
+    }
     Linking.canOpenURL(url).then(supported => {
       if(supported){
         this.onClose()
