@@ -19,6 +19,7 @@ import Layout from "../constants/Layout";
 import { LinearGradient, MapView, Video } from "expo";
 import CommentSection from "../components/CommentSection";
 import Comments from "../components/Comments";
+import ImagePickerModal from '../components/imagePickerModal';
 import Carousel from "../components/Carousel";
 import { FontAwesome } from "@expo/vector-icons";
 import CustomHeader from "../components/header";
@@ -72,9 +73,11 @@ class CityEventDescription extends Component {
       isEventDescription: false,
       isLiked: false,
       comment: '',
+      image:[],
       calanderItem:'',
       isCalander: true,
-      isModalCall: false
+      isModalCall: false,
+      imagepicker: false,
     };
   }
   componentDidMount() {
@@ -118,10 +121,11 @@ class CityEventDescription extends Component {
     }
     if(this.props.postAddComment.isSuccess){
       this.setState({
-        comment: ''
+        comment: '',
+        image:[],
       })
       this.props.cleanCommentSuccess()
-      this.props.eventDescription(this.props.navigation.state.params.item._id);      
+      // this.props.eventDescription(this.props.navigation.state.params.item._id);      
     }
     if(this.props.getInterestedEvent.joinedTrue  && prevProps.getInterestedEvent.joinedTrue !== this.props.getInterestedEvent.joinedTrue){
         this.props.setAddEventDefault();
@@ -130,9 +134,11 @@ class CityEventDescription extends Component {
   }
 
   onShare = async () => {
+    const eventData = this.props.getEventDescription;
+    const item = eventData.isSuccess && this.props.getEventDescription.status.data;
     try {
       const result = await Share.share({
-        message: "This is a Tourism app event"
+        message: `${item.title} event is going to start. To see detail of Event Open the link https://topeventsinjamaica.com/#/event-detail/${item._id}`
       });
 
       if (result.action === Share.sharedAction) {
@@ -162,18 +168,29 @@ class CityEventDescription extends Component {
   }
 
   onComment = () => {
-    const { comment } = this.state;
+    const { comment, image } = this.state;
     const { navigation, postAddCommentRequest, user } = this.props;
     let payload = {
       id: navigation.state.params.item._id,
       token : user.user.status.token,
       data: {
-        comment: comment
+        comment: comment,
+        image: image
       }
     }
     postAddCommentRequest(payload);
     this.setState({
       comment:""
+    })
+  }
+
+  onUpload = (data) => {
+    let image = this.state.image
+    if(data && data.secure_url){
+      image.push(data.secure_url)
+    }
+    this.setState({
+      image
     })
   }
 
@@ -262,6 +279,17 @@ class CityEventDescription extends Component {
     })
   }
 
+  openImageModal = () => {
+    this.setState({
+      imagepicker: true
+    })
+  }
+  closeimageModal = () => {
+    this.setState({
+      imagepicker:false
+    })
+  }
+
   render() {
     const { isLiked, comment, calanderItem, isCalander } = this.state;
     const { user } = this.props.user;
@@ -308,7 +336,7 @@ class CityEventDescription extends Component {
           onEventLike={() => this.onEventLike()}
         />
         {
-          eventData.isLoading  ? 
+          eventData.isLoading ? 
            (
             <View style={styles.loaderView}>
               <ActivityIndicator color="#FF6CC9" size="large" />
@@ -498,7 +526,7 @@ class CityEventDescription extends Component {
                     <Text>{item.content.brief}</Text>
                   </View>
                   <View style={styles.video}>
-                    <Carousel />
+                    {/* <Carousel /> */}
                     {
                       (item.VideoLink != undefined && item.VideoLink != "") &&
                       <View style={styles.videoView}>
@@ -540,6 +568,7 @@ class CityEventDescription extends Component {
                     comment={comment}
                     onChange={this.onCommentTextChange}
                     onSubmit={this.onComment}
+                    onAddImage={this.openImageModal}
                   />
                   <Comments 
                     userId={user.data.data._id}
@@ -555,18 +584,19 @@ class CityEventDescription extends Component {
           !isCalander &&
           <HomePageModal
           {...this.props}
-          // isOpen={calanderItem == '' ? false: true }
           isOpen = {(calanderItem == '' ? false: true) && !(isPassed  != undefined && isPassed >= 0)}
           title="Add to your calendar"
           buttons={['Add','Skip']}
-          // buttons={['Check in','Activity']}
-          // type="checkin"
           type="calendar"
           removeItem={this.removeCalanderItem}
           item={calanderItem}
-          // item={item}
           />
         }
+        <ImagePickerModal
+          isOpen={this.state.imagepicker}
+          onCloseImage={this.closeimageModal}
+          onUpload={this.onUpload}
+        />
       </View>
       </KeyboardAvoidingView>
     );

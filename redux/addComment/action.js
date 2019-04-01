@@ -13,6 +13,7 @@ export function* postAddCommentRequest(action) {
     });
     if (response) {
       yield put(actions.postAddCommentSuccess(response.data));
+      yield put(actions.getEventDescriptionSuccess(response.data));
     }
   } catch (e) {
     yield put(actions.postAddCommentError());

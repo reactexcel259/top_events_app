@@ -34,6 +34,7 @@ export default class LoginContainer extends React.Component {
             <TextInput
             style={styles.textInput}
             value={firstName}
+            keyboardType='email-address'
             onChangeText={(text)=>{ onChange(text,'email') }}            
             placeholder={'Email'}
             />

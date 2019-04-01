@@ -7,11 +7,8 @@ import {connect} from 'react-redux';
 import ImagePicker from 'react-native-image-picker';
 
  class CommentSection extends Component {
-  onAddImage=async()=>{
-    await Expo.ImagePicker.launchImageLibraryAsync();
-  }
   render() {
-    const { comment, onSubmit, onChange } = this.props;
+    const { comment, onSubmit, onChange, onAddImage } = this.props;
     return (
       <View style={{ flex: 1, paddingBottom: 20 }}>
         <View style={styles.wrapper}>
@@ -30,7 +27,7 @@ import ImagePicker from 'react-native-image-picker';
             comment == "" ?
             <View style={styles.addImageView}>
               <Touch 
-              onPress={()=>this.onAddImage()}
+              onPress={()=>{onAddImage()}}
               >
                 <Image  resizeMode='contain' style={styles.addImage} source={require("../assets/images/add-photo.png")} />
               </Touch>

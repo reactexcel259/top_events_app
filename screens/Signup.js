@@ -71,12 +71,7 @@ class SignUpScreen extends React.Component {
 
   componentWillReceiveProps(nextProps){
     const { login } = this.state;
-    console.log(nextProps.user.user,'8888')
-    if(nextProps.user.user.isSuccess && nextProps.user.user.status.session){      
-        Alert.alert(
-          'Congrats!',
-          login ? 'Login Successfull' :'Sign Up successfully !!'
-        )
+    if(nextProps.user.user.isSuccess && nextProps.user.user.status.session){
       this.setState({
         loader:false,
         email:'',
@@ -86,10 +81,7 @@ class SignUpScreen extends React.Component {
       })
       this.props.closeSuccessModel()
       if(this.state.progress != 3 && !login){
-        this.props.navigation.setParams({isLogin:true})
-        this.setState({
-          login:true
-        })
+        this.props.navigation.navigate('HomeTab')
       } else if(login){
         this.props.navigation.navigate('HomeTab')        
       }
@@ -108,11 +100,6 @@ class SignUpScreen extends React.Component {
           login ? 'Login Failed' : 'This email id is already registered.'
         )
       }
-    } else if (!nextProps.user.user.status.session && nextProps.user.user.status.session !== undefined ){
-        Alert.alert(
-          'Alert !!',
-          `${nextProps.user.user.status.message}`
-        )
     } 
   }
 

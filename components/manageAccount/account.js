@@ -52,6 +52,7 @@ export default class Account extends React.Component {
                 <TextInput
                 style={styles.textInput}
                 value={email}
+                keyboardType='email-address'                
                 editable={false}
                 onChangeText={(text)=>{ onChange(text,'email') }}            
                 placeholder={'your Email'}
@@ -74,6 +75,7 @@ export default class Account extends React.Component {
                 <TextInput
                 style={styles.textInput}
                 value={newEmail}
+                keyboardType='email-address'                
                 onChangeText={(text)=>{ onChange(text,'newEmail') }}
                 placeholder={'New email'}
                 />

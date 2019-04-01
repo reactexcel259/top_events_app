@@ -159,6 +159,7 @@ export default class HomePageModal extends Component {
         backdropPressToClose={true}
         swipeToClose={false}
         style={styles.modal}
+        onClosed={this.onClose}
         isOpen={this.state.isOpen}
         position={"bottom"}
       >
@@ -187,7 +188,7 @@ export default class HomePageModal extends Component {
                       item.image ?
                       <Image style={{width:"100%",height:'100%'}} resizeMode='contain' source={{uri:item.image.url}} />
                     :
-                    <Image style={{width:"100%",height:'100%'}} resizeMode='contain' source={require('../assets/images/photo2.png')} />
+                    <Image style={{width:"100%",height:'100%'}} resizeMode='contain' source={require('../assets/images/no-thumbnail.png')} />
                     }
                   </View>
                   {

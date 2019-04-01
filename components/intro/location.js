@@ -30,9 +30,10 @@ export default class Locations extends React.Component {
     return data.filter(city => city.name.search(regex) >= 0);
   }
   render() {
+    const { data } = this.props.stateAndCity.status;
     const { onPress, onSearchChange, isChange, search, stateAndCity, onChangeSearch, selected, onCancelPress } = this.props
-    const films = this.findFilm(search);
-    let checkSelected = Object.keys(search).length ? selected  ? true : false : false;
+    const films = search != '' ? this.findFilm(search) : data;
+    let checkSelected = Object.keys(search).length ? selected  ? true : false : true;
     return (
       <LinearGradient
           style={styles.mainContainer}

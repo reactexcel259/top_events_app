@@ -31,6 +31,7 @@ export default class DetailsContainer extends React.Component {
             <TextInput
             style={styles.textInput}
             value={email}
+            keyboardType='email-address'            
             onChangeText={(text)=>{ onChange(text,'email') }}
             placeholder={'Email'}
             />

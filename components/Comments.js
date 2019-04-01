@@ -35,11 +35,11 @@ export default class Comments extends Component {
             ]}
           >
           {
-            item.image &&
+            item.image && item.image.length >0 &&
             <Image
               resizeMode="cover"
               style={styles.userShareImage}
-              source={{uri:item.image}}
+              source={{uri:item.image[0]}}
             />
           }
           </View>

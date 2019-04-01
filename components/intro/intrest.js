@@ -53,7 +53,7 @@ export default class Intrest extends React.Component {
                   return(
                     <TouchableOpacity onPress={()=>{this.props.selectInterests(item._id)}}>
                         <LinearGradient
-                          colors={selected?['white','white']:['rgba(255,255,255,0)','rgba(255,255,255,0)']}
+                          colors={selected?['#FFFFFF','#FFFFFF']:['rgba(255,255,255,0)','rgba(255,255,255,0)']}
                           style={{ flex: 1 }}
                           start={[0, 0]}
                           end={[1, 0]}
