@@ -32,8 +32,9 @@ export default class Locations extends React.Component {
   render() {
     const { data } = this.props.stateAndCity.status;
     const { onPress, onSearchChange, isChange, search, stateAndCity, onChangeSearch, selected, onCancelPress } = this.props
-    const films = search != '' ? this.findFilm(search) : data;
+    const films =  data;
     let checkSelected = Object.keys(search).length ? selected  ? true : false : true;
+    console.log(search,'asdasd',checkSelected)
     return (
       <LinearGradient
           style={styles.mainContainer}
@@ -82,9 +83,10 @@ export default class Locations extends React.Component {
         }
         </View>
         {/* </View> */}
-        {films.length >= 1 &&  checkSelected?
+        {films.length >= 1?
           <FlatList
             data={films}
+            numColumns={3}
             ListHeaderComponent={()=>{
               return <View style={styles.underLine}/>
             }}
@@ -93,13 +95,14 @@ export default class Locations extends React.Component {
               return(
                 <TouchableOpacity onPress={()=>{onSearchChange(item.name, false)}}>
                     <LinearGradient
-                      colors={['rgba(255,255,255,0)','rgba(255,255,255,0)']}
+                      colors={ search == item.name ? ['#FFFFFF','#FFFFFF'] : ['rgba(255,255,255,0)','rgba(255,255,255,0)']}
                       start={[0, 0]}
                       end={[1, 0]}
+                      style={styles.bubbleContainer}
                     >
-                      <View style={styles.suggestionContainer}>
-                        <Text style={styles.suggestionText}>{item.name}</Text>
-                      </View>
+                      {/* <View style={styles.suggestionContainer}> */}
+                        <Text style={[styles.bubbleText,search == item.name?{color:'#FF6CC9'}:{}]}>{item.name}</Text>
+                      {/* </View> */}
                     </LinearGradient> 
                 </TouchableOpacity>
               )
@@ -145,7 +148,24 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     borderWidth:1
   },
-
+  bubbleContainer:{
+    borderWidth:1,
+    margin:3,
+    borderRadius:20,
+    paddingRight:15,
+    paddingLeft:15,
+    borderColor:'#D8D8D8',
+    height:40,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  bubbleText:{
+    alignSelf:'center',
+    textAlign:'center',
+    fontSize:10,
+    color:'#D8D8D8',
+    fontWeight:'900'
+  },
   searchContainer:{
     flexDirection:'row',
     borderRadius:5,

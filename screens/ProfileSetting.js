@@ -50,7 +50,7 @@ class ProfileSettingScreen extends React.Component {
     if (getInterest.status !== nextProps.getInterest.status) {
       this.setState({ interest: nextProps.getInterest.status.message }
         ,()=>{
-        if( user.data.data.interests && user.data.data.interests.length >0){
+        if( user.data.data && user.data.data.interests && user.data.data.interests.length >0){
           this.selectedInt()
         }
       });

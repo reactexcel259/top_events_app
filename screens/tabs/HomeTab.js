@@ -49,6 +49,7 @@ class HomeTab extends Component {
       interest:[],
       location: null,
       search:'',
+      selected: false,
       stateCity:[],
       selectedInt:[],
       attendingEvents:'',
@@ -62,7 +63,7 @@ class HomeTab extends Component {
     const getLocation = await getItem("user_info");
     let token =this.props.user.user.status.token
     if(getLocation && getLocation.location !== undefined){
-      this.setState({search:getLocation.location.name}); 
+      this.setState({search:getLocation.location.name, selected: true}); 
     }
     if(getInterest && getInterest.interest != undefined ){
       if( getInterest.interest.length >0){
@@ -366,6 +367,8 @@ _handleNotification = (notification) => {
         <CustomHeader isCenter={true} centerImage={true} />
         {this.props.getEventData.register.isLoading == false ? (
           <ScrollView>
+          {
+            getStateAndCityData.status &&
             <ChangeLocation
               {...this.state} 
               changeLocationModal={changeLocationModal}
@@ -376,6 +379,7 @@ _handleNotification = (notification) => {
               onCancelPress={this.onCancelPress}  
               closeModal={()=>{this.setState({changeLocationModal:false})}}
             />
+          }
             <View style={styles.mainWrapper}>
               <View style={styles.kingstoneView}>
                 <View style={styles.kingstoneTitle}>
