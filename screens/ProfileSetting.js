@@ -244,7 +244,7 @@ class ProfileSettingScreen extends React.Component {
 
   checkChange = () => {
     const { user } = this.props;
-    let list = _.cloneDeep(user.data.data.interests)
+    let list = user.data.data ? _.cloneDeep(user.data.data.interests) : undefined
     const { selectedInt } = this.state;
     let check;
     if(list){
@@ -267,8 +267,8 @@ class ProfileSettingScreen extends React.Component {
   render() {
     const { getCategoryData, user, getStateAndCityData } = this.props;
     const { interest, changeLocationModal, selectedInt } = this.state;
-    let isUpdate = user.data.data.interests && (user.data.data.interests.length != selectedInt.length) ? true : this.checkChange();
-    let selectedInterest = user.data.data.interests ? user.data.data.interests : []
+    let isUpdate = user.data.data && user.data.data.interests && (user.data.data.interests.length != selectedInt.length) ? true : this.checkChange();
+    let selectedInterest = user.data.data && user.data.data.interests ? user.data.data.interests : []
     return (
       <View style={styles.mainContainer}>
         <CustomHeader
