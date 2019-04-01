@@ -12,7 +12,7 @@ export default class Comments extends Component {
         <View style={styles.userDetails}>
           <Image
             style={styles.userAvatar}
-            source={require("../assets/images/guide-small.png")}
+            source={require("../assets/images/user.png")}
           />
           <View style={styles.detailsWrapper}>
             <Text style={styles.usernameText}>

@@ -18,54 +18,80 @@ import { LinearGradient } from "expo";
 import Layout from "../constants/Layout";
 import Touch from "react-native-touch";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
+import ImagePickerModal from '../components/imagePickerModal';
 
 class CheckIn extends Component {
   constructor(props) {
     super(props);
-    this.state = { addedImage: [], buttonText: "", isDone: false, value: "" };
+    this.state = { 
+      addedImage: [], 
+      buttonText: "", 
+      isDone: false, 
+      value: "" ,
+      image:[],
+      imagepicker: false
+    };
   }
 
-  onAddPhoto = async () => {
-    let res = await Expo.ImagePicker.launchImageLibraryAsync();
-    this.setState({ addedImage: [...this.state.addedImage, res.uri] });
-    if (this.state.addedImage.length > 0) {
-      this.setState({ buttonText: "Done" });
-    }
-  };
   removeImage = index => {
-    if (this.state.isDone && this.state.addedImage.length == 1) {
+    if (this.state.isDone && this.state.image.length == 1) {
       alert("You must have to add a photo");
     } else {
-      let addedImage = this.state.addedImage.filter((img, id) => id !== index);
-      this.setState({ addedImage });
+      let addedImage = this.state.image.filter((img, id) => id !== index);
+      this.setState({ image });
     }
   };
   onSubmit = () => {
-    const { value } = this.state;
+    const { value, image } = this.state;
     const { navigation, postAddCommentRequest, user } = this.props;
     let item = navigation.state.params.item;
     let payload = {
       id: item._id,
       token : user.user.status.token,
       data: {
-        comment: value
+        comment: value,
+        image: image
       }
     }
     console.log(payload)
     postAddCommentRequest(payload);
     this.setState({
-      value:''
+      value:'',
+      image: []
     })
     navigation.navigate("CityEventDescription", { item: item })
   }
 
+  openImageModal = () => {
+    this.setState({
+      imagepicker: true
+    })
+  }
+  closeimageModal = () => {
+    this.setState({
+      imagepicker:false
+    })
+  }
+
+  onUpload = (data) => {
+    let image = this.state.image
+    console.log(data,'asd')
+    if(data && data.secure_url){
+      image.push(data.secure_url)
+    }
+    this.setState({
+      image
+    })
+  }
+
   _renderItem = ({ item, index }) => {
+    console.log(item,'7545')
     return (
       <View
         key={index}
         style={[
           styles.addedimageWrapper,
-          { marginRight: index == this.state.addedImage.length - 1 ? 7 : -15 }
+          { marginRight: index == this.state.image.length - 1 ? 7 : -15 }
         ]}
       >
         <View style={styles.removeImageIcon}>
@@ -91,6 +117,7 @@ class CheckIn extends Component {
   };
   _keyExtractor = (item, index) => item;
   render() {
+    console.log(this.state)
     return (
       <ScrollView>
         <View>
@@ -131,7 +158,7 @@ class CheckIn extends Component {
             </View>
             {!this.state.isDone && (
               <View style={styles.addphotoView}>
-                <Touch onPress={this.onAddPhoto}>
+                <Touch onPress={this.openImageModal}>
                   <View style={styles.addimageView}>
                     <Image
                       style={styles.addImage}
@@ -149,7 +176,8 @@ class CheckIn extends Component {
           <View style={styles.addedImageView}>
             <FlatList
               style={{ paddingLeft: 15 }}
-              data={this.state.addedImage}
+              data={this.state.image}
+              extraData={this.state.image}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
               horizontal={true}
@@ -226,6 +254,11 @@ class CheckIn extends Component {
             </View>
           </View>
         </View>
+        <ImagePickerModal
+          isOpen={this.state.imagepicker}
+          onCloseImage={this.closeimageModal}
+          onUpload={this.onUpload}
+        />
       </ScrollView>
     );
   }

@@ -104,7 +104,12 @@ class Activity extends Component {
                 </View>
             </View>
             <View style={styles.imageView}>
+               {
+                 item.image ?
                 <Image style={styles.image} source = {{uri:item.image.secure_url}} />
+                :
+                <Image style={styles.image} source={require('../assets/images/no-thumbnail.png')} />
+               }
             </View>
         </LinearGradient>
         {

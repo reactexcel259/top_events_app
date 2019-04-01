@@ -38,7 +38,7 @@ export default class ImagePickerModal extends Component {
           base64: true,
           aspect: [4, 3]
         });
-      console.log(res)
+      console.log(res,'7777777')
       this.uploadImage(res)
   };
 
@@ -78,6 +78,7 @@ export default class ImagePickerModal extends Component {
   }
 
   uploadImage = (res) => {
+    console.log(res,'8784444')
     const fileType = res.uri.split('.');
         let base64Img = `data:image/${fileType[fileType.length-1]};base64,${res.base64}`
         let apiUrl = `https://api.cloudinary.com/v1_1/dzmduzij7/image/upload`;

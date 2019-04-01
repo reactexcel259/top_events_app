@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TextInput,
   Text,
+  KeyboardAvoidingView,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -19,6 +20,7 @@ export default class DetailsContainer extends React.Component {
   render() {
     const { onPress, onChange, email, password } = this.props;    
     return (
+      <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >      
       <View style={styles.container}>
        <View style={styles.labelContainer} >
           <View style={{borderWidth:1,justifyContent:'center',alignItems:'center',height:80,width:80,borderRadius:50}} >
@@ -57,6 +59,7 @@ export default class DetailsContainer extends React.Component {
           </View>
        </View>
       </View>
+      </KeyboardAvoidingView>
     );
   }
 

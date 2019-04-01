@@ -59,7 +59,7 @@ export function* getUserDataRequest(action) {
   try {
      const response = yield call(fireAjax, "GET", "/user",header,'');
      if (response.data.success) {
-       let interest = response.data.data.interests
+       let interest = response.data.data ? response.data.data.interests : []
         setItem("user_interest", JSON.stringify({ interest: interest}));
         yield put(actions.getUserDataSuccess(response.data));
      } else {
