@@ -34,7 +34,6 @@ export default class Locations extends React.Component {
     const { onPress, onSearchChange, isChange, search, stateAndCity, onChangeSearch, selected, onCancelPress } = this.props
     const films =  data;
     let checkSelected = Object.keys(search).length ? selected  ? true : false : true;
-    console.log(search,'asdasd',checkSelected)
     return (
       <LinearGradient
           style={styles.mainContainer}
