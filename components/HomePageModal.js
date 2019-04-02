@@ -53,7 +53,6 @@ export default class HomePageModal extends Component {
 
   callCalander = () => {
     const { item } = this.props;
-    console.log(item,'asd')
     let url
     if( item.start && item.end){
      url = `http://www.google.com/calendar/event?action=TEMPLATE&dates=${item.start

@@ -86,7 +86,6 @@ class Wishlist extends React.Component {
     const {status,isLoading, attendingLoading} = this.props.getInterestedEvent
     const {wishList} = this.state;
     const {postAddLikeEvent} = this.props;
-    // console.log(status,isLoading,postingLoading,"dasdasdsadasdasdsadasdasd");
     
     // const {postingLoading} = this.props.getInterestedEvent
     return (

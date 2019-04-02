@@ -84,7 +84,6 @@ export function* updateUserDataRequest(action) {
        yield put(actions.updateUserDataError(response.data));      
      }
    } catch (e) {
-     console.log(e)
      yield put(actions.updateUserDataError(e));
    }
 }

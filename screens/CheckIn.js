@@ -53,7 +53,6 @@ class CheckIn extends Component {
         image: image
       }
     }
-    console.log(payload)
     postAddCommentRequest(payload);
     this.setState({
       value:'',
@@ -75,7 +74,6 @@ class CheckIn extends Component {
 
   onUpload = (data) => {
     let image = this.state.image
-    console.log(data,'asd')
     if(data && data.secure_url){
       image.push(data.secure_url)
     }
@@ -85,7 +83,6 @@ class CheckIn extends Component {
   }
 
   _renderItem = ({ item, index }) => {
-    console.log(item,'7545')
     return (
       <View
         key={index}
@@ -117,7 +114,6 @@ class CheckIn extends Component {
   };
   _keyExtractor = (item, index) => item;
   render() {
-    console.log(this.state)
     return (
       <ScrollView>
         <View>

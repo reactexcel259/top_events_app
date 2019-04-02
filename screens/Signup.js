@@ -239,7 +239,6 @@ class SignUpScreen extends React.Component {
         permissions: ['public_profile', 'email'],
         behavior: 'browser',
       });
-      console.log(type,token,permissions)
       if (type === 'success') {
         // Get the user's name using Facebook's Graph API
         const response = await fetch(`https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`).then(data => data.json()).then(res => {
@@ -249,7 +248,6 @@ class SignUpScreen extends React.Component {
           email: response.email,
           name : response.name
         }
-        console.log(this.props,'777')
         this.props.getSocialLoginRequest(payload)
       } else {
         // type === 'cancel'

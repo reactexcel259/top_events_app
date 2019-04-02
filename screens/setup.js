@@ -188,7 +188,6 @@ class SetupScreen extends React.Component {
 
   onNextPress = ( ) => {
     const { step, selectedInt, search } = this.state;
-    console.log(selectedInt.length,'asd')
     if(selectedInt.length>0){
       this.setState({step: step + 1,})
     }else{

@@ -82,7 +82,6 @@ class ProfileSettingScreen extends React.Component {
           }
         }
       }
-      console.log(int,'asdasd')
     this.setState({interest:int})
   }
   // setItem("user_interest", JSON.stringify({ interest: selectedInt}));
@@ -118,7 +117,6 @@ class ProfileSettingScreen extends React.Component {
         interests: selectedInt
       }
     };
-    // console.log(payload,this.props)
     this.props.updateUserDataRequest(payload)
   }
 

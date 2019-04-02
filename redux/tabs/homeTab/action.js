@@ -70,7 +70,6 @@ export function* getLikeEventRequest(action) {
       '/getEventsByInterests',
       header
     );
-    console.log(response.data)
     if (response) {
       yield put(actions.getLikeEventSuccess(response.data));
     }

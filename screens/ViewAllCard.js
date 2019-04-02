@@ -50,7 +50,6 @@ class ViewAllCard extends Component {
       const {isSuccess} = this.props.postAddLikeEvent;
       const {selectedItem} = nextProps.getEventDescription
       if(nextProps.isFocused){
-        console.log(nextProps.getInterestedEvent,'check')
         if(nextProps.getInterestedEvent.joinedTrue  && this.props.joinedTrue !== nextProps.getInterestedEvent.joinedTrue){
         this.props.getEventById({id:selectedItem.categories._id,key:selectedItem.categories.key});
         this.props.setAddEvents();
@@ -66,7 +65,6 @@ class ViewAllCard extends Component {
       this.props.navigation.navigate("CityEventDescription",{item:item})
     }
     _renderItem=({item,index})=>{
-      console.log(item,'845')
       const { user } = this.props.user;
       const check  = item.interested;
       let checkedInBy = item.checkedinBy;
