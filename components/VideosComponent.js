@@ -40,8 +40,8 @@ export default class VideosComponent extends PureComponent {
           />
         </View>
         <View style={styles.imageTitle}>
-          <Text style={[ this.props.cityData.data != undefined ? styles.nameText : {color:'white'} ]}>{item.title}</Text>
-          <Text style={[ this.props.cityData.data != undefined ? styles.dateText : {color:'white'} ]}>
+          <Text style={[ this.props.type == undefined ? styles.nameText : {color:'white'} ]}>{item.title}</Text>
+          <Text style={[ this.props.type == undefined ? styles.dateText : {color:'white'} ]}>
             {moment(item.start).format("D MMM, dddd")}
           </Text>
         </View>

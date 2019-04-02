@@ -441,6 +441,7 @@ _handleNotification = (notification) => {
                   thisWeekEvent.data  &&
                 <VideosComponent
                   cityData={thisWeekEvent}
+                  type="thisWeek"
                   onEventDescription={item => this.onEventDescription(item)}
                   />
                 }

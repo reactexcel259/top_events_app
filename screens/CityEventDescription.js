@@ -296,8 +296,7 @@ class CityEventDescription extends Component {
     let rightIcon;
     const eventData = this.props.getEventDescription;
     const goingData = this.props.getInterestedEvent;
-    const item =
-    eventData.isSuccess && this.props.getEventDescription.status.data;
+    const item = eventData.isSuccess && this.props.getEventDescription.status.data;
     let interestedArray = !item ? [] : item.interested;
     let checkedInarry = !item ? [] : item.checkedinBy;
     const checkedIn = checkedInarry.find(

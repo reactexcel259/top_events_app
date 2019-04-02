@@ -32,7 +32,7 @@ export default class Locations extends React.Component {
   render() {
     const { data } = this.props.stateAndCity.status;
     const { onPress, onSearchChange, isChange, search, stateAndCity, onChangeSearch, selected, onCancelPress } = this.props
-    const films =  data;
+    const films = search != '' ? this.findFilm(search) : data;
     let checkSelected = Object.keys(search).length ? selected  ? true : false : true;
     return (
       <LinearGradient
