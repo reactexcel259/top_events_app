@@ -103,7 +103,7 @@ class MyAccountScreen extends React.Component {
             </View>
           </View>
           </TouchableOpacity>          
-          <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('ManageNotification') }} >
+          {/* <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('ManageNotification') }} >
           <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15,marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
             <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
               <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/bell.png')}  />
@@ -114,7 +114,7 @@ class MyAccountScreen extends React.Component {
                 name={'angle-right'} size={32} color="lightgray" />
             </View>
           </View>
-          </TouchableOpacity>       
+          </TouchableOpacity>        */}
         </View>
 
         <View style={styles.miniContainer} >

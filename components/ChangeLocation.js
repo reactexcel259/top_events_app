@@ -68,7 +68,7 @@ export default class ChangeLocation extends Component {
         { films && films.length >= 1 ?
           <FlatList
             data={films}
-            numColumns={3}
+            numColumns={2}
             ListHeaderComponent={()=>{
               return <View style={styles.underLine}/>
             }}
@@ -96,7 +96,7 @@ export default class ChangeLocation extends Component {
               <Text style={{color:'white',fontSize:14, marginLeft:5}} > Use Current location </Text>
           </View>
         </TouchableOpacity>}
-          <View style={{flex:1,justifyContent:'flex-end',alignItems:'center',marginBottom:50}} >
+          <View style={{flex:1,justifyContent:'flex-end',alignItems:'center',marginBottom:40}} >
               <CustomeButton
                 buttonText={"Next"}
                 gradientColor={['#FF6CC9','#FF6CC9']}

@@ -296,14 +296,13 @@ class CityEventDescription extends Component {
     let rightIcon;
     const eventData = this.props.getEventDescription;
     const goingData = this.props.getInterestedEvent;
-    const item = eventData.isSuccess && this.props.getEventDescription.status.data;
+    const item = eventData.isSuccess && this.props.getEventDescription.status && this.props.getEventDescription.status.data;
     let interestedArray = !item ? [] : item.interested;
     let checkedInarry = !item ? [] : item.checkedinBy;
     const checkedIn = checkedInarry.find(
       going => going.email == user.data.data.email
     );
-    const checkedInBy =
-    checkedIn && Object.keys(checkedIn).length ? true : false;
+    const checkedInBy = checkedIn && Object.keys(checkedIn).length ? true : false;
     const checkInterested = interestedArray.find(
       going => going.email == user.data.data.email
     );
@@ -342,7 +341,7 @@ class CityEventDescription extends Component {
             </View>
           )
           :
-          eventData.isSuccess && (
+          eventData.isSuccess && item && (
           <ScrollView>
             <View>
               <LinearGradient colors={["#ff6cc9", "#8559f0"]}>
