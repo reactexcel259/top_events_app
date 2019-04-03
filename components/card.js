@@ -60,7 +60,7 @@ export default class Card extends React.Component {
           justifyContent: "space-evenly",
           backgroundColor: "white",
           borderRadius: 5,
-          height:isWishlist? Layout.window.height/2.1 : Layout.window.height/1.7,
+          height:isWishlist? Layout.window.height/1.9 : Layout.window.height/1.7,
           margin: 10,
           marginTop: StatusBar.currentHeight
         }}
@@ -113,7 +113,7 @@ export default class Card extends React.Component {
               style={{
                 justifyContent: "flex-start",
                 flexDirection: "row",
-                width: Layout.window.width * 0.4
+                width: Layout.window.width * 0.5,
               }}
             >
               <Image
@@ -143,7 +143,7 @@ export default class Card extends React.Component {
               style={{
                 justifyContent: "flex-start",
                 flexDirection: "row",
-                width: Layout.window.width * 0.4
+                width: Layout.window.width * 0.5
               }}
             >
               <Image

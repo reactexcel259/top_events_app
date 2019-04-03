@@ -292,12 +292,12 @@ class SignUpScreen extends React.Component {
                   <Text style={{color:'white',fontSize:17}} > Sign in </Text>
                 </TouchableOpacity>
               }
-              {
+              {/* {
                 progress == 2  &&
                 <TouchableOpacity onPress={this.laterPress} >
                   <Text style={{color:'white',fontSize:17}} > Do it later </Text>
                 </TouchableOpacity>
-              }
+              } */}
           </View>
         </View>
           <View style={styles.miniContainer} >
