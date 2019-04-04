@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, TextInput, Image } from "react-native";
+import { Text, View, StyleSheet, FlatList, TextInput, Image } from "react-native";
 import Layout from "../constants/Layout";
 import Touch from 'react-native-touch';
 import {postAddCommentRequest} from '../redux/action';
@@ -7,14 +7,33 @@ import {connect} from 'react-redux';
 import ImagePicker from 'react-native-image-picker';
 
  class CommentSection extends Component {
+  _renderItem = ({ item, index }) => {
+    return (
+      <View
+        key={index}
+        style={[
+          styles.addedimageWrapper,
+          { marginRight: index == this.state.image.length - 1 ? 7 : -15 }
+        ]}
+      >
+        <Image
+          style={{ width: "80%", height: "80%" }}
+          resizeMode="cover"
+          source={{ uri: item }}
+        />
+      </View>
+    );
+  };
+
   render() {
-    const { comment, onSubmit, onChange, onAddImage } = this.props;
+    const { comment, onSubmit, onChange, onAddImage, image } = this.props;
+    console.log(image,'asdasd')
     return (
       <View style={{ flex: 1, paddingBottom: 20 }}>
         <View style={styles.wrapper}>
           <Image
             style={styles.userAvatar}
-            source={require("../assets/images/guide-small.png")}
+            source={require("../assets/images/user.png")}
           />
           <TextInput
             multiline={true}
@@ -42,6 +61,22 @@ import ImagePicker from 'react-native-image-picker';
             </View>
           }
         </View>
+        {
+          image.length > 0 &&
+          <View style={styles.wrapper} >
+            <View style={styles.addedImageView}>
+                <FlatList
+                  style={{ paddingLeft: 15 }}
+                  data={image}
+                  extraData={image}
+                  keyExtractor={(item, index) => item}
+                  renderItem={this._renderItem}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  />
+              </View>
+          </View>
+        }
       </View>
     );
   }
@@ -71,6 +106,9 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     paddingLeft: 7,
     paddingLeft: 7
+  },
+  addedImageView: {
+    height: 130
   },
   wrapper: {
     flexDirection: "row",

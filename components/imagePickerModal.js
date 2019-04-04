@@ -76,6 +76,7 @@ export default class ImagePickerModal extends Component {
   }
 
   uploadImage = (res) => {
+    console.log(res,'asdasd')
     const fileType = res.uri.split('.');
         let base64Img = `data:image/${fileType[fileType.length-1]};base64,${res.base64}`
         let apiUrl = `https://api.cloudinary.com/v1_1/dzmduzij7/image/upload`;

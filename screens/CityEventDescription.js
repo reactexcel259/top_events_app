@@ -462,7 +462,7 @@ class CityEventDescription extends Component {
                       <View style={styles.lacationName}>
                         <Image source={require("../assets/images/map.png")} />
                         <Text style={styles.locationText}>
-                          Kingston ,Concert Hall
+                          {item.EventPlace}
                         </Text>
                       </View>
                       <TouchableOpacity onPress={this.openMap}>                      
@@ -564,6 +564,7 @@ class CityEventDescription extends Component {
                 <View style={styles.discussionWrapper}>
                   <CommentSection 
                     comment={comment}
+                    image={this.state.image}
                     onChange={this.onCommentTextChange}
                     onSubmit={this.onComment}
                     onAddImage={this.openImageModal}
