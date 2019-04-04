@@ -38,6 +38,7 @@ import {
 } from "../redux/action";
 import HomePageModal from '../components/HomePageModal';
 import { Platform } from "expo-core";
+import * as _ from 'lodash';
 
 const image = [
   {
@@ -78,6 +79,7 @@ class CityEventDescription extends Component {
       isCalander: true,
       isModalCall: false,
       imagepicker: false,
+      vvv: null
     };
   }
   componentDidMount() {
@@ -185,12 +187,12 @@ class CityEventDescription extends Component {
   }
 
   onUpload = (data) => {
-    let image = this.state.image
+    let imageNew = _.cloneDeep(this.state.image)
     if(data && data.secure_url){
-      image.push(data.secure_url)
+      imageNew.push(data.secure_url)
     }
     this.setState({
-      image
+      image: imageNew,
     })
   }
 
@@ -563,8 +565,10 @@ class CityEventDescription extends Component {
               {this.state.isDiscussionTab && (
                 <View style={styles.discussionWrapper}>
                   <CommentSection 
-                    comment={comment}
+                    // {...this.state}
+                    // vvv={this.state.vvv}
                     image={this.state.image}
+                    comment={comment}
                     onChange={this.onCommentTextChange}
                     onSubmit={this.onComment}
                     onAddImage={this.openImageModal}
@@ -783,7 +787,8 @@ const styles = StyleSheet.create({
   lacationName: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    marginRight:5
   },
   getDirectionButton: {
     backgroundColor: "#ff6cc9",

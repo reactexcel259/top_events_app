@@ -13,7 +13,7 @@ import ImagePicker from 'react-native-image-picker';
         key={index}
         style={[
           styles.addedimageWrapper,
-          { marginRight: index == this.state.image.length - 1 ? 7 : -15 }
+          { marginRight: index == this.props.image.length - 1 ? 7 : -15 }
         ]}
       >
         <Image
@@ -27,7 +27,6 @@ import ImagePicker from 'react-native-image-picker';
 
   render() {
     const { comment, onSubmit, onChange, onAddImage, image } = this.props;
-    console.log(image,'asdasd')
     return (
       <View style={{ flex: 1, paddingBottom: 20 }}>
         <View style={styles.wrapper}>
@@ -62,7 +61,7 @@ import ImagePicker from 'react-native-image-picker';
           }
         </View>
         {
-          image.length > 0 &&
+          image && image.length > 0 &&
           <View style={styles.wrapper} >
             <View style={styles.addedImageView}>
                 <FlatList
@@ -92,7 +91,7 @@ const mapDispatchToProps=dispatch=>{
   }
 }
 export default connect(
-  mapStateToProps,
+  // mapStateToProps,
   mapDispatchToProps
 )(CommentSection)
 
@@ -109,6 +108,12 @@ const styles = StyleSheet.create({
   },
   addedImageView: {
     height: 130
+  },
+  addedimageWrapper: {
+    width: 130,
+    height: 130,
+    flexDirection: "column",
+    justifyContent: "flex-end"
   },
   wrapper: {
     flexDirection: "row",

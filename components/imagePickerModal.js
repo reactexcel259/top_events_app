@@ -38,6 +38,7 @@ export default class ImagePickerModal extends Component {
           base64: true,
           aspect: [4, 3]
         });
+      if(res)
       this.uploadImage(res)
   };
 
@@ -57,11 +58,6 @@ export default class ImagePickerModal extends Component {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         finalStatus = status;
       }
-
-      // Stop here if the user did not grant permissions
-      if (finalStatus !== 'granted') {
-        return;
-      }
       if(finalStatus == 'granted') {
         let res = await Expo.ImagePicker.launchCameraAsync({
           exif: true,
@@ -76,7 +72,6 @@ export default class ImagePickerModal extends Component {
   }
 
   uploadImage = (res) => {
-    console.log(res,'asdasd')
     const fileType = res.uri.split('.');
         let base64Img = `data:image/${fileType[fileType.length-1]};base64,${res.base64}`
         let apiUrl = `https://api.cloudinary.com/v1_1/dzmduzij7/image/upload`;

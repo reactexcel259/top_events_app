@@ -280,7 +280,7 @@ _handleNotification = (notification) => {
     const {attending,isLoading,joinedTrue} = this.props.getInterestedEvent    
     if(nextProps.getInterestedEvent.attending.data !== undefined && nextProps.getInterestedEvent.attending.data.results.length > 0 ){
       if(nextProps.getInterestedEvent.attending !== attending ){
-        if(this.state.attendingEventList.length !== nextProps.getInterestedEvent.attending.data.results)
+        // if(this.state.attendingEventList.length !== nextProps.getInterestedEvent.attending.data.results)
           this.checkIn(nextProps.getInterestedEvent.attending);
       }    
     }
