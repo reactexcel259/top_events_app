@@ -42,8 +42,8 @@ class HomeScreen extends React.Component {
       <View style={styles.container}>
         <Image
           style={styles.image}
-          resizeMode='cover'
-          source={require('../assets/images/photo1.png')}
+          // resizeMode='center'
+          source={require('../assets/images/image21.jpeg')}
         />
         <View style={styles.ovalContainer}>
           <View style={styles.ovalContent} >
@@ -60,6 +60,7 @@ class HomeScreen extends React.Component {
             <View style={{alignSelf:'center',}} >
               <CustomeButton
                 buttonText={"Get Started"}
+                buttonSize={'small'}
                 gradientColor={['#FF6CC9','#8559F0']}
                 textColor={'white'}
                 onPress={()=>{ this.props.navigation.navigate('setup') }}
@@ -68,6 +69,7 @@ class HomeScreen extends React.Component {
             <View style={{alignSelf:'center',paddingBottom:20}} >
               <CustomeButton
                 buttonText={"Sign In"}
+                buttonSize={'small'}                
                 gradientColor={['#ffffff','#ffffff']}
                 textColor={'#8559F0'}
                 onPress={()=>{ this.props.navigation.navigate('SignUpScreen',{isLogin:true}) }}
@@ -90,16 +92,16 @@ const styles = StyleSheet.create({
     width: Layout.window.width
   },
   ovalContainer:{
-    width:Layout.window.width * 0.84 ,
-    height: isIphoneX() ? Layout.window.height * 0.44 :Layout.window.height * 0.52,
+    width:Layout.window.width * 0.74 ,
+    height: isIphoneX() ? Layout.window.height * 0.44 :Layout.window.height * 0.42,
     backgroundColor:'#ffffff',
     opacity:0.93,
     position:'absolute',
-    top: Layout.window.height * 0.40, 
+    top: Layout.window.height * 0.45, 
     left: 0, 
     right: 0, 
     bottom: 0,
-    marginLeft:30,
+    marginLeft:50,
     marginRight:20,
     borderRadius:30,
     // borderTopStartRadius:30,
@@ -119,13 +121,13 @@ const styles = StyleSheet.create({
     width:Layout.window.width
   },
   logoImage:{
-    height:Layout.window.height * 0.15 ,
-    width: Layout.window.width * 0.63,
+    height:Layout.window.height * 0.08 ,
+    width: Layout.window.width * 0.43,
 
   },
   suggestion:{
     // padding:20,
-    fontSize:17,
+    fontSize:15,
     fontWeight:'500',
     width: Layout.window.width * 0.45,
     textAlign:'center'
