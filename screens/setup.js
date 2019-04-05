@@ -73,19 +73,29 @@ class SetupScreen extends React.Component {
       this.setState({
         mapError: true,
       });
-      Alert.alert(
-        'Location Permission Denied',
-        'Please turn on your device location, to access this service',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        {cancelable: false},
-      );
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Please turn on your device location, to access this service',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){ 
+        Alert.alert(
+          'Location Permission Denied',
+          'Please turn on your device location, to access this service',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ],
+          {cancelable: false},
+        );
+      }
     }else {
       let { status,error } = await Permissions.askAsync(Permissions.LOCATION);
       let location = await Location.getCurrentPositionAsync({enableHighAccuracy:true});
@@ -191,25 +201,45 @@ class SetupScreen extends React.Component {
     if(selectedInt.length>0){
       this.setState({step: step + 1,})
     }else{
-      Alert.alert("error",'Please select at least one')
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Please select at least one',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){ 
+        Alert.alert("error",'Please select at least one')
+      }
     }
   }
   onPressLocation = () => {
     const { search, selectedInt} = this.state;
     if(!Object.keys(this.state.search).length){
-      Alert.alert(
-        'Add Location',
-        'Please add your location !!',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        {cancelable: false},
-      );
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Please add your location !!',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){         
+        Alert.alert(
+          'Add Location',
+          'Please add your location !!',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ],
+          {cancelable: false},
+        );
+      }
     } else {
       let filters = this.findFilm(search);
       let results = filters.length ? filters[0] : this.props.getStateAndCityData.status.data[0];

@@ -165,19 +165,29 @@ _handleNotification = (notification) => {
       this.setState({
         mapError: true,
       });
-      Alert.alert(
-        'Location Permission Denied',
-        'Please turn on your device location, to access this service',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        {cancelable: false},
-      );
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Please turn on your device location, to access this service',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){ 
+        Alert.alert(
+          'Location Permission Denied',
+          'Please turn on your device location, to access this service',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ],
+          {cancelable: false},
+        );
+      }
     }else {
       let { status,error } = await Permissions.askAsync(Permissions.LOCATION);
       let location = await Location.getCurrentPositionAsync({enableHighAccuracy:true});
@@ -237,31 +247,18 @@ _handleNotification = (notification) => {
   onPressLocation = async() => {
     const { search, selectedInt} = this.state;
     if(!Object.keys(this.state.search).length){
-      Alert.alert(
-        'Add Location',
-        'Please add your location !!',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        {cancelable: false},
-      );
-    } else {
-      let filters = this.findFilm(search);
-      let results;
-      if(filters.length){
-        results = filters[0]
-        setItem("user_info", JSON.stringify({ location:results}));
-        await this.props.getStateAndCityEvent(results._id);
-        this.setState({changeLocationModal:false})
-      }else {
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Please add your location !!',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){ 
         Alert.alert(
           'Add Location',
-          'Please add a correct location',
+          'Please add your location !!',
           [
             {
               text: 'Cancel',
@@ -272,6 +269,39 @@ _handleNotification = (notification) => {
           ],
           {cancelable: false},
         );
+      }
+    } else {
+      let filters = this.findFilm(search);
+      let results;
+      if(filters.length){
+        results = filters[0]
+        setItem("user_info", JSON.stringify({ location:results}));
+        await this.props.getStateAndCityEvent(results._id);
+        this.setState({changeLocationModal:false})
+      }else {
+        if(Platform.OS == 'android') {
+          ToastAndroid.showWithGravityAndOffset(
+            'Please add a correct location',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else if( Platform.OS == 'ios'){ 
+          Alert.alert(
+            'Add Location',
+            'Please add a correct location',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+        }
       }
     }
   }

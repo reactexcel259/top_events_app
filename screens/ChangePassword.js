@@ -95,6 +95,15 @@ class ChangePassword extends React.Component {
         confirmPassword:'',
         loaderType:''
       })
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Your Email has been changed. Please Login again',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){
         Alert.alert(
           'Success',
           'Your Email has been changed. Please Login again',
@@ -102,6 +111,7 @@ class ChangePassword extends React.Component {
             {text: 'OK', onPress: () => this.logout()},
           ],
         )
+      }
     }
   }
 

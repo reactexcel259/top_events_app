@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   TextInput,
+  Alert,
   ToastAndroid,
   ActivityIndicator,
   TouchableOpacity
@@ -129,19 +130,29 @@ class ProfileSettingScreen extends React.Component {
       this.setState({
         mapError: true,
       });
-      Alert.alert(
-        'Location Permission Denied',
-        'Please turn on your device location, to access this service',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        {cancelable: false},
-      );
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Please turn on your device location, to access this service',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){
+        Alert.alert(
+          'Location Permission Denied',
+          'Please turn on your device location, to access this service',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ],
+          {cancelable: false},
+        );
+      }
     }else {
       let { status,error } = await Permissions.askAsync(Permissions.LOCATION);
       let location = await Location.getCurrentPositionAsync({enableHighAccuracy:true});
@@ -201,31 +212,18 @@ class ProfileSettingScreen extends React.Component {
   onPressLocation = async() => {
     const { search } = this.state;
     if(!Object.keys(this.state.search).length){
-      Alert.alert(
-        'Add Location',
-        'Please add your location !!',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        {cancelable: false},
-      );
-    } else {
-      let filters = this.findFilm(search);
-      let results;
-      if(filters.length){
-        results = filters[0]
-        setItem("user_info", JSON.stringify({ location:results}));
-        await this.props.getStateAndCityEventRequest(results._id);
-        this.setState({changeLocationModal:false})
-      }else {
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Please add your location !!',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){
         Alert.alert(
           'Add Location',
-          'Please add a correct location',
+          'Please add your location !!',
           [
             {
               text: 'Cancel',
@@ -236,6 +234,39 @@ class ProfileSettingScreen extends React.Component {
           ],
           {cancelable: false},
         );
+      }
+    } else {
+      let filters = this.findFilm(search);
+      let results;
+      if(filters.length){
+        results = filters[0]
+        setItem("user_info", JSON.stringify({ location:results}));
+        await this.props.getStateAndCityEventRequest(results._id);
+        this.setState({changeLocationModal:false})
+      }else {
+        if(Platform.OS == 'android') {
+          ToastAndroid.showWithGravityAndOffset(
+            'Please add a correct location',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else if( Platform.OS == 'ios'){
+          Alert.alert(
+            'Add Location',
+            'Please add a correct location',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+        }
       }
     }
   }
