@@ -5,6 +5,25 @@ import Touch from 'react-native-touch';
 import moment from 'moment'
 
 export default class Comments extends Component {
+  _renderItemImage = (props,image) => {
+    const { item , index } = props;
+    return (
+      <View
+        key={index}
+        style={[
+          styles.addedimageWrapper,
+          { marginRight: index == image.length - 1 ? 7 : -15 }
+        ]}
+      >
+        <Image
+          style={{ width: "80%", height: "80%" }}
+          resizeMode="cover"
+          source={{ uri: item }}
+        />
+      </View>
+    );
+  };
+
   _renderItem = ({ item, index }) => {
     let liked = item.likedBy.findIndex(val =>  val == this.props.userId )
     return (
@@ -27,30 +46,33 @@ export default class Comments extends Component {
         <View style={styles.userCommentView}>
           <Text style={styles.commentText}>{item.comment}</Text>
         </View>
-        <View style={styles.sharedImageView}>
-         <View
-            style={[
-              styles.userSharedView,
-              { marginRight:  5 }
-            ]}
-          >
+        
           {
             item.image && item.image.length >0 &&
-            <Image
-              resizeMode="cover"
-              style={styles.userShareImage}
-              source={{uri:item.image[0]}}
-            />
+            <View style={styles.addedImageView}>
+                <FlatList
+                  style={{ paddingLeft: 15 }}
+                  data={item.image}
+                  extraData={item.image}
+                  keyExtractor={(item, index) => item}
+                  renderItem={ (props) => this._renderItemImage(props,item.image)}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  />
+              </View> 
+            // <Image
+            //   resizeMode="cover"
+            //   style={styles.userShareImage}
+            //   source={{uri:item.image[0]}}
+            // />
           }
-          </View>
-        </View>
         <View style={styles.linkWrapper}>
           <View style={styles.likeView}>
             <Image source={require("../assets/images/like_full.png")} style={{height:15,width:15}} />
             <Text style={styles.totalLikeText}>{item.likedBy.length}</Text>
           </View>
           <View style={styles.TextComment}>
-            <Text style={{color:'grey'}} >{item.totalComment} Comments</Text>
+            {/* <Text style={{color:'grey'}} >{item.totalComment} Comments</Text> */}
           </View>
         </View>
         <View style={styles.line} />
@@ -80,7 +102,7 @@ export default class Comments extends Component {
             </View>
             </Touch>
           </View>
-          <View style={styles.like}>
+          {/* <View style={styles.like}>
             <View style={styles.commentPng}>
               <Image
                 resizeMode="contain"
@@ -89,7 +111,7 @@ export default class Comments extends Component {
               />
             </View>
             <Text style={styles.text}>Comment</Text>
-          </View>
+          </View> */}
         </View>
       </View>
     );
@@ -111,9 +133,9 @@ export default class Comments extends Component {
 }
 const styles = StyleSheet.create({
   userAvatar: {
-    width: Layout.window.width * 0.13,
-    height: Layout.window.width * 0.13,
-    borderRadius: 30
+    width: 20,
+    height: 30,
+    borderRadius:30
   },
   commentWrapper: {
     borderTopWidth: 4,
@@ -124,6 +146,15 @@ const styles = StyleSheet.create({
     borderWidth:1,
     height:1,
     margin:10
+  },
+  addedImageView: {
+    height: 130
+  },
+  addedimageWrapper: {
+    width: 130,
+    height: 130,
+    flexDirection: "column",
+    justifyContent: "flex-end"
   },
   userDetails: {
     paddingLeft: 20,

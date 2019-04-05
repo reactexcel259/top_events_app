@@ -123,8 +123,8 @@ const styles = StyleSheet.create({
     paddingRight: 7
   },
   userAvatar: {
-    width: Layout.window.width * 0.13,
-    height: Layout.window.width * 0.13,
+    width: 20,
+    height: 30,
     borderRadius: 30
   },
   addImageView:{

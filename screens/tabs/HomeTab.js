@@ -143,6 +143,9 @@ _handleNotification = (notification) => {
       this.props.getTodayEventRequest()      
       this.setState({ isCategoryId: true });
     }
+    if(getLocation && getLocation.location !== undefined){
+      this.setState({search:getLocation.location.name, selected: true}); 
+    }
     if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId && getLocation && getLocation.location !== undefined) {
       this.props.getStateAndCityEvent(
         getLocation.location._id

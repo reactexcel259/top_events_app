@@ -42,7 +42,7 @@ class HomeScreen extends React.Component {
       <View style={styles.container}>
         <Image
           style={styles.image}
-          // resizeMode='cover'
+          resizeMode='cover'
           source={require('../assets/images/photo1.png')}
         />
         <View style={styles.ovalContainer}>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     flex:1
   },
   image :{
-    height: Layout.window.height ,
+    height: Layout.window.height,
     width: Layout.window.width
   },
   ovalContainer:{

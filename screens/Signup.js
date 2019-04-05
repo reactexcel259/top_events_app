@@ -190,10 +190,20 @@ class SignUpScreen extends React.Component {
       this.setState({ loader: true })      
       this.props.getLoginRequest(payload)
     } else if ( !validateEmail(email) ) {
-      Alert.alert(
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Enter Correct Email ID',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){ 
+        Alert.alert(
           'Warning!',
           'Enter Correct Email ID'
         )
+      }
     }
   }
 
@@ -235,7 +245,7 @@ class SignUpScreen extends React.Component {
         expires,
         permissions,
         declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync('2194646720630049', {
+      } = await Facebook.logInWithReadPermissionsAsync('2276411582616111', {
         permissions: ['public_profile', 'email'],
         behavior: 'browser',
       });

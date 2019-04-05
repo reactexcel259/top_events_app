@@ -29,6 +29,7 @@ export function* postAddCommentRequest(action) {
     const response = yield call(fireAjax, "PUT", `/comment/addLike/${id}`,header,'');
     if (response) {
       yield put(actions.postLikeCommentSuccess(response.data));
+      yield put(actions.getEventDescriptionSuccess(response.data));
     }
   } catch (e) {
     yield put(actions.postLikeCommentError());

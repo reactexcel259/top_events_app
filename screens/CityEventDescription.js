@@ -156,6 +156,58 @@ class CityEventDescription extends Component {
       alert(error.message);
     }
   };
+
+  callCalander = () => {
+    const item = this.props.getEventDescription.status.data;
+    let url
+    if( item.start && item.end){
+     url = `http://www.google.com/calendar/event?action=TEMPLATE&dates=${item.start
+    .split("-")
+    .join("")
+    .split(":")
+    .join("")
+    .split(".")[0] + "Z"}%2F${item.end
+      .split("-")
+      .join("")
+      .split(":")
+      .join("")
+      .split(".")[0] + "Z"}&text=${
+        item.title
+        }&location=${item.EventPlace}&details=${
+        item.title
+        }`
+    } else {
+       
+       url =  `http://www.google.com/calendar/event?action=TEMPLATE&dates=${JSON.stringify(moment(item.start))
+          .replace('"', "")
+          .split("-")
+          .join("")
+          .split(":")
+          .join("")
+          .split(".")[0] + "Z"}%2F${JSON.stringify(
+          moment(item.start)
+        )
+          .replace('"', "")
+          .split("-")
+          .join("")
+          .split(":")
+          .join("")
+          .split(".")[0] + "Z"}&text=${
+          item.title
+        }&location=${item.EventPlace}&details=${
+          item.title
+        }`
+    }
+    Linking.canOpenURL(url).then(supported => {
+      if(supported){
+        this.onClose()
+        return Linking.openURL(url);
+      } else {
+        console.log('error')
+      }
+    })
+  }
+
   onEventLike = async() => {
     this.setState({ isLiked: !this.state.isLiked });
     let token = this.props.user.user.status.token;
@@ -425,6 +477,7 @@ class CityEventDescription extends Component {
                         )}
                       </LinearGradient>
                       </TouchableOpacity>
+                      <TouchableOpacity onPress={this.callCalander} >
                       <LinearGradient
                         colors={["#ff6cc9", "#8559f0"]}
                         style={styles.bag}
@@ -437,6 +490,7 @@ class CityEventDescription extends Component {
                           />
                         </View>
                       </LinearGradient>
+                      </TouchableOpacity>
                     </View>
                   </View>
                   <View />
@@ -788,7 +842,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginRight:5
+    marginRight:5,
+    width:Layout.window.width * 0.5
   },
   getDirectionButton: {
     backgroundColor: "#ff6cc9",
@@ -800,7 +855,8 @@ const styles = StyleSheet.create({
   },
   locationText: {
     marginLeft: 10,
-    color: "#fff"
+    color: "#fff",
+    flexWrap:'wrap'
   },
   buttonText: {
     color: "#fff"

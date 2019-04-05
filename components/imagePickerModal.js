@@ -46,7 +46,8 @@ export default class ImagePickerModal extends Component {
     const { onCloseImage } = this.props;
     onCloseImage()
     const { status: existingStatus } = await Permissions.getAsync(
-        Permissions.CAMERA_ROLL
+        Permissions.CAMERA_ROLL,
+        Permissions.CAMERA
       );
       let finalStatus = existingStatus;
 
@@ -55,7 +56,7 @@ export default class ImagePickerModal extends Component {
       if (existingStatus !== 'granted') {
         // Android remote notification permissions are granted during the app
         // install, so this will only ask on iOS
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL,Permissions.CAMERA);
         finalStatus = status;
       }
       if(finalStatus == 'granted') {
@@ -64,7 +65,7 @@ export default class ImagePickerModal extends Component {
           quality: 0.7,
           base64: true,
           aspect: [4, 3]
-        });
+        }).catch(error => console.log(finalStatus, { error }));
         if(res)
           this.uploadImage(res);
       }
@@ -74,11 +75,11 @@ export default class ImagePickerModal extends Component {
   uploadImage = (res) => {
     const fileType = res.uri.split('.');
         let base64Img = `data:image/${fileType[fileType.length-1]};base64,${res.base64}`
-        let apiUrl = `https://api.cloudinary.com/v1_1/dzmduzij7/image/upload`;
+        let apiUrl = `https://api.cloudinary.com/v1_1/dlhe2zlxc/image/upload`;
   
         let data = {
           "file": base64Img,
-          "upload_preset": "fybjyhru",
+          "upload_preset": "ty5saxly",
         }
 
         let url =  fetch(apiUrl, {

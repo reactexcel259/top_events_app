@@ -42,7 +42,10 @@ class ProfileSettingScreen extends React.Component {
     // await this.props.getCategoryRequest();
     await this.props.getInterestRequest();    
     const { user } = this.props;
-    let userInterset = getItem('user_interest');
+    const getLocation = await getItem("user_info");
+    if(getLocation && getLocation.location !== undefined){
+      this.setState({search:getLocation.location.name}); 
+    }    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -410,7 +413,20 @@ class ProfileSettingScreen extends React.Component {
                   <Text style={styles.kingstonText}>{this.state.search}</Text>
                   <View>
                   <TouchableOpacity onPress={()=>{this.setState({changeLocationModal:true})}}>
-                    <Text style={styles.changText}>Change</Text>
+                    <View style={{flexDirection:'row', marginTop:3}} >
+                        <Image
+                          style={{width:20,height:20}}
+                          resizeMode='cover'
+                          source={require('../assets/images/location.png')}
+                        />
+                        <View style={{margin:5}}/>
+                        <Image
+                          style={{width:65,height:20}}
+                          resizeMode='cover'
+                          source={require('../assets/images/Change.png')}
+                        />
+                        {/* <View style={{margin:5}}/> */}
+                    </View>
                   </TouchableOpacity>
                   </View>
                 </View>
