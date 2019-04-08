@@ -29,7 +29,7 @@ export function* getTodayEventRequest(action) {
     const response = yield call(
       fireAjax,
       "GET",
-      `/event/${date}?days=7`,
+      `/event/${date}?days=7&limit=true`,
     );
     if (response) {
       yield put(actions.getTodayEventSuccess(response.data));

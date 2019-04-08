@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
+  ToastAndroid,
   Alert,
   Image
 } from "react-native";
@@ -468,7 +469,7 @@ _handleNotification = (notification) => {
                 >
               <View style={{marginTop:15,marginBottom:15}}>
                 <View style={{paddingLeft:15,marginBottom:10}}>
-                  <Text style={styles.kingstonGradientText}>This Week</Text>
+                  <Text style={styles.kingstonGradientText}>Upcomming Event</Text>
                 </View>
                 {
                   thisWeekEvent.data  &&
