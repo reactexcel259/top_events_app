@@ -37,6 +37,7 @@ import {
   setAddEventDefault,
 } from "../redux/action";
 import HomePageModal from '../components/HomePageModal';
+import FullImageModal from '../components/fullImageModal';
 import { Platform } from "expo-core";
 import * as _ from 'lodash';
 
@@ -79,7 +80,8 @@ class CityEventDescription extends Component {
       isCalander: true,
       isModalCall: false,
       imagepicker: false,
-      vvv: null
+      isFullImage: false,
+      imageUrl:''
     };
   }
   componentDidMount() {
@@ -344,8 +346,22 @@ class CityEventDescription extends Component {
     })
   }
 
+  onCloseFullImage = () => {
+    this.setState({
+      isFullImage: false,
+      imageUrl: ''
+    })
+  }
+
+  onImageSelect = (url) => {
+    this.setState({
+      isFullImage:true,
+      imageUrl: url
+    })
+  }
+
   render() {
-    const { isLiked, comment, calanderItem, isCalander } = this.state;
+    const { isLiked, comment, calanderItem, isCalander, isFullImage, imageUrl } = this.state;
     const { user } = this.props.user;
     let rightIcon;
     const eventData = this.props.getEventDescription;
@@ -629,6 +645,7 @@ class CityEventDescription extends Component {
                   />
                   <Comments 
                     userId={user.data.data._id}
+                    onImageSelect={this.onImageSelect}
                     userComments={item.comments} 
                     onLike={this.onLike}
                   />
@@ -654,6 +671,14 @@ class CityEventDescription extends Component {
           onCloseImage={this.closeimageModal}
           onUpload={this.onUpload}
         />
+        {
+          imageUrl !== '' &&
+          <FullImageModal
+          isOpen={isFullImage}
+          item={imageUrl}
+          onCloseFullImage={this.onCloseFullImage}
+          />
+        }
       </View>
       </KeyboardAvoidingView>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, FlatList, Image, StyleSheet } from "react-native";
+import { Text, View, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Layout from "../constants/Layout";
 import Touch from 'react-native-touch';
 import moment from 'moment'
@@ -15,11 +15,15 @@ export default class Comments extends Component {
           { marginRight: index == image.length - 1 ? 7 : -15 }
         ]}
       >
-        <Image
-          style={{ width: "80%", height: "80%" }}
-          resizeMode="cover"
-          source={{ uri: item }}
-        />
+        <TouchableOpacity onPress={()=> {
+          this.props.onImageSelect(item)
+        }} >
+          <Image
+            style={{ width: "80%", height: "80%" }}
+            resizeMode="cover"
+            source={{ uri: item }}
+          />
+        </TouchableOpacity>
       </View>
     );
   };
@@ -60,11 +64,6 @@ export default class Comments extends Component {
                   showsHorizontalScrollIndicator={false}
                   />
               </View> 
-            // <Image
-            //   resizeMode="cover"
-            //   style={styles.userShareImage}
-            //   source={{uri:item.image[0]}}
-            // />
           }
         <View style={styles.linkWrapper}>
           <View style={styles.likeView}>
