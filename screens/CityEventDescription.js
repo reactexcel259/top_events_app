@@ -202,7 +202,6 @@ class CityEventDescription extends Component {
     }
     Linking.canOpenURL(url).then(supported => {
       if(supported){
-        this.onClose()
         return Linking.openURL(url);
       } else {
         console.log('error')
