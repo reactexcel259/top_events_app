@@ -10,7 +10,7 @@ import {
   View,
   Button,
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { Asset, SplashScreen, WebBrowser,  AppAuth, GoogleSignIn } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import CustomeButton from '../components/button'
@@ -18,7 +18,12 @@ import Layout from '../constants/Layout';
 import * as actions from '../redux/action';
 import { MonoText } from '../components/StyledText';
 import {isIphoneX} from '../constants/Layout';
-import { Asset, SplashScreen } from 'expo';
+// import { AppAuth } from 'expo-app-auth';
+// import * as Constants from 'expo-constants';
+// import { GoogleSignIn } from 'expo-google-sign-in';
+
+
+// import { AppAuth } from 'expo-app-auth';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -31,10 +36,27 @@ class HomeScreen extends React.Component {
       if(data != null){
         let payload = JSON.parse(data)
         this.props.getLoginSuccess(payload)
+        this.props.getUserDataRequest(payload.token);
         this.props.navigation.navigate('HomeTab')
       }
     })
     SplashScreen.hide();
+    this.initilizeGoogle()
+  }
+
+  initilizeGoogle = async () => {
+   const { OAuthRedirect, URLSchemes } = AppAuth;
+   GoogleSignIn.allowInClient();
+    try {
+      let clientId = Platform.OS == 'android' ? "501387798556-d4cf5dagg9svp7nd93u68676tg0lgd4l.apps.googleusercontent.com" : "501387798556-ie9nd89ouu3i567v9rm2ibmfd7j6eb3c.apps.googleusercontent.com" ;
+      let res =  await GoogleSignIn.initAsync({ 
+        isOfflineEnabled: true,
+        isPromptEnabled: true,
+        clientId 
+      });
+    } catch ({ message }) {
+      console.log(message)
+    }
   }
 
   render() {

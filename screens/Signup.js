@@ -16,7 +16,8 @@ import { WebBrowser, LinearGradient } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as actions from '../redux/action';
-import { Facebook } from 'expo';
+import { Facebook, GoogleSignIn } from 'expo';
+import Expo from 'expo';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
 import LoginContainer from '../components/signup/login';
@@ -212,7 +213,8 @@ class SignUpScreen extends React.Component {
     if( progress == 1) {
       return(
         <SignUpContainer
-          socialLogin={this.socialLogin}           
+          socialLogin={this.socialLogin}
+          googleLogin={this.googleLogin}           
           onPress={this.changeProgress}
           firstName={firstName}
           lastName={lastName}
@@ -234,6 +236,23 @@ class SignUpScreen extends React.Component {
           onPress={this.changeProgress}
         />
       )
+    }
+  }
+
+  googleLogin = async () => {
+    try{
+      await GoogleSignIn.askForPlayServicesAsync();
+      const { type, user } = await GoogleSignIn.signInAsync();
+      if(user != null) {
+        console.log(type,'type',user,'user')
+        let payload = {
+          email: user.email,
+          name : user.displayName
+        }
+        this.props.getSocialLoginRequest(payload)
+      }
+    } catch (err) {
+      console.log(err,'googleError' )
     }
   }
 
@@ -321,6 +340,7 @@ class SignUpScreen extends React.Component {
               socialLogin={this.socialLogin}
               onPress={this.login}
               email={email}
+              googleLogin={this.googleLogin}
               iconPress={this.backPress}
               password={password}
               onChange={this.textChange}

@@ -33,6 +33,7 @@ const image = [
 export default class Card extends React.Component {
   render() {
     const { isWishlist ,item, favorites, eventWishList, going, loading} = this.props;
+    console.log(item,'aaaaa')
     const data = item.interested.slice(0,5).map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>
@@ -101,13 +102,13 @@ export default class Card extends React.Component {
             }}
           >
             <View
-              style={{ justifyContent: "flex-start", flexDirection: "row" }}
+              style={{ justifyContent: "flex-start", flexDirection: "row", width:Layout.window.width * 0.4 }}
             >
               <Image
                 source={require("../assets/images/map.png")}
                 style={{ margin: 4 }}
               />
-              <Text> Concert Hall </Text>
+              <Text style={{flexWrap:'wrap',flex:1}} > {item.EventPlace} </Text>
             </View>
             <View
               style={{

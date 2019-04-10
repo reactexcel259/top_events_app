@@ -15,8 +15,12 @@
       },
       "oauth_client": [
         {
-          "client_id": "501387798556-r23ej366bb44555rlc2hdvokbnc9l9aj.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "501387798556-d4cf5dagg9svp7nd93u68676tg0lgd4l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.TopEventsinJamaica",
+            "certificate_hash": "fa90343366783af408b505e479185f417e7a5c7b"
+          }
         }
       ],
       "api_key": [
@@ -25,15 +29,20 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501387798556-r23ej366bb44555rlc2hdvokbnc9l9aj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "501387798556-ie9nd89ouu3i567v9rm2ibmfd7j6eb3c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.TopEventsinJamaica"
+              }
+            }
+          ]
         }
       }
     }

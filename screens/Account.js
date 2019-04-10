@@ -14,7 +14,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import Layout from "../constants/Layout";
-import { LinearGradient, Font } from 'expo';
+import { LinearGradient, Font, GoogleSignIn } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 import * as actions from '../redux/action';
 import CustomHeader from '../components/header';
@@ -35,6 +35,10 @@ class MyAccountScreen extends React.Component {
   logout = async () => {
       let keys = ['user','user_info','user_interest'];
       let a = await AsyncStorage.multiRemove(keys);
+      const { type, user } = await GoogleSignIn.signInAsync();
+      if(user != null) {
+        await GoogleSignIn.signOutAsync()
+      }
       this.props.navigation.popToTop();
   }
 

@@ -26,7 +26,7 @@
         "READ_EXTERNAL_STORAGE",
         "MANAGE_DOCUMENTS",
         "WRITE_EXTERNAL_STORAGE",
-        "CAMERA",
+        "CAMERA"
       ]
     },
     "updates": {
@@ -38,6 +38,11 @@
     "ios": {
       "bundleIdentifier":"com.TopEventsinJamaica",
       "supportsTablet": true,
+      "config":{
+        "googleSignIn":{
+          "reservedClientId":"com.googleusercontent.apps.501387798556-ie9nd89ouu3i567v9rm2ibmfd7j6eb3c"
+        }
+      }
     }
   }
 }

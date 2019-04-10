@@ -25,10 +25,19 @@ const getStateAndCityEventSuccess = (state, action) =>
     status: { $set: action.payload }
   });
 
+  const getStateAndCityEventError = (state, action) =>
+  update(state, {
+    isLoading: { $set: false },
+    isError: { $set: true },
+    isSuccess: { $set: false },
+    status: { $set: action.payload }
+  });
+
 export default handleActions(
   {
     [constants.GET_STATEANDCITYEVENT_REQUEST]: getStateAndCityEventRequest,
-    [constants.GET_STATEANDCITYEVENT_SUCCESS]: getStateAndCityEventSuccess
+    [constants.GET_STATEANDCITYEVENT_SUCCESS]: getStateAndCityEventSuccess,
+    [constants.GET_STATEANDCITYEVENT_ERROR]: getStateAndCityEventError
   },
   initialState
 );

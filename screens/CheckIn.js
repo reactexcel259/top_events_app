@@ -7,6 +7,7 @@ import {
   TextInput,
   FlatList,
   StatusBar,
+  Linking,
   ScrollView,
   Switch,
   TouchableOpacity
@@ -27,6 +28,7 @@ class CheckIn extends Component {
       addedImage: [], 
       buttonText: "", 
       isDone: false, 
+      isFacebook: false,
       value: "" ,
       image:[],
       imagepicker: false
@@ -54,6 +56,11 @@ class CheckIn extends Component {
       }
     }
     postAddCommentRequest(payload);
+    if(this.state.isFacebook){
+      Linking.openURL(
+        `https://www.facebook.com/sharer/sharer.php?u=https://topeventsinjamaica.com/#/event-detail/${item._id}`
+      )
+    }
     this.setState({
       value:'',
       image: []
@@ -113,6 +120,13 @@ class CheckIn extends Component {
         this.props.navigation.goBack()
       });
   };
+  onSwitch = (val) => {
+    if(val == 'facebook') {
+      this.setState({
+        isFacebook : !this.state.isFacebook
+      })
+    }
+  }
   _keyExtractor = (item, index) => item;
   render() {
     return (
@@ -132,7 +146,7 @@ class CheckIn extends Component {
               </Touch>
             </View>
             <View>
-              <Text style={styles.checkinText}>check in</Text>
+              <Text style={styles.checkinText}>Check in</Text>
             </View>
             <View style={styles.userImageView}>
               <Image
@@ -181,24 +195,20 @@ class CheckIn extends Component {
               showsHorizontalScrollIndicator={false}
             />
           </View>
-          {this.state.isDone && (
+          
             <View style={styles.toggleButton}>
               <View style={styles.toggle}>
                 <Text>Share to Facebook</Text>
-                <Switch
-                  style={{
-                    marginBottom: 10,
-                    width: 90,
-                    marginRight: 6,
-                    marginLeft: 6
-                    // backgroundColor:'red'
-                  }}
-                  value={true}
-                  _thumbColor="white"
-                  trackColor="red"
-                />
+                <TouchableOpacity onPress={() => this.onSwitch('facebook') } >
+                {
+                  this.state.isFacebook ?
+                    <Image style={{height:20,width:35}} mode='contain' source={require('../assets/images/switcher_on.png')}  />
+                  :
+                   <Image style={{height:20,width:35}} mode='contain' source={require('../assets/images/switcher_off.png')}  />
+                }
+              </TouchableOpacity>
               </View>
-              <View style={styles.toggle}>
+              {/* <View style={styles.toggle}>
                 <Text>Share to Google</Text>
                 <Switch
                   style={{
@@ -211,24 +221,8 @@ class CheckIn extends Component {
                   _thumbColor="white"
                   // trackColor="#ff6cc9"
                 />
-              </View>
-              <View style={styles.toggle}>
-                <Text>Share to Instagram</Text>
-                <Switch
-                  style={{
-                    marginBottom: 10,
-                    width: 90,
-                    marginRight: 6,
-                    marginLeft: 6
-                  }}
-                  value={true}
-                  _thumbColor="white"
-                  // trackColor="#ff6cc9"
-                  // thumbColor="red"
-                />
-              </View>
+              </View> */}
             </View>
-          )}
           <View style={styles.buttonView}>
           <TouchableOpacity onPress={this.onSubmit} >
             <LinearGradient
@@ -263,7 +257,7 @@ class CheckIn extends Component {
 const styles = StyleSheet.create({
   linearGradient: {
     width: Layout.window.width,
-    height: Layout.window.width * 0.6,
+    height: Layout.window.width * 0.48,
     flexDirection: "column",
     alignItems: "center",
     borderBottomLeftRadius: 20,
@@ -376,7 +370,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingLeft: 15,
     paddingRight: 15,
-    paddingTop: 20
+    paddingTop: 20,
+    paddingBottom:15
   },
   toggle: {
     flexDirection: "row",

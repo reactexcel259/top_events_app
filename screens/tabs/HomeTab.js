@@ -64,7 +64,7 @@ class HomeTab extends Component {
     const getLocation = await getItem("user_info");
     let token =this.props.user.user.status.token
     if(getLocation && getLocation.location !== undefined){
-      this.setState({search:getLocation.location.name, selected: true}); 
+      this.setState({search:getLocation.location.name != undefined ? getLocation.location.name : '', selected: true}); 
     }
     if(getInterest && getInterest.interest != undefined ){
       if( getInterest.interest.length >0){
@@ -129,10 +129,10 @@ _handleNotification = (notification) => {
     const getInterest =await getItem("user_interest")
     const getLocation = await getItem("user_info");    
     const { getCategoryData ,getStateAndCityData, user} = this.props;
-    if(user.user.data.length == 0 ){
-      let token  = user.user.status.token;
-      this.props.getUserDataRequest(token);
-    }
+    // if(user.user.data.length == 0 ){
+    //   let token  = user.user.status.token;
+    //   await this.props.getUserDataRequest(token);
+    // }
     
     if (getCategoryData.isSuccess && !this.state.isCategoryId) {
       
@@ -144,13 +144,14 @@ _handleNotification = (notification) => {
       this.props.getTodayEventRequest()      
       this.setState({ isCategoryId: true });
     }
-    if(getLocation && getLocation.location !== undefined){
-      this.setState({search:getLocation.location.name, selected: true}); 
+    if(getLocation && getLocation.location !== undefined && this.state.search != getLocation.location.name){
+      this.setState({search:getLocation.location.name != undefined ? getLocation.location.name : '', selected: true}); 
     }
-    if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId && getLocation && getLocation.location !== undefined) {
-      this.props.getStateAndCityEvent(
-        getLocation.location._id
-      );
+    if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId && getLocation && getLocation.location !== undefined && user.user.data.data != undefined ) {
+      this.props.getStateAndCityEvent({
+        location:getLocation.location._id,
+        userId: user.user.data.data._id
+      });
       this.setState({ isStateAndCityId: true });
     }
   }
@@ -247,6 +248,7 @@ _handleNotification = (notification) => {
   }
   onPressLocation = async() => {
     const { search, selectedInt} = this.state;
+    const { user } = this.props;
     if(!Object.keys(this.state.search).length){
       if(Platform.OS == 'android') {
         ToastAndroid.showWithGravityAndOffset(
@@ -277,7 +279,10 @@ _handleNotification = (notification) => {
       if(filters.length){
         results = filters[0]
         setItem("user_info", JSON.stringify({ location:results}));
-        await this.props.getStateAndCityEvent(results._id);
+        await this.props.getStateAndCityEvent({
+          location:results._id,
+          userId: user.user.data.data._id
+        });
         this.setState({changeLocationModal:false})
       }else {
         if(Platform.OS == 'android') {
@@ -307,7 +312,9 @@ _handleNotification = (notification) => {
     }
   }
   onCancelPress = () => {
-    this.setState({search:'',selected:false})
+    this.setState({search:'',selected:false},()=>{
+      setItem("user_info", JSON.stringify({ location:''}));
+    })
   }
   componentWillReceiveProps(nextProps){
     const {getStateAndCityData,getCategoryData} = this.props;
@@ -469,7 +476,7 @@ _handleNotification = (notification) => {
                 >
               <View style={{marginTop:15,marginBottom:15}}>
                 <View style={{paddingLeft:15,marginBottom:10}}>
-                  <Text style={styles.kingstonGradientText}>Upcomming Event</Text>
+                  <Text style={styles.kingstonGradientText}>{moment().format('MMMM')} Event</Text>
                 </View>
                 {
                   thisWeekEvent.data  &&

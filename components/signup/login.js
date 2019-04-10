@@ -19,7 +19,7 @@ import CustomeButton from '../button'
 
 export default class LoginContainer extends React.Component {
   render() {
-    const { onPress, onChange, firstName, lastName, iconPress, socialLogin } = this.props;
+    const { onPress, onChange, firstName, lastName, iconPress, socialLogin, googleLogin } = this.props;
     return (
       <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >      
       <View style={styles.container}>
@@ -70,10 +70,12 @@ export default class LoginContainer extends React.Component {
               source={require('../../assets/images/fbicon.png')}
             />
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => { googleLogin()}} >
             <Image
               style={[styles.imageSize,styles.imageMargin]}
               source={require('../../assets/images/googleLogo.png')}
             />
+            </TouchableOpacity>
           </View>
        </View>
       </View>

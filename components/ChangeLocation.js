@@ -9,7 +9,7 @@ import { FontAwesome ,EvilIcons } from '@expo/vector-icons';
 
 export default class ChangeLocation extends Component {
     findFilm(query) {
-        if (query === '') {
+      if (query === '' || query === undefined) {
           return [];
         }
     
@@ -20,8 +20,8 @@ export default class ChangeLocation extends Component {
     render() {
       const { data } = this.props.stateAndCity.status;
       const {changeLocationModal, onPress, onSearchChange, search, stateAndCity, selected, onCancelPress } = this.props;
-      const films = search != '' ? this.findFilm(search) : data ;
-      let checkSelected = Object.keys(search).length ? selected  ? true : false : true;
+      const films = search != '' && search != undefined ? this.findFilm(search) : data ;
+      let checkSelected = search != undefined ? Object.keys(search).length ? selected  ? true : false : true: true;
     return (
       <Modal
         isDisabled={false}
