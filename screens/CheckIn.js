@@ -174,7 +174,7 @@ class CheckIn extends Component {
                     <Image
                       style={styles.addImage}
                       resizeMode="contain"
-                      source={require("../assets/images/add-photo.png")}
+                      source={require("../assets/images/add-photo-active.png")}
                     />
                   </View>
                 </Touch>

@@ -106,7 +106,7 @@ export default class Card extends React.Component {
             >
               <Image
                 source={require("../assets/images/map.png")}
-                style={{ margin: 4 }}
+                style={{ margin: 4,height:20,width:20 }}
               />
               <Text style={{flexWrap:'wrap',flex:1}} > {item.EventPlace} </Text>
             </View>
@@ -119,7 +119,7 @@ export default class Card extends React.Component {
             >
               <Image
                 source={require("../assets/images/cost.png")}
-                style={{ margin: 4 }}
+                style={{ margin: 4,height:20,width:20 }}
               />
               <Text> from $ {item.Price} </Text>
             </View>
@@ -136,7 +136,7 @@ export default class Card extends React.Component {
             >
               <Image
                 source={require("../assets/images/time.png")}
-                style={{ margin: 4 }}
+                style={{ margin: 4,height:20,width:20 }}
               />
               <Text> {moment(item.start).format("hh:mm A")}</Text>
             </View>
@@ -149,7 +149,7 @@ export default class Card extends React.Component {
             >
               <Image
                 source={require("../assets/images/web.png")}
-                style={{ margin: 4 }}
+                style={{ margin: 4,height:20,width:20 }}
               />
               <Text style={{flex:1}} > 
               {item.website} 
@@ -196,7 +196,7 @@ export default class Card extends React.Component {
                 </Text>
                 <Image
                   source={require("../assets/images/heart_full.png")}
-                  style={{ margin: 4 }}
+                  style={{ margin: 4,height:21,width:22 }}
                 />
               </View>
             </TouchableOpacity>
@@ -221,8 +221,8 @@ export default class Card extends React.Component {
               }}
             >
               {!eventWishList ? 
-                <Image source={require("../assets/images/heart.png")} />
-                :<Image source={require('../assets/images/heart_full.png')} />
+                <Image style={{height:20,width:22}} source={require("../assets/images/heart.png")} />
+                :<Image style={{height:20,width:22}} source={require('../assets/images/heart_full.png')} />
               }
                </TouchableOpacity>
                 <View style={{ flexDirection:'row' ,marginLeft:Layout.window.width*.2 }}>

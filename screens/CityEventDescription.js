@@ -493,18 +493,18 @@ class CityEventDescription extends Component {
                       </LinearGradient>
                       </TouchableOpacity>
                       <TouchableOpacity onPress={this.callCalander} >
-                      <LinearGradient
+                      {/* <LinearGradient
                         colors={["#ff6cc9", "#8559f0"]}
                         style={styles.bag}
                       >
-                        <View style={styles.gradientCircle}>
+                        <View style={styles.gradientCircle}> */}
                           <Image
                             resizeMode="contain"
-                            style={styles.begImage}
-                            source={require("../assets/images/Group.png")}
+                            style={{height:40,width:40}}
+                            source={require("../assets/images/Group1.png")}
                           />
-                        </View>
-                      </LinearGradient>
+                        {/* </View>
+                      </LinearGradient> */}
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -531,7 +531,7 @@ class CityEventDescription extends Component {
                     </View>
                     <View style={styles.mapDescription}>
                       <View style={styles.lacationName}>
-                        <Image source={require("../assets/images/map.png")} />
+                        <Image style={{height:20,width:20}} source={require("../assets/images/map.png")} />
                         <Text style={styles.locationText}>
                           {item.EventPlace}
                         </Text>
@@ -749,7 +749,9 @@ const styles = StyleSheet.create({
     marginTop: -5
   },
   icon: {
-    marginRight: 20
+    marginRight: 20,
+    height:20,
+    width:20
   },
   peopleLiked: {
     width: 35,

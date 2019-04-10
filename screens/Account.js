@@ -35,10 +35,7 @@ class MyAccountScreen extends React.Component {
   logout = async () => {
       let keys = ['user','user_info','user_interest'];
       let a = await AsyncStorage.multiRemove(keys);
-      const { type, user } = await GoogleSignIn.signInAsync();
-      if(user != null) {
         await GoogleSignIn.signOutAsync()
-      }
       this.props.navigation.popToTop();
   }
 
@@ -86,7 +83,7 @@ class MyAccountScreen extends React.Component {
           <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('ProfileSetting') }} >
             <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
                 <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
-                  <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/user.png')}  />
+                  <Image style={{height:25,width:20}} mode='contain' source={require('../assets/images/user.png')}  />
                   <Text style={{fontSize:17,marginLeft:20}} > Profile Settings </Text>
                 </View>
                 <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center',marginTop:-8}} >
@@ -98,7 +95,7 @@ class MyAccountScreen extends React.Component {
           <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('AccountSetting') }} >
           <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15,marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
             <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
-              <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/settings.png')}  />
+              <Image style={{height:20,width:20}} mode='contain' source={require('../assets/images/settings.png')}  />
               <Text style={{fontSize:17,marginLeft:20}} > Account settings </Text>
             </View>
             <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center', marginTop:-8}} >
@@ -110,7 +107,7 @@ class MyAccountScreen extends React.Component {
           {/* <TouchableOpacity onPress={()=>{ this.props.navigation.navigate('ManageNotification') }} >
           <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15,marginBottom:15,borderBottomWidth:1,borderColor:'lightgray'}} >
             <View style={{ marginLeft:20, marginBottom:10, flexDirection:'row' }} >
-              <Image style={{height:20,width:17}} mode='contain' source={require('../assets/images/bell.png')}  />
+              <Image style={{height:20,width:20}} mode='contain' source={require('../assets/images/bell.png')}  />
               <Text style={{fontSize:17,marginLeft:20}} > Manage notification </Text>
             </View>
             <View style={{alignItems:'flex-end',marginRight:20,justifyContent:'center', marginTop:-8}} >
