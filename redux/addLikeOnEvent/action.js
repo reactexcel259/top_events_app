@@ -10,6 +10,7 @@ export function* postAddLikeRequest(action) {
     const response = yield call(fireAjax, "PUT", `/events/addInterest/${action.payload.eventId}`, header, null);
     if (response) {
       yield put(actions.postEventLikeSuccess(response.data));
+      yield put(actions.getEventDescriptionSuccess(response.data));
     }
   } catch (e) {
 

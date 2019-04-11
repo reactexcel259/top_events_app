@@ -111,17 +111,18 @@ class CityEventDescription extends Component {
         isCalander: false
       })
     }
-    if (checkInterested && Object.keys(checkInterested).length) {
-      if (prevState.isLiked !== this.state.isLiked) {
-        this.setState({ isLiked: true });
-      }
-    }
-    const message = isLiked ? "Added to Wishlist" : "Removed from Wishlist";
-    if (
-      this.props.userLike.isSuccess &&
-      prevProps.userLike.isSuccess !== this.props.userLike.isSuccess
-    ) {
-      ToastAndroid.show(message, ToastAndroid.SHORT);
+    if ( !this.state.isLiked && checkInterested && Object.keys(checkInterested).length) {
+        this.setState({ isLiked: true },()=>{
+          if(this.props.userLike.isSuccess){
+          ToastAndroid.show('Added to Wishlist', ToastAndroid.SHORT);
+        }
+        });
+    } else if(this.state.isLiked && checkInterested == undefined) {
+      this.setState({isLiked: false},()=>{
+        if(this.props.userLike.isSuccess){
+          ToastAndroid.show('Removed from Wishlist', ToastAndroid.SHORT);
+        }
+      })
     }
     if(this.props.postAddComment.isSuccess){
       this.setState({
@@ -210,7 +211,7 @@ class CityEventDescription extends Component {
   }
 
   onEventLike = async() => {
-    this.setState({ isLiked: !this.state.isLiked });
+    // this.setState({ isLiked: !this.state.isLiked });
     let token = this.props.user.user.status.token;
     let eventId = this.props.navigation.state.params.item._id;
     await this.props.eventLikeRequest({ token, eventId });

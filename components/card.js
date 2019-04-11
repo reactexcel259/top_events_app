@@ -61,7 +61,7 @@ export default class Card extends React.Component {
           justifyContent: "space-evenly",
           backgroundColor: "white",
           borderRadius: 5,
-          height:isWishlist? Layout.window.height/1.9 : Layout.window.height/1.7,
+          height:isWishlist? Layout.window.height/2.0 : Layout.window.height/1.8,
           margin: 10,
           marginTop: StatusBar.currentHeight
         }}
@@ -102,26 +102,27 @@ export default class Card extends React.Component {
             }}
           >
             <View
-              style={{ justifyContent: "flex-start", flexDirection: "row", width:Layout.window.width * 0.4 }}
+              style={{ justifyContent: "flex-start",alignItems:'center', flexDirection: "row", width:Layout.window.width * 0.4 }}
             >
               <Image
                 source={require("../assets/images/map.png")}
                 style={{ margin: 4,height:20,width:20 }}
               />
-              <Text style={{flexWrap:'wrap',flex:1}} > {item.EventPlace} </Text>
+              <Text numberOfLines={2} style={{flexWrap:'wrap',flex:1}} > {item.EventPlace} </Text>
             </View>
             <View
               style={{
                 justifyContent: "flex-start",
                 flexDirection: "row",
                 width: Layout.window.width * 0.5,
+                alignItems:'center'
               }}
             >
               <Image
                 source={require("../assets/images/cost.png")}
                 style={{ margin: 4,height:20,width:20 }}
               />
-              <Text> from $ {item.Price} </Text>
+              <Text style={{flexWrap:'wrap',flex:1}} > from $ {item.Price} </Text>
             </View>
           </View>
           <View
@@ -132,7 +133,7 @@ export default class Card extends React.Component {
             }}
           >
             <View
-              style={{ justifyContent: "flex-start", flexDirection: "row" }}
+              style={{ justifyContent: "flex-start", flexDirection: "row",alignItems:'center' }}
             >
               <Image
                 source={require("../assets/images/time.png")}
@@ -144,14 +145,15 @@ export default class Card extends React.Component {
               style={{
                 justifyContent: "flex-start",
                 flexDirection: "row",
-                width: Layout.window.width * 0.5
+                width: Layout.window.width * 0.5,
+                alignItems:'center'
               }}
             >
               <Image
                 source={require("../assets/images/web.png")}
                 style={{ margin: 4,height:20,width:20 }}
               />
-              <Text style={{flex:1}} > 
+              <Text numberOfLines={2} style={{flex:1}} > 
               {item.website} 
               </Text>
             </View>
