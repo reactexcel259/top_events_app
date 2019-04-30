@@ -11,6 +11,7 @@ import postAddLikeEvent from '../redux/addLikeOnEvent/reducer';
 import getInterestedEvent from '../redux/interestedEvent/reducer';
 import notification from '../redux/notification/reducer';
 import interest from '../redux/interest/reducer';
+import weeklyEvents from '../redux/weeklyEvents/reducer';
 
 
 export default combineReducers({
@@ -25,5 +26,6 @@ export default combineReducers({
  postAddComment:postAddComment,
  getEventDescription:getEventDescription,
  postAddLikeEvent:postAddLikeEvent,
- getInterestedEvent:getInterestedEvent
+ getInterestedEvent:getInterestedEvent,
+ weeklyEvents:weeklyEvents,
 });

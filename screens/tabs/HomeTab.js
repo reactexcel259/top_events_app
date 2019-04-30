@@ -14,7 +14,10 @@ import {
 } from "react-native";
 import moment from 'moment';
 import VideosComponent from "../../components/VideosComponent";
+import EventYouMIghtLIke from '../../components/EventYouMIghtLIke';
 import Events from "../../components/Events";
+import MonthlyEvents from '../../components/MonthlyEvents';
+import WeeklyEvents from '../../components/WeeklyEvents';
 import CustomHeader from ".././../components/header";
 import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
@@ -28,6 +31,7 @@ import { getEventRequest,
   getEventByIdRequest,
   storeTokenRequest,
   getLikeEventRequest,
+  getWeeklyEventsRequest,
 } from "../../redux/action";
 import Touch from 'react-native-touch';
 import Layout from "../../constants/Layout";
@@ -141,7 +145,9 @@ _handleNotification = (notification) => {
         let key = eventId.key;
         this.props.getEvent({ id, key });
       });
-      this.props.getTodayEventRequest()      
+      this.props.getTodayEventRequest()    
+      await this.props.getWeeklyEvent();
+
       this.setState({ isCategoryId: true });
     }
     if(getLocation && getLocation.location !== undefined && this.state.search != getLocation.location.name){
@@ -401,8 +407,12 @@ _handleNotification = (notification) => {
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const thisWeekEvent = this.props.getEventData.register.todayEvent;
+    // const weeklyEvents =this.props.getEventData
     const cityEvents = this.props.getStateAndCityEventData.status;
     const likeEvent = this.props.getEventData.register.likeEvent;
+    const eventsForWeekly = this.props.weeklyEventsData.register.weeklyEvents
+    console.log(eventsForWeekly.data,'>>>>>>>>>>>>>>>>>>>>>');
+    
     return (
       <View style={styles.wrapper}>
         <CustomHeader isCenter={true} centerImage={true} />
@@ -460,7 +470,7 @@ _handleNotification = (notification) => {
                 </View>
                 {
                   likeEvent && likeEvent.data  &&
-                <VideosComponent
+                <EventYouMIghtLIke
                   cityData={likeEvent}
                   onEventDescription={item => this.onEventDescription(item)}
                 />
@@ -480,7 +490,7 @@ _handleNotification = (notification) => {
                 </View>
                 {
                   thisWeekEvent.data  &&
-                <VideosComponent
+                <MonthlyEvents
                   cityData={thisWeekEvent}
                   type="thisWeek"
                   onEventDescription={item => this.onEventDescription(item)}
@@ -489,6 +499,15 @@ _handleNotification = (notification) => {
               </View>
               </LinearGradient>
               }
+              {this.props.weeklyEventsData.register.isSuccess && this.props.weeklyEventsData.register.weeklyEvents.data &&
+              <View>
+                {/* <Text>HELOOOOO</Text> */}
+                <WeeklyEvents
+                  weeklyEventsData={this.props.weeklyEventsData.register}
+                  type="thisWeek"
+                  // onEventDescription={item => this.onEventDescription(item)}
+                  />
+              </View>}
               <View style={styles.eventComponentView}>
                 {eventsLength > 0 && (
                   <FlatList
@@ -530,7 +549,8 @@ const mapStateToProps = state => {
     getEventData: state.getEvent,
     getInterestedEvent: state.getInterestedEvent,
     getStateAndCityData: state.getStateAndCity,
-    getStateAndCityEventData: state.getStateAndCityEvent
+    getStateAndCityEventData: state.getStateAndCityEvent,
+    weeklyEventsData:state.weeklyEvents,
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -545,7 +565,8 @@ const mapDispatchToProps = dispatch => {
     getStateAndCityEvent:(cityId)=>dispatch(getStateAndCityEventRequest(cityId)),
     getEventById:(eventId)=>dispatch(getEventByIdRequest(eventId)),
     storeTokenRequest: (payload) => dispatch(storeTokenRequest(payload)),
-    getLikeEventRequest : (payload) => dispatch(getLikeEventRequest(payload))
+    getLikeEventRequest : (payload) => dispatch(getLikeEventRequest(payload)),
+    getWeeklyEvent : (payload) => dispatch(getWeeklyEventsRequest(payload))
   };
 };
 export default connect(

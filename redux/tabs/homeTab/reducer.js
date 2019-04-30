@@ -12,6 +12,7 @@ const initialState = {
     events:[],
     todayEvent:[],
     likeEvent:[],
+    weeklyEvents:[],
   }
 };
 
@@ -96,7 +97,8 @@ const getLikeEventSuccess = (state, action) =>
       likeEvent: { $set: action.payload }
     }
   });
-
+  
+  
 export default handleActions(
   {
     [constants.GET_EVENT_REQUEST]: getEventRequest,
@@ -107,6 +109,9 @@ export default handleActions(
     [constants.GET_TODAY_EVENT_SUCCESS]: getTodayEventSuccess,
     [constants.GET_LIKEEVENT_REQUEST]: getLikeEventRequest,
     [constants.GET_LIKEEVENT_SUCCESS]: getLikeEventSuccess,
+    // [constants.GET_WEEKLY_EVENTS_REQUEST]: getWeeklyEventsRequest,
+    // [constants.GET_WEEKLY_EVENTS_SUCCESS]: getWeeklyEventsSuccess,
+    // [constants.GET_WEEKLY_EVENTS_ERROR]: getWeeklyEventsError,
   },
   initialState
 );

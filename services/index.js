@@ -17,6 +17,8 @@ export default function fireAjax(method, URL, headers, data) {
   }
   console.log(url,config,data)
   if (method === "GET") {
+    console.log(url,'????????????????/');
+    
     return axios.get(url ,config,data);
   } else if (method === "POST") {
     return axios.post(url,data, config);

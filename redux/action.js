@@ -140,3 +140,9 @@ export const setSelectedEvent= createAction(constants.SET_SELECTED_EVENT)
 export const getNotificationRequest = createAction(constants.GET_NOTIFICATION_REQUEST);
 export const getNotificationSuccess = createAction(constants.GET_NOTIFICATION_SUCCESS);
 export const getNotificationError = createAction(constants.GET_NOTIFICATION_ERROR);
+
+//action for getting weekly events
+export const getWeeklyEventsRequest = createAction(constants.GET_WEEKLY_EVENTS_REQUEST);
+export const getWeeklyEventsSuccess = createAction(constants.GET_WEEKLY_EVENTS_SUCCESS);
+export const getWeeklyEventsError = createAction(constants.GET_WEEKLY_EVENTS_ERROR);
+

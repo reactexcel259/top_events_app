@@ -10,6 +10,7 @@ import {getEventDescriptionRequest} from './getEventDescription/action';
 import {postAddLikeRequest} from './addLikeOnEvent/action';
 import { getInterestRequest } from './interest/action';
 import { getNotificationRequest } from './notification/action';
+import {getWeeklyEventsRequest} from './weeklyEvents/action';
 import { getInterestedEventRequest, getAttendingEventRequest, postJoiningEventsRequest} from  './interestedEvent/action';
 
 
@@ -29,6 +30,7 @@ export function* watchActions() {
   yield takeEvery(constants.GET_TODAY_EVENT_REQUEST ,getTodayEventRequest);
   yield takeLatest(constants.GET_EVENTBYID_REQUEST ,getEventByIdRequest);
   yield takeLatest(constants.GET_CATEGORY_REQUEST ,getCategoryRequest);
+  yield takeLatest(constants.GET_WEEKLY_EVENTS_REQUEST ,getWeeklyEventsRequest);  
   yield takeLatest(constants.GET_STATEANDCITY_REQUEST ,getStateAndCityRequest);
   yield takeLatest(constants.GET_NOTIFICATION_REQUEST ,getNotificationRequest);
   yield takeLatest(constants.GET_STATEANDCITYEVENT_REQUEST ,getStateAndCityEventRequest);
