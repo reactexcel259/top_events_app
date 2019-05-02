@@ -17,19 +17,19 @@ export default class WeeklyEvents extends PureComponent {
       console.log(item,'NNNNNNNNNNNNNNNNN');
       
     // let image = item.image == undefined ? "" : item.image.secure_url;
-    // let data = this.props.cityData.data != undefined ? this.props.cityData.data.results != undefined ? this.props.cityData.data.results.length : this.props.cityData.data.length : this.props.cityData.length
+    let data = this.props.weeklyEventsData.weeklyEvents.data.results.length
     return (
         // <React.Fragment>
         // {(moment(item.start).format("D MMM") === moment().format('D MMM') || moment(item.start).format("D MMM") > moment().format('D MMM') ) &&
          <View
             key={index}
-            // style={[
-            // styles.cardWrapper,
-            // {
-            //     marginRight:
-            //     index == data  - 1 ? 23 : 7
-            // }
-            // ]}
+            style={[
+            styles.cardWrapper,
+            {
+                marginRight:
+                index == data  - 1 ? 23 : 7
+            }
+            ]}
         >
         <Touch onPress={() => this.props.onEventDescription(item)}>
             <View style={styles.imageWrapper}>

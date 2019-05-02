@@ -500,12 +500,14 @@ _handleNotification = (notification) => {
               </LinearGradient>
               }
               {this.props.weeklyEventsData.register.isSuccess && this.props.weeklyEventsData.register.weeklyEvents.data &&
-              <View>
-                {/* <Text>HELOOOOO</Text> */}
+              <View style={styles.likedView}>
+                <View style={styles.EventTitleView}>
+                  <Text style={styles.kingstonText}>Weekly Events</Text>
+                </View>
                 <WeeklyEvents
                   weeklyEventsData={this.props.weeklyEventsData.register}
                   type="thisWeek"
-                  // onEventDescription={item => this.onEventDescription(item)}
+                  onEventDescription={item => this.onEventDescription(item)}
                   />
               </View>}
               <View style={styles.eventComponentView}>
