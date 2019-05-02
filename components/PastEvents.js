@@ -12,12 +12,10 @@ import moment from "moment";
 const { height, width } = Dimensions.get("window");
 import Touch from 'react-native-touch';
 
-export default class WeeklyEvents extends PureComponent {
+export default class PastEvents extends PureComponent {
   _renderItem = ({ item, index }) => {
-    let data = this.props.weeklyEventsData.weeklyEvents.data.results.length
+    let data = this.props.pastEvents.pastEvents.data.results.length
     return (
-        // <React.Fragment>
-        // {(moment(item.start).format("D MMM") === moment().format('D MMM') || moment(item.start).format("D MMM") > moment().format('D MMM') ) &&
          <View
             key={index}
             style={[
@@ -48,21 +46,18 @@ export default class WeeklyEvents extends PureComponent {
             </View>
             </Touch>
         </View>
-        // }
-    //   </React.Fragment>
-    // <Text>hello</Text>
     );
   };
   render() {
-    const  {weeklyEventsData} =this.props;
-    console.log(weeklyEventsData ,'LLLLLLLLLLLLLLL');
+    const  {pastEvents} =this.props;
+    console.log(pastEvents ,'LLLLLLLLLLLLLLL');
     
     return (
         // <Text>hello</Text>
         
       <FlatList
         style={{ paddingLeft: 15 }}
-        data={weeklyEventsData.weeklyEvents.data.results}
+        data={pastEvents.pastEvents.data.results}
         keyExtractor={(item, index) => item._id}
         renderItem={this._renderItem}
         horizontal={true}

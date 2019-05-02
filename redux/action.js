@@ -146,3 +146,8 @@ export const getWeeklyEventsRequest = createAction(constants.GET_WEEKLY_EVENTS_R
 export const getWeeklyEventsSuccess = createAction(constants.GET_WEEKLY_EVENTS_SUCCESS);
 export const getWeeklyEventsError = createAction(constants.GET_WEEKLY_EVENTS_ERROR);
 
+//action for getting past events
+export const getPastEventsRequest = createAction(constants.GET_PAST_EVENTS_REQUEST);
+export const getPastEventsSuccess = createAction(constants.GET_PAST_EVENTS_SUCCESS);
+export const getPastEventsError = createAction(constants.GET_PAST_EVENTS_ERROR);
+

@@ -12,7 +12,7 @@ import { getInterestRequest } from './interest/action';
 import { getNotificationRequest } from './notification/action';
 import {getWeeklyEventsRequest} from './weeklyEvents/action';
 import { getInterestedEventRequest, getAttendingEventRequest, postJoiningEventsRequest} from  './interestedEvent/action';
-
+import {getPastEventsRequest} from './pastEvents/action';
 
 export function* watchActions() {
   yield takeLatest(constants.GET_REGISTER_REQUEST, getRegisterRequest);
@@ -41,6 +41,7 @@ export function* watchActions() {
   yield takeLatest(constants.GET_INTERSTEDEVENT_REQUEST ,getInterestedEventRequest);
   yield takeLatest(constants.GET_ATTENDING_EVENT_REQUEST ,getAttendingEventRequest);
   yield takeLatest(constants.POST_JOINING_EVENTS_REQUEST ,postJoiningEventsRequest);
+  yield takeLatest(constants.GET_PAST_EVENTS_REQUEST ,getPastEventsRequest);
 }
 
 export default function* rootSaga() {

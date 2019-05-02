@@ -18,6 +18,7 @@ import EventYouMIghtLIke from '../../components/EventYouMIghtLIke';
 import Events from "../../components/Events";
 import MonthlyEvents from '../../components/MonthlyEvents';
 import WeeklyEvents from '../../components/WeeklyEvents';
+import PastEvents from '../../components/PastEvents';
 import CustomHeader from ".././../components/header";
 import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
@@ -32,6 +33,7 @@ import { getEventRequest,
   storeTokenRequest,
   getLikeEventRequest,
   getWeeklyEventsRequest,
+  getPastEventsRequest,
 } from "../../redux/action";
 import Touch from 'react-native-touch';
 import Layout from "../../constants/Layout";
@@ -85,6 +87,7 @@ class HomeTab extends Component {
     await this.props.getAttendingEventRequest(token)
     await this.props.getLikeEventRequest({token:token});
     await this.props.getStateAndCity();
+    await this.props.getPastEvents();
     await this.registerForPushNotificationsAsync();
     this._notificationSubscription = Notifications.addListener(this._handleNotification);
 }
@@ -465,15 +468,17 @@ _handleNotification = (notification) => {
                 )}
               </View>
               <View style={styles.likedView}>
-                <View style={styles.EventTitleView}>
-                  <Text style={styles.kingstonText}>Events you might like</Text>
-                </View>
                 {
                   likeEvent && likeEvent.data  &&
-                <EventYouMIghtLIke
-                  cityData={likeEvent}
-                  onEventDescription={item => this.onEventDescription(item)}
-                />
+                  <React.Fragment>
+                    <View style={styles.EventTitleView}>
+                      <Text style={styles.kingstonText}>Events you might like</Text>
+                    </View>
+                    <EventYouMIghtLIke
+                      cityData={likeEvent}
+                      onEventDescription={item => this.onEventDescription(item)}
+                    />
+                </React.Fragment>
                 }
               </View>
               {
@@ -521,6 +526,17 @@ _handleNotification = (notification) => {
                 )
                 }
               </View>
+              {this.props.pastEvents.register.isSuccess && this.props.pastEvents.register.pastEvents.data &&
+              <View style={[styles.likedView,{paddingBottom:90}]}>
+                <View style={styles.EventTitleView}>
+                  <Text style={styles.kingstonText}>Past Events</Text>
+                </View>
+                <PastEvents
+                  pastEvents={this.props.pastEvents.register}
+                  type="pastEvents"
+                  onEventDescription={item => this.onEventDescription(item)}
+                  />
+              </View>}
             </View>
           </ScrollView>
         ) : (
@@ -553,6 +569,7 @@ const mapStateToProps = state => {
     getStateAndCityData: state.getStateAndCity,
     getStateAndCityEventData: state.getStateAndCityEvent,
     weeklyEventsData:state.weeklyEvents,
+    pastEvents:state.pastEvents,
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -568,7 +585,8 @@ const mapDispatchToProps = dispatch => {
     getEventById:(eventId)=>dispatch(getEventByIdRequest(eventId)),
     storeTokenRequest: (payload) => dispatch(storeTokenRequest(payload)),
     getLikeEventRequest : (payload) => dispatch(getLikeEventRequest(payload)),
-    getWeeklyEvent : (payload) => dispatch(getWeeklyEventsRequest(payload))
+    getWeeklyEvent : (payload) => dispatch(getWeeklyEventsRequest(payload)),
+    getPastEvents :()=>dispatch(getPastEventsRequest()),
   };
 };
 export default connect(
@@ -614,7 +632,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15
   },
   eventComponentView: {
-    paddingBottom: 90
+    // paddingBottom: 90
   },
   loaderView: {
     position: "absolute",
