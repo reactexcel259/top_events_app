@@ -16,9 +16,11 @@ export default class MonthlyEvents extends PureComponent {
   _renderItem = ({ item, index }) => {
     let image = item.image == undefined ? "" : item.image.secure_url;
     let data = this.props.cityData.data != undefined ? this.props.cityData.data.results != undefined ? this.props.cityData.data.results.length : this.props.cityData.data.length : this.props.cityData.length
+    console.log( moment(item.start).format("D") , moment().format('D'),'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
+    
     return (
         <React.Fragment>
-        {(moment(item.start).format("D MMM") === moment().format('D MMM') || moment(item.start).format("D MMM") > moment().format('D MMM') ) &&
+        {(moment(item.start).format("MM") === moment().format('MM') &&  (moment(item.start).format("D") == moment().format('D') || moment(item.start).format("D") > moment().format('D') )) &&
          <View
             key={index}
             style={[

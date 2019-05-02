@@ -230,14 +230,21 @@ class CityEventDescription extends Component {
       id: navigation.state.params.item._id,
       token : user.user.status.token,
       data: {
-        comment: comment,
+        comment: comment.trimStart(),
         image: image
       }
     }
+    if(comment.trimStart() !==""){
     postAddCommentRequest(payload);
     this.setState({
       comment:""
     })
+  }else{
+    ToastAndroid.show('Add any comments', ToastAndroid.SHORT);
+    this.setState({
+      comment:""
+    })
+  }
   }
 
   onUpload = (data) => {
