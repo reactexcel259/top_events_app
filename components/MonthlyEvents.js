@@ -58,7 +58,7 @@ export default class MonthlyEvents extends PureComponent {
     return (
       <FlatList
         style={{ paddingLeft: 15 }}
-        data={this.props.cityData && this.props.cityData.data.results != undefined ? this.props.cityData.data.results : this.props.cityData.data  }
+        data={this.props.cityData && this.props.cityData.data.results != undefined ? this.props.cityData.data.results.sort(function(a,b){return new Date(a.start)-new Date(b.start)}) : this.props.cityData.data  }
         keyExtractor={(item, index) => item._id}
         renderItem={this._renderItem}
         horizontal={true}

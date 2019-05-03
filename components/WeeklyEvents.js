@@ -62,7 +62,7 @@ export default class WeeklyEvents extends PureComponent {
         
       <FlatList
         style={{ paddingLeft: 15 }}
-        data={weeklyEventsData.weeklyEvents.data.results}
+        data={weeklyEventsData.weeklyEvents.data.results.sort(function(a,b){return new Date(a.start)-new Date(b.start)})}
         keyExtractor={(item, index) => item._id}
         renderItem={this._renderItem}
         horizontal={true}

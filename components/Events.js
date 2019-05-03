@@ -51,6 +51,8 @@ export default class Events extends Component {
   }
   _keyExtractor=(item, index) => (item._id)
   render() {
+    console.log(this.props.eventData.results.sort(function(a,b){return new Date(a.start)-new Date(b.start)}) ,">>>>>>>>", this.props.eventData.results,'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    
     return (
       <View style={styles.flatView}>
         <View style={styles.eventSectionName}>
@@ -74,7 +76,7 @@ export default class Events extends Component {
         </View>
         <FlatList
           style={{ paddingLeft: 15 }}
-          data={this.props.eventData.results.slice(0,3)}
+          data={this.props.eventData.results.sort(function(a,b){return new Date(a.start)-new Date(b.start)})}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
           horizontal={true}

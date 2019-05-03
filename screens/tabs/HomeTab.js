@@ -408,13 +408,16 @@ _handleNotification = (notification) => {
     const { changeLocationModal, attendingEvents } = this.state;
     const {getStateAndCityData} = this.props;
     const eventsLength = this.props.getEventData.register.eventData.length;
+    if(eventsLength > 0){
+
+    }
     const events = this.props.getEventData.register.eventData;
     const thisWeekEvent = this.props.getEventData.register.todayEvent;
     // const weeklyEvents =this.props.getEventData
     const cityEvents = this.props.getStateAndCityEventData.status;
     const likeEvent = this.props.getEventData.register.likeEvent;
     const eventsForWeekly = this.props.weeklyEventsData.register.weeklyEvents
-    console.log(eventsForWeekly.data,'>>>>>>>>>>>>>>>>>>>>>');
+    console.log(events,'>>>>>>>>>>>>>>>>>>>>>');
     
     return (
       <View style={styles.wrapper}>
