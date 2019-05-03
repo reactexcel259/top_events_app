@@ -14,13 +14,15 @@ export default class ChangeLocation extends Component {
         }
     
         const { data } = this.props.stateAndCity.status;
+
+        const {allCities}=this.props;
         const regex = new RegExp(`${query.trim()}`, 'i');
-        return data ? data.filter(city => city.name.search(regex) >= 0) : '';
+        return allCities ? allCities.filter(city => city.name.search(regex) >= 0) : '';
     }
     render() {
       const { data } = this.props.stateAndCity.status;
-      const {changeLocationModal, onPress, onSearchChange, search, stateAndCity, selected, onCancelPress } = this.props;
-      const films = search != '' && search != undefined ? this.findFilm(search) : data ;
+      const {changeLocationModal, onPress, onSearchChange, search, stateAndCity,allCities, selected, onCancelPress } = this.props;
+      const films = search != '' && search != undefined ? this.findFilm(search) : allCities ;
       let checkSelected = search != undefined ? Object.keys(search).length ? selected  ? true : false : true: true;
     return (
       <Modal

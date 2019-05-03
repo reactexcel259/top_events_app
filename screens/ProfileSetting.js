@@ -36,6 +36,8 @@ class ProfileSettingScreen extends React.Component {
       selectedInt: [],
       changeLocationModal: false,
       search:'',
+      isComponent:false,
+      allCities:[],
     };
   }
 
@@ -51,6 +53,7 @@ class ProfileSettingScreen extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { getCategoryData, user, getInterest } = this.props;
+ 
     if (getInterest.status !== nextProps.getInterest.status) {
       this.setState({ interest: nextProps.getInterest.status.message }
         ,()=>{
@@ -59,6 +62,20 @@ class ProfileSettingScreen extends React.Component {
         }
       });
     }
+  }
+
+  componentDidUpdate(previousProps){
+    const {getStateAndCityData}=this.props;
+    let allCities = []
+    const {isComponent}=this.state;
+      if(getStateAndCityData.isSuccess && getStateAndCityData.status && getStateAndCityData.status.data && !isComponent){
+        getStateAndCityData.status.data.forEach((element,index)=>{
+          element.cities.forEach((city,index)=>{
+            allCities.push(city)
+          })
+        })
+        this.setState({isComponent:true,allCities})
+      }
   }
 
   goBack = () => {
@@ -164,11 +181,11 @@ class ProfileSettingScreen extends React.Component {
     if (query === '') {
       return [];
     }
-
+    const {allCities} =this.state;
     const { data } = this.props.getStateAndCityData.status;
     
     const regex = new RegExp(`${query.trim()}`, 'i');
-    return data.filter(city => city.name.search(regex) >= 0);
+    return allCities.filter(city => city.name.search(regex) >= 0);
   }
 
   getGeoAddress = async (myLat,myLon) => {
@@ -241,7 +258,11 @@ class ProfileSettingScreen extends React.Component {
       if(filters.length){
         results = filters[0]
         setItem("user_info", JSON.stringify({ location:results}));
-        await this.props.getStateAndCityEventRequest(results._id);
+        let city = { }
+        await this.props.getStateAndCityEventRequest({
+          location:results._id,
+          userId: ""
+        });
         this.setState({changeLocationModal:false})
       }else {
         if(Platform.OS == 'android') {
@@ -298,7 +319,9 @@ class ProfileSettingScreen extends React.Component {
 
   render() {
     const { getCategoryData, user, getStateAndCityData } = this.props;
-    const { interest, changeLocationModal, selectedInt } = this.state;
+    console.log(getStateAndCityData,"KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+    
+    const { interest, changeLocationModal, selectedInt,allCities } = this.state;
     let isUpdate = user.data.data && user.data.data.interests && (user.data.data.interests.length != selectedInt.length) ? true : this.checkChange();
     let selectedInterest = user.data.data && user.data.data.interests ? user.data.data.interests : []
     return (
@@ -321,6 +344,7 @@ class ProfileSettingScreen extends React.Component {
               onPress={()=>{this.onPressLocation()}}
               onCancelPress={this.onCancelPress}  
               closeModal={()=>{this.setState({changeLocationModal:false})}}
+              allCities={allCities}
             />
 
           <View

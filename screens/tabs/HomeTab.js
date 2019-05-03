@@ -134,7 +134,9 @@ _handleNotification = (notification) => {
   async componentDidUpdate() {
     const getUpdatedInterest =await getItem('user_updated_interest')
     const getInterest =await getItem("user_interest")
-    const getLocation = await getItem("user_info");    
+    const getLocation = await getItem("user_info");
+    console.log(getLocation,'MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
+        
     const { getCategoryData ,getStateAndCityData, user} = this.props;
     // if(user.user.data.length == 0 ){
     //   let token  = user.user.status.token;
@@ -157,6 +159,8 @@ _handleNotification = (notification) => {
       this.setState({search:getLocation.location.name != undefined ? getLocation.location.name : '', selected: true}); 
     }
     if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId && getLocation && getLocation.location !== undefined && user.user.data.data != undefined ) {
+     console.log(user.user.data.data._id,getLocation.location._id ,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
+     
       this.props.getStateAndCityEvent({
         location:getLocation.location._id,
         userId: user.user.data.data._id
@@ -408,18 +412,14 @@ _handleNotification = (notification) => {
     const { changeLocationModal, attendingEvents } = this.state;
     const {getStateAndCityData} = this.props;
     const eventsLength = this.props.getEventData.register.eventData.length;
-    if(eventsLength > 0){
-
-    }
     const events = this.props.getEventData.register.eventData;
     const thisWeekEvent = this.props.getEventData.register.todayEvent;
-    console.log(thisWeekEvent,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
     
     // const weeklyEvents =this.props.getEventData
     const cityEvents = this.props.getStateAndCityEventData.status;
     const likeEvent = this.props.getEventData.register.likeEvent;
     const eventsForWeekly = this.props.weeklyEventsData.register.weeklyEvents
-    console.log(events,'>>>>>>>>>>>>>>>>>>>>>');
+    console.log(this.props.getStateAndCityEventData.status && this.props.getStateAndCityEventData.status.data && this.props.getStateAndCityEventData.status.data.results && this.props.getStateAndCityEventData.status.data.results ,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
     
     return (
       <View style={styles.wrapper}>
@@ -464,7 +464,16 @@ _handleNotification = (notification) => {
                       </View>
                     </TouchableOpacity>
                   </View>
+                  {this.props.getStateAndCityEventData.status && 
+                this.props.getStateAndCityEventData.status.data && 
+                this.props.getStateAndCityEventData.status.data.results && 
+                this.props.getStateAndCityEventData.status.data.results && 
+                !this.props.getStateAndCityEventData.status.data.results.length &&
+                <View><Text>
+                  At This Time, There Are No Top Events In {this.state.search}.
+                  </Text></View>}
                 </View>
+                
                 {(eventsLength >0 && cityEvents !== undefined) && (
                   <VideosComponent
                     cityData={cityEvents}
@@ -496,7 +505,7 @@ _handleNotification = (notification) => {
                 >
               <View style={{marginTop:15,marginBottom:15}}>
                 <View style={{paddingLeft:15,marginBottom:10}}>
-                  <Text style={styles.kingstonGradientText}>{moment().format('MMMM')} Event</Text>
+                  <Text style={styles.kingstonGradientText}>{moment().format('MMMM')} Events</Text>
                 </View>
                 {
                   thisWeekEvent.data  &&
