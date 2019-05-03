@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   ToastAndroid,
   Alert,
-  Image
+  Image,
+  Platform,
 } from "react-native";
 import moment from 'moment';
 import VideosComponent from "../../components/VideosComponent";
@@ -61,6 +62,8 @@ class HomeTab extends Component {
       selectedInt:[],
       attendingEvents:'',
       attendingEventList:[],
+      allCities:[],
+      isComponent:false,
     };
   }
 
@@ -68,9 +71,12 @@ class HomeTab extends Component {
     const getUpdatedInterest =await getItem('user_updated_interest')
     let getInterest;
     const getLocation = await getItem("user_info");
+    if(getLocation && getLocation.location !== undefined && this.state.search != getLocation.location.name){
+      this.setState({search:getLocation.location.name != undefined ? getLocation.location.name : '', selected: true}); 
+    }
     let token =this.props.user.user.status.token
     if(getLocation && getLocation.location !== undefined){
-      this.setState({search:getLocation.location.name != undefined ? getLocation.location.name : '', selected: true}); 
+      // this.setState({search:getLocation.location.name != undefined ? getLocation.location.name : '', selected: true}); 
     }
     if(getInterest && getInterest.interest != undefined ){
       if( getInterest.interest.length >0){
@@ -131,12 +137,10 @@ _handleNotification = (notification) => {
     console.log(notification,'idaaaaa')
   };
 
-  async componentDidUpdate() {
+  async componentDidUpdate(previousProps) {
     const getUpdatedInterest =await getItem('user_updated_interest')
     const getInterest =await getItem("user_interest")
     const getLocation = await getItem("user_info");
-    console.log(getLocation,'MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
-        
     const { getCategoryData ,getStateAndCityData, user} = this.props;
     // if(user.user.data.length == 0 ){
     //   let token  = user.user.status.token;
@@ -155,18 +159,27 @@ _handleNotification = (notification) => {
 
       this.setState({ isCategoryId: true });
     }
+    if(getStateAndCityData.isSuccess !==previousProps.getStateAndCityData.isSuccess){}
     if(getLocation && getLocation.location !== undefined && this.state.search != getLocation.location.name){
       this.setState({search:getLocation.location.name != undefined ? getLocation.location.name : '', selected: true}); 
     }
     if (getStateAndCityData.isSuccess && !this.state.isStateAndCityId && getLocation && getLocation.location !== undefined && user.user.data.data != undefined ) {
-     console.log(user.user.data.data._id,getLocation.location._id ,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
-     
       this.props.getStateAndCityEvent({
         location:getLocation.location._id,
         userId: user.user.data.data._id
       });
       this.setState({ isStateAndCityId: true });
     }
+    let allCities = []
+    const {isComponent}=this.state;
+      if(getStateAndCityData.isSuccess && getStateAndCityData.status && getStateAndCityData.status.data && !isComponent){
+        getStateAndCityData.status.data.forEach((element,index)=>{
+          element.cities.forEach((city,index)=>{
+            allCities.push(city)
+          })
+        })
+        this.setState({isComponent:true,allCities})
+      }
   }
   
   onViewAll = async category => {
@@ -216,9 +229,9 @@ _handleNotification = (notification) => {
     }
 
     const { data } = this.props.getStateAndCityData.status;
-    
+    const {allCities}=this.state;
     const regex = new RegExp(`${query.trim()}`, 'i');
-    return data.filter(city => city.name.search(regex) >= 0);
+    return allCities.filter(city => city.name.search(regex) >= 0);
   }
 
   getGeoAddress = async (myLat,myLon) => {
@@ -251,6 +264,8 @@ _handleNotification = (notification) => {
     }
   }
   onSearchChange = (text,val) => {
+    console.log(text,val,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL')
+    
     this.setState({
       search: text,
       selected: val
@@ -261,6 +276,8 @@ _handleNotification = (notification) => {
   }
   onPressLocation = async() => {
     const { search, selectedInt} = this.state;
+    console.log(search,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL>>>>>>>>>>>>>>>>>>.');
+    
     const { user } = this.props;
     if(!Object.keys(this.state.search).length){
       if(Platform.OS == 'android') {
@@ -334,6 +351,7 @@ _handleNotification = (notification) => {
     const {attending,isLoading,joinedTrue} = this.props.getInterestedEvent    
     if(nextProps.getInterestedEvent.attending.data !== undefined && nextProps.getInterestedEvent.attending.data.results.length > 0 ){
       if(nextProps.getInterestedEvent.attending !== attending ){
+        console.log('LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNNNNN');
         // if(this.state.attendingEventList.length !== nextProps.getInterestedEvent.attending.data.results)
           this.checkIn(nextProps.getInterestedEvent.attending);
       }    
@@ -346,6 +364,7 @@ _handleNotification = (notification) => {
   }
 
   checkIn = (attending) => {
+    
     const { attendingEvents, attendingEventList } = this.state;
       attending.data.results.length > 0 && attending.data.results.map((events)=> {
         let diff = moment().diff(moment(events.start),'days')
@@ -409,11 +428,12 @@ _handleNotification = (notification) => {
   _keyExtractor = (item, index) => (index.toString());
 
   render() {
-    const { changeLocationModal, attendingEvents } = this.state;
+    const { changeLocationModal, attendingEvents,allCities } = this.state;
     const {getStateAndCityData} = this.props;
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const thisWeekEvent = this.props.getEventData.register.todayEvent;
+    console.log(this.props.getInterestedEvent  ,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLKKKKKKKKKKK');
     
     // const weeklyEvents =this.props.getEventData
     const cityEvents = this.props.getStateAndCityEventData.status;
@@ -437,6 +457,7 @@ _handleNotification = (notification) => {
               onPress={()=>{this.onPressLocation()}}
               onCancelPress={this.onCancelPress}  
               closeModal={()=>{this.setState({changeLocationModal:false})}}
+              allCities={allCities}
             />
           }
             <View style={styles.mainWrapper}>

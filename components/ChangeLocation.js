@@ -4,6 +4,7 @@ import Layout from "../constants/Layout";
 import {LinearGradient} from 'expo';
 import Modal from "react-native-modalbox";
 import CustomeButton from './button'
+import { uniqBy } from "lodash";
 
 import { FontAwesome ,EvilIcons } from '@expo/vector-icons';
 
@@ -22,7 +23,7 @@ export default class ChangeLocation extends Component {
     render() {
       const { data } = this.props.stateAndCity.status;
       const {changeLocationModal, onPress, onSearchChange, search, stateAndCity,allCities, selected, onCancelPress } = this.props;
-      const films = search != '' && search != undefined ? this.findFilm(search) : allCities ;
+      const films = /* search != '' && search != undefined ? this.findFilm(search) :  */uniqBy(allCities, "name")  ;
       let checkSelected = search != undefined ? Object.keys(search).length ? selected  ? true : false : true: true;
     return (
       <Modal
@@ -44,7 +45,7 @@ export default class ChangeLocation extends Component {
           <Text style={styles.headerText} > X </Text>
         </TouchableOpacity>
         {/* <View style={styles.intrestContainer} > */}
-        <View style={{flexDirection:'row', margin:20}}>
+        {/* <View style={{flexDirection:'row', margin:20}}>
           <View style={[Object.keys(search).length ? styles.searchPresent :styles.searchContainer]} >
             <FontAwesome name="search" size={20} style={{ margin: 7,color: 'gray' }} />
             <TextInput
@@ -63,14 +64,14 @@ export default class ChangeLocation extends Component {
               </TouchableOpacity>
             </View>
               :null
-        }
-        </View>
+        }x
+        </View> */}
         {/* </View> */}
         
         { films && films.length >= 1 ?
           <FlatList
             data={films}
-            numColumns={2}
+            numColumns={4}
             ListHeaderComponent={()=>{
               return <View style={styles.underLine}/>
             }}
