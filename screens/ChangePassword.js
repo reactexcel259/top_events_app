@@ -38,6 +38,7 @@ class ChangePassword extends React.Component {
       email:'',
       newPassword:'',
       confirmPassword:'',
+      currentPassword:"",
       newEmail: '',
       loader:false,
       loaderType:'',
@@ -65,11 +66,31 @@ class ChangePassword extends React.Component {
     this.setState({
       pageType: navigation.state.params.pageType
     })
-    if(user.user.passwordReset && user.user.passwordReset.success && loaderType == 'changePassword' ){
+    if(user.user.passwordReset && user.user.passwordReset.success !==undefined && user.user.passwordReset.success ==false && loaderType == 'changePassword' ){
+      this.setState({
+        loader: false,
+        loaderType:''
+      })
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          user.user.passwordReset.message,
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){
+        Alert.alert(
+          'Success',
+          user.user.passwordReset.message,
+        )
+      }
+    }
+    else if(user.user.passwordReset && user.user.passwordReset.success !==undefined && user.user.passwordReset.success ==true  && loaderType == 'changePassword' ){
       this.setState({
         loader: false,
         newPassword:'',
-        confirmPassword:'',
+        currentPassword:'',
         loaderType:''
       })
       if(Platform.OS == 'android') {
@@ -92,7 +113,7 @@ class ChangePassword extends React.Component {
       this.setState({
         loader: false,
         newPassword:'',
-        confirmPassword:'',
+        currentPassword:'',
         loaderType:''
       })
       if(Platform.OS == 'android') {
@@ -130,9 +151,9 @@ class ChangePassword extends React.Component {
       this.setState({
         newPassword: text
       })
-    } else if ( field == 'confirmPassword' ) {
+    } else if ( field == 'currentPassword' ) {
       this.setState({
-        confirmPassword: text
+        currentPassword: text
       })
     } else if (field == 'newEmail' ){
       this.setState({
@@ -142,7 +163,7 @@ class ChangePassword extends React.Component {
   }
 
   onPress = () => {
-    const { pageType, email, newEmail, confirmPassword, newPassword } = this.state;
+    const { pageType, email, newEmail, currentPassword, newPassword } = this.state;
     const { user } = this.props;
     let token = user.user.status.token;
     let id = user.user.data.data._id
@@ -171,7 +192,7 @@ class ChangePassword extends React.Component {
         this.goBack()
       }
     } else if (pageType == 'changePassword'){
-      if( newPassword == '' || confirmPassword == '' ){
+      if( newPassword == '' || currentPassword == '' ){
         if(Platform.OS == 'android') {
           ToastAndroid.showWithGravityAndOffset(
             'Please Enter Password',
@@ -186,17 +207,34 @@ class ChangePassword extends React.Component {
             'Please Enter Password'
           )
         }
-      } else if(newPassword === confirmPassword ){
+      } else if(newPassword.length < 8 || currentPassword.length < 8 ){
+        if(Platform.OS == 'android') {
+          ToastAndroid.showWithGravityAndOffset(
+            'Password must be of 8 characters long',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else if( Platform.OS == 'ios'){
+          Alert.alert(
+            'Warning!',
+            'Password must be of 8 characters long'
+          )
+        }
+      }else if((newPassword.length == 8 || newPassword.length > 8) && (currentPassword.length == 8 ||  currentPassword.length > 8) ){
         payload = {
           token,
-          password:newPassword,
+          password: newPassword,
+          currentPassword: currentPassword
         }
         this.setState({
           loader:true,
           loaderType:'changePassword'
         })
         this.props.userPasswordRequest(payload);
-      } else {
+      }
+       else {
         if(Platform.OS == 'android') {
           ToastAndroid.showWithGravityAndOffset(
             'Password and confirm password is not match',
@@ -256,7 +294,7 @@ class ChangePassword extends React.Component {
   }
 
   render() {
-    const { pageType ,email, newPassword, confirmPassword, loader } = this.state;
+    const { pageType ,email, newPassword, confirmPassword, currentPassword,loader } = this.state;
     let pageTitle;
     let buttonTitle;
     if(pageType == 'changePassword'){
@@ -310,7 +348,9 @@ class ChangePassword extends React.Component {
               email={email}
               newPassword={newPassword}
               confirmPassword={confirmPassword}
+              currentPassword={currentPassword}
               onChange={this.onChange}
+              userPasswordDetail={this.props.user}
               />
             <View style={{marginBottom:50,marginTop:25}} >
             {

@@ -338,7 +338,7 @@ class ProfileSettingScreen extends React.Component {
             >
               <View style={{flex:1,flexDirection:'row',justifyContent:'space-between'}} >
                 <View>
-                  <Text style={{ margin: 10, fontWeight: "500" }}> Interest </Text>
+                  <Text style={{ margin: 10, fontWeight: "500",color:"#ffffff" }}> Interest </Text>
                 </View>
                 <View>
                   {
@@ -385,7 +385,7 @@ class ProfileSettingScreen extends React.Component {
                               style={[
                                 styles.bubbleText,
                                 selected
-                                  ? { color: "black" }
+                                  ? { color: "white" }
                                   : { color: "lightgray" }
                               ]}
                             >
@@ -512,7 +512,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingRight: 15,
     paddingLeft: 15,
-    borderColor: "#D8D8D8",
+    borderColor: "#FF6CC9",
     height: 40,
     alignItems: "center",
     justifyContent: "center"

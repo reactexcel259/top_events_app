@@ -17,7 +17,7 @@ import CustomeButton from '../button';
 
 export default class Account extends React.Component {
   render() {
-    const { title, email, newPassword, newEmail, onChange, confirmPassword, buttonText, buttonPress, type } = this.props
+    const { title, email, newPassword, newEmail, onChange,userPasswordDetail, confirmPassword,currentPassword, buttonText, buttonPress, type } = this.props
     return (
       <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={10}  behavior="padding" enabled >      
       <View style={{flex:1,justifyContent:'space-between',backgroundColor:'white',borderRadius:10,marginLeft:10,marginRight:10}} >
@@ -32,12 +32,13 @@ export default class Account extends React.Component {
                 type == 'changePassword' &&
                 <TextInput
                 style={styles.textInput}
-                value={newPassword}
+                value={currentPassword}
                 secureTextEntry                
-                onChangeText={(text)=>{ onChange(text,'newPassword') }}            
-                placeholder={'New Password'}
+                onChangeText={(text)=>{ onChange(text,'currentPassword') }}            
+                placeholder={'Current Password'}
                 />
               }
+              {userPasswordDetail.user.passwordReset && userPasswordDetail.user.passwordReset.success ==false  &&  <Text>{userPasswordDetail.user.passwordReset.message}</Text>}
               {
                 type == 'resetPassword' && 
                 <TextInput
@@ -64,10 +65,10 @@ export default class Account extends React.Component {
                 type == 'changePassword' &&
                 <TextInput
                 style={styles.textInput}
-                value={confirmPassword}
+                value={newPassword}
                 secureTextEntry                
-                onChangeText={(text)=>{ onChange(text,'confirmPassword') }}
-                placeholder={'Comfirm Password'}
+                onChangeText={(text)=>{ onChange(text,'newPassword') }}
+                placeholder={'New Password'}
                 />
               }
               {

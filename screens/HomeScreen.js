@@ -64,8 +64,8 @@ class HomeScreen extends React.Component {
       <View style={styles.container}>
         <Image
           style={styles.image}
-          // resizeMode='center'
-          source={require('../assets/images/image21.jpeg')}
+          resizeMode='cover'
+          source={require('../assets/images/3869365995-andy-falconer-1486927-unsplash.jpg')}
         />
         <View style={styles.ovalContainer}>
           <View style={styles.ovalContent} >
@@ -92,7 +92,7 @@ class HomeScreen extends React.Component {
               <CustomeButton
                 buttonText={"Sign In"}
                 buttonSize={'small'}                
-                gradientColor={['#ffffff','#ffffff']}
+                gradientColor={['rgba(255, 255, 255, .4)','rgba(255, 255, 255, .4)']}
                 textColor={'#8559F0'}
                 onPress={()=>{ this.props.navigation.navigate('SignUpScreen',{isLogin:true}) }}
               />
@@ -114,20 +114,21 @@ const styles = StyleSheet.create({
     width: Layout.window.width
   },
   ovalContainer:{
-    width:Layout.window.width * 0.74 ,
-    height: isIphoneX() ? Layout.window.height * 0.44 :Layout.window.height * 0.42,
-    backgroundColor:'#ffffff',
-    opacity:0.93,
+    width:Layout.window.width * 0.64 ,
+    height: isIphoneX() ? Layout.window.height * 0.44 :Layout.window.height * 0.34,
+    backgroundColor:"rgba(255, 255, 255, .6)",
     position:'absolute',
     top: Layout.window.height * 0.45, 
-    left: 0, 
-    right: 0, 
-    bottom: 0,
-    marginLeft:50,
-    marginRight:20,
+    alignSelf:"center",
+    // left: Layout.window.width * .2,
+    // right: 0, 
+    // bottom: 0,
+    // marginLeft:70,
+    // marginRight:20,
     borderRadius:30,
+    // opacity: .4,
     // borderTopStartRadius:30,
-    // borderTopEndRadius:30
+    // borderTopEndRadius:30,
   },
   ovalContent:{
     flex:1,
@@ -142,14 +143,15 @@ const styles = StyleSheet.create({
     alignItems:'center',
     width:Layout.window.width
   },
+  
   logoImage:{
-    height:Layout.window.height * 0.08 ,
-    width: Layout.window.width * 0.43,
+    height:Layout.window.height * 0.07 ,
+    width: Layout.window.width * 0.42               ,
 
   },
   suggestion:{
     // padding:20,
-    fontSize:15,
+    fontSize:14,
     fontWeight:'500',
     width: Layout.window.width * 0.45,
     textAlign:'center'
