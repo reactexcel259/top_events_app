@@ -18,6 +18,7 @@ import Layout from '../../constants/Layout';
 import { MonoText } from '../../components/StyledText';
 import CustomeButton from '../button'
 import Autocomplete from 'react-native-autocomplete-input';
+import { uniqBy } from "lodash";
 
 export default class Locations extends React.Component {
   findFilm(query) {
@@ -26,13 +27,14 @@ export default class Locations extends React.Component {
     }
 
     const { data } = this.props.stateAndCity.status;
+    const {allCities} =this.props
     const regex = new RegExp(`${query.trim()}`, 'i');
-    return data.filter(city => city.name.search(regex) >= 0);
+    return allCities.filter(city => city.name.search(regex) >= 0);
   }
   render() {
     const { data } = this.props.stateAndCity.status;
-    const { onPress, onSearchChange, isChange, search, stateAndCity, onChangeSearch, selected, onCancelPress } = this.props
-    const films = search != '' ? this.findFilm(search) : data;
+    const { onPress, onSearchChange, isChange, search, stateAndCity, onChangeSearch, selected,allCities, onCancelPress } = this.props
+    const films = /* search != '' ? this.findFilm(search) : */ uniqBy(allCities, "name");
     let checkSelected = Object.keys(search).length ? selected  ? true : false : true;
     return (
       <LinearGradient
@@ -41,10 +43,10 @@ export default class Locations extends React.Component {
           start={[1,0]}
           end={[1, 1]}
         >
-        <View style={styles.headerContainer} >
+        {/* <View style={styles.headerContainer} >
           <Text style={styles.headerText} > Add Location </Text>
         </View>
-        {/* <View style={styles.intrestContainer} > */}
+        <View style={styles.intrestContainer} >
         <View style={{flexDirection:'row', margin:20}}>
         {
         isChange ? 
@@ -81,7 +83,7 @@ export default class Locations extends React.Component {
               :null
         }
         </View>
-        {/* </View> */}
+        </View> */}
         {films.length >= 1?
           <FlatList
             data={films}

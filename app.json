@@ -18,6 +18,10 @@
       "image": "./assets/images/splash1.png",
       "resizeMode": "cover"
     },
+    "notification": {
+      "icon": "./assets/images/resizeimage.png",
+      "color": "red"
+    },
     "android": {
       "package": "com.TopEventsinJamaica",
       "googleServicesFile":"./assets/google-services.json",

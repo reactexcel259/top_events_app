@@ -41,6 +41,8 @@ class SetupScreen extends React.Component {
       stateCity:[],
       selectedInt:[],
       isChange:false,
+      allCities:[],
+      isComponent:false,
     }
   }
   
@@ -57,6 +59,20 @@ class SetupScreen extends React.Component {
     await this.props.getStateAndCity();
     await this.props.getInterestRequest();
     const {getStateAndCityData,getCategoryData} = this.props;
+  }
+
+  componentDidUpdate(previousProps){
+    const {getStateAndCityData}=this.props;
+    let allCities = []
+    const {isComponent}=this.state;
+      if(getStateAndCityData.isSuccess && getStateAndCityData.status && getStateAndCityData.status.data && !isComponent){
+        getStateAndCityData.status.data.forEach((element,index)=>{
+          element.cities.forEach((city,index)=>{
+            allCities.push(city)
+          })
+        })
+        this.setState({isComponent:true,allCities})
+      }
   }
   
   componentWillReceiveProps(nextProps){
@@ -109,9 +125,10 @@ class SetupScreen extends React.Component {
     }
 
     const { data } = this.props.getStateAndCityData.status;
+    const {allCities} =this.state;
     
     const regex = new RegExp(`${query.trim()}`, 'i');
-    return data.filter(city => city.name.search(regex) >= 0);
+    return allCities.filter(city => city.name.search(regex) >= 0);
   }
   selectInterests = (id) => {
     let int = this.state.interest;
@@ -250,7 +267,7 @@ class SetupScreen extends React.Component {
     }
   }
   render() {
-    const { step, interest, search } =this.state
+    const { step, interest, search ,allCities} =this.state
     const {getStateAndCityData,getCategoryData, getInterest} = this.props;
     return (
       <View style={styles.container}>
@@ -282,7 +299,8 @@ class SetupScreen extends React.Component {
                   onSearchChange={this.onSearchChange}
                   onChangeSearch={this.onChangeSearch}
                   onPress={()=>{this.onPressLocation()}}
-                  onCancelPress={this.onCancelPress}            
+                  onCancelPress={this.onCancelPress}  
+                  allCities={allCities}          
                 />
               }
        </View>
