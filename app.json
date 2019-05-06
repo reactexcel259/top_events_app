@@ -19,8 +19,8 @@
       "resizeMode": "cover"
     },
     "notification": {
-      "icon": "./assets/images/resizeimage.png",
-      "color": "red"
+      "icon": "./assets/images/resizeimage.jpg",
+      "color":"#FF6CC9"
     },
     "android": {
       "package": "com.TopEventsinJamaica",
