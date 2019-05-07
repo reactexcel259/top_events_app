@@ -27,6 +27,7 @@ import ImagePicker from 'react-native-image-picker';
 
   onSubmit=()=>{
     this.props.onSubmit()
+    // alert("hello")
   }
 
   render() {

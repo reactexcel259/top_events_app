@@ -26,6 +26,7 @@ import CustomHeader from "../components/header";
 import { Circle } from "react-native-svg";
 import moment from "moment";
 import { connect } from "react-redux";
+import { ErrorRecovery } from 'expo';
 const { height, width } = Dimensions.get("window");
 import {
   getEventDescriptionRequest,
@@ -223,6 +224,7 @@ class CityEventDescription extends Component {
     })
   }
 
+
   onComment = () => {
     const { comment, image } = this.state;
     const { navigation, postAddCommentRequest, user } = this.props;
@@ -230,11 +232,12 @@ class CityEventDescription extends Component {
       id: navigation.state.params.item._id,
       token : user.user.status.token,
       data: {
-        comment: comment.trimStart(),
+        comment: comment,
         image: image
       }
     }
-    if(comment.trimStart() !==""){
+    let userCommment =comment.trim()
+    if(userCommment !==""){
     postAddCommentRequest(payload);
     this.setState({
       comment:""
