@@ -25,6 +25,10 @@ import ImagePicker from 'react-native-image-picker';
     );
   };
 
+  onSubmit=()=>{
+    this.props.onSubmit()
+  }
+
   render() {
     const { comment, onSubmit, onChange, onAddImage, image } = this.props;
     return (
@@ -53,7 +57,7 @@ import ImagePicker from 'react-native-image-picker';
             :
             <View>
               <Touch 
-              onPress={onSubmit}
+              onPress={this.onSubmit}
               >
                 <Text style={{color:'#FF6CC9'}} >Send</Text>
               </Touch>

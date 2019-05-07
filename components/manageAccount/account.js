@@ -16,6 +16,9 @@ import { MonoText } from '../StyledText';
 import CustomeButton from '../button';
 
 export default class Account extends React.Component {
+  buttonPress=()=>{
+    this.props.buttonPress()
+  }
   render() {
     const { title, email, newPassword, newEmail, onChange,userPasswordDetail, confirmPassword,currentPassword, buttonText, buttonPress, type } = this.props
     return (
@@ -95,7 +98,7 @@ export default class Account extends React.Component {
                 buttonText={buttonText}
                 gradientColor={['#FF6CC9','#8559F0']}
                 textColor={'white'}
-                onPress={()=>{ buttonPress() }}
+                onPress={this.buttonPress}
               />
             </View>
       </View>

@@ -19,7 +19,7 @@
       "resizeMode": "cover"
     },
     "notification": {
-      "icon": "./assets/images/resizeimage.jpg",
+      "icon": "./assets/images/resizeimagemin.png",
       "color":"#FF6CC9"
     },
     "android": {

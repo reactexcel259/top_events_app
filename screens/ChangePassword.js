@@ -45,12 +45,12 @@ class ChangePassword extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { navigation, user } = this.props
     this.setState({
       pageType: navigation.state.params.pageType
     })
-    if(navigation.state.params.pageType == 'changeEmail'){
+    if(navigation.state.params.pageType === 'changeEmail'){
         this.setState({
           email: user.user.data.data.email
         })
