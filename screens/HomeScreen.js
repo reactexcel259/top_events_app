@@ -79,7 +79,7 @@ class HomeScreen extends React.Component {
             <Text style={styles.suggestion}>
               Find the best events in Jamaica
             </Text>
-            <View style={{alignSelf:'center',}} >
+            <View style={{alignSelf:'center',marginBottom:10,marginTop:5}} >
               <CustomeButton
                 buttonText={"Get Started"}
                 buttonSize={'small'}
@@ -132,8 +132,8 @@ const styles = StyleSheet.create({
   },
   ovalContent:{
     flex:1,
-    justifyContent:'space-evenly',
-    flexDirection:'column',
+    // justifyContent:'space-evenly',
+    // flexDirection:'column',
     alignItems:'center'
   },
   imageContainer:{

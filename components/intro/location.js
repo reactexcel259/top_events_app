@@ -89,7 +89,9 @@ export default class Locations extends React.Component {
             data={films}
             numColumns={2}
             ListHeaderComponent={()=>{
-              return <View style={styles.underLine}/>
+              return <View style={styles.underLine}>
+              <Text style={styles.eventsText}>Events within or nearby City</Text>
+          </View>
             }}
             keyExtractor={(item, index) => item._id}
             renderItem={({item})=>{
@@ -235,8 +237,18 @@ const styles = StyleSheet.create({
     color:'#f5f6fa'
   },
   underLine:{
-    borderBottomWidth:0.6,
-    marginTop:5,
-    borderBottomColor:'#f5f6fa'
+    flexDirection:"row",
+        justifyContent:"center",
+        alignItems:'center',
+        // borderBottomWidth:0.6,
+        marginTop:5,
+        borderBottomColor:'#f5f6fa',
+        marginBottom:20
+  },
+  eventsText:{
+    color:'white',
+    fontWeight:'600',
+    fontSize:18,
+    marginBottom:10
   }
 });

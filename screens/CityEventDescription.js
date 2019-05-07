@@ -480,7 +480,7 @@ class CityEventDescription extends Component {
                         marginTop: 30
                       }}
                     >
-                    <TouchableOpacity onPress={()=>{ (isPassed != undefined && isPassed < 0) &&  this.eventJoin() }}>
+                    <TouchableOpacity onPress={(isPassed != undefined && isPassed < 0) && this.eventJoin }>
                       <LinearGradient
                         start={{ x: 0, y: 1 }}
                         end={{ x: 1, y: 1 }}

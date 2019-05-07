@@ -319,8 +319,6 @@ class ProfileSettingScreen extends React.Component {
 
   render() {
     const { getCategoryData, user, getStateAndCityData } = this.props;
-    console.log(getStateAndCityData,"KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-    
     const { interest, changeLocationModal, selectedInt,allCities } = this.state;
     let isUpdate = user.data.data && user.data.data.interests && (user.data.data.interests.length != selectedInt.length) ? true : this.checkChange();
     let selectedInterest = user.data.data && user.data.data.interests ? user.data.data.interests : []

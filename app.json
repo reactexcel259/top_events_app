@@ -19,7 +19,7 @@
       "resizeMode": "cover"
     },
     "notification": {
-      "icon": "./assets/images/resizeimagemin.png",
+      "icon": "./assets/images/ic_stat_call_whitee.png",
       "color":"#FF6CC9"
     },
     "android": {
