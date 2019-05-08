@@ -27,6 +27,7 @@ import { Circle } from "react-native-svg";
 import moment from "moment";
 import { connect } from "react-redux";
 import { ErrorRecovery } from 'expo';
+import ErrorBoundary from '../components/ErrorBoundary';
 const { height, width } = Dimensions.get("window");
 import {
   getEventDescriptionRequest,
@@ -270,7 +271,7 @@ class CityEventDescription extends Component {
   }
 
   eventJoin = () => {
-    const { user, navigation } = this.props;
+    const { user,navigation  } = this.props;
     const eventData = this.props.getEventDescription;    
     const item =
     eventData.isSuccess && this.props.getEventDescription.status.data;
@@ -375,8 +376,9 @@ class CityEventDescription extends Component {
     const { user } = this.props.user;
     let rightIcon;
     const eventData = this.props.getEventDescription;
+    const {getEventDescription} =this.props;
     const goingData = this.props.getInterestedEvent;
-    const item = eventData.isSuccess && this.props.getEventDescription.status && this.props.getEventDescription.status.data;
+    const item = this.props.getEventDescription.isSuccess && this.props.getEventDescription.status && this.props.getEventDescription.status.data !==undefined && this.props.getEventDescription.status.data;
     let interestedArray = !item ? [] : item.interested;
     let checkedInarry = !item ? [] : item.checkedinBy;
     const checkedIn = checkedInarry.find(
@@ -400,6 +402,7 @@ class CityEventDescription extends Component {
     }
  let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
  return (
+   <ErrorBoundary>
       <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >
       <View>
         <CustomHeader
@@ -414,14 +417,14 @@ class CityEventDescription extends Component {
           onEventLike={() => this.onEventLike()}
         />
         {
-          eventData.isLoading ? 
+          getEventDescription.isLoading ? 
            (
             <View style={styles.loaderView}>
               <ActivityIndicator color="#FF6CC9" size="large" />
             </View>
           )
           :
-          eventData.isSuccess && item && (
+          getEventDescription.isSuccess && item && (
           <ScrollView>
             <View>
               <LinearGradient colors={["#ff6cc9", "#8559f0"]}>
@@ -480,7 +483,7 @@ class CityEventDescription extends Component {
                         marginTop: 30
                       }}
                     >
-                    <TouchableOpacity onPress={(isPassed != undefined && isPassed < 0) && this.eventJoin }>
+                    <TouchableOpacity onPress={(isPassed != undefined && isPassed < 0) ? ()=>this.eventJoin() : ()=>{return null} }>
                       <LinearGradient
                         start={{ x: 0, y: 1 }}
                         end={{ x: 1, y: 1 }}
@@ -691,6 +694,7 @@ class CityEventDescription extends Component {
         }
       </View>
       </KeyboardAvoidingView>
+      </ErrorBoundary>
     );
   }
 }

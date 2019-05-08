@@ -351,7 +351,6 @@ _handleNotification = (notification) => {
     const {attending,isLoading,joinedTrue} = this.props.getInterestedEvent    
     if(nextProps.getInterestedEvent.attending.data !== undefined && nextProps.getInterestedEvent.attending.data.results.length > 0 ){
       if(nextProps.getInterestedEvent.attending !== attending ){
-        console.log('LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNNNNN');
         // if(this.state.attendingEventList.length !== nextProps.getInterestedEvent.attending.data.results)
           this.checkIn(nextProps.getInterestedEvent.attending);
       }    
@@ -415,7 +414,7 @@ _handleNotification = (notification) => {
         categoryId={Object.keys(item).join()}
         backgroundColor={backgroundColor}
         onViewAll={key => this.onViewAll(key)}
-        onEventDescription={item => this.onEventDescription(item)}
+        onEventDescription={this.onEventDescription}
       />
     );
   };
@@ -433,13 +432,11 @@ _handleNotification = (notification) => {
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const thisWeekEvent = this.props.getEventData.register.todayEvent;
-    console.log(this.props.getInterestedEvent  ,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLKKKKKKKKKKK');
     
     // const weeklyEvents =this.props.getEventData
     const cityEvents = this.props.getStateAndCityEventData.status;
     const likeEvent = this.props.getEventData.register.likeEvent;
     const eventsForWeekly = this.props.weeklyEventsData.register.weeklyEvents
-    console.log(this.props.getStateAndCityEventData.status && this.props.getStateAndCityEventData.status.data && this.props.getStateAndCityEventData.status.data.results && this.props.getStateAndCityEventData.status.data.results ,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
     
     return (
       <View style={styles.wrapper}>
@@ -498,7 +495,7 @@ _handleNotification = (notification) => {
                 {(eventsLength >0 && cityEvents !== undefined) && (
                   <VideosComponent
                     cityData={cityEvents}
-                    onEventDescription={item => this.onEventDescription(item)}
+                    onEventDescription={this.onEventDescription}
                   />
                 )}
               </View>
@@ -511,7 +508,7 @@ _handleNotification = (notification) => {
                     </View>
                     <EventYouMIghtLIke
                       cityData={likeEvent}
-                      onEventDescription={item => this.onEventDescription(item)}
+                      onEventDescription={this.onEventDescription}
                     />
                 </React.Fragment>
                 }
@@ -533,7 +530,7 @@ _handleNotification = (notification) => {
                 <MonthlyEvents
                   cityData={thisWeekEvent}
                   type="thisWeek"
-                  onEventDescription={item => this.onEventDescription(item)}
+                  onEventDescription={this.onEventDescription}
                   />
                 }
               </View>
@@ -547,7 +544,7 @@ _handleNotification = (notification) => {
                 <WeeklyEvents
                   weeklyEventsData={this.props.weeklyEventsData.register}
                   type="thisWeek"
-                  onEventDescription={item => this.onEventDescription(item)}
+                  onEventDescription={this.onEventDescription}
                   />
               </View>}
               <View style={styles.eventComponentView}>
@@ -569,7 +566,7 @@ _handleNotification = (notification) => {
                 <PastEvents
                   pastEvents={this.props.pastEvents.register}
                   type="pastEvents"
-                  onEventDescription={item => this.onEventDescription(item)}
+                  onEventDescription={this.onEventDescription}
                   />
               </View>}
             </View>
