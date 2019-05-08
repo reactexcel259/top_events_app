@@ -70,7 +70,7 @@ class Notifications extends React.Component {
           :
             <FlatList
             // inverted     
-            data={notificationList}
+            data={notificationList.reverse()}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {
               let time = moment().diff(moment(item.createdAt),'days');
