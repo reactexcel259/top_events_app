@@ -207,22 +207,7 @@ class ChangePassword extends React.Component {
             'Please Enter Password'
           )
         }
-      } else if(newPassword.length < 8 || currentPassword.length < 8 ){
-        if(Platform.OS == 'android') {
-          ToastAndroid.showWithGravityAndOffset(
-            'Password must be of 8 characters long',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
-        } else if( Platform.OS == 'ios'){
-          Alert.alert(
-            'Warning!',
-            'Password must be of 8 characters long'
-          )
-        }
-      }else if((newPassword.length == 8 || newPassword.length > 8) && (currentPassword.length == 8 ||  currentPassword.length > 8) ){
+      } else{
         payload = {
           token,
           password: newPassword,
@@ -233,22 +218,6 @@ class ChangePassword extends React.Component {
           loaderType:'changePassword'
         })
         this.props.userPasswordRequest(payload);
-      }
-       else {
-        if(Platform.OS == 'android') {
-          ToastAndroid.showWithGravityAndOffset(
-            'Password and confirm password is not match',
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-          );
-        } else if( Platform.OS == 'ios'){
-          Alert.alert(
-            'Warning!',
-            'Password and confirm password is not match'
-          )
-        }
       }
     } else if(pageType == 'changeEmail'){
       if(newEmail == '' || !validateEmail(newEmail)){

@@ -18,6 +18,13 @@ import { MonoText } from '../../components/StyledText';
 import CustomeButton from '../button'
 
 export default class LoginContainer extends React.Component {
+  googleLogin=()=>{
+    this.props.googleLogin()
+  }
+
+  socialLogin=()=>{
+    this.props.socialLogin()
+  }
   render() {
     const { onPress, onChange, firstName, lastName, iconPress, socialLogin, googleLogin } = this.props;
     return (
@@ -64,13 +71,13 @@ export default class LoginContainer extends React.Component {
             <Text style={styles.signupLabel} >Sign in with </Text>
           </View>
           <View style={styles.imageContainer} >
-            <TouchableOpacity onPress={() => { socialLogin()}} >
+            <TouchableOpacity onPress={this.socialLogin} >
             <Image
               style={styles.imageSize}
               source={require('../../assets/images/fbicon.png')}
             />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => { googleLogin()}} >
+            <TouchableOpacity activeOpacity={.5} onPress={this.googleLogin} >
             <Image
               style={[styles.imageSize,styles.imageMargin]}
               source={require('../../assets/images/googleLogo.png')}

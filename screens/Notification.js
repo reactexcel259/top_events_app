@@ -69,7 +69,7 @@ class Notifications extends React.Component {
           )
           :
             <FlatList
-            inverted     
+            // inverted     
             data={notificationList}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {

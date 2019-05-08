@@ -241,8 +241,13 @@ class SignUpScreen extends React.Component {
 
   googleLogin = async () => {
     try{
-      await GoogleSignIn.askForPlayServicesAsync();
+   const response =  await GoogleSignIn.askForPlayServicesAsync();
+   console.log(response,'response');
+   
+   if(response){
       const { type, user } = await GoogleSignIn.signInAsync();
+      console.log(type, user,"type, user");
+      
       if(user != null) {
         console.log(type,'type',user,'user')
         let payload = {
@@ -251,6 +256,7 @@ class SignUpScreen extends React.Component {
         }
         this.props.getSocialLoginRequest(payload)
       }
+    }
     } catch (err) {
       console.log(err,'googleError' )
     }
