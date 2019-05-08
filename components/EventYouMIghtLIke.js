@@ -17,6 +17,8 @@ export default class EventYouMIghtLIke extends PureComponent {
     let image = item.image == undefined ? "" : item.image.secure_url;
     let data = this.props.cityData.data != undefined ? this.props.cityData.data.results != undefined ? this.props.cityData.data.results.length : this.props.cityData.data.length : this.props.cityData.length
     return (
+      <React.Fragment>
+        {(moment(item.start).format("MM") == moment().format('MM') && moment(item.start).format("D") > new Date().getDate() ) &&
       <View
         key={index}
         style={[
@@ -46,7 +48,8 @@ export default class EventYouMIghtLIke extends PureComponent {
           </Text>
         </View>
         </Touch>
-      </View>
+      </View>}
+      </React.Fragment>
     );
   };
   render() {
@@ -54,7 +57,7 @@ export default class EventYouMIghtLIke extends PureComponent {
     return (
       <FlatList
         style={{ paddingLeft: 15 }}
-        data={this.props.cityData && this.props.cityData.data.results != undefined ? this.props.cityData.data.results : this.props.cityData.data  }
+        data={this.props.cityData && this.props.cityData.data.results != undefined ? this.props.cityData.data.results.sort(function(a,b){return new Date(a.start)-new Date(b.start)}) : this.props.cityData.data  }
         keyExtractor={(item, index) => item._id}
         renderItem={this._renderItem}
         horizontal={true}

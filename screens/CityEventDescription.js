@@ -88,6 +88,8 @@ class CityEventDescription extends Component {
   }
   componentDidMount() {
     if (this.props.navigation.state.params.item) {
+      console.log(this.props.navigation.state.params.item,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
+      
       this.props.eventDescription(this.props.navigation.state.params.item._id);
     }
   }

@@ -16,6 +16,8 @@ export default class Events extends Component {
 
   _renderItem = ({ item, index }) => {
     return (
+      // <React.Fragment>
+      //   {(moment(item.start).format("MM") == moment().format('MM') && moment(item.start).format("D") > new Date().getDate() ) &&
       <View
         key={index}
         style={[
@@ -44,6 +46,8 @@ export default class Events extends Component {
         </View>
         </Touch>
       </View>
+      // }
+      // </React.Fragment>
     );
   };
   findKey = (data) =>{

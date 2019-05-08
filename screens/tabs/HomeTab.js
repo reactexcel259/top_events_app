@@ -64,6 +64,7 @@ class HomeTab extends Component {
       attendingEventList:[],
       allCities:[],
       isComponent:false,
+      likeLatestEventsLength:[],
     };
   }
 
@@ -141,7 +142,7 @@ _handleNotification = (notification) => {
     const getUpdatedInterest =await getItem('user_updated_interest')
     const getInterest =await getItem("user_interest")
     const getLocation = await getItem("user_info");
-    const { getCategoryData ,getStateAndCityData, user} = this.props;
+    const { getCategoryData ,getStateAndCityData,getEventData, user} = this.props;
     // if(user.user.data.length == 0 ){
     //   let token  = user.user.status.token;
     //   await this.props.getUserDataRequest(token);
@@ -179,6 +180,18 @@ _handleNotification = (notification) => {
           })
         })
         this.setState({isComponent:true,allCities})
+      }
+
+      if(getEventData.register.isSuccess !== previousProps.getEventData.register.isSuccess){
+       let likeLatestEventsLength=[]
+        if(getEventData.register.isSuccess && getEventData.register.likeEvent && getEventData.register.likeEvent.data && getEventData.register.likeEvent.data.length >0){
+          getEventData.register.likeEvent.data.forEach((element,index)=>{
+            if((moment(element.start).format("MM")) > new Date().getDate()){
+              likeLatestEventsLength.push(element)
+            }
+          })
+          this.setState({likeLatestEventsLength})
+        }
       }
   }
   
@@ -427,7 +440,7 @@ _handleNotification = (notification) => {
   _keyExtractor = (item, index) => (index.toString());
 
   render() {
-    const { changeLocationModal, attendingEvents,allCities } = this.state;
+    const { changeLocationModal, attendingEvents,allCities, likeLatestEventsLength } = this.state;
     const {getStateAndCityData} = this.props;
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
@@ -436,6 +449,8 @@ _handleNotification = (notification) => {
     // const weeklyEvents =this.props.getEventData
     const cityEvents = this.props.getStateAndCityEventData.status;
     const likeEvent = this.props.getEventData.register.likeEvent;
+    console.log(this.props.getEventData,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
+    
     const eventsForWeekly = this.props.weeklyEventsData.register.weeklyEvents
     
     return (
@@ -503,9 +518,10 @@ _handleNotification = (notification) => {
                 {
                   likeEvent && likeEvent.data  &&
                   <React.Fragment>
-                    <View style={styles.EventTitleView}>
+                    {likeLatestEventsLength.length > 0 &&
+                       <View style={styles.EventTitleView}>
                       <Text style={styles.kingstonText}>Events you might like</Text>
-                    </View>
+                    </View>}
                     <EventYouMIghtLIke
                       cityData={likeEvent}
                       onEventDescription={this.onEventDescription}
@@ -550,7 +566,7 @@ _handleNotification = (notification) => {
               <View style={styles.eventComponentView}>
                 {eventsLength > 0 && (
                   <FlatList
-                    data={events}
+                    data={events.sort(function(a,b){return new Date(a.start)-new Date(b.start)})}
                     removeClippedSubviews={true}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
