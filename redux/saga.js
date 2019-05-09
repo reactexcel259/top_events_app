@@ -1,7 +1,8 @@
 import { takeLatest, takeEvery ,all } from "redux-saga/effects";
 import * as constants from "./constant";
 import { getRegisterRequest, getLoginRequest, storeTokenRequest, socialLoginRequest, getUserDataRequest,updateUserDataRequest, userPasswordRequest, userDataRequest, userForgetPasswordRequest } from "./homePage/action";
-import {getEventRequest, getEventByIdRequest, getTodayEventRequest, getLikeEventRequest} from './tabs/homeTab/action';
+import {getEventRequest, getEventByIdRequest, getTodayEventRequest,} from './tabs/homeTab/action';
+import {getLikeEventRequest} from './userInterestBaseEvents/action';
 import {getCategoryRequest} from './getCategory/actions';
 import {getStateAndCityRequest} from './stateAndCity/action';
 import {getStateAndCityEventRequest} from './stateAndCityEvent/action';

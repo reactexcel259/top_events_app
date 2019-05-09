@@ -13,6 +13,7 @@ import notification from '../redux/notification/reducer';
 import interest from '../redux/interest/reducer';
 import weeklyEvents from '../redux/weeklyEvents/reducer';
 import pastEvents from '../redux/pastEvents/reducer';
+import userInterestBaseEvents from '../redux/userInterestBaseEvents/reducer';
 
 
 export default combineReducers({
@@ -30,4 +31,5 @@ export default combineReducers({
  getInterestedEvent:getInterestedEvent,
  weeklyEvents:weeklyEvents,
  pastEvents:pastEvents,
+ userInterestBaseEvents:userInterestBaseEvents,
 });

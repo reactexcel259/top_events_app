@@ -142,7 +142,7 @@ _handleNotification = (notification) => {
     const getUpdatedInterest =await getItem('user_updated_interest')
     const getInterest =await getItem("user_interest")
     const getLocation = await getItem("user_info");
-    const { getCategoryData ,getStateAndCityData,getEventData, user} = this.props;
+    const { getCategoryData ,getStateAndCityData,getEventData, user,userInterestBaseEvents} = this.props;
     // if(user.user.data.length == 0 ){
     //   let token  = user.user.status.token;
     //   await this.props.getUserDataRequest(token);
@@ -182,10 +182,10 @@ _handleNotification = (notification) => {
         this.setState({isComponent:true,allCities})
       }
 
-      if(getEventData.register.isSuccess !== previousProps.getEventData.register.isSuccess){
+      if(userInterestBaseEvents.isSuccess !== previousProps.userInterestBaseEvents.isSuccess){
        let likeLatestEventsLength=[]
-        if(getEventData.register.isSuccess && getEventData.register.likeEvent && getEventData.register.likeEvent.data && getEventData.register.likeEvent.data.length >0){
-          getEventData.register.likeEvent.data.forEach((element,index)=>{
+        if(userInterestBaseEvents.isSuccess && userInterestBaseEvents.likeEvent && userInterestBaseEvents.likeEvent.data && userInterestBaseEvents.likeEvent.data.length >0){
+          userInterestBaseEvents.likeEvent.data.forEach((element,index)=>{
             if((moment(element.start).format("MM") == moment().format('MM') || moment(element.start).format("MM") > moment().format('MM'))   && moment(element.start).format("D") > new Date().getDate()){
               likeLatestEventsLength.push(element)
             }
@@ -277,8 +277,6 @@ _handleNotification = (notification) => {
     }
   }
   onSearchChange = (text,val) => {
-    console.log(text,val,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL')
-    
     this.setState({
       search: text,
       selected: val
@@ -289,8 +287,6 @@ _handleNotification = (notification) => {
   }
   onPressLocation = async() => {
     const { search, selectedInt} = this.state;
-    console.log(search,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL>>>>>>>>>>>>>>>>>>.');
-    
     const { user } = this.props;
     if(!Object.keys(this.state.search).length){
       if(Platform.OS == 'android') {
@@ -440,7 +436,7 @@ _handleNotification = (notification) => {
   _keyExtractor = (item, index) => (index.toString());
 
   render() {
-    const { changeLocationModal, attendingEvents,allCities, likeLatestEventsLength } = this.state;
+    const { changeLocationModal, attendingEvents,allCities, likeLatestEventsLength ,userInterestBaseEvents} = this.state;
     const {getStateAndCityData} = this.props;
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
@@ -448,11 +444,8 @@ _handleNotification = (notification) => {
     
     // const weeklyEvents =this.props.getEventData
     const cityEvents = this.props.getStateAndCityEventData.status;
-    const likeEvent = this.props.getEventData.register.likeEvent;
-    console.log(likeEvent,likeLatestEventsLength,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
-    
+    const likeEvent = this.props.userInterestBaseEvents.likeEvent;
     const eventsForWeekly = this.props.weeklyEventsData.register.weeklyEvents
-    
     return (
       <View style={styles.wrapper}>
         <CustomHeader isCenter={true} centerImage={true} />
@@ -516,7 +509,7 @@ _handleNotification = (notification) => {
               </View>
               <View style={styles.likedView}>
                 {
-                  likeEvent && likeEvent.data  &&
+                  likeEvent && likeEvent.data && likeEvent.data.length>0  &&
                   <React.Fragment>
                     {likeLatestEventsLength.length > 0 &&
                        <View style={styles.EventTitleView}>
@@ -618,6 +611,7 @@ const mapStateToProps = state => {
     getStateAndCityEventData: state.getStateAndCityEvent,
     weeklyEventsData:state.weeklyEvents,
     pastEvents:state.pastEvents,
+    userInterestBaseEvents:state.userInterestBaseEvents,
   };
 };
 const mapDispatchToProps = dispatch => {

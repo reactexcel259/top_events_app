@@ -61,28 +61,28 @@ export function* getEventByIdRequest(action) {
   }
 }
 
-export function* getLikeEventRequest(action) {
-  console.log("getLikeEventRequest",action.payload);
+// export function* getLikeEventRequest(action) {
+//   console.log("getLikeEventRequest",action.payload);
   
-  const header = {
-      "Authorization":action.payload.token
-    };
-  try {
-    const response = yield call(
-      fireAjax,
-      "GET",
-      '/getEventsByInterests',
-      header
-    );
-    if (response) {
-      console.log("getLikeEventRequest",response);
+//   const header = {
+//       "Authorization":action.payload.token
+//     };
+//   try {
+//     const response = yield call(
+//       fireAjax,
+//       "GET",
+//       '/getEventsByInterests',
+//       header
+//     );
+//     if (response) {
+//       console.log("getLikeEventRequest",response);
       
-      yield put(actions.getLikeEventSuccess(response.data));
-    }
-  } catch (e) {
-    yield put(actions.getLikeEventError(e));
-  }
-}
+//       yield put(actions.getLikeEventSuccess(response.data));
+//     }
+//   } catch (e) {
+//     yield put(actions.getLikeEventError(e));
+//   }
+// }
 
 // export function* getWeeklyEventsRequest(action) {
 //   try {

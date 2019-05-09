@@ -78,25 +78,25 @@ const getEventSuccess = (state, action) =>
       }
     });
 
-  const getLikeEventRequest = (state, action) => {
-  return update(state, {
-    register: {
-      isLoading: { $set: false },
-      isError: { $set: false },
-      isSuccess: { $set: true },
-    }
-  });
-};
+//   const getLikeEventRequest = (state, action) => {
+//   return update(state, {
+//     register: {
+//       isLoading: { $set: false },
+//       isError: { $set: false },
+//       isSuccess: { $set: true },
+//     }
+//   });
+// };
 
-const getLikeEventSuccess = (state, action) =>
-  update(state, {
-    register: {
-      isLoading: { $set: false },
-      isError: { $set: false },
-      isSuccess: { $set: true },
-      likeEvent: { $set: action.payload }
-    }
-  });
+// const getLikeEventSuccess = (state, action) =>
+//   update(state, {
+//     register: {
+//       isLoading: { $set: false },
+//       isError: { $set: false },
+//       isSuccess: { $set: true },
+//       likeEvent: { $set: action.payload }
+//     }
+//   });
   
   
 export default handleActions(
@@ -107,8 +107,8 @@ export default handleActions(
     [constants.GET_EVENTBYID_SUCCESS]: getEventByIdSuccess,
     [constants.GET_TODAY_EVENT_REQUEST]: getTodayEventRequest,
     [constants.GET_TODAY_EVENT_SUCCESS]: getTodayEventSuccess,
-    [constants.GET_LIKEEVENT_REQUEST]: getLikeEventRequest,
-    [constants.GET_LIKEEVENT_SUCCESS]: getLikeEventSuccess,
+    // [constants.GET_LIKEEVENT_REQUEST]: getLikeEventRequest,
+    // [constants.GET_LIKEEVENT_SUCCESS]: getLikeEventSuccess,
     // [constants.GET_WEEKLY_EVENTS_REQUEST]: getWeeklyEventsRequest,
     // [constants.GET_WEEKLY_EVENTS_SUCCESS]: getWeeklyEventsSuccess,
     // [constants.GET_WEEKLY_EVENTS_ERROR]: getWeeklyEventsError,
