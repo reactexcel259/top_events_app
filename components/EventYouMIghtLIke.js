@@ -17,8 +17,8 @@ export default class EventYouMIghtLIke extends PureComponent {
     let image = item.image == undefined ? "" : item.image.secure_url;
     let data = this.props.cityData.data != undefined ? this.props.cityData.data.results != undefined ? this.props.cityData.data.results.length : this.props.cityData.data.length : this.props.cityData.length
     return (
-      <React.Fragment>
-        {(moment(item.start).format("MM") == moment().format('MM') && moment(item.start).format("D") > new Date().getDate() ) &&
+      // <React.Fragment>
+      //   {(moment(item.start).format("MM") == moment().format('MM') && moment(item.start).format("D") > new Date().getDate() ) &&
       <View
         key={index}
         style={[
@@ -48,8 +48,9 @@ export default class EventYouMIghtLIke extends PureComponent {
           </Text>
         </View>
         </Touch>
-      </View>}
-      </React.Fragment>
+      </View>
+      // }
+      // </React.Fragment>
     );
   };
   render() {

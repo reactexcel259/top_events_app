@@ -21,6 +21,8 @@ export default class ChangeLocation extends Component {
         return allCities ? allCities.filter(city => city.name.search(regex) >= 0) : '';
     }
     render() {
+      console.log(Layout.window.width,'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+      
       const { data } = this.props.stateAndCity.status;
       const {changeLocationModal, onPress, onSearchChange, search, stateAndCity,allCities, selected, onCancelPress } = this.props;
       const films = /* search != '' && search != undefined ? this.findFilm(search) :  */uniqBy(allCities, "name")  ;
@@ -71,10 +73,10 @@ export default class ChangeLocation extends Component {
         { films && films.length >= 1 ?
           <FlatList
             data={films}
-            numColumns={4}
+            numColumns={Layout.window.width > 380 ? 4 :3 }
             ListHeaderComponent={()=>{
               return <View style={styles.underLine}>
-                      <Text style={styles.eventsText}>Events within or nearby City</Text>
+                      <Text style={styles.eventsText}>Events within or nearby your City</Text>
                   </View>
             }}
             keyExtractor={(item, index) => item._id}

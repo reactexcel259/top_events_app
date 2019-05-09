@@ -87,10 +87,10 @@ export default class Locations extends React.Component {
         {films.length >= 1?
           <FlatList
             data={films}
-            numColumns={2}
+            numColumns={Layout.window.width > 380 ? 4 :3}
             ListHeaderComponent={()=>{
               return <View style={styles.underLine}>
-              <Text style={styles.eventsText}>Events within or nearby City</Text>
+              <Text style={styles.eventsText}>Events within or nearby your City</Text>
           </View>
             }}
             keyExtractor={(item, index) => item._id}
