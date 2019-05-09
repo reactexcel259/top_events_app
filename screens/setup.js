@@ -225,7 +225,7 @@ class SetupScreen extends React.Component {
           ToastAndroid.LONG,
           ToastAndroid.BOTTOM,
           25,
-          50,
+          50, 
         );
       } else if( Platform.OS == 'ios'){ 
         Alert.alert("error",'Please select at least one')

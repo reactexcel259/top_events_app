@@ -9,7 +9,8 @@ import {
   Alert,
   ToastAndroid,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -132,6 +133,7 @@ class ProfileSettingScreen extends React.Component {
   updateUserInterest = () => {
     const { selectedInt } = this.state;
     const { user } = this.props;
+    if(selectedInt.length>0){
     let payload = {
       token: user.status.token,
       data: {
@@ -139,6 +141,19 @@ class ProfileSettingScreen extends React.Component {
       }
     };
     this.props.updateUserDataRequest(payload)
+  }else{
+    if(Platform.OS == 'android') {
+      ToastAndroid.showWithGravityAndOffset(
+        'Please select at least one',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50, 
+      );
+    } else if( Platform.OS == 'ios'){ 
+      Alert.alert("error",'Please select at least one')
+    }
+  }
   }
 
   useCurrentLocation = async () => {
