@@ -53,12 +53,29 @@ const getRegisterSuccess = (state, action) =>
    }
  });
 
- const getUserDataSuccess = (state, action) =>
- update(state, {
-   user: {
-     data: { $set: action.payload }
-   }
- });
+ const getUserDataRequest = (state, action) =>{
+   return(
+    update(state, {
+      user: {
+        data: { $set: action.payload },
+        isUserSuccess:{$set:false}
+      }
+    })
+   )
+ }
+ 
+
+ const getUserDataSuccess = (state, action) =>{
+   return(
+    update(state, {
+      user: {
+        data: { $set: action.payload },
+        isUserSuccess:{$set:true}
+      }
+    })
+   )
+ }
+ 
 
  const userPasswordRequest = (state, action) =>
  update(state, {
@@ -85,22 +102,15 @@ const userPasswordSuccess = (state, action) =>
  update(state, {
    user: {
      updateData: { $set: true },
-     isUserSuccess:{$set:false}
    }
  });
 
-const userDataSuccess = (state, action) =>{
-  console.log(action,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
-  
-  return(
+const userDataSuccess = (state, action) =>
     update(state, {
       user: {
-        updateData: { $set: action.payload },
-        isUserSuccess:{$set:true}
+        updateData: { $set: action.payload }, 
       }
     })
-  )
-}
 
 
  const userDataError = (state, action) =>
@@ -136,7 +146,7 @@ export default handleActions(
    [constants.USER_DATA_REQUEST]: userDataRequest,
    [constants.USER_DATA_SUCCESS]: userDataSuccess,
    [constants.USER_DATA_ERROR]: userDataError,
-
+   [constants.GET_USER_DATA_REQUEST]: getUserDataRequest,
    [constants.GET_USER_DATA_SUCCESS]: getUserDataSuccess,
 
    [constants.CLOSE_SUCCESS_MODAL]: clearSuccessRequest,

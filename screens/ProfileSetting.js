@@ -52,6 +52,7 @@ class ProfileSettingScreen extends React.Component {
     }    
   }
 
+
   componentWillReceiveProps(nextProps) {
     const { getCategoryData, user, getInterest } = this.props;
  
@@ -65,8 +66,9 @@ class ProfileSettingScreen extends React.Component {
     }
   }
 
-  componentDidUpdate(previousProps){
-    const {getStateAndCityData}=this.props;
+ async componentDidUpdate(previousProps){
+    const {getStateAndCityData,user}=this.props;
+    let token =user.status.token
     let allCities = []
     const {isComponent}=this.state;
       if(getStateAndCityData.isSuccess && getStateAndCityData.status && getStateAndCityData.status.data && !isComponent){
@@ -76,6 +78,13 @@ class ProfileSettingScreen extends React.Component {
           })
         })
         this.setState({isComponent:true,allCities})
+      }
+      if(user.isUserSuccess !== previousProps.user.isUserSuccess){
+        console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV","usersuccess");
+        
+        if(user.isUserSuccess){
+          await this.props.getLikeEventRequest({token:token});
+        }
       }
   }
 
@@ -140,7 +149,7 @@ class ProfileSettingScreen extends React.Component {
         interests: selectedInt
       }
     };
-    this.props.updateUserDataRequest(payload)
+    this.props.updateUserDataRequest(payload);
   }else{
     if(Platform.OS == 'android') {
       ToastAndroid.showWithGravityAndOffset(
