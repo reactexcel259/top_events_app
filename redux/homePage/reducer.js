@@ -7,6 +7,7 @@ const initialState = {
    isLoading: false,
    isError: false,
    isSuccess: false,
+   isUserSuccess:false,
    message: "",
    status:{},
    data:[],
@@ -84,15 +85,23 @@ const userPasswordSuccess = (state, action) =>
  update(state, {
    user: {
      updateData: { $set: true },
+     isUserSuccess:{$set:false}
    }
  });
 
-const userDataSuccess = (state, action) =>
- update(state, {
-   user: {
-     updateData: { $set: action.payload }
-   }
- });
+const userDataSuccess = (state, action) =>{
+  console.log(action,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
+  
+  return(
+    update(state, {
+      user: {
+        updateData: { $set: action.payload },
+        isUserSuccess:{$set:true}
+      }
+    })
+  )
+}
+
 
  const userDataError = (state, action) =>
  update(state, {
