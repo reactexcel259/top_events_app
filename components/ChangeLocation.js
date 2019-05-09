@@ -21,8 +21,6 @@ export default class ChangeLocation extends Component {
         return allCities ? allCities.filter(city => city.name.search(regex) >= 0) : '';
     }
     render() {
-      console.log(Layout.window.width,'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-      
       const { data } = this.props.stateAndCity.status;
       const {changeLocationModal, onPress, onSearchChange, search, stateAndCity,allCities, selected, onCancelPress } = this.props;
       const films = /* search != '' && search != undefined ? this.findFilm(search) :  */uniqBy(allCities, "name")  ;

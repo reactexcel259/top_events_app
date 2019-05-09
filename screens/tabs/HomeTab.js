@@ -186,7 +186,7 @@ _handleNotification = (notification) => {
        let likeLatestEventsLength=[]
         if(getEventData.register.isSuccess && getEventData.register.likeEvent && getEventData.register.likeEvent.data && getEventData.register.likeEvent.data.length >0){
           getEventData.register.likeEvent.data.forEach((element,index)=>{
-            if((moment(element.start).format("MM")) > new Date().getDate()){
+            if((moment(element.start).format("MM") == moment().format('MM') || moment(element.start).format("MM") > moment().format('MM'))   && moment(element.start).format("D") > new Date().getDate()){
               likeLatestEventsLength.push(element)
             }
           })
@@ -449,7 +449,7 @@ _handleNotification = (notification) => {
     // const weeklyEvents =this.props.getEventData
     const cityEvents = this.props.getStateAndCityEventData.status;
     const likeEvent = this.props.getEventData.register.likeEvent;
-    console.log(this.props.getEventData,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
+    console.log(likeEvent,likeLatestEventsLength,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
     
     const eventsForWeekly = this.props.weeklyEventsData.register.weeklyEvents
     
