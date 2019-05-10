@@ -87,16 +87,11 @@ class CityEventDescription extends Component {
       isFullImage: false,
       imageUrl:'',
       userSelectedLike:null,
-      userLikedWhenPageLanding:true
+      userLikedWhenPageLanding:false
     };
   }
  async componentDidMount() {
-  const userDidLiked =await getItem('userLiked')
-  console.log(userDidLiked,'LLLLLLLLLLLLLLLLLLLmmm');
-  
     if (this.props.navigation.state.params.item) {
-      console.log(this.props.navigation.state.params.item,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
-      
       this.props.eventDescription(this.props.navigation.state.params.item._id);
     }
   }
@@ -122,16 +117,16 @@ class CityEventDescription extends Component {
         isCalander: false
       })
     }
-    if ( !this.state.isLiked && checkInterested && Object.keys(checkInterested).length) {
+    if ( !this.state.isLiked && checkInterested &&  Object.keys(checkInterested).length) {
       // setItem('userLiked', JSON.stringify({liked:true}));
         this.setState({ isLiked: true },()=>{
-          if(this.props.userLike.isSuccess){
+          if(this.props.userLike.isSuccess && userLikedWhenPageLanding){
           ToastAndroid.show('Added to Wishlist', ToastAndroid.SHORT);
         }
         });
     } else if(this.state.isLiked && checkInterested == undefined) {
       this.setState({isLiked: false},()=>{
-        if(this.props.userLike.isSuccess){
+        if(this.props.userLike.isSuccess && userLikedWhenPageLanding){
           ToastAndroid.show('Removed from Wishlist', ToastAndroid.SHORT);
         }
       })
@@ -230,17 +225,10 @@ class CityEventDescription extends Component {
   }
 
   onEventLike = async() => {
-    this.setState({ isLiked: !this.state.isLiked });
-    // const {isLiked}=this.state;
-    // let userLiked =  isLiked
-    // if(this.state.isLiked){
-    //   this.setState({userSelectedLike:false})
-    // }else{
-    //   this.setState({userSelectedLike:true})
-    // }
+    this.setState({ userLikedWhenPageLanding:true });
     let token = this.props.user.user.status.token;
     let eventId = this.props.navigation.state.params.item._id;
-    // await this.props.eventLikeRequest({ token, eventId });
+    await this.props.eventLikeRequest({ token, eventId });
   };
 
   onCommentTextChange = (text) => {
@@ -412,24 +400,14 @@ class CityEventDescription extends Component {
     const checkInterested = interestedArray.find(
       going => going.email == user.data.data.email
     );
-    // if(userSelectedLike !==null){
-    //   if(!userSelectedLike){
-    //     rightIcon= ["heart-o", "share-alt"];
-    //   }
-    //   else if(userSelectedLike){
-    //     rightIcon = ["heart", "share-alt"];
-    //   }
-    // }
-    // else{
     if (isLiked) {
       rightIcon = ["heart", "share-alt"];
     } else {
       rightIcon =
-      /* checkInterested && Object.keys(checkInterested).length && !isLiked
+      checkInterested && Object.keys(checkInterested).length && !isLiked
       ? ["heart", "share-alt"]
-      : */ ["heart-o", "share-alt"];
+      : ["heart-o", "share-alt"];
     }
-  // }
     let isPassed;
     if(item){
      isPassed = moment().diff(moment(item.start),'days')
