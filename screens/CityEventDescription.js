@@ -413,6 +413,8 @@ class CityEventDescription extends Component {
      isPassed = moment().diff(moment(item.start),'days')
     }
  let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
+ console.log(item,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
+ 
  return (
    <ErrorBoundary>
       <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >
@@ -625,9 +627,9 @@ class CityEventDescription extends Component {
                     {
                       (item.VideoLink != undefined && item.VideoLink != "") &&
                       <View style={styles.videoView}>
-                        {/* <Video
+                        <Video
                           source={{
-                            uri: item.VideoLink
+                            uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
                           }}
                           rate={1.0}
                           volume={1.0}
@@ -636,11 +638,11 @@ class CityEventDescription extends Component {
                           shouldPlay={this.state.isPlay}
                           isLooping={false}
                           style={{ width: "100%", height: "100%" }}
-                          /> */}
+                          />
                           {/* <WebView
                               style={{width: "100%", height: "100%"}}
                               javaScriptEnabled={true}
-                              source={{uri: item.VideoLink}}
+                              source={{uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"}}
                           /> */}
                         <View style={styles.pasuePlayView}>
                           <FontAwesome
