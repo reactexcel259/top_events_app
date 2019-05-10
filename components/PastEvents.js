@@ -14,7 +14,7 @@ import Touch from 'react-native-touch';
 
 export default class PastEvents extends PureComponent {
   _renderItem = ({ item, index }) => {
-    let data = this.props.pastEvents.pastEvents.data.results.length
+    let data = this.props.pastEvents.pastEvents.data.length
     return (
          <View
             key={index}
@@ -57,7 +57,7 @@ export default class PastEvents extends PureComponent {
         
       <FlatList
         style={{ paddingLeft: 15 }}
-        data={pastEvents.pastEvents.data.results.sort(function(a,b){return new Date(a.start)-new Date(b.start)})}
+        data={pastEvents.pastEvents.data.sort(function(a,b){return new Date(a.start)-new Date(b.start)})}
         keyExtractor={(item, index) => item._id}
         renderItem={this._renderItem}
         horizontal={true}

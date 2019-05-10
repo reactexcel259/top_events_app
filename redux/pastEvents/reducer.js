@@ -43,9 +43,9 @@ const getWeeklyEventsRequest = (state, action) => {
 
     export default handleActions(
         {
-          [constants.GET_WEEKLY_EVENTS_REQUEST]:getWeeklyEventsRequest,
-          [constants.GET_WEEKLY_EVENTS_SUCCESS]:getWeeklyEventsSuccess,
-          [constants.GET_WEEKLY_EVENTS_ERROR]:getWeeklyEventsError,
+          [constants.GET_PAST_EVENTS_ERROR]:getWeeklyEventsRequest,
+          [constants.GET_PAST_EVENTS_SUCCESS]:getWeeklyEventsSuccess,
+          [constants.GET_PAST_EVENTS_ERROR]:getWeeklyEventsError,
         },
         initialState
       );

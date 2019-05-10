@@ -436,6 +436,8 @@ _handleNotification = (notification) => {
   _keyExtractor = (item, index) => (index.toString());
 
   render() {
+    console.log(this.props.pastEvents,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
+    
     const { changeLocationModal, attendingEvents,allCities, likeLatestEventsLength ,userInterestBaseEvents} = this.state;
     const {getStateAndCityData} = this.props;
     const eventsLength = this.props.getEventData.register.eventData.length;
@@ -568,6 +570,7 @@ _handleNotification = (notification) => {
                 }
               </View>
               {this.props.pastEvents.register.isSuccess && this.props.pastEvents.register.pastEvents.data &&
+              this.props.pastEvents.register.pastEvents.data.length && 
               <View style={[styles.likedView,{paddingBottom:90}]}>
                 <View style={styles.EventTitleView}>
                   <Text style={styles.kingstonText}>Past Events</Text>

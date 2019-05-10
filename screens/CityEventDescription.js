@@ -13,7 +13,8 @@ import {
   Share,
   ToastAndroid,
   KeyboardAvoidingView,
-  WebView
+  WebView,
+  AsyncStorage
 } from "react-native";
 import Layout from "../constants/Layout";
 import { LinearGradient, MapView, Video } from "expo";
@@ -29,6 +30,7 @@ import { connect } from "react-redux";
 import { ErrorRecovery } from 'expo';
 import ErrorBoundary from '../components/ErrorBoundary';
 const { height, width } = Dimensions.get("window");
+ import {getItem ,setItem} from '../services/storage';
 import {
   getEventDescriptionRequest,
   postEventLikeRequest,
@@ -83,18 +85,23 @@ class CityEventDescription extends Component {
       isModalCall: false,
       imagepicker: false,
       isFullImage: false,
-      imageUrl:''
+      imageUrl:'',
+      userSelectedLike:null,
+      userLikedWhenPageLanding:true
     };
   }
-  componentDidMount() {
+ async componentDidMount() {
+  const userDidLiked =await getItem('userLiked')
+  console.log(userDidLiked,'LLLLLLLLLLLLLLLLLLLmmm');
+  
     if (this.props.navigation.state.params.item) {
       console.log(this.props.navigation.state.params.item,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
       
       this.props.eventDescription(this.props.navigation.state.params.item._id);
     }
   }
-  componentDidUpdate(prevProps, prevState) {
-    const { isLiked, isCalander, isModalCall } = this.state;
+ async componentDidUpdate(prevProps, prevState) {
+    const { isLiked, isCalander, isModalCall ,userLikedWhenPageLanding} = this.state;
     const { user } = this.props.user;
     const eventData = this.props.getEventDescription;
     const item =
@@ -116,6 +123,7 @@ class CityEventDescription extends Component {
       })
     }
     if ( !this.state.isLiked && checkInterested && Object.keys(checkInterested).length) {
+      // setItem('userLiked', JSON.stringify({liked:true}));
         this.setState({ isLiked: true },()=>{
           if(this.props.userLike.isSuccess){
           ToastAndroid.show('Added to Wishlist', ToastAndroid.SHORT);
@@ -128,6 +136,13 @@ class CityEventDescription extends Component {
         }
       })
     }
+    // const userDidLiked =await AsyncStorage.getItem('userLiked')
+    // if(!userLikedWhenPageLanding && userDidLiked !==undefined){
+    //   console.log(userDidLiked,'LLLLLLLLLLLLLLLLLLLLLLLLLLLL');
+    //   this.setState({userLikedWhenPageLanding:true})
+      
+    // }
+
     if(this.props.postAddComment.isSuccess){
       this.setState({
         comment: '',
@@ -215,10 +230,17 @@ class CityEventDescription extends Component {
   }
 
   onEventLike = async() => {
-    // this.setState({ isLiked: !this.state.isLiked });
+    this.setState({ isLiked: !this.state.isLiked });
+    // const {isLiked}=this.state;
+    // let userLiked =  isLiked
+    // if(this.state.isLiked){
+    //   this.setState({userSelectedLike:false})
+    // }else{
+    //   this.setState({userSelectedLike:true})
+    // }
     let token = this.props.user.user.status.token;
     let eventId = this.props.navigation.state.params.item._id;
-    await this.props.eventLikeRequest({ token, eventId });
+    // await this.props.eventLikeRequest({ token, eventId });
   };
 
   onCommentTextChange = (text) => {
@@ -374,7 +396,7 @@ class CityEventDescription extends Component {
   }
 
   render() {
-    const { isLiked, comment, calanderItem, isCalander, isFullImage, imageUrl } = this.state;
+    const { isLiked, comment, calanderItem, isCalander, isFullImage, imageUrl,userSelectedLike } = this.state;
     const { user } = this.props.user;
     let rightIcon;
     const eventData = this.props.getEventDescription;
@@ -390,14 +412,24 @@ class CityEventDescription extends Component {
     const checkInterested = interestedArray.find(
       going => going.email == user.data.data.email
     );
+    // if(userSelectedLike !==null){
+    //   if(!userSelectedLike){
+    //     rightIcon= ["heart-o", "share-alt"];
+    //   }
+    //   else if(userSelectedLike){
+    //     rightIcon = ["heart", "share-alt"];
+    //   }
+    // }
+    // else{
     if (isLiked) {
       rightIcon = ["heart", "share-alt"];
     } else {
       rightIcon =
-      checkInterested && Object.keys(checkInterested).length && !isLiked
+      /* checkInterested && Object.keys(checkInterested).length && !isLiked
       ? ["heart", "share-alt"]
-      : ["heart-o", "share-alt"];
+      : */ ["heart-o", "share-alt"];
     }
+  // }
     let isPassed;
     if(item){
      isPassed = moment().diff(moment(item.start),'days')

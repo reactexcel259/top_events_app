@@ -6,8 +6,8 @@ export function* getPastEventsRequest(action) {
     try {
       const response = yield call(
         fireAjax,
-        "GET",
-        '/getPastEvents',
+        "PASTEVENTS",
+        'https://api.topeventsinjamaica.com/api/getPastEvents',
       );
       if (response) {
           yield put(actions.getPastEventsSuccess(response.data));
