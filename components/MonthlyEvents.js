@@ -14,6 +14,7 @@ import Touch from 'react-native-touch';
 
 export default class MonthlyEvents extends PureComponent {
   _renderItem = ({ item, index }) => {
+    let eventEndDate = moment(item.end).format("M") > moment(item.start).format("M") ||  (parseInt(moment(item.end).format("D")) !== parseInt(moment(item.start).format("D"))+1 && parseInt(moment(item.end).format("D")) > parseInt(moment(item.start).format("D"))+1 )? moment(item.end).format("D MMM") : "";
     let image = item.image == undefined ? "" : item.image.secure_url;
     let data = this.props.cityData.data != undefined ? this.props.cityData.data.results != undefined ? this.props.cityData.data.results.length : this.props.cityData.data.length : this.props.cityData.length
     return (
@@ -44,7 +45,7 @@ export default class MonthlyEvents extends PureComponent {
             <View style={styles.imageTitle}>
             <Text style={[ this.props.type == undefined ? styles.nameText : {color:'white'} ]}>{item.title}</Text>
             <Text style={[ this.props.type == undefined ? styles.dateText : {color:'white'} ]}>
-                {moment(item.start).format("D MMM, dddd")}
+            {moment(item.start).format("D MMM")+" "}{eventEndDate !=="" && ("-"+" " + eventEndDate)}
             </Text>
             </View>
             </Touch>

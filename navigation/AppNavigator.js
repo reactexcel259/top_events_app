@@ -52,6 +52,7 @@ Routers.router.getStateForAction = (action, state) => {
     state.routes[state.index].routes[state.routes[state.index].index].index == 0 &&
     action.type === NavigationActions.BACK
   ) {
+    //to exit from app when user press hardware back button on homeTab
     BackHandler.exitApp();
     // Returning null from getStateForAction means that the action
     // has been handled/blocked, but there is not a new state

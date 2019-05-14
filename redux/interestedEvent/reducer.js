@@ -11,7 +11,9 @@ const initialState = {
    message: "",
    status:[],
    attending:[],
-   joinedTrue:false
+   joinedTrue:false,
+   isEventJoinLoading:false,
+   isEventJoinSuccess:false
 };
 
 const getInterestedEventRequest = (state, action) =>{
@@ -46,11 +48,15 @@ const getInterestedEventSuccess = (state, action) =>
  const postJoiningEventsRequest = (state, action) =>
  update(state, {
     postingLoading: { $set: true },
+    isEventJoinLoading:{$set:true},
+    isEventJoinSuccess:{$set:false}
  });
  const postJoiningEventsSuccess = (state, action) =>
  update(state, {
     postingLoading: { $set: false },
-    joinedTrue:{$set:true}
+    joinedTrue:{$set:true},
+    isEventJoinLoading:{$set:false},
+    isEventJoinSuccess:{$set:true},
  });
  const setAddEventDefault =(state, action) =>
  update(state, {

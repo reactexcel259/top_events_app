@@ -87,7 +87,8 @@ class CityEventDescription extends Component {
       isFullImage: false,
       imageUrl:'',
       userSelectedLike:null,
-      userLikedWhenPageLanding:false
+      userLikedWhenPageLanding:false,
+      isUserGoingToEvent:false
     };
   }
  async componentDidMount() {
@@ -96,7 +97,8 @@ class CityEventDescription extends Component {
     }
   }
  async componentDidUpdate(prevProps, prevState) {
-    const { isLiked, isCalander, isModalCall ,userLikedWhenPageLanding} = this.state;
+   const {getInterestedEvent,getEventDescription}=this.props;
+    const { isLiked, isCalander, isModalCall ,userLikedWhenPageLanding,isUserGoingToEvent} = this.state;
     const { user } = this.props.user;
     const eventData = this.props.getEventDescription;
     const item =
@@ -150,6 +152,17 @@ class CityEventDescription extends Component {
         this.props.setAddEventDefault();
         this.props.eventDescription(this.props.navigation.state.params.item._id);
       }
+
+      if(getEventDescription.isSuccess !==prevProps.getEventDescription.isSuccess){
+      let isPassed;
+      isPassed = moment().diff(moment(item.start),'days')
+      if(!checkedInBy && !(isPassed  != undefined && isPassed >= 0 ) && isUserGoingToEvent && getEventDescription.isSuccess){
+        ToastAndroid.show('Removed from Attending Events', ToastAndroid.SHORT);
+      }
+      if(checkedInBy && !(isPassed  != undefined && isPassed >= 0 ) && isUserGoingToEvent && getEventDescription.isSuccess){
+        ToastAndroid.show('Added to Attending Events', ToastAndroid.SHORT);
+      }
+    }
   }
 
   onShare = async () => {
@@ -283,6 +296,7 @@ class CityEventDescription extends Component {
   }
 
   eventJoin = () => {
+    this.setState({isUserGoingToEvent:true})
     const { user,navigation  } = this.props;
     const eventData = this.props.getEventDescription;    
     const item =
@@ -430,7 +444,7 @@ class CityEventDescription extends Component {
           onEventLike={() => this.onEventLike()}
         />
         {
-          getEventDescription.isLoading ? 
+          getEventDescription.isLoading || goingData.isEventJoinLoading ? 
            (
             <View style={styles.loaderView}>
               <ActivityIndicator color="#FF6CC9" size="large" />
