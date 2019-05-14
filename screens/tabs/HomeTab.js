@@ -12,6 +12,7 @@ import {
   Alert,
   Image,
   Platform,
+  BackHandler,
 } from "react-native";
 import moment from 'moment';
 import VideosComponent from "../../components/VideosComponent";
@@ -98,7 +99,7 @@ class HomeTab extends Component {
     await this.registerForPushNotificationsAsync();
     this._notificationSubscription = Notifications.addListener(this._handleNotification);
 }
-
+ 
  registerForPushNotificationsAsync = async () => {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
@@ -135,7 +136,6 @@ class HomeTab extends Component {
 }
 
 _handleNotification = (notification) => {
-    console.log(notification,'idaaaaa')
   };
 
   async componentDidUpdate(previousProps) {
@@ -436,8 +436,6 @@ _handleNotification = (notification) => {
   _keyExtractor = (item, index) => (index.toString());
 
   render() {
-    console.log(this.props.pastEvents,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
-    
     const { changeLocationModal, attendingEvents,allCities, likeLatestEventsLength ,userInterestBaseEvents} = this.state;
     const {getStateAndCityData} = this.props;
     const eventsLength = this.props.getEventData.register.eventData.length;

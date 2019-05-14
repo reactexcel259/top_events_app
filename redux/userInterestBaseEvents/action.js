@@ -3,8 +3,6 @@ import fireAjax from '../../services';
 import {call,put} from "redux-saga/effects";
 
 export function* getLikeEventRequest(action) {
-    console.log("getLikeEventRequest",action.payload);
-    
     const header = {
         "Authorization":action.payload.token
       };
@@ -16,8 +14,6 @@ export function* getLikeEventRequest(action) {
         header
       );
       if (response) {
-        console.log("getLikeEventRequest",response);
-        
         yield put(actions.getLikeEventSuccess(response.data));
       }
     } catch (e) {

@@ -84,7 +84,6 @@ class CheckIn extends Component {
     if(data && data.secure_url){
       image.push(data.secure_url)
     }
-    console.log(image,'77777777')
     this.setState({
       image
     })

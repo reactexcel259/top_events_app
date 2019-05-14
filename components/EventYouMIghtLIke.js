@@ -54,7 +54,6 @@ export default class EventYouMIghtLIke extends PureComponent {
     );
   };
   render() {
-    console.log(this.props.cityData,'events you might like');
     return (
       <FlatList
         style={{ paddingLeft: 15 }}

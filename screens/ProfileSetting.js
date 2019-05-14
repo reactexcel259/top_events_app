@@ -80,7 +80,6 @@ class ProfileSettingScreen extends React.Component {
         this.setState({isComponent:true,allCities})
       }
       if(user.isUserSuccess !== previousProps.user.isUserSuccess){
-        console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV","usersuccess");
         
         if(user.isUserSuccess){
           await this.props.getLikeEventRequest({token:token});
@@ -342,8 +341,6 @@ class ProfileSettingScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.user,'?????????????????????????????????????????????????????????????');
-    
     const { getCategoryData, user, getStateAndCityData } = this.props;
     const { interest, changeLocationModal, selectedInt,allCities } = this.state;
     let isUpdate = user.data.data && user.data.data.interests && (user.data.data.interests.length != selectedInt.length) ? true : this.checkChange();

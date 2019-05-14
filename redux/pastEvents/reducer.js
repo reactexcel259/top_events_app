@@ -11,7 +11,6 @@ const initialState = {
   }
 };
 const getWeeklyEventsRequest = (state, action) => {
-    console.log(action,'MMMMMMMMMMMMMMM');
     
     return update(state, {
       register: {

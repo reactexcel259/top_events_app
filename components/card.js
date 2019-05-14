@@ -33,7 +33,6 @@ const image = [
 export default class Card extends React.Component {
   render() {
     const { isWishlist ,item, favorites, eventWishList, going, loading} = this.props;
-    console.log(item,'aaaaa')
     const data = item.interested.slice(0,5).map((data, i) => {
       return (
         <View key={i} style={[styles.peopleLiked, { zIndex: image.length - i }]}>

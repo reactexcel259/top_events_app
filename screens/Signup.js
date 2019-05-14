@@ -242,14 +242,11 @@ class SignUpScreen extends React.Component {
   googleLogin = async () => {
     try{
    const response =  await GoogleSignIn.askForPlayServicesAsync();
-   console.log(response,'response');
    
    if(response){
       const { type, user } = await GoogleSignIn.signInAsync();
-      console.log(type, user,"type, user");
       
       if(user != null) {
-        console.log(type,'type',user,'user')
         let payload = {
           email: user.email,
           name : user.displayName

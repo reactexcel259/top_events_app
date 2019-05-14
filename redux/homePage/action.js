@@ -89,8 +89,6 @@ export function* updateUserDataRequest(action) {
 }
 
 export function* userPasswordRequest(action) { 
-  console.log(action ,'MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
-  
   let token = action.payload.token;
   let header = {
       "Content-Type": "application/json",
@@ -104,8 +102,6 @@ export function* userPasswordRequest(action) {
        yield put(actions.userPasswordError(response.data));      
      }
    } catch (e) {
-     console.log(e.response,'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>,password error');
-     
      yield put(actions.userPasswordError(e));
    }
 }

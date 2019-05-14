@@ -1,4 +1,5 @@
 import React from 'react';
+import {BackHandler} from "react-native";
 import { createAppContainer, createStackNavigator, NavigationActions } from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
 import SetupScreen from '../screens/setup';
@@ -51,10 +52,12 @@ Routers.router.getStateForAction = (action, state) => {
     state.routes[state.index].routes[state.routes[state.index].index].index == 0 &&
     action.type === NavigationActions.BACK
   ) {
+    BackHandler.exitApp();
     // Returning null from getStateForAction means that the action
     // has been handled/blocked, but there is not a new state
     return null;
-  } else {
+  }
+   else {
     return defaultGetStateForAction(action, state);
   }
   

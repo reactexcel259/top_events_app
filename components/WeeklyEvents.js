@@ -55,8 +55,6 @@ export default class WeeklyEvents extends PureComponent {
   };
   render() {
     const  {weeklyEventsData} =this.props;
-    console.log(weeklyEventsData ,'LLLLLLLLLLLLLLL');
-    
     return (
         // <Text>hello</Text>
         

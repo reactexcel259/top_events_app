@@ -4,8 +4,6 @@ import { call, put } from "redux-saga/effects";
 import moment from 'moment';
 
 export function* getEventRequest(action) {
-  console.log(action.payload);
-  
   try {
     const response = yield call(
       fireAjax,

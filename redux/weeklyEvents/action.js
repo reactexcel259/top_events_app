@@ -11,7 +11,6 @@ export function* getWeeklyEventsRequest(action) {
       );
       if (response) {
           yield put(actions.getWeeklyEventsSuccess(response.data));
-          console.log(response ,' MMMMMMMMMMMMMMMMMMMMMMM');
       }
     } catch (e) {
       yield put(actions.getWeeklyEventsError(e.response.data));

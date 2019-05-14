@@ -50,8 +50,6 @@ export default class PastEvents extends PureComponent {
   };
   render() {
     const  {pastEvents} =this.props;
-    console.log(pastEvents ,'LLLLLLLLLLLLLLL');
-    
     return (
         // <Text>hello</Text>
         

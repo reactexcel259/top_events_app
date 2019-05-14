@@ -413,7 +413,6 @@ class CityEventDescription extends Component {
      isPassed = moment().diff(moment(item.start),'days')
     }
  let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
- console.log(item,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
  
  return (
    <ErrorBoundary>
