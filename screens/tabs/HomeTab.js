@@ -448,7 +448,7 @@ _handleNotification = (notification) => {
     const eventsForWeekly = this.props.weeklyEventsData.register.weeklyEvents
     return (
       <View style={styles.wrapper}>
-        <CustomHeader isCenter={true} centerImage={true} />
+        <CustomHeader isCenter={true} centerImage={true}  />
         {this.props.getEventData.register.isLoading == false ? (
           <ScrollView>
           {

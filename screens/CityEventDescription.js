@@ -406,6 +406,8 @@ class CityEventDescription extends Component {
     const goingData = this.props.getInterestedEvent;
     const item = this.props.getEventDescription.isSuccess && this.props.getEventDescription.status && this.props.getEventDescription.status.data !==undefined && this.props.getEventDescription.status.data;
     let interestedArray = !item ? [] : item.interested;
+    console.log(item,'eventname_is_here');
+    
     let checkedInarry = !item ? [] : item.checkedinBy;
     const checkedIn = checkedInarry.find(
       going => going.email == user.data.data.email
@@ -427,6 +429,7 @@ class CityEventDescription extends Component {
      isPassed = moment().diff(moment(item.start),'days')
     }
  let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
+//  console.log(item && item.VideoLink && item.VideoLink.replace(/"/g,""),'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
  
  return (
    <ErrorBoundary>
@@ -574,7 +577,7 @@ class CityEventDescription extends Component {
                       <View style={styles.lacationName}>
                         <Image style={{height:20,width:20}} source={require("../assets/images/map.png")} />
                         <Text style={styles.locationText}>
-                          {item.EventPlace}
+                          {item.EventPlace+","+" "+item.EventCity.name}
                         </Text>
                       </View>
                       <TouchableOpacity onPress={this.openMap}>                      
@@ -640,9 +643,9 @@ class CityEventDescription extends Component {
                     {
                       (item.VideoLink != undefined && item.VideoLink != "") &&
                       <View style={styles.videoView}>
-                        <Video
+                        {/* <Video
                           source={{
-                            uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
+                            uri:"'https://www.youtube.com/watch?v=TMfBadwf8ig?rel=0&autoplay=0&showinfo=0&controls=0'"
                           }}
                           rate={1.0}
                           volume={1.0}
@@ -651,12 +654,12 @@ class CityEventDescription extends Component {
                           shouldPlay={this.state.isPlay}
                           isLooping={false}
                           style={{ width: "100%", height: "100%" }}
-                          />
-                          {/* <WebView
+                          /> */}
+                          <WebView
                               style={{width: "100%", height: "100%"}}
                               javaScriptEnabled={true}
-                              source={{uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"}}
-                          /> */}
+                              source={{uri:'https://www.youtube.com/embed/ZZ5LpwO-An4?rel=0&autoplay=0&showinfo=0&controls=0' /* 'https://www.youtube.com/watch?v=TMfBadwf8ig' */}}
+                          />
                         <View style={styles.pasuePlayView}>
                           <FontAwesome
                             size={30}
@@ -931,7 +934,7 @@ const styles = StyleSheet.create({
   },
   videoView: {
     width: "100%",
-    height: 200
+    height: 500
   },
   pasuePlayView: {
     position: "absolute",

@@ -54,6 +54,8 @@ export default class CustomHeader extends React.Component {
       headerColors
       } = this.props
     let stepWidth = 0.50 * step;
+    console.log(this.props,'header');
+    
     return (
       <View style={styles.mainContainer} >
       {/* <StatusBar

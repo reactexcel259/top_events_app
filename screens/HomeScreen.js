@@ -77,7 +77,7 @@ class HomeScreen extends React.Component {
             />
           </View>
             <Text style={styles.suggestion}>
-              Find the best events in Jamaica
+            Promoting The Best Events Jamaica Has To Offer
             </Text>
             <View style={{alignSelf:'center',marginBottom:10,marginTop:5}} >
               <CustomeButton
