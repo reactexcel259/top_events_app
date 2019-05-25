@@ -16,8 +16,15 @@ export default class ImageCarousel extends Component {
             { title: require("../assets/images/photo.png") },
             { title: require("../assets/images/photo.png") }
           ],
-          activeSlide: 0
+          activeSlide: 0,
+          isEntries:false,
         };
+      }
+      componentDidMount(){
+        const {isEntries} =this.state;
+        if(!isEntries && this.props.DescriptionImage !==undefined && this.props.DescriptionImage){
+          this.setState({entries:this.props.DescriptionImage,isEntries:true})
+        }
       }
       pagination() {
         const { entries, activeSlide } = this.state;
@@ -52,9 +59,9 @@ export default class ImageCarousel extends Component {
       }
       _renderItem({ item, index }) {
         return (
-          <View style={{height:200,width:'92%'}}>
-            <Image style={{flex:1,width:'100%',height:'100%'}} resizeMode='cover'
-             source={item.title}
+          <View style={{height:300,width:'92%',marginBottom:70}}>
+            <Image style={{flex:1,width:'100%',height:'100%'}} resizeMode="center"
+             source={{uri:item.secure_url}}
             
             />
           </View>
@@ -79,6 +86,8 @@ export default class ImageCarousel extends Component {
         return Math.round(value);
       }
   render() {
+    console.log(this.props.DescriptionImage,'KKKKKKKKKKKKKKKKKKKKKKKKKKK');
+    
     const slideHeight = Layout.window.height * 0.36;
     const slideWidth = this.wp(100);
     const itemHorizontalMargin = this.wp(2);

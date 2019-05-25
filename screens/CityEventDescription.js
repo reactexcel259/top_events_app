@@ -429,7 +429,7 @@ class CityEventDescription extends Component {
      isPassed = moment().diff(moment(item.start),'days')
     }
  let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
-//  console.log(item && item.VideoLink && item.VideoLink.replace(/"/g,""),'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
+ console.log(item && item.VideoLink && item.VideoLink.replace(/"/g,""),item,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
  
  return (
    <ErrorBoundary>
@@ -639,7 +639,7 @@ class CityEventDescription extends Component {
                     <Text>{item.content.brief}</Text>
                   </View>
                   <View style={styles.video}>
-                    {/* <Carousel /> */}
+                    {item && item.DescriptionImage && <Carousel DescriptionImage={item.DescriptionImage} />}
                     {
                       (item.VideoLink != undefined && item.VideoLink != "") &&
                       <ScrollView>
