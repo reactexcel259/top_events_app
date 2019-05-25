@@ -115,11 +115,12 @@ const styles = StyleSheet.create({
   },
   ovalContainer:{
     width:Layout.window.width * 0.64 ,
-    height: isIphoneX() ? Layout.window.height * 0.44 :Layout.window.height * 0.34,
+    // height: isIphoneX() ? Layout.window.height * 0.44 :Layout.window.height * 0.34,
     backgroundColor:"rgba(255, 255, 255, .6)",
     position:'absolute',
     top: Layout.window.height * 0.45, 
     alignSelf:"center",
+    // borderWidth:1,
     // left: Layout.window.width * .2,
     // right: 0, 
     // bottom: 0,
