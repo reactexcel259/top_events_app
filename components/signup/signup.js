@@ -8,13 +8,14 @@ import {
   Text,
   TouchableOpacity,
   View,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Dimensions
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
 import Layout from '../../constants/Layout';
 import { MonoText } from '../../components/StyledText';
 import CustomeButton from '../button'
-
+const width = Dimensions.get('window').width;
 export default class SignUpContainer extends React.Component {
   render() {
     const { onPress, onChange, firstName, lastName, socialLogin, googleLogin } = this.props;
@@ -63,12 +64,12 @@ export default class SignUpContainer extends React.Component {
               source={require('../../assets/images/fbicon.png')}
             />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => { googleLogin()}} >
+            {/* <TouchableOpacity onPress={() => { googleLogin()}} >
             <Image
               style={[styles.imageSize,styles.imageMargin]}
               source={require('../../assets/images/googleLogo.png')}
             />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
        </View>
       </View>
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     borderColor:'gray'
   },
   imageContainer:{
-    marginLeft:40,
+    marginLeft:75,
     flexDirection:'row'
   },
   imageSize:{
@@ -121,6 +122,6 @@ const styles = StyleSheet.create({
   },
   signupContainer:{
     marginBottom:5,
-    flexDirection:'row'
+    flexDirection:'row',
   }
 });

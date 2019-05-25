@@ -642,6 +642,7 @@ class CityEventDescription extends Component {
                     {/* <Carousel /> */}
                     {
                       (item.VideoLink != undefined && item.VideoLink != "") &&
+                      <ScrollView>
                       <View style={styles.videoView}>
                         {/* <Video
                           source={{
@@ -656,11 +657,11 @@ class CityEventDescription extends Component {
                           style={{ width: "100%", height: "100%" }}
                           /> */}
                           <WebView
-                              style={{width: "100%", height: "100%"}}
+                              style={{width: "100%", height: "100%",}}
                               javaScriptEnabled={true}
-                              source={{uri:'https://www.youtube.com/embed/ZZ5LpwO-An4?rel=0&autoplay=0&showinfo=0&controls=0' /* 'https://www.youtube.com/watch?v=TMfBadwf8ig' */}}
+                              source={{uri: item.VideoLink }}
                           />
-                        <View style={styles.pasuePlayView}>
+                        {/* <View style={styles.pasuePlayView}>
                           <FontAwesome
                             size={30}
                             color="#8559f0"
@@ -669,8 +670,9 @@ class CityEventDescription extends Component {
                             }
                             name={this.state.isPlay ? "pause" : "play"}
                             />
-                        </View>
+                        </View> */}
                       </View>
+                            </ScrollView>
                     }
                   </View>
                 </View>
@@ -805,7 +807,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#fff",
     borderRadius: 28,
-    backgroundColor: "red",
+    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center"
   },
@@ -934,7 +936,9 @@ const styles = StyleSheet.create({
   },
   videoView: {
     width: "100%",
-    height: 500
+    height: 230,
+    overflow:"scroll"
+
   },
   pasuePlayView: {
     position: "absolute",

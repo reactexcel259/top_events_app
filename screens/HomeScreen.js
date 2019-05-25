@@ -65,7 +65,7 @@ class HomeScreen extends React.Component {
         <Image
           style={styles.image}
           resizeMode='cover'
-          source={require('../assets/images/3869365995-andy-falconer-1486927-unsplash.jpg')}
+          source={require('../assets/images/shutterstock_376853890.jpg')}
         />
         <View style={styles.ovalContainer}>
           <View style={styles.ovalContent} >

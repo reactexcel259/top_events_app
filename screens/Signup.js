@@ -312,7 +312,7 @@ class SignUpScreen extends React.Component {
         <View style={{flex:1,flexDirection:'column',justifyContent:'space-between'}} >
           <View>
             <Image
-              source={require('../assets/images/3869365995-andy-falconer-1486927-unsplash.jpg')}
+              source={require('../assets/images/shutterstock_376853890.jpg')}
               style={styles.image}
             />
           </View>

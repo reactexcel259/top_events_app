@@ -9,14 +9,15 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   View,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Dimensions
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
 import { FontAwesome ,EvilIcons } from '@expo/vector-icons';
 import Layout from '../../constants/Layout';
 import { MonoText } from '../../components/StyledText';
 import CustomeButton from '../button'
-
+const width = Dimensions.get('window').width;
 export default class LoginContainer extends React.Component {
   googleLogin=()=>{
     this.props.googleLogin()
@@ -77,12 +78,12 @@ export default class LoginContainer extends React.Component {
               source={require('../../assets/images/fbicon.png')}
             />
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={.5} onPress={this.googleLogin} >
+            {/* <TouchableOpacity activeOpacity={.5} onPress={this.googleLogin} >
             <Image
               style={[styles.imageSize,styles.imageMargin]}
               source={require('../../assets/images/googleLogo.png')}
             />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
        </View>
       </View>
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     borderColor:'gray'
   },
   imageContainer:{
-    marginLeft:40,
+    marginLeft:75,
     flexDirection:'row'
   },
   imageSize:{
@@ -137,6 +138,6 @@ const styles = StyleSheet.create({
   signupContainer:{
     marginTop:15,
     marginBottom:5,
-    flexDirection:'row'
+    flexDirection:'row',
   }
 });
