@@ -70,6 +70,63 @@ class SignUpScreen extends React.Component {
     }
   }
 
+  componentDidUpdate(preProps){
+    const {user} =this.props;
+    const { login } = this.state;
+    if(user.user.isSuccess !==preProps.user.user.isSuccess){
+      if(user.user.status && user.user.status.message && user.user.status.message ==="Incorrect email or password" ){
+        if(Platform.OS == 'android') {
+              ToastAndroid.showWithGravityAndOffset(
+                login &&  user.user.status.message ,
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50,
+              );
+              this.setState({
+                email:'',
+                password:'',
+              })
+            } else if( Platform.OS == 'ios'){
+              Alert.alert(
+                'Congrats!',
+                login &&  user.user.status.message
+              )
+              this.setState({
+                email:'',
+                password:'',
+              })
+            }
+      }
+    } 
+    if(user.user.isError !==preProps.user.user.isError){
+      if(user.user.isError){
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          login ?  user.user.status.message : "Email is already exist",
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+        this.setState({
+          email:'',
+          password:'',
+        })
+      } else if( Platform.OS == 'ios'){
+        Alert.alert(
+          'Congrats!',
+          login ?  user.user.status.message : "Email is already exist",
+        )
+        this.setState({
+          email:'',
+          password:'',
+        })
+      }
+    }
+    }
+  }
+
   componentWillReceiveProps(nextProps){
     const { login } = this.state;
     if(nextProps.user.user.isSuccess && nextProps.user.user.status.session){
@@ -86,7 +143,7 @@ class SignUpScreen extends React.Component {
       } else if(login){
         this.props.navigation.navigate('HomeTab')        
       }
-    } else if(nextProps.user.user.isError){
+    } /* else if(nextProps.user.user.isError){
       if(Platform.OS == 'android') {
         ToastAndroid.showWithGravityAndOffset(
           login ? 'Login Failed' : 'This email id is already registered.',
@@ -95,13 +152,21 @@ class SignUpScreen extends React.Component {
           25,
           50,
         );
+        this.setState({
+          email:'',
+          password:'',
+        })
       } else if( Platform.OS == 'ios'){
         Alert.alert(
           'Congrats!',
           login ? 'Login Failed' : 'This email id is already registered.'
         )
+        this.setState({
+          email:'',
+          password:'',
+        })
       }
-    } 
+    }  */
   }
 
   changeProgress = () => {
@@ -182,6 +247,7 @@ class SignUpScreen extends React.Component {
   }
 
   login = () => {
+    console.log(validateEmail(this.state.email));
     const { email, password } = this.state;
     if(email != '' && password != '' && validateEmail(email) ){
       let payload = {
@@ -301,6 +367,8 @@ class SignUpScreen extends React.Component {
   render() {
     const { progress, firstName, lastName, email, password, login } = this.state;
     const { user } = this.props;
+    console.log(this.state.email,this.state.password,this.props.user.user.isLoading,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
+    
     return (
       <View style={styles.container}>
         <LinearGradient
