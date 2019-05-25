@@ -44,10 +44,10 @@ export default class ImageCarousel extends Component {
               width: 10,
               height: 10,
               borderRadius: 5,
-              backgroundColor:"green"
+              backgroundColor:"#8559f0"
             }}
             inactiveDotStyle={{
-              backgroundColor: "red"
+              backgroundColor: "#ff6cc9"
             }}
             inactiveDotOpacity={0.4}
             inactiveDotScale={0.6}
@@ -110,8 +110,8 @@ export default class ImageCarousel extends Component {
             onSnapToItem={index => this.setState({ activeSlide: index })}
           />
           {this.pagination()}
-          {this.state.entries.length >1 && 
-          <React.Fragment>
+          {/* {this.state.entries.length >1 &&  */}
+          {/* <React.Fragment> */}
               {this.state.activeSlide !== 0 && (
               <View style={styles.leftarrow}>
                 <FontAwesome
@@ -134,7 +134,7 @@ export default class ImageCarousel extends Component {
                 />
               </View>
             )}
-        </React.Fragment>}
+        {/* </React.Fragment>} */}
       </View>
     )
   }
