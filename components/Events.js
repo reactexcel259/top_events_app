@@ -56,40 +56,41 @@ export default class Events extends Component {
   }
   _keyExtractor=(item, index) => (item._id)
   render() {
-    console.log(this.props.eventData.results.sort(function(a,b){return new Date(a.start)-new Date(b.start)}) ,">>>>>>>>", this.props.eventData.results,'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-    
     return (
-      <View style={styles.flatView}>
-        <View style={styles.eventSectionName}>
-          <View
-            style={[
-              styles.circle,
-              { backgroundColor: this.props.backgroundColor }
-            ]}
-          />
-          <View style={styles.eventHeaderText}>
-            <Text style={styles.eventSectionText}>
-              {this.props.categoryId && this.props.categoryId !== 'health_wellness' ? this.props.categoryId.toUpperCase() :this.props.categoryId.toUpperCase().replace('_',' & ') }
-            </Text>
-            <Touch activeOpacity={0.1} onPress={() => this.findKey(this.props.eventData.results)}>
-              <Text> 
-                View all{" "}
-                {this.props.eventData && this.props.eventData.results.length}
+      <React.Fragment>
+        {this.props.eventData.results.length ? 
+        <View style={styles.flatView}>
+          <View style={styles.eventSectionName}>
+            <View
+              style={[
+                styles.circle,
+                { backgroundColor: this.props.backgroundColor }
+              ]}
+            />
+            <View style={styles.eventHeaderText}>
+              <Text style={styles.eventSectionText}>
+                {this.props.categoryId && this.props.categoryId !== 'health_wellness' ? this.props.categoryId.toUpperCase() :this.props.categoryId.toUpperCase().replace('_',' & ') }
               </Text>
-            </Touch>
+              <Touch activeOpacity={0.1} onPress={() => this.findKey(this.props.eventData.results)}>
+                <Text> 
+                  View all{" "}
+                  {this.props.eventData && this.props.eventData.results.length}
+                </Text>
+              </Touch>
+            </View>
           </View>
-        </View>
-        <FlatList
-          style={{ paddingLeft: 15 }}
-          data={this.props.eventData.results.sort(function(a,b){return new Date(a.start)-new Date(b.start)})}
-          keyExtractor={this._keyExtractor}
-          renderItem={this._renderItem}
-          horizontal={true}
-          removeClippedSubviews={false}
-          // extraData={this.state.data}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
+          <FlatList
+            style={{ paddingLeft: 15 }}
+            data={this.props.eventData.results.sort(function(a,b){return new Date(a.start)-new Date(b.start)})}
+            keyExtractor={this._keyExtractor}
+            renderItem={this._renderItem}
+            horizontal={true}
+            removeClippedSubviews={false}
+            // extraData={this.state.data}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View> :""}
+      </React.Fragment>
     );
   }
 }
