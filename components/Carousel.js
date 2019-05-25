@@ -86,8 +86,6 @@ export default class ImageCarousel extends Component {
         return Math.round(value);
       }
   render() {
-    console.log(this.props.DescriptionImage,'KKKKKKKKKKKKKKKKKKKKKKKKKKK');
-    
     const slideHeight = Layout.window.height * 0.36;
     const slideWidth = this.wp(100);
     const itemHorizontalMargin = this.wp(2);
@@ -112,28 +110,31 @@ export default class ImageCarousel extends Component {
             onSnapToItem={index => this.setState({ activeSlide: index })}
           />
           {this.pagination()}
-          {this.state.activeSlide !== 0 && (
-          <View style={styles.leftarrow}>
-            <FontAwesome
-              onPress={() => this._onPressPrev()}
-              name="angle-left"
-              color='#fff'
-              size={25}
-              style={styles.icon}
-            />
-          </View>
-        )}
-        {this.state.activeSlide !== 5 && (
-          <View style={styles.rightarrow}>
-            <FontAwesome
-              onPress={() => this._onPressNext()}
-              name="angle-right"
-              color='#fff'
-              size={25}
-              style={styles.icon}
-            />
-          </View>
-        )}
+          {this.state.entries.length >1 && 
+          <React.Fragment>
+              {this.state.activeSlide !== 0 && (
+              <View style={styles.leftarrow}>
+                <FontAwesome
+                  onPress={() => this._onPressPrev()}
+                  name="angle-left"
+                  color='#fff'
+                  size={25}
+                  style={styles.icon}
+                />
+              </View>
+            )}
+            {this.state.activeSlide !== 5 && (
+              <View style={styles.rightarrow}>
+                <FontAwesome
+                  onPress={() => this._onPressNext()}
+                  name="angle-right"
+                  color='#fff'
+                  size={25}
+                  style={styles.icon}
+                />
+              </View>
+            )}
+        </React.Fragment>}
       </View>
     )
   }
