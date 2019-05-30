@@ -40,7 +40,7 @@ class CheckIn extends Component {
       alert("You must have to add a photo");
     } else {
       let addedImage = this.state.image.filter((img, id) => id !== index);
-      this.setState({ image });
+      this.setState({ image:addedImage });
     }
   };
   onSubmit = () => {
@@ -128,6 +128,8 @@ class CheckIn extends Component {
   }
   _keyExtractor = (item, index) => item;
   render() {
+    console.log(this.state.image,"CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+    
     return (
       <ScrollView>
         <View>

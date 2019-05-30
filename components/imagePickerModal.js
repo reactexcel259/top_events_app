@@ -38,6 +38,7 @@ export default class ImagePickerModal extends Component {
           base64: true,
           aspect: [4, 3]
         });
+        console.log(res,"GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
       if(res)
       this.uploadImage(res)
   };
@@ -66,7 +67,9 @@ export default class ImagePickerModal extends Component {
           base64: true,
           aspect: [4, 3]
         }).catch(error => console.log(finalStatus, { error }));
+        console.log(finalStatus,res,"GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
         if(res)
+        
           this.uploadImage(res);
       }
     
