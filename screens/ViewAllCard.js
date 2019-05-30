@@ -117,7 +117,7 @@ class ViewAllCard extends Component {
             <ActivityIndicator size="small" color="#00ff00" />
           </View>:
           <FlatList 
-          data={currentData}
+          data={currentData.sort(function(a,b){return new Date(a.start)-new Date(b.start)})}
           keyExtractor={(item,index)=>(item.title)}
           showsVerticalScrollIndicator={false}
           renderItem={this._renderItem}
