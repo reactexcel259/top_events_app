@@ -101,6 +101,8 @@ class ViewAllCard extends Component {
     const {postingLoading} = this.props.getInterestedEvent
     const {isLoading} = this.props.postAddLikeEvent;
     let currentData = register.events.data !== undefined ? register.events.data.results : register.events;
+    let categoryId = this.props.navigation.state.params && this.props.navigation.state.params.categoryId && this.props.navigation.state.params.categoryId 
+    let headerText =categoryId && categoryId.slice(0,1).toUpperCase()+ categoryId.slice(1).toLowerCase();
     return (
       <View style={{paddingBottom:Layout.window.height*0.005, flex:1 }}>
         <CustomHeader  
@@ -108,7 +110,7 @@ class ViewAllCard extends Component {
           isLeft={true} 
           leftPress={()=>this.props.navigation.goBack()} 
           leftIcon='angle-left' 
-          centerTitle="My event" 
+          centerTitle={headerText} 
         />
         {register.isLoading || postingLoading || isLoading ?
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>

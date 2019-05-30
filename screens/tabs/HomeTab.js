@@ -195,9 +195,9 @@ _handleNotification = (notification) => {
       }
   }
   
-  onViewAll = async category => {
+  onViewAll = async (category,categoryId) => {
     this.props.getEventById({id:category._id,key:category.key}) 
-    this.props.navigation.navigate('ViewAllCard');
+    this.props.navigation.navigate('ViewAllCard',{categoryId:categoryId});
   };
 
   useCurrentLocation = async () => {
@@ -422,7 +422,7 @@ _handleNotification = (notification) => {
         eventData={item[Object.keys(item).join()].data}
         categoryId={Object.keys(item).join()}
         backgroundColor={backgroundColor}
-        onViewAll={key => this.onViewAll(key)}
+        onViewAll={(key,categoryId) => this.onViewAll(key,categoryId)}
         onEventDescription={this.onEventDescription}
       />
     );
