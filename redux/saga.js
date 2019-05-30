@@ -14,6 +14,7 @@ import { getNotificationRequest } from './notification/action';
 import {getWeeklyEventsRequest} from './weeklyEvents/action';
 import { getInterestedEventRequest, getAttendingEventRequest, postJoiningEventsRequest} from  './interestedEvent/action';
 import {getPastEventsRequest} from './pastEvents/action';
+import {forgotPasswordRequest} from "./forgotPassword/action";
 
 export function* watchActions() {
   yield takeLatest(constants.GET_REGISTER_REQUEST, getRegisterRequest);
@@ -43,6 +44,7 @@ export function* watchActions() {
   yield takeLatest(constants.GET_ATTENDING_EVENT_REQUEST ,getAttendingEventRequest);
   yield takeLatest(constants.POST_JOINING_EVENTS_REQUEST ,postJoiningEventsRequest);
   yield takeLatest(constants.GET_PAST_EVENTS_REQUEST ,getPastEventsRequest);
+  yield takeLatest(constants.FORGOT_PASSWORD_REQUEST ,forgotPasswordRequest);
 }
 
 export default function* rootSaga() {

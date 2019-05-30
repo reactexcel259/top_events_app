@@ -151,3 +151,8 @@ export const getPastEventsRequest = createAction(constants.GET_PAST_EVENTS_REQUE
 export const getPastEventsSuccess = createAction(constants.GET_PAST_EVENTS_SUCCESS);
 export const getPastEventsError = createAction(constants.GET_PAST_EVENTS_ERROR);
 
+//action for forgot password
+export const forgotPasswordRequest = createAction(constants.FORGOT_PASSWORD_REQUEST);
+export const forgotPasswordSuccess = createAction(constants.FORGOT_PASSWORD_SUCCESS);
+export const forgotPasswordError = createAction(constants.FORGOT_PASSWORD_ERROR);
+

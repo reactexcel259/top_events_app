@@ -14,6 +14,7 @@ import interest from '../redux/interest/reducer';
 import weeklyEvents from '../redux/weeklyEvents/reducer';
 import pastEvents from '../redux/pastEvents/reducer';
 import userInterestBaseEvents from '../redux/userInterestBaseEvents/reducer';
+import forgotPassword from "../redux/forgotPassword/reducer";
 
 
 export default combineReducers({
@@ -32,4 +33,5 @@ export default combineReducers({
  weeklyEvents:weeklyEvents,
  pastEvents:pastEvents,
  userInterestBaseEvents:userInterestBaseEvents,
+ forgotPassword:forgotPassword,
 });

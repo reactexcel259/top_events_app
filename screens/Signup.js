@@ -45,6 +45,8 @@ class SignUpScreen extends React.Component {
       login:false,
       loader: false,
       interest: [],
+      emailForPassword:"",
+      isForgotPassword:false,
     }
   }
 
@@ -70,8 +72,46 @@ class SignUpScreen extends React.Component {
     }
   }
 
+  recoverForgotPassword=()=>{
+    const {emailForPassword} = this.state;
+    if(emailForPassword != '' && validateEmail(emailForPassword) ){
+      this.props.forgotPasswordRequest(emailForPassword)
+    } else if ( !validateEmail(emailForPassword) ) {
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Enter Correct Email ID',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){ 
+        Alert.alert(
+          'Warning!',
+          'Enter Correct Email ID'
+        )
+      }
+    }
+    else if (emailForPassword === '' ) {
+      if(Platform.OS == 'android') {
+        ToastAndroid.showWithGravityAndOffset(
+          'Enter Your Email ID',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      } else if( Platform.OS == 'ios'){ 
+        Alert.alert(
+          'Warning!',
+          'Enter Your Email ID'
+        )
+      }
+    }
+  }
+
   componentDidUpdate(preProps){
-    const {user} =this.props;
+    const {user,forgotPasswordData} =this.props;
     const { login } = this.state;
     if(user.user.isSuccess !==preProps.user.user.isSuccess){
       if(user.user.status && user.user.status.message && user.user.status.message ==="Incorrect email or password" ){
@@ -125,6 +165,29 @@ class SignUpScreen extends React.Component {
       }
     }
     }
+    if(forgotPasswordData.isSuccess !==preProps.forgotPasswordData.isSuccess){
+      if(forgotPasswordData.isSuccess && forgotPasswordData.data && forgotPasswordData.data.message){
+        this.setState({emailForPassword:"",isForgotPassword:false})
+        if(Platform.OS == 'android') {
+          ToastAndroid.showWithGravityAndOffset(
+            forgotPasswordData.data.message,
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+          );
+        } else if( Platform.OS == 'ios'){
+          Alert.alert(
+            'Congrats!',
+            forgotPasswordData.data.message,
+          )
+        }
+      }
+    }
+  }
+
+  forgotPasswordStateHandler=()=>{
+    this.setState({isForgotPassword:!this.state.isForgotPassword})
   }
 
   componentWillReceiveProps(nextProps){
@@ -356,6 +419,10 @@ class SignUpScreen extends React.Component {
   }
 
   backPress = () => {
+    if(this.state.isForgotPassword){
+      this.setState({isForgotPassword:false})
+    }
+    else{
     const { navigation } = this.props;
     if ( navigation.state.params && navigation.state.params.isLogin ){
       navigation.popToTop()
@@ -363,10 +430,11 @@ class SignUpScreen extends React.Component {
       this.setState({ login: false })
     }
   }
+  }
   
   render() {
-    const { progress, firstName, lastName, email, password, login } = this.state;
-    const { user } = this.props;
+    const { progress, firstName, lastName, email, password, login,isForgotPassword } = this.state;
+    const { user,forgotPasswordData } = this.props;
     console.log(this.state.email,this.state.password,this.props.user.user.isLoading,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
     
     return (
@@ -401,9 +469,9 @@ class SignUpScreen extends React.Component {
           </View>
         </View>
           <View style={styles.miniContainer} >
-          { user.user.isLoading ?
+          { user.user.isLoading || forgotPasswordData.isLoading?
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}} >
-            <ActivityIndicator size="large" color="black" animating={user.user.isLoading} />
+            <ActivityIndicator size="large" color="black" animating={user.user.isLoading || forgotPasswordData.isLoading} />
           </View>
           :
             login ?
@@ -415,6 +483,11 @@ class SignUpScreen extends React.Component {
               iconPress={this.backPress}
               password={password}
               onChange={this.textChange}
+              onChangeForPassword={(emailForPassword)=>this.setState({emailForPassword})}
+              emailForPassword={this.state.emailForPassword}
+              onPressForgotPassword={this.recoverForgotPassword}
+              isForgotPassword={isForgotPassword}
+              forgotPasswordStateHandler={this.forgotPasswordStateHandler}
             /> 
           :
             this.renderProgress()
@@ -451,6 +524,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
       user: state.user,
+      forgotPasswordData:state.forgotPassword
   }
 }
 const mapDispatchToProps = dispatch => 

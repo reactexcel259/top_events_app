@@ -19,6 +19,10 @@ import { MonoText } from '../../components/StyledText';
 import CustomeButton from '../button'
 const width = Dimensions.get('window').width;
 export default class LoginContainer extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={isForgotPassword:false}
+  }
   googleLogin=()=>{
     this.props.googleLogin()
   }
@@ -26,8 +30,13 @@ export default class LoginContainer extends React.Component {
   socialLogin=()=>{
     this.props.socialLogin()
   }
+  forgotPassword=()=>{
+    this.props.forgotPasswordStateHandler()
+  }
   render() {
-    const { onPress, onChange, firstName, lastName, iconPress, socialLogin, googleLogin } = this.props;
+    const { onPress, onChange, firstName,isForgotPassword, lastName,onPressForgotPassword,onChangeForPassword,emailForPassword, iconPress, socialLogin, googleLogin } = this.props;
+    console.log(emailForPassword,"emailForPassword");
+    
     return (
       <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >      
       <View style={styles.container}>
@@ -35,10 +44,19 @@ export default class LoginContainer extends React.Component {
         <EvilIcons name={'chevron-left'} size={35}  color="black" />
       </TouchableOpacity>
        <View style={styles.labelContainer} >
-          <Text style={styles.label} >Login </Text>
+          <Text style={styles.label} > {isForgotPassword ? "Forgot Password" : "Login"} </Text>
        </View>
        <View style={styles.inputContainer} >
-          <View style={styles.inputBottomMargin} >
+       {isForgotPassword && <View style={styles.inputBottomMargin} >
+            <TextInput
+            style={styles.textInput}
+            value={emailForPassword}
+            keyboardType='email-address'
+            onChangeText={(value)=>{ onChangeForPassword(value) }}            
+            placeholder={'Email'}
+            />
+          </View>}
+         {!isForgotPassword && <View style={styles.inputBottomMargin} >
             <TextInput
             style={styles.textInput}
             value={firstName}
@@ -46,8 +64,9 @@ export default class LoginContainer extends React.Component {
             onChangeText={(text)=>{ onChange(text,'email') }}            
             placeholder={'Email'}
             />
-          </View>
-          <View style={styles.inputBottomMargin} >
+          </View>}
+         {!isForgotPassword && 
+         <View style={{marginBottom:10}} >
             <TextInput
             style={styles.textInput}
             value={lastName}
@@ -55,9 +74,22 @@ export default class LoginContainer extends React.Component {
             onChangeText={(text)=>{ onChange(text,'password') }}
             placeholder={'Password'}
             />
-          </View>
+          </View> }
+          {!isForgotPassword && <View style={styles.forgotPasswordView}>
+            <Text onPress={this.forgotPassword} style={styles.forgotText}>Forgot password?</Text>
+          </View>}
 
-          <View style={{alignItems:'center',marginBottom:10}} >
+          {isForgotPassword ?
+            <View style={{alignItems:'center',marginBottom:10}} >
+            <CustomeButton
+              buttonText={"Submit"}
+              buttonSize={'small'}
+              gradientColor={['#FF6CC9','#8559F0']}
+              textColor={'white'}
+              onPress={isForgotPassword ? ()=>onPressForgotPassword() : ()=>{ onPress() }}
+            />
+          </View> :
+             <View style={{alignItems:'center',marginBottom:10}} >
             <CustomeButton
               buttonText={"Log in"}
               buttonSize={'small'}
@@ -65,7 +97,7 @@ export default class LoginContainer extends React.Component {
               textColor={'white'}
               onPress={()=>{ onPress() }}
             />
-          </View>
+          </View>}
        </View>
        <View style={styles.signupContainer} >
           <View>
@@ -139,5 +171,14 @@ const styles = StyleSheet.create({
     marginTop:15,
     marginBottom:5,
     flexDirection:'row',
+  },
+  forgotPasswordView:{
+    flexDirection:"row",
+    justifyContent:"flex-end",
+    marginBottom:10
+  },
+  forgotText:{
+    fontSize:15,
+    color:'gray'
   }
 });
