@@ -128,8 +128,6 @@ class CheckIn extends Component {
   }
   _keyExtractor = (item, index) => item;
   render() {
-    console.log(this.state.image,"CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
-    
     return (
       <ScrollView>
         <View>
