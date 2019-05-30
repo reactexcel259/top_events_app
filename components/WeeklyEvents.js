@@ -45,7 +45,7 @@ export default class WeeklyEvents extends PureComponent {
             <Text /* style={[ this.props.type == undefined ? styles.nameText : {color:'white'} ]} */>{item.title}</Text>
             <Text /* style={[ this.props.type == undefined ? styles.dateText : {color:'white'} ]} */>
             {/* {moment(item.start).format("D MMM ")+" "}{eventEndDate !=="" && ("-"+" " + eventEndDate)} */}
-            Every {" "+ moment(item.end).format("dddd")}
+            Every {" "+ moment(item.start).format("dddd")}
             </Text>
             </View>
             </Touch>

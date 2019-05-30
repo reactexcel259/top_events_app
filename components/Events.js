@@ -15,7 +15,7 @@ import moment from 'moment';
 export default class Events extends Component {
 
   _renderItem = ({ item, index }) => {
-    let eventEndDate = moment(item.end).format("M") > moment(item.start).format("M") ||  (parseInt(moment(item.end).format("D")) !== parseInt(moment(item.start).format("D"))+1 && parseInt(moment(item.end).format("D")) > parseInt(moment(item.start).format("D"))+1 )? moment(item.end).format("D MMM") : "";
+    let eventEndDate = moment(item.end).format("M") > moment(item.start).format("M") ||  (parseInt(moment(item.end).format("D")) !== parseInt(moment(item.start).format("D"))+1 && parseInt(moment(item.end).format("D")) > parseInt(moment(item.start).format("D"))+1 )? moment(item.end).format("D MMM, ddd") : "";
     return (
       // <React.Fragment>
       //   {(moment(item.start).format("MM") == moment().format('MM') && moment(item.start).format("D") > new Date().getDate() ) &&
@@ -43,7 +43,10 @@ export default class Events extends Component {
         </View>
         <View style={styles.imageTitle}>
           <Text style={styles.nameText}>{item.title}</Text>
-          <Text style={styles.dateText}>{moment(item.start).format("D MMM")+" "}{eventEndDate !=="" && ("-"+" " + eventEndDate)}</Text>
+          <Text style={styles.dateText}>
+          {/* {moment(item.start).format("D MMM")+" "}{eventEndDate !=="" && ("-"+" " + eventEndDate)} */}
+          {eventEndDate !=="" ? moment(item.start).format("D MMM, ddd")+" " : moment(item.start).format("D MMM, dddd")+" "}{eventEndDate !=="" && ("-"+" " + eventEndDate)}
+          </Text>
         </View>
         </Touch>
       </View>

@@ -14,7 +14,7 @@ import Touch from 'react-native-touch';
 
 export default class PastEvents extends PureComponent {
   _renderItem = ({ item, index }) => {
-    let eventEndDate = moment(item.end).format("M") > moment(item.start).format("M") ||  (parseInt(moment(item.end).format("D")) !== parseInt(moment(item.start).format("D"))+1 && parseInt(moment(item.end).format("D")) > parseInt(moment(item.start).format("D"))+1 )? moment(item.end).format("D MMM") : "";
+    let eventEndDate = moment(item.end).format("M") > moment(item.start).format("M") ||  (parseInt(moment(item.end).format("D")) !== parseInt(moment(item.start).format("D"))+1 && parseInt(moment(item.end).format("D")) > parseInt(moment(item.start).format("D"))+1 )? moment(item.end).format("D MMM, ddd") : "";
     let data = this.props.pastEvents.pastEvents.data.length
     return (
          <View
@@ -42,7 +42,7 @@ export default class PastEvents extends PureComponent {
             <View style={styles.imageTitle}>
             <Text /* style={[ this.props.type == undefined ? styles.nameText : {color:'white'} ]} */>{item.title}</Text>
             <Text /* style={[ this.props.type == undefined ? styles.dateText : {color:'white'} ]} */>
-            {moment(item.start).format("D MMM")+" "}{eventEndDate !=="" && ("-"+" " + eventEndDate)}
+            {eventEndDate !=="" ? moment(item.start).format("D MMM, ddd")+" " : moment(item.start).format("D MMM, dddd")+" "}{eventEndDate !=="" && ("-"+" " + eventEndDate)}
             </Text>
             </View>
             </Touch>
