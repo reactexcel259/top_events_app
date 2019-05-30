@@ -196,8 +196,13 @@ _handleNotification = (notification) => {
   }
   
   onViewAll = async (category,categoryId) => {
-    this.props.getEventById({id:category._id,key:category.key}) 
-    this.props.navigation.navigate('ViewAllCard',{categoryId:categoryId});
+    if(categoryId ==="pastevents"){
+      this.props.navigation.navigate('ViewAllCard',{categoryId:"Past events"});
+    }
+    else{
+      this.props.getEventById({id:category._id,key:category.key}) 
+      this.props.navigation.navigate('ViewAllCard',{categoryId:categoryId});
+    }
   };
 
   useCurrentLocation = async () => {
@@ -570,8 +575,11 @@ _handleNotification = (notification) => {
               {this.props.pastEvents.register.isSuccess && this.props.pastEvents.register.pastEvents.data &&
               this.props.pastEvents.register.pastEvents.data.length && 
               <View style={[styles.likedView,{paddingBottom:90}]}>
-                <View style={styles.EventTitleView}>
+                <View style={styles.EventTitleViewForPast}>
                   <Text style={styles.kingstonText}>Past Events</Text>
+                  <Touch activeOpacity={0.1} onPress={() => this.onViewAll(null,"pastevents")}>
+                     <Text>View all {this.props.pastEvents.register.pastEvents.data.length} </Text>
+                  </Touch>
                 </View>
                 <PastEvents
                   pastEvents={this.props.pastEvents.register}
@@ -673,6 +681,12 @@ const styles = StyleSheet.create({
   },
   EventTitleView: {
     paddingLeft: 15
+  },
+  EventTitleViewForPast:{
+    paddingLeft: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingRight: 15
   },
   eventComponentView: {
     // paddingBottom: 90

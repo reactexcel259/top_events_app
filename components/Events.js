@@ -52,6 +52,8 @@ export default class Events extends Component {
     );
   };
   findKey = (data) =>{
+    console.log(data[0].categories,'HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
+    
     let categoryId =this.props.categoryId !== 'health_wellness' ? this.props.categoryId.toUpperCase() :this.props.categoryId.toUpperCase().replace('_',' & ')
     this.props.onViewAll(data[0].categories,categoryId)
   }

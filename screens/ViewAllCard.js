@@ -103,6 +103,8 @@ class ViewAllCard extends Component {
     let currentData = register.events.data !== undefined ? register.events.data.results : register.events;
     let categoryId = this.props.navigation.state.params && this.props.navigation.state.params.categoryId && this.props.navigation.state.params.categoryId 
     let headerText =categoryId && categoryId.slice(0,1).toUpperCase()+ categoryId.slice(1).toLowerCase();
+    let allCards = categoryId ==="Past events" ? this.props.pastEvents.register.isSuccess && this.props.pastEvents.register.pastEvents.data &&
+                   this.props.pastEvents.register.pastEvents.data.length && this.props.pastEvents.register.pastEvents.data  : currentData
     return (
       <View style={{paddingBottom:Layout.window.height*0.005, flex:1 }}>
         <CustomHeader  
@@ -114,10 +116,10 @@ class ViewAllCard extends Component {
         />
         {register.isLoading || postingLoading || isLoading ?
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-            <ActivityIndicator size="small" color="#00ff00" />
+            <ActivityIndicator size="large" color="#FF6CC9" />
           </View>:
           <FlatList 
-          data={currentData.sort(function(a,b){return new Date(a.start)-new Date(b.start)})}
+          data={allCards.sort(function(a,b){return new Date(a.start)-new Date(b.start)})}
           keyExtractor={(item,index)=>(item.title)}
           showsVerticalScrollIndicator={false}
           renderItem={this._renderItem}
@@ -144,6 +146,7 @@ const mapStateToProps = state => {
     getInterestedEvent:state.getInterestedEvent,
     postAddLikeEvent: state.postAddLikeEvent,
     getEventDescription: state.getEventDescription,
+    pastEvents:state.pastEvents,
   };
 };
 const mapDispatchToProps = dispatch => {
