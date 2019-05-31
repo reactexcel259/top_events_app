@@ -60,7 +60,7 @@ export default class Card extends React.Component {
           justifyContent: "space-evenly",
           backgroundColor: "white",
           borderRadius: 5,
-          height:isWishlist? Layout.window.height/2.0 : Layout.window.height/1.8,
+          // height:isWishlist? Layout.window.height/2.0 : Layout.window.height/1.8,
           margin: 10,
           marginTop: StatusBar.currentHeight
         }}
