@@ -446,6 +446,8 @@ _handleNotification = (notification) => {
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const thisWeekEvent = this.props.getEventData.register.todayEvent;
+    console.log(thisWeekEvent,"VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
+    
     
     // const weeklyEvents =this.props.getEventData
     const cityEvents = this.props.getStateAndCityEventData.status;
