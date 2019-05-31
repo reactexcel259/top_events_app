@@ -639,8 +639,9 @@ class CityEventDescription extends Component {
                   <View style={styles.video}>
                     {item && item.DescriptionImage && (item.VideoLink == undefined || item.VideoLink === "")&& <Carousel DescriptionImage={item.DescriptionImage} />}
                     {
-                      (item.VideoLink != undefined && item.VideoLink != "") &&
-                      <ScrollView>
+                      // (item.VideoLink != undefined && item.VideoLink != "") &&
+                        <View style={{width:"100%",height:235}}>
+                        <ScrollView>
                       <View style={styles.videoView}>
                         {/* <Video
                           source={{uri: item.VideoLink }}
@@ -653,9 +654,9 @@ class CityEventDescription extends Component {
                           style={{ width: "100%", height: "100%" }}
                           /> */}
                           <WebView
-                              style={{width: "100%", height:500 ,}}
+                              style={{width: "100%", height:"100%" ,}}
                               javaScriptEnabled={true}
-                              source={{uri: item.VideoLink }}
+                              source={{uri: `${item.VideoLink}?showinfo=0` }}
                           />
                         {/* <View style={styles.pasuePlayView}>
                           <FontAwesome
@@ -666,9 +667,11 @@ class CityEventDescription extends Component {
                             }
                             name={this.state.isPlay ? "pause" : "play"}
                             />
-                        </View> */}
+                        </View> */
+                        }
                       </View>
                             </ScrollView>
+                      </View>
                     }
                   </View>
                 </View>
@@ -932,7 +935,7 @@ const styles = StyleSheet.create({
   },
   videoView: {
     width: "100%",
-    height: 200,
+    height: 500,
     // overflow:"scroll"
 
   },
