@@ -639,7 +639,7 @@ class CityEventDescription extends Component {
                   <View style={styles.video}>
                     {item && item.DescriptionImage && (item.VideoLink == undefined || item.VideoLink === "")&& <Carousel DescriptionImage={item.DescriptionImage} />}
                     {
-                      // (item.VideoLink != undefined && item.VideoLink != "") &&
+                      (item.VideoLink != undefined && item.VideoLink != "") &&
                         <View style={{width:"100%",height:235}}>
                         <ScrollView>
                       <View style={styles.videoView}>
