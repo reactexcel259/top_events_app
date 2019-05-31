@@ -643,9 +643,7 @@ class CityEventDescription extends Component {
                       <ScrollView>
                       <View style={styles.videoView}>
                         {/* <Video
-                          source={{
-                            uri:"'https://www.youtube.com/watch?v=TMfBadwf8ig?rel=0&autoplay=0&showinfo=0&controls=0'"
-                          }}
+                          source={{uri: item.VideoLink }}
                           rate={1.0}
                           volume={1.0}
                           isMuted={false}
@@ -655,7 +653,7 @@ class CityEventDescription extends Component {
                           style={{ width: "100%", height: "100%" }}
                           /> */}
                           <WebView
-                              style={{width: "100%", height: "100%",}}
+                              style={{width: "100%", height:500 ,}}
                               javaScriptEnabled={true}
                               source={{uri: item.VideoLink }}
                           />
@@ -934,8 +932,8 @@ const styles = StyleSheet.create({
   },
   videoView: {
     width: "100%",
-    height: 230,
-    overflow:"scroll"
+    height: 200,
+    // overflow:"scroll"
 
   },
   pasuePlayView: {

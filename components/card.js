@@ -72,6 +72,9 @@ export default class Card extends React.Component {
           moment().format("D MMM, dddd")
         }
       </Text>:null}
+      <TouchableOpacity 
+                onPress={()=>{this.props.sendToDetails(item)}}
+                >
         <Image
           source={
             item.image ?
@@ -85,6 +88,7 @@ export default class Card extends React.Component {
           }}
           // mode="contain"
         />
+        </TouchableOpacity>
 
         <View style={{ marginTop: 5, marginBottom: 5 ,marginLeft:5}}>
           <Text style={{ fontSize: 20, fontWeight: "600" }}>

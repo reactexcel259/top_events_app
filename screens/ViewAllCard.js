@@ -69,14 +69,20 @@ class ViewAllCard extends Component {
       const check  = item.interested;
       let checkedInBy = item.checkedinBy;
       const checkInterested = check && check.find(going => going.email == user.data.data.email);
+      console.log(checkInterested,user,"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjsklasjlaksj");
+      // const checkedIn = checkedInarry.find(
+      //   going => going.email == user.data.data.email
+      // );
       const wishList = checkInterested && Object.keys(checkInterested).length ? true : false; 
       const checkedInByArray = checkedInBy && checkedInBy.find(going => going.email == user.data.data.email);
       let going = checkedInByArray && Object.keys(checkedInByArray).length  ? true :false;
+      console.log(item,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+      
         return(
             <View>
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                 onPress={()=>{this.sendToDetails(item)}}
-                >
+                > */}
                     <Card 
                       eventWishList={wishList} 
                       going={going} 
@@ -84,8 +90,9 @@ class ViewAllCard extends Component {
                       loading={false}
                       addTofab={(item)=>{this.addTofab(item)}}
                       eventJoin={(item)=>{this.eventJoin(item)}}
+                      sendToDetails={this.sendToDetails}
                     />
-                </TouchableOpacity>
+                {/* </TouchableOpacity> */}
             </View>
         )
     }
@@ -98,6 +105,8 @@ class ViewAllCard extends Component {
   render() {
     const { calanderItem } = this.state;
     const {register} = this.props.getEventData;
+    console.log(register,'HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
+    
     const {postingLoading} = this.props.getInterestedEvent
     const {isLoading} = this.props.postAddLikeEvent;
     let currentData = register.events.data !== undefined ? register.events.data.results : register.events;
