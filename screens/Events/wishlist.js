@@ -69,15 +69,16 @@ class Wishlist extends React.Component {
   _renderItem=({item,index})=>{
     return(
         <View>
-            <Touch 
-            // activeOpacity={0.05}
+          {/* // activeOpacity={0.05} */}
+            {/* <Touch 
             onPress={()=>this.props.navigation.navigate("CityEventDescription",{item:item})}
-            >
+            > */}
                 <Card item={item}
                   onWishListItemPress={(item)=>{this.onWishListItemPress(item)}}
                   isWishlist={true}
+                  sendToDetails={()=>this.props.navigation.navigate("CityEventDescription",{item:item})}
                 />
-            </Touch>
+            {/* </Touch> */}
         </View>
     )
   }
@@ -93,7 +94,7 @@ class Wishlist extends React.Component {
         {
           isLoading || attendingLoading || postAddLikeEvent.isLoading  ?
           <View style={styles.loaderStyle}>
-            <ActivityIndicator size="large" color="#00ff00" />
+            <ActivityIndicator size="large" color="#FF6CC9" />
           </View>:
           <View style={styles.mainContainer}>
             {wishList.length?<FlatList 

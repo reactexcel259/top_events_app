@@ -97,18 +97,19 @@ class Attending extends React.Component {
     const wishList = checkInterested && Object.keys(checkInterested).length ? true : false; 
     return(
         <View>
-            <Touch 
+            {/* <Touch 
             activeOpacity={0.05}
             onPress={()=>this.props.navigation.navigate("CityEventDescription",{item:item})}
-            >
+            > */}
                 <Card 
                   item={item} 
                   going={true} 
                   eventWishList={wishList} 
                   addTofab={(item)=>{this.addTofab(item)}}
                   eventJoin={(item)=>{this.eventJoin(item)}}
+                  sendToDetails={()=>this.props.navigation.navigate("CityEventDescription",{item:item})}
                 />
-            </Touch> 
+            {/* </Touch>  */}
 
         </View>
     )
@@ -124,7 +125,7 @@ class Attending extends React.Component {
         {
           attendingLoading || postingLoading || isLoading ?
           <View style={styles.loaderStyle}>
-            <ActivityIndicator size="large" color="#00ff00" />
+            <ActivityIndicator size="large" color="#FF6CC9" />
           </View>:
           <View style={styles.mainContainer} >
             {attendingEvents.length?<FlatList 

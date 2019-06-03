@@ -429,6 +429,8 @@ class CityEventDescription extends Component {
      isPassed = moment().diff(moment(item.start),'days')
     }
  let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
+ console.log(item,'VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
+ 
  return (
    <ErrorBoundary>
       <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >
@@ -575,7 +577,7 @@ class CityEventDescription extends Component {
                       <View style={styles.lacationName}>
                         <Image style={{height:20,width:20}} source={require("../assets/images/map.png")} />
                         <Text style={styles.locationText}>
-                          {item.EventPlace+","+" "+item.EventCity.name}
+                          {item.EventPlace}{item.EventCity && item.EventCity.name && ","+" "+item.EventCity.name}
                         </Text>
                       </View>
                       <TouchableOpacity onPress={this.openMap}>                      
