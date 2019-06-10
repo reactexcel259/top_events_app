@@ -100,10 +100,11 @@ export default class LoginContainer extends React.Component {
           </View>}
        </View>
        <View style={styles.signupContainer} >
+          
+          <View style={styles.imageContainer} >
           <View>
             <Text style={styles.signupLabel} >Sign in with </Text>
           </View>
-          <View style={styles.imageContainer} >
             <TouchableOpacity onPress={this.socialLogin} >
             <Image
               style={styles.imageSize}
@@ -146,8 +147,9 @@ const styles = StyleSheet.create({
     borderColor:'gray'
   },
   imageContainer:{
-    marginLeft:75,
-    flexDirection:'row'
+    // marginLeft:75,
+    flexDirection:'column',
+    alignItems:"center"
   },
   imageSize:{
     height:25,
@@ -158,7 +160,8 @@ const styles = StyleSheet.create({
   },
   signupLabel:{
     fontSize:15,
-    color:'gray'
+    color:'gray',
+    marginBottom:7
   },
   inputContainer:{
     marginLeft:10,
@@ -168,9 +171,9 @@ const styles = StyleSheet.create({
     marginBottom:30
   },
   signupContainer:{
-    marginTop:15,
+    // marginTop:15,
     marginBottom:5,
-    flexDirection:'row',
+    flexDirection:'column',
   },
   forgotPasswordView:{
     flexDirection:"row",

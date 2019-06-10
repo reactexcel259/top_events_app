@@ -43,7 +43,7 @@ export default class SignUpContainer extends React.Component {
             />
           </View>
 
-          <View style={{alignItems:'center',marginBottom:10}} >
+          <View style={{alignItems:'center',}} >
             <CustomeButton
               buttonText={"Next"}
               buttonSize={'small'}
@@ -54,10 +54,10 @@ export default class SignUpContainer extends React.Component {
           </View>
        </View>
        <View style={styles.signupContainer} >
+          <View style={styles.imageContainer} >
           <View>
             <Text style={styles.signupLabel} >Sign up with </Text>
           </View>
-          <View style={styles.imageContainer} >
           <TouchableOpacity onPress={() => { socialLogin()}} >
             <Image
               style={styles.imageSize}
@@ -99,8 +99,9 @@ const styles = StyleSheet.create({
     borderColor:'gray'
   },
   imageContainer:{
-    marginLeft:75,
-    flexDirection:'row'
+    // marginLeft:75,
+    flexDirection:'column',
+    alignItems:"center"
   },
   imageSize:{
     height:25,
@@ -111,7 +112,8 @@ const styles = StyleSheet.create({
   },
   signupLabel:{
     fontSize:15,
-    color:'gray'
+    color:'gray',
+    marginBottom:7
   },
   inputContainer:{
     marginLeft:10,
@@ -123,5 +125,7 @@ const styles = StyleSheet.create({
   signupContainer:{
     marginBottom:5,
     flexDirection:'row',
+    justifyContent:"center",
+    alignItems:"center"
   }
 });

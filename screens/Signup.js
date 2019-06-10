@@ -448,7 +448,7 @@ class SignUpScreen extends React.Component {
         <View style={{flex:1,flexDirection:'column',justifyContent:'space-between'}} >
           <View>
             <Image
-              source={require('../assets/images/shutterstock_376853890.jpg')}
+              source={require('../assets/images/Top_Events_Login_screen_option-2.png')}
               style={styles.image}
             />
           </View>
