@@ -429,7 +429,10 @@ class CityEventDescription extends Component {
      isPassed = moment().diff(moment(item.start),'days')
     }
  let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
- console.log(item,'VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
+   let  eventEndDate
+ if(item && item.start && item.end){
+  eventEndDate = moment(item.end).format("M") > moment(item.start).format("M") ||  (parseInt(moment(item.end).format("D")) !== parseInt(moment(item.start).format("D"))+1 && parseInt(moment(item.end).format("D")) > parseInt(moment(item.start).format("D"))+1 )? moment(item.end).format("D MMM, ddd") : "";
+ }
  
  return (
    <ErrorBoundary>
@@ -482,7 +485,7 @@ class CityEventDescription extends Component {
                       />
                       <View style={styles.timeWrapper}>
                         <Text style={styles.dateDay}>
-                          {moment(item.start).format("D MMM, dddd")}
+                        {eventEndDate !=="" ? moment(item.start).format("D MMM, ddd")+" " : moment(item.start).format("D MMM, dddd")+" "}{eventEndDate !=="" && ("-"+" " + eventEndDate)}
                         </Text>
                         <Text>{moment(item.start).format("hh:mm A")}</Text>
                       </View>
