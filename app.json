@@ -30,7 +30,10 @@
         "READ_EXTERNAL_STORAGE",
         "MANAGE_DOCUMENTS",
         "WRITE_EXTERNAL_STORAGE",
-        "CAMERA"
+        "CAMERA",
+        "CALENDAR",
+        "READ_CALENDAR", 
+        "WRITE_CALENDAR"
       ]
     },
     "updates": {

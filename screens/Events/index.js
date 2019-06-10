@@ -43,7 +43,7 @@ const wishlistScreen = createStackNavigator({
 });
 
 wishlistScreen.navigationOptions = {
-  tabBarLabel: props => <Text style={{color:'black',fontWeight:'500'}} > WishList </Text>,
+  tabBarLabel: props => <Text style={{color:'black',fontWeight:'500'}} > Wishlist </Text>,
   tabBarOptions: {
     labelStyle: {
       fontSize: 12,

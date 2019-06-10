@@ -31,7 +31,7 @@ export default class Intrest extends React.Component {
           end={[1, 1]}
         >
         <View style={styles.headerContainer} >
-          <Text style={styles.headerText} > What are your Interests? </Text>
+          <Text style={styles.headerText} > What are your interests? </Text>
         </View>
         {
           category.isLoading?

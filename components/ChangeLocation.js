@@ -74,7 +74,7 @@ export default class ChangeLocation extends Component {
             numColumns={Layout.window.width > 380 ? 4 :3 }
             ListHeaderComponent={()=>{
               return <View style={styles.underLine}>
-                      <Text style={styles.eventsText}>Events within or nearby your City</Text>
+                      <Text style={styles.eventsText}>Choose a location to see the events nearby. You can change this later.</Text>
                   </View>
             }}
             keyExtractor={(item, index) => item._id}
@@ -223,6 +223,7 @@ const styles = StyleSheet.create({
         color:'white',
         fontWeight:'600',
         fontSize:18,
-        marginBottom:10
+        marginBottom:10,
+        textAlign:"center"
       }
 });

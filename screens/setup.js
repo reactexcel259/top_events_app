@@ -237,7 +237,7 @@ class SetupScreen extends React.Component {
     if(!Object.keys(this.state.search).length){
       if(Platform.OS == 'android') {
         ToastAndroid.showWithGravityAndOffset(
-          'Please add your location !!',
+          'Please choose at least one location',
           ToastAndroid.LONG,
           ToastAndroid.BOTTOM,
           25,
@@ -246,7 +246,7 @@ class SetupScreen extends React.Component {
       } else if( Platform.OS == 'ios'){         
         Alert.alert(
           'Add Location',
-          'Please add your location !!',
+          'Please choose at least one location',
           [
             {
               text: 'Cancel',
