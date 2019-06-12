@@ -392,12 +392,6 @@ class ProfileSettingScreen extends React.Component {
                       <Text style={{ margin: 10, fontWeight: "500",color:'white' }}> {updateUserInterest.user.isLoading || user.userInterestLoading  ? "Saving..." : "Save"} </Text>
                     </TouchableOpacity>
                   }
-                  {/* {
-                    updateUserInterest.user.isLoading &&
-                    // <TouchableOpacity onPress={this.updateUserInterest} >
-                      <Text style={{ margin: 10, fontWeight: "500",color:'white' }}> Saving...</Text>
-                    // </TouchableOpacity>
-                  } */}
                 </View>
               </View>
             </View>
