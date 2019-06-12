@@ -503,9 +503,9 @@ class CityEventDescription extends Component {
                       <Text style={styles.totalPeople}>
                       {
                         (!isGoing || isGoing == -1 ) ?
-                        `${interestedArray.length} people interested`
+                        `${interestedArray.length} ${interestedArray.length >1 ? "people" : "person"} interested`
                         :
-                        `You and ${interestedArray.length - 1} people interested`
+                        `You and ${interestedArray.length - 1} ${interestedArray.length - 1 >1 ? "people" : "person"} interested`
                       }
                       </Text>
                     </View>

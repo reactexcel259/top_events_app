@@ -601,7 +601,7 @@ _handleNotification = (notification) => {
           <HomePageModal
             {...this.props}
             isOpen = {attendingEvents != '' ? true : false}
-            title="Happening now"
+            title="This event is happening today"
             buttons={['Check in','Activity']}
             type="checkin"
             removeItem={this.removeCalanderItem}
