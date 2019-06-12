@@ -52,6 +52,10 @@ export default class Card extends React.Component {
       );
     });
     const isPassed = moment().diff(moment(item.start),'days');
+    let  eventEndDate
+    if(item && item.start && item.end){
+     eventEndDate = moment(item.end).format("M") > moment(item.start).format("M") ||  (parseInt(moment(item.end).format("D")) !== parseInt(moment(item.start).format("D"))+1 && parseInt(moment(item.end).format("D")) > parseInt(moment(item.start).format("D"))+1 )? moment(item.end).format("D MMM, ddd") : "";
+    }
     return (
       <View
         style={{
@@ -66,11 +70,7 @@ export default class Card extends React.Component {
         }}
       >
       {!isWishlist?<Text style={{paddingLeft:5,paddingTop:5,paddingBottom:5}}>
-        { item ?
-          moment(item.start).format("D MMM, dddd")
-          :
-          moment().format("D MMM, dddd")
-        }
+      {eventEndDate !=="" ? moment(item.start).format("D MMM, ddd")+" " : moment(item.start).format("D MMM, dddd")+" "}{eventEndDate !=="" && ("-"+" " + eventEndDate)}
       </Text>:null}
       <TouchableOpacity 
                 onPress={()=>{this.props.sendToDetails(item)}}
