@@ -105,12 +105,12 @@ class CityEventDescription extends Component {
       eventData.isSuccess && this.props.getEventDescription.status.data;
     let interestedArray = !item ? [] : item.interested;
     let checkedInarry = !item ? [] : item.checkedinBy;
-    const checkedIn = checkedInarry.find(
+    const checkedIn = user.data && user.data.data && user.data.data.email && checkedInarry.find(
       going => going.email == user.data.data.email
     );
     const checkedInBy =
       checkedIn && Object.keys(checkedIn).length ? true : false;
-    const checkInterested = interestedArray.find(
+    const checkInterested =user.data && user.data.data && user.data.data.email && interestedArray.find(
       going => going.email == user.data.data.email
     );
     if(checkedInBy && item && isCalander && !isModalCall ){
@@ -156,7 +156,7 @@ class CityEventDescription extends Component {
       if(getEventDescription.isSuccess !==prevProps.getEventDescription.isSuccess){
       let isPassed;
       isPassed = moment().diff(moment(item.start),'days')
-      if(!checkedInBy && !(isPassed  != undefined && isPassed >= 0 ) && isUserGoingToEvent && getEventDescription.isSuccess){
+      if(!checkedInBy && !(isPassed  != undefined && isPassed >= 0 )  && isUserGoingToEvent && getEventDescription.isSuccess){
         ToastAndroid.show('Removed from Attending Events', ToastAndroid.SHORT);
       }
       if(checkedInBy && !(isPassed  != undefined && isPassed >= 0 ) && isUserGoingToEvent && getEventDescription.isSuccess){
@@ -238,7 +238,7 @@ class CityEventDescription extends Component {
   }
 
   onEventLike = async() => {
-    this.setState({ userLikedWhenPageLanding:true });
+    this.setState({ userLikedWhenPageLanding:true,isUserGoingToEvent:false });
     let token = this.props.user.user.status.token;
     let eventId = this.props.navigation.state.params.item._id;
     await this.props.eventLikeRequest({ token, eventId });
@@ -296,13 +296,13 @@ class CityEventDescription extends Component {
   }
 
   eventJoin = () => {
-    this.setState({isUserGoingToEvent:true})
+    this.setState({isUserGoingToEvent:true,userLikedWhenPageLanding:false})
     const { user,navigation  } = this.props;
     const eventData = this.props.getEventDescription;    
     const item =
     eventData.isSuccess && this.props.getEventDescription.status.data;
     let checkedInarry = !item ? [] : item.checkedinBy;
-    const checkedIn = checkedInarry.find(
+    const checkedIn =user.data && user.data.data && user.data.data.email && checkedInarry.find(
       going => going.email == user.user.data.data.email
     );
     const checkedInBy =
@@ -409,11 +409,11 @@ class CityEventDescription extends Component {
     console.log(item,'eventname_is_here');
     
     let checkedInarry = !item ? [] : item.checkedinBy;
-    const checkedIn = checkedInarry.find(
+    const checkedIn =user.data && user.data.data && user.data.data.email && checkedInarry.find(
       going => going.email == user.data.data.email
     );
     const checkedInBy = checkedIn && Object.keys(checkedIn).length ? true : false;
-    const checkInterested = interestedArray.find(
+    const checkInterested =user.data && user.data.data && user.data.data.email && interestedArray.find(
       going => going.email == user.data.data.email
     );
     if (isLiked) {
@@ -428,11 +428,12 @@ class CityEventDescription extends Component {
     if(item){
      isPassed = moment().diff(moment(item.start),'days')
     }
- let isGoing = item && item.interested.findIndex(val => val.email == user.data.data.email);
+ let isGoing = item && user.data && user.data.data && user.data.data.email && item.interested.findIndex(val => val.email == user.data.data.email);
    let  eventEndDate
  if(item && item.start && item.end){
   eventEndDate = moment(item.end).format("M") > moment(item.start).format("M") ||  (parseInt(moment(item.end).format("D")) !== parseInt(moment(item.start).format("D"))+1 && parseInt(moment(item.end).format("D")) > parseInt(moment(item.start).format("D"))+1 )? moment(item.end).format("D MMM, ddd") : "";
  }
+ console.log(this.props,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
  
  return (
    <ErrorBoundary>
