@@ -341,7 +341,7 @@ class ProfileSettingScreen extends React.Component {
   }
 
   render() {
-    const { getCategoryData, user, getStateAndCityData } = this.props;
+    const { getCategoryData, user, getStateAndCityData,updateUserInterest } = this.props;
     const { interest, changeLocationModal, selectedInt,allCities } = this.state;
     let isUpdate = user.data.data && user.data.data.interests && (user.data.data.interests.length != selectedInt.length) ? true : this.checkChange();
     let selectedInterest = user.data.data && user.data.data.interests ? user.data.data.interests : []
@@ -387,11 +387,17 @@ class ProfileSettingScreen extends React.Component {
                 </View>
                 <View>
                   {
-                    isUpdate &&
-                    <TouchableOpacity onPress={this.updateUserInterest} >
-                      <Text style={{ margin: 10, fontWeight: "500",color:'white' }}> Save </Text>
+                    isUpdate  &&
+                    <TouchableOpacity onPress={()=>!updateUserInterest.user.isLoading || !user.userInterestLoading ?  this.updateUserInterest() : ()=>{return null}} >
+                      <Text style={{ margin: 10, fontWeight: "500",color:'white' }}> {updateUserInterest.user.isLoading || user.userInterestLoading  ? "Saving..." : "Save"} </Text>
                     </TouchableOpacity>
                   }
+                  {/* {
+                    updateUserInterest.user.isLoading &&
+                    // <TouchableOpacity onPress={this.updateUserInterest} >
+                      <Text style={{ margin: 10, fontWeight: "500",color:'white' }}> Saving...</Text>
+                    // </TouchableOpacity>
+                  } */}
                 </View>
               </View>
             </View>
@@ -569,7 +575,8 @@ const mapStateToProps = state => {
     user: state.user.user,
     getCategoryData: state.getCategory,
     getStateAndCityData: state.getStateAndCity,  
-    getInterest: state.interest,      
+    getInterest: state.interest, 
+    updateUserInterest:state.updateUserInterest,     
   };
 };
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

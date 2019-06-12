@@ -13,6 +13,7 @@ const initialState = {
    data:[],
    passwordReset:{},
    updateData:{},
+   userInterestLoading:false
  }
 };
 
@@ -58,7 +59,8 @@ const getRegisterSuccess = (state, action) =>
     update(state, {
       user: {
         data: { $set: action.payload },
-        isUserSuccess:{$set:false}
+        isUserSuccess:{$set:false},
+        userInterestLoading:{$set:true}
       }
     })
    )
@@ -70,7 +72,8 @@ const getRegisterSuccess = (state, action) =>
     update(state, {
       user: {
         data: { $set: action.payload },
-        isUserSuccess:{$set:true}
+        isUserSuccess:{$set:true},
+        userInterestLoading:{$set:false}
       }
     })
    )
