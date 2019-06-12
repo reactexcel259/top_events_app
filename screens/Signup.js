@@ -432,13 +432,7 @@ class SignUpScreen extends React.Component {
   }
   }
   signupPress=async()=>{
-    const {progress,isForgotPassword}=this.state;
-    const interest = await getItem("user_interest")
-    if(interest){
-    this.setState({login:false})
-    }else{
-      this.backPress()
-    }
+        this.setState({ login: false ,isForgotPassword:false})
   }
   render() {
     const { progress, firstName, lastName, email, password, login,isForgotPassword } = this.state;
@@ -469,7 +463,7 @@ class SignUpScreen extends React.Component {
                 </TouchableOpacity>
               }
               {
-                progress == 1 && login && !isForgotPassword &&
+                progress == 1 && login &&
                 <TouchableOpacity onPress={this.signupPress} >
                   <Text style={{color:'white',fontSize:17}} > Sign up </Text>
                 </TouchableOpacity>

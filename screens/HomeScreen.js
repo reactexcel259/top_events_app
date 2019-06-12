@@ -64,7 +64,7 @@ class HomeScreen extends React.Component {
       <View style={styles.container}>
         <Image
           style={styles.image}
-          resizeMode='contain'
+          resizeMode='cover'
           source={require('../assets/images/Top_Events_Login_screen_option-2.png')}
         />
         <View style={styles.ovalContainer}>
