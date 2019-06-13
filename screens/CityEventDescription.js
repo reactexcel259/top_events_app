@@ -170,7 +170,7 @@ class CityEventDescription extends Component {
     const item = eventData.isSuccess && this.props.getEventDescription.status.data;
     try {
       const result = await Share.share({
-        message: `${item.title} event is going to start. To see detail of Event Open the link https://topeventsinjamaica.com/#/event-detail/${item._id}`
+        message: `${item.title} event is going to start. To see detail of Event Open the link https://topeventsinjamaica.com/event-detail/${item._id}`
       });
 
       if (result.action === Share.sharedAction) {
