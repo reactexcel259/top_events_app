@@ -25,6 +25,8 @@ export default class ChangeLocation extends Component {
       const {changeLocationModal, onPress, onSearchChange, search, stateAndCity,allCities, selected, onCancelPress } = this.props;
       const films = /* search != '' && search != undefined ? this.findFilm(search) :  */uniqBy(allCities, "name")  ;
       let checkSelected = search != undefined ? Object.keys(search).length ? selected  ? true : false : true: true;
+      console.log(films,'KKKKKKKKKKKKKKKKKKKKKKKKKKK');
+      
     return (
       <Modal
         isDisabled={false}
@@ -106,7 +108,7 @@ export default class ChangeLocation extends Component {
                 buttonText={"Next"}
                 gradientColor={['#FF6CC9','#FF6CC9']}
                 textColor={'white'}
-                onPress={onPress}
+                onPress={()=>{this.props.closeModal()}}
               />            
           </View>
         </LinearGradient>

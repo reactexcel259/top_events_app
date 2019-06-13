@@ -321,13 +321,19 @@ _handleNotification = (notification) => {
       let filters = this.findFilm(search);
       let results;
       if(filters.length){
-        results = filters[0]
+        if(search === "Kingston"){
+          results = filters[1]
+        }
+        else{
+          results = filters[0]
+        }
+        
         setItem("user_info", JSON.stringify({ location:results}));
         await this.props.getStateAndCityEvent({
           location:results._id,
           userId: user.user.data.data._id
         });
-        this.setState({changeLocationModal:false})
+        // this.setState({changeLocationModal:false})
       }else {
         if(Platform.OS == 'android') {
           ToastAndroid.showWithGravityAndOffset(
@@ -446,9 +452,6 @@ _handleNotification = (notification) => {
     const eventsLength = this.props.getEventData.register.eventData.length;
     const events = this.props.getEventData.register.eventData;
     const thisWeekEvent = this.props.getEventData.register.todayEvent;
-    console.log(thisWeekEvent,"VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
-    
-    
     // const weeklyEvents =this.props.getEventData
     const cityEvents = this.props.getStateAndCityEventData.status;
     const likeEvent = this.props.userInterestBaseEvents.likeEvent;

@@ -279,14 +279,19 @@ class ProfileSettingScreen extends React.Component {
       let filters = this.findFilm(search);
       let results;
       if(filters.length){
-        results = filters[0]
+        if(search === "Kingston"){
+          results = filters[1]
+        }
+        else{
+          results = filters[0]
+        }
         setItem("user_info", JSON.stringify({ location:results}));
         let city = { }
         await this.props.getStateAndCityEventRequest({
           location:results._id,
           userId: ""
         });
-        this.setState({changeLocationModal:false})
+        // this.setState({changeLocationModal:false})
       }else {
         if(Platform.OS == 'android') {
           ToastAndroid.showWithGravityAndOffset(
@@ -343,6 +348,8 @@ class ProfileSettingScreen extends React.Component {
   render() {
     const { getCategoryData, user, getStateAndCityData,updateUserInterest } = this.props;
     const { interest, changeLocationModal, selectedInt,allCities } = this.state;
+    console.log(this.state.search,'this.state.search');
+    
     let isUpdate = user.data.data && user.data.data.interests && (user.data.data.interests.length != selectedInt.length) ? true : this.checkChange();
     let selectedInterest = user.data.data && user.data.data.interests ? user.data.data.interests : []
     return (
