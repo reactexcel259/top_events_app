@@ -105,7 +105,7 @@ export default class ChangeLocation extends Component {
         </TouchableOpacity>}
           <View style={{flex:1,justifyContent:'flex-end',alignItems:'center',marginBottom:40}} >
               <CustomeButton
-                buttonText={"Next"}
+                buttonText={"Ok"}
                 gradientColor={['#FF6CC9','#FF6CC9']}
                 textColor={'white'}
                 onPress={()=>{this.props.closeModal()}}
