@@ -23,9 +23,12 @@ export default class DetailsContainer extends React.Component {
       <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >      
       <View style={styles.container}>
        <View style={styles.labelContainer} >
-          <View style={{borderWidth:1,justifyContent:'center',alignItems:'center',height:80,width:80,borderRadius:50}} >
+          {/* <View style={{borderWidth:1,justifyContent:'center',alignItems:'center',height:80,width:80,borderRadius:50}} >
             <FontAwesome
               name={'camera'} size={32} style={{margin:5}} color="gray" />
+          </View> */}
+          <View style={{width:120,height:80}}>
+              <Image style={{width:"100%",height:"100%"}} resizeMode="contain" source={require('../../assets/images/logo_transparent.cc756712.png')}/>
           </View>
        </View>
        <View style={styles.inputContainer} >
@@ -74,7 +77,7 @@ const styles = StyleSheet.create({
   },
   labelContainer:{
     alignItems:'center',
-    marginTop:10
+    marginBottom:20
   },
   label:{
     fontWeight:'600',
