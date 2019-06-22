@@ -25,7 +25,6 @@ export default class ChangeLocation extends Component {
       const {changeLocationModal, onPress, onSearchChange, search, stateAndCity,allCities, selected, onCancelPress } = this.props;
       const films = /* search != '' && search != undefined ? this.findFilm(search) :  */uniqBy(allCities, "name")  ;
       let checkSelected = search != undefined ? Object.keys(search).length ? selected  ? true : false : true: true;
-      console.log(films,'KKKKKKKKKKKKKKKKKKKKKKKKKKK');
       
     return (
       <Modal

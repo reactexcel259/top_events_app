@@ -406,8 +406,6 @@ class CityEventDescription extends Component {
     const goingData = this.props.getInterestedEvent;
     const item = this.props.getEventDescription.isSuccess && this.props.getEventDescription.status && this.props.getEventDescription.status.data !==undefined && this.props.getEventDescription.status.data;
     let interestedArray = !item ? [] : item.interested;
-    console.log(item,'eventname_is_here');
-    
     let checkedInarry = !item ? [] : item.checkedinBy;
     const checkedIn =user.data && user.data.data && user.data.data.email && checkedInarry.find(
       going => going.email == user.data.data.email
@@ -426,14 +424,18 @@ class CityEventDescription extends Component {
     }
     let isPassed;
     if(item){
-     isPassed = moment().diff(moment(item.start),'days')
+      if(parseInt(moment(item.end).format("M")) > new Date().getMonth()+1 ? true : parseInt(moment(item.end).format("M")) == new Date().getMonth()+1 ? parseInt(moment(item.end).format("D")) > new Date().getDate() : false ){
+        isPassed =true
+      }else{
+        isPassed = false
+      }
     }
  let isGoing = item && user.data && user.data.data && user.data.data.email && item.interested.findIndex(val => val.email == user.data.data.email);
    let  eventEndDate
  if(item && item.start && item.end){
   eventEndDate = moment(item.end).format("M") > moment(item.start).format("M") ||  (parseInt(moment(item.end).format("D")) !== parseInt(moment(item.start).format("D"))+1 && parseInt(moment(item.end).format("D")) > parseInt(moment(item.start).format("D"))+1 )? moment(item.end).format("D MMM, ddd") : "";
  }
- console.log(this.props,'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
+ console.log(isPassed,'isPassed');
  
  return (
    <ErrorBoundary>
@@ -517,7 +519,7 @@ class CityEventDescription extends Component {
                         marginTop: 30
                       }}
                     >
-                    <TouchableOpacity onPress={(isPassed != undefined && isPassed < 0) ? ()=>this.eventJoin() : ()=>{return null} }>
+                    <TouchableOpacity onPress={(isPassed != undefined && isPassed) ? ()=>this.eventJoin() : ()=>{return null} }>
                       <LinearGradient
                         start={{ x: 0, y: 1 }}
                         end={{ x: 1, y: 1 }}
@@ -529,12 +531,12 @@ class CityEventDescription extends Component {
                             <Text
                               style={[styles.buttonText, { color: "black" }]}
                             >
-                              {(isPassed  != undefined && isPassed >= 0) ?  `Event Closed` : `You're going`}
+                              {(isPassed  != undefined && !isPassed) ?  `Event Closed` : `You're going`}
                             </Text>
                           </View>
                         ) : (
                           <Text style={styles.buttonText}> 
-                          { (isPassed != undefined && isPassed >= 0) ?  `Event Closed` : 'Join Event' }
+                          { (isPassed != undefined && !isPassed) ?  `Event Closed` : 'Join Event' }
                           
                           </Text>
                         )}

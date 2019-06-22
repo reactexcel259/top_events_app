@@ -310,7 +310,6 @@ class SignUpScreen extends React.Component {
   }
 
   login = () => {
-    console.log(validateEmail(this.state.email));
     const { email, password } = this.state;
     if(email != '' && password != '' && validateEmail(email) ){
       let payload = {
@@ -437,7 +436,6 @@ class SignUpScreen extends React.Component {
   render() {
     const { progress, firstName, lastName, email, password, login,isForgotPassword } = this.state;
     const { user,forgotPasswordData } = this.props;
-    console.log(this.state.email,this.state.password,this.props.user.user.isLoading,'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
     
     return (
       <View style={styles.container}>

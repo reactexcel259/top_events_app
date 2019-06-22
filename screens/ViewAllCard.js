@@ -69,14 +69,14 @@ class ViewAllCard extends Component {
       const check  = item.interested;
       let checkedInBy = item.checkedinBy;
       const checkInterested = check && check.find(going => going.email == user.data.data.email);
-      console.log(checkInterested,user,"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjsklasjlaksj");
+      // console.log(checkInterested,user,"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjsklasjlaksj");
       // const checkedIn = checkedInarry.find(
       //   going => going.email == user.data.data.email
       // );
       const wishList = checkInterested && Object.keys(checkInterested).length ? true : false; 
       const checkedInByArray = checkedInBy && checkedInBy.find(going => going.email == user.data.data.email);
       let going = checkedInByArray && Object.keys(checkedInByArray).length  ? true :false;
-      console.log(item,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+      // console.log(item,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
       
         return(
             <View>

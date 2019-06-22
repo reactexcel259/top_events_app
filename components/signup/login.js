@@ -35,7 +35,6 @@ export default class LoginContainer extends React.Component {
   }
   render() {
     const { onPress, onChange, firstName,isForgotPassword, lastName,onPressForgotPassword,onChangeForPassword,emailForPassword, iconPress, socialLogin, googleLogin } = this.props;
-    console.log(emailForPassword,"emailForPassword");
     
     return (
       <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >      

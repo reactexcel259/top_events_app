@@ -52,7 +52,6 @@ class Notifications extends React.Component {
   render() {
     const { notification } = this.props;
     const { notificationList } = this.state;
-    console.log(notificationList);
     
     return (
       <View style={styles.mainContainer}>
