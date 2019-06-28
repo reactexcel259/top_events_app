@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: "absolute",
     bottom: -35,
-    right: Layout.window.width / 2.6
+    // right: "50%"
   },
   checkinText: {
     fontWeight: "bold",
