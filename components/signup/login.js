@@ -104,19 +104,20 @@ export default class LoginContainer extends React.Component {
           <View>
             <Text style={styles.signupLabel} >Sign in with </Text>
           </View>
-            <TouchableOpacity onPress={this.socialLogin} >
+          <View style={{flexDirection:"row",justifyContent:"center"}}>
+          <TouchableOpacity onPress={this.socialLogin} >
             <Image
               style={styles.imageSize}
               source={require('../../assets/images/fbicon.png')}
             />
             </TouchableOpacity>
-            {/* <TouchableOpacity activeOpacity={.5} onPress={this.googleLogin} >
+            <TouchableOpacity activeOpacity={.5} onPress={this.googleLogin} >
             <Image
               style={[styles.imageSize,styles.imageMargin]}
               source={require('../../assets/images/googleLogo.png')}
             />
             </TouchableOpacity>
-            */}
+          </View>
           </View>
        </View>
       </View>
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
     width:25
   },
   imageMargin:{
-    marginLeft:30
+    marginLeft:10
   },
   signupLabel:{
     fontSize:15,
