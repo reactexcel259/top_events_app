@@ -115,7 +115,8 @@ export default class LoginContainer extends React.Component {
               style={[styles.imageSize,styles.imageMargin]}
               source={require('../../assets/images/googleLogo.png')}
             />
-            </TouchableOpacity> */}
+            </TouchableOpacity>
+            */}
           </View>
        </View>
       </View>

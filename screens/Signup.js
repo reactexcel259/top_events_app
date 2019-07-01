@@ -16,7 +16,7 @@ import { WebBrowser, LinearGradient } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as actions from '../redux/action';
-import { Facebook, GoogleSignIn } from 'expo';
+import { Facebook, GoogleSignIn,Google } from 'expo';
 import Expo from 'expo';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
@@ -26,6 +26,7 @@ import DetailsContainer from '../components/signup/details';
 import WelcomeContainer from '../components/signup/welcome';
 import {setItem, getItem} from '../services/storage';
 import { validateEmail } from '../services/validation';
+const RCTNetworkingNative = require('NativeModules').Networking;
 
 class SignUpScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -47,11 +48,16 @@ class SignUpScreen extends React.Component {
       interest: [],
       emailForPassword:"",
       isForgotPassword:false,
+      isCacheCleared:undefined,
+      isSignedInAsync:false
     }
   }
 
   async componentWillMount() {
     const { navigation } = this.props;
+    // RCTNetworkingNative.clearCookies(isCacheCleared=>{
+    //   this.setState({isCacheCleared})
+    // })
     if( navigation.state.params && navigation.state.params.isLogin){
       this.setState({
         login: true
@@ -184,6 +190,9 @@ class SignUpScreen extends React.Component {
         }
       }
     }
+   
+    // this.setState({ user: null });
+
   }
 
   forgotPasswordStateHandler=()=>{
@@ -366,25 +375,53 @@ class SignUpScreen extends React.Component {
       )
     }
   }
+  disconnectAsync=async()=>{
+    try{
+      const disconnectAsync =  await GoogleSignIn.disconnectAsync();
+      console.log(disconnectAsync,'disconnectAsync');
+      }
+      catch (err) {
+        console.log(err,'disconnectAsync' )
+      }
+  }
+  isConnectedAsync=async()=>{
+    try{
+      const isConnectedAsync =  await GoogleSignIn.isConnectedAsync();
+      console.log(isConnectedAsync,'isConnectedAsync');
+      }
+      catch (err) {
+        console.log(err,'isConnectedAsync' )
+      }
+  }
+  signInSilentlyAsync=async()=>{
+    try{
+      const signInSilentlyAsync =  await GoogleSignIn.signInSilentlyAsync();
+      console.log(signInSilentlyAsync,'signInSilentlyAsync');
+      }
+      catch (err) {
+        console.log(err,'signInSilentlyAsync' )
+      }
+  }
 
   googleLogin = async () => {
-    try{
-   const response =  await GoogleSignIn.askForPlayServicesAsync();
-   
-   if(response){
-      const { type, user } = await GoogleSignIn.signInAsync();
-      
-      if(user != null) {
-        let payload = {
-          email: user.email,
-          name : user.displayName
-        }
-        this.props.getSocialLoginRequest(payload)
-      }
-    }
-    } catch (err) {
-      console.log(err,'googleError' )
-    }
+      // RCTNetworkingNative.clearCookies(async isCacheCleared=>{
+        try{
+          const response =  await GoogleSignIn.askForPlayServicesAsync();
+          
+          if(response){
+             const { type, user } = await GoogleSignIn.signInAsync();
+             
+             if(user != null) {
+               let payload = {
+                 email: user.email,
+                 name : user.displayName
+               }
+               this.props.getSocialLoginRequest(payload)
+             }
+           }
+           } catch (err) {
+             console.log(err,'googleError' )
+           }
   }
 
   socialLogin = async () => {
@@ -434,6 +471,8 @@ class SignUpScreen extends React.Component {
         this.setState({ login: false ,isForgotPassword:false})
   }
   render() {
+    // console.log(this.state.isCacheCleared,'isCacheCleared');
+    
     const { progress, firstName, lastName, email, password, login,isForgotPassword } = this.state;
     const { user,forgotPasswordData } = this.props;
     
@@ -482,6 +521,11 @@ class SignUpScreen extends React.Component {
           :
             login ?
              <LoginContainer
+             disconnectAsync={this.disconnectAsync}
+             isConnectedAsync={this.isConnectedAsync}
+             signInSilentlyAsync={this.signInSilentlyAsync}
+             currentUser={this.currentUser}
+             googleLogOut={this.googleLogOut}
               socialLogin={this.socialLogin}
               onPress={this.login}
               email={email}
