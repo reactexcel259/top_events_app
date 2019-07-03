@@ -384,6 +384,16 @@ class SignUpScreen extends React.Component {
         console.log(err,'disconnectAsync' )
       }
   }
+  
+  getCurrentUser=async()=>{
+    try{
+      const getCurrentUser =  await GoogleSignIn.getCurrentUser();
+      console.log(getCurrentUser,'getCurrentUser');
+      }
+      catch (err) {
+        console.log(err,'getCurrentUser' )
+      }
+  }
   isConnectedAsync=async()=>{
     try{
       const isConnectedAsync =  await GoogleSignIn.isConnectedAsync();
@@ -391,6 +401,15 @@ class SignUpScreen extends React.Component {
       }
       catch (err) {
         console.log(err,'isConnectedAsync' )
+      }
+  }
+  isSignedInAsync=async()=>{
+    try{
+      const isSignedInAsync =  await GoogleSignIn.isSignedInAsync();
+      console.log(isSignedInAsync,'isSignedInAsync');
+      }
+      catch (err) {
+        console.log(err,'isSignedInAsync' )
       }
   }
   signInSilentlyAsync=async()=>{
@@ -402,27 +421,91 @@ class SignUpScreen extends React.Component {
         console.log(err,'signInSilentlyAsync' )
       }
   }
+  getCurrentUserAsync=async()=>{
+    try{
+      const getCurrentUserAsync =  await GoogleSignIn.getCurrentUserAsync();
+      console.log(getCurrentUserAsync,'getCurrentUserAsync');
+      }
+      catch (err) {
+        console.log(err,'getCurrentUserAsync' )
+      }
+  }
+  
+  signOutAsync = async () => {
+    try {
+   const signOutAsync=   await GoogleSignIn.signOutAsync();
+      // this.setState({ user: null });
+      console.log(signOutAsync,'signOutAsync');
+      
+    } catch ({ message }) {
+      alert('signOutAsync: ' + message);
+    }
+  };
 
+  promseResolve=async()=>{
+    return Promise.all( GoogleSignIn.askForPlayServicesAsync()).then((promise)=>{
+      console.log("Promise.all",promise);
+      return Promise.resolve( GoogleSignIn.askForPlayServicesAsync());
+      
+    }).catch((err) => {           
+      return Promise.reject(err,'Promise.reject');
+  });
+  }
   googleLogin = async () => {
       // RCTNetworkingNative.clearCookies(async isCacheCleared=>{
         try{
-          const response =  await GoogleSignIn.askForPlayServicesAsync();
-          
-          if(response){
-             const { type, user } = await GoogleSignIn.signInAsync();
-             
-             if(user != null) {
-               let payload = {
-                 email: user.email,
-                 name : user.displayName
+          const isSignedInAsync =  await GoogleSignIn.isSignedInAsync();
+          if(!isSignedInAsync){
+            try{
+              const response =  await GoogleSignIn.askForPlayServicesAsync();
+              if(response){
+                 const { type, user } = await GoogleSignIn.signInAsync();
+                 console.log(type,user,'kkkkkkkkkkkkkkkkkkkkk');
+                 if(user != null) {
+                   let payload = {
+                     email: user.email,
+                     name : user.displayName
+                   }
+                   this.props.getSocialLoginRequest(payload)
+                 }
                }
-               this.props.getSocialLoginRequest(payload)
-             }
-           }
-           } catch (err) {
-             console.log(err,'googleError' )
-           }
+               } catch (err) {
+                //  console.log(err,'googleError' )
+                  Alert.alert(
+                    'Opps!',
+                    'There is google server problem with login, reopen your app and try again.'
+                  )
+               }
+              }else{
+                try{
+                    const  getCurrentUser  =  await GoogleSignIn.getCurrentUser();
+                    // console.log(getCurrentUser,'getCurrentUser');
+                    if(getCurrentUser) {
+                      let payload = {
+                        email: getCurrentUser.email,
+                        name : getCurrentUser.displayName
+                      }
+                      this.props.getSocialLoginRequest(payload)
+                    }
+                  }
+                  catch (err) {
+                    Alert.alert(
+                      'Opps!',
+                      'There is google server problem with login, reopen your app and try again.'
+                    )
+                  }
+              }
+          }
+          catch (err) {
+            console.log(err,'isSignedInAsync')
+            Alert.alert(
+              'Opps!',
+              'There is google server problem with login, reopen your app and try again.'
+            )
+          }
   }
+
+  
 
   socialLogin = async () => {
     try {
@@ -524,8 +607,13 @@ class SignUpScreen extends React.Component {
              disconnectAsync={this.disconnectAsync}
              isConnectedAsync={this.isConnectedAsync}
              signInSilentlyAsync={this.signInSilentlyAsync}
-             currentUser={this.currentUser}
-             googleLogOut={this.googleLogOut}
+             isSignedInAsync={this.isSignedInAsync}
+            //  currentUser={this.currentUser}
+             getCurrentUserAsync={this.getCurrentUserAsync}
+             getCurrentUser={this.getCurrentUser}
+             signOutAsync={this.signOutAsync}
+             promseResolve={this.promseResolve}
+
               socialLogin={this.socialLogin}
               onPress={this.login}
               email={email}

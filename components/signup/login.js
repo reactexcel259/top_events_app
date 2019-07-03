@@ -117,14 +117,39 @@ export default class LoginContainer extends React.Component {
               source={require('../../assets/images/googleLogo.png')}
             />
             </TouchableOpacity>
+            
           </View>
+          {/* <TouchableOpacity activeOpacity={.5} onPress={()=>this.props.disconnectAsync()} >
+            <Text  >disconnectAsync</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={.5} onPress={()=>this.props.isConnectedAsync()} >
+            <Text  >isConnectedAsync</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={.5} onPress={()=>this.props.signInSilentlyAsync()} >
+            <Text  >signInSilentlyAsync</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={.5} onPress={()=>this.props.isSignedInAsync()} >
+            <Text  >isSignedInAsync</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={.5} onPress={()=>this.props.getCurrentUserAsync()} >
+            <Text  >getCurrentUserAsync</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={.5} onPress={()=>this.props.getCurrentUser()} >
+            <Text >getCurrentUser</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={.5} onPress={()=>this.props.signOutAsync()} >
+            <Text >signOutAsync</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={.5} onPress={()=>this.props.promseResolve()} >
+            <Text >promseResolve</Text>
+            </TouchableOpacity> */}
+            
           </View>
        </View>
       </View>
       </KeyboardAvoidingView>      
     );
   }
-
 }
 
 const styles = StyleSheet.create({
