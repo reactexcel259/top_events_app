@@ -66,6 +66,7 @@ class HomeTab extends Component {
       allCities:[],
       isComponent:false,
       likeLatestEventsLength:[],
+      isToken:false
     };
   }
 
@@ -143,10 +144,11 @@ _handleNotification = (notification) => {
     const getInterest =await getItem("user_interest")
     const getLocation = await getItem("user_info");
     const { getCategoryData ,getStateAndCityData,getEventData, user,userInterestBaseEvents} = this.props;
-    // if(user.user.data.length == 0 ){
-    //   let token  = user.user.status.token;
-    //   await this.props.getUserDataRequest(token);
-    // }
+    if(user.user.status && user.user.status.token  && !this.state.isToken){
+      let token  = user.user.status.token;
+      await this.props.getUserDataRequest(token);
+      this.setState({isToken:true})
+    }
     
     if (getCategoryData.isSuccess && !this.state.isCategoryId) {
       

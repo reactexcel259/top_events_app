@@ -479,7 +479,7 @@ class SignUpScreen extends React.Component {
               }else{
                 try{
                     const  getCurrentUser  =  await GoogleSignIn.getCurrentUser();
-                    // console.log(getCurrentUser,'getCurrentUser');
+                    console.log(getCurrentUser,'getCurrentUser');
                     if(getCurrentUser) {
                       let payload = {
                         email: getCurrentUser.email,
