@@ -542,7 +542,7 @@ class CityEventDescription extends Component {
                         )}
                       </LinearGradient>
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={this.callCalander} >
+                     {Platform.OS !=="ios" && <TouchableOpacity onPress={this.callCalander} >
                       {/* <LinearGradient
                         colors={["#ff6cc9", "#8559f0"]}
                         style={styles.bag}
@@ -555,7 +555,7 @@ class CityEventDescription extends Component {
                           />
                         {/* </View>
                       </LinearGradient> */}
-                      </TouchableOpacity>
+                      </TouchableOpacity>}
                     </View>
                   </View>
                   <View />
