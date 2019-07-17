@@ -25,6 +25,7 @@
     "react-native-image-picker": "^0.28.1",
     "react-native-modalbox": "^1.7.1",
     "react-native-snap-carousel": "^3.7.5",
+    "react-native-timer": "^1.3.6",
     "react-native-touch": "0.0.2",
     "react-navigation": "^3.0.9",
     "react-redux": "^6.0.0",

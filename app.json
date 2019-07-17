@@ -25,6 +25,11 @@
     "android": {
       "package": "com.TopEventsinJamaica",
       "googleServicesFile":"./assets/google-services.json",
+      "config":{
+        "googleSignIn":{
+          "apiKey":"501387798556-d4cf5dagg9svp7nd93u68676tg0lgd4l.apps.googleusercontent.com"
+        }
+      },
       "permissions" : [
         "ACCESS_FINE_LOCATION",
         "READ_EXTERNAL_STORAGE",

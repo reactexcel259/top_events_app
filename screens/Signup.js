@@ -16,7 +16,7 @@ import { WebBrowser, LinearGradient } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as actions from '../redux/action';
-import { Facebook, GoogleSignIn,Google } from 'expo';
+import { Facebook,Google } from 'expo';
 import Expo from 'expo';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
@@ -26,7 +26,9 @@ import DetailsContainer from '../components/signup/details';
 import WelcomeContainer from '../components/signup/welcome';
 import {setItem, getItem} from '../services/storage';
 import { validateEmail } from '../services/validation';
+import * as GoogleSignIn from "expo-google-sign-in";
 const RCTNetworkingNative = require('NativeModules').Networking;
+const timer = require('react-native-timer');
 
 class SignUpScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -192,21 +194,26 @@ class SignUpScreen extends React.Component {
       }
     }
    
-   if(this.state.isGooglePress){
-     this.googleLoginTimer = setInterval(async ()=>{
-       console.log('googleLoginTimer');
-       
-      const  getCurrentUser  =  await GoogleSignIn.getCurrentUser();
-      console.log(getCurrentUser);
-      if(getCurrentUser){
-        console.log(getCurrentUser,"getCurrentUser",',,,,,,,,,,,,');
-          clearInterval(this.googleLoginTimer)
-          this.setState({isGooglePress:false})
-      }
-     },4000)
-     
-   }
-
+    // if(this.state.isGooglePress){
+    //   timer.setInterval(this, "hideMsg", async()=>{
+    //     const  getCurrentUser  =  await GoogleSignIn.getCurrentUser()
+    //     console.log(getCurrentUser,'getCurrentUserupper');
+    //     if(getCurrentUser){
+    //       timer.clearInterval(this);
+    //       this.setState({isGooglePress:false});
+    //       console.log(getCurrentUser,"getCurrentUserdown",',,,,,,,,,,,,');
+    //       let payload = {
+    //         email: getCurrentUser.email,
+    //         name : getCurrentUser.displayName
+    //       }
+    //       this.props.getSocialLoginRequest(payload)
+    //     }else{
+    //       timer.clearInterval(this);
+    //       this.setState({isGooglePress:false});
+    //        this.googleLogin()
+    //     }
+    //   }, 2000)
+    // }
   }
 
   forgotPasswordStateHandler=()=>{
@@ -476,6 +483,7 @@ class SignUpScreen extends React.Component {
               if(response){
                  const { type, user } = await GoogleSignIn.signInAsync();
                  console.log(type,user,'kkkkkkkkkkkkkkkkkkkkk');
+                 alert(type,user,';;;;;;;;;;;')
                  if(user != null) {
                    let payload = {
                      email: user.email,
@@ -485,6 +493,7 @@ class SignUpScreen extends React.Component {
                  }
                }
                } catch (err) {
+                timer.clearInterval(this);
                 //  console.log(err,'googleError' )
                   Alert.alert(
                     'Opps!',
@@ -495,6 +504,7 @@ class SignUpScreen extends React.Component {
                 try{
                     const  getCurrentUser  =  await GoogleSignIn.getCurrentUser();
                     console.log(getCurrentUser,'getCurrentUser');
+                    alert(getCurrentUser,'getCurrentUser')
                     if(getCurrentUser) {
                       let payload = {
                         email: getCurrentUser.email,
@@ -504,6 +514,7 @@ class SignUpScreen extends React.Component {
                     }
                   }
                   catch (err) {
+                    timer.clearInterval(this);
                     Alert.alert(
                       'Opps!',
                       'There is google server problem with login, reopen your app and try again.'
@@ -512,6 +523,7 @@ class SignUpScreen extends React.Component {
               }
           }
           catch (err) {
+            timer.clearInterval(this);
             console.log(err,'isSignedInAsync')
             Alert.alert(
               'Opps!',
@@ -571,7 +583,7 @@ class SignUpScreen extends React.Component {
   render() {
     // console.log(this.state.isCacheCleared,'isCacheCleared');
     
-    const { progress, firstName, lastName, email, password, login,isForgotPassword } = this.state;
+    const { progress, firstName, lastName, email, password, login,isForgotPassword,isGooglePress } = this.state;
     const { user,forgotPasswordData } = this.props;
     
     return (
@@ -612,7 +624,7 @@ class SignUpScreen extends React.Component {
           </View>
         </View>
           <View style={styles.miniContainer} >
-          { user.user.isLoading || forgotPasswordData.isLoading?
+          { user.user.isLoading || forgotPasswordData.isLoading ?
           <View style={{flex:1,justifyContent:'center',alignItems:'center'}} >
             <ActivityIndicator size="large" color="black" animating={user.user.isLoading || forgotPasswordData.isLoading} />
           </View>
