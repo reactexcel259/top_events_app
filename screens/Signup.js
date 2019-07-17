@@ -49,7 +49,8 @@ class SignUpScreen extends React.Component {
       emailForPassword:"",
       isForgotPassword:false,
       isCacheCleared:undefined,
-      isSignedInAsync:false
+      isSignedInAsync:false,
+      isGooglePress:false
     }
   }
 
@@ -191,7 +192,20 @@ class SignUpScreen extends React.Component {
       }
     }
    
-    // this.setState({ user: null });
+   if(this.state.isGooglePress){
+     this.googleLoginTimer = setInterval(async ()=>{
+       console.log('googleLoginTimer');
+       
+      const  getCurrentUser  =  await GoogleSignIn.getCurrentUser();
+      console.log(getCurrentUser);
+      if(getCurrentUser){
+        console.log(getCurrentUser,"getCurrentUser",',,,,,,,,,,,,');
+          clearInterval(this.googleLoginTimer)
+          this.setState({isGooglePress:false})
+      }
+     },4000)
+     
+   }
 
   }
 
@@ -452,6 +466,7 @@ class SignUpScreen extends React.Component {
   });
   }
   googleLogin = async () => {
+    this.setState({isGooglePress:true})
       // RCTNetworkingNative.clearCookies(async isCacheCleared=>{
         try{
           const isSignedInAsync =  await GoogleSignIn.isSignedInAsync();
@@ -466,7 +481,7 @@ class SignUpScreen extends React.Component {
                      email: user.email,
                      name : user.displayName
                    }
-                   this.props.getSocialLoginRequest(payload)
+                  //  this.props.getSocialLoginRequest(payload)
                  }
                }
                } catch (err) {
@@ -485,7 +500,7 @@ class SignUpScreen extends React.Component {
                         email: getCurrentUser.email,
                         name : getCurrentUser.displayName
                       }
-                      this.props.getSocialLoginRequest(payload)
+                      // this.props.getSocialLoginRequest(payload)
                     }
                   }
                   catch (err) {
