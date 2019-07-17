@@ -93,7 +93,7 @@ export default class Events extends Component {
             // extraData={this.state.data}
             showsHorizontalScrollIndicator={false}
           />
-        </View> :""}
+        </View> :<Text>{""}</Text> }
       </React.Fragment>
     );
   }

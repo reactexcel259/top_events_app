@@ -14,7 +14,8 @@ import {
   ToastAndroid,
   KeyboardAvoidingView,
   WebView,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from "react-native";
 import Layout from "../constants/Layout";
 import { LinearGradient, MapView, Video } from "expo";
@@ -42,8 +43,7 @@ import {
 } from "../redux/action";
 import HomePageModal from '../components/HomePageModal';
 import FullImageModal from '../components/fullImageModal';
-import { Platform } from "expo-core";
-import * as _ from 'lodash';
+import * as  _ from "lodash"
 
 const image = [
   {
