@@ -23,13 +23,8 @@
       "color":"#FF6CC9"
     },
     "android": {
-      "package": "com.TopEventsinJamaica",
+      "package":"com.TopEventsinJamaica",
       "googleServicesFile":"./assets/google-services.json",
-      "config":{
-        "googleSignIn":{
-          "apiKey":"501387798556-d4cf5dagg9svp7nd93u68676tg0lgd4l.apps.googleusercontent.com"
-        }
-      },
       "permissions" : [
         "ACCESS_FINE_LOCATION",
         "READ_EXTERNAL_STORAGE",
@@ -52,7 +47,7 @@
       "supportsTablet": true,
       "config":{
         "googleSignIn":{
-          "reservedClientId":"com.googleusercontent.apps.501387798556-ie9nd89ouu3i567v9rm2ibmfd7j6eb3c"
+          "reservedClientId":"com.googleusercontent.apps.1021914779636-q3jqjn20ekckevcpcnf879n299ae9ri8"
         }
       },
       "infoPlist": {

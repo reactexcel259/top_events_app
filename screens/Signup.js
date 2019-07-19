@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   View,
 } from 'react-native';
-import { WebBrowser, LinearGradient } from 'expo';
+import { WebBrowser, LinearGradient, AuthSession,AppAuth } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as actions from '../redux/action';
@@ -26,7 +26,6 @@ import DetailsContainer from '../components/signup/details';
 import WelcomeContainer from '../components/signup/welcome';
 import {setItem, getItem} from '../services/storage';
 import { validateEmail } from '../services/validation';
-import * as GoogleSignIn from "expo-google-sign-in";
 const RCTNetworkingNative = require('NativeModules').Networking;
 const timer = require('react-native-timer');
 
@@ -52,7 +51,8 @@ class SignUpScreen extends React.Component {
       isForgotPassword:false,
       isCacheCleared:undefined,
       isSignedInAsync:false,
-      isGooglePress:false
+      isGooglePress:false,
+      isGoogleRequest:false
     }
   }
 
@@ -396,140 +396,85 @@ class SignUpScreen extends React.Component {
       )
     }
   }
-  disconnectAsync=async()=>{
-    try{
-      const disconnectAsync =  await GoogleSignIn.disconnectAsync();
-      console.log(disconnectAsync,'disconnectAsync');
-      }
-      catch (err) {
-        console.log(err,'disconnectAsync' )
-      }
-  }
-  
-  getCurrentUser=async()=>{
-    try{
-      const getCurrentUser =  await GoogleSignIn.getCurrentUser();
-      console.log(getCurrentUser,'getCurrentUser');
-      }
-      catch (err) {
-        console.log(err,'getCurrentUser' )
-      }
-  }
-  isConnectedAsync=async()=>{
-    try{
-      const isConnectedAsync =  await GoogleSignIn.isConnectedAsync();
-      console.log(isConnectedAsync,'isConnectedAsync');
-      }
-      catch (err) {
-        console.log(err,'isConnectedAsync' )
-      }
-  }
-  isSignedInAsync=async()=>{
-    try{
-      const isSignedInAsync =  await GoogleSignIn.isSignedInAsync();
-      console.log(isSignedInAsync,'isSignedInAsync');
-      }
-      catch (err) {
-        console.log(err,'isSignedInAsync' )
-      }
-  }
-  signInSilentlyAsync=async()=>{
-    try{
-      const signInSilentlyAsync =  await GoogleSignIn.signInSilentlyAsync();
-      console.log(signInSilentlyAsync,'signInSilentlyAsync');
-      }
-      catch (err) {
-        console.log(err,'signInSilentlyAsync' )
-      }
-  }
-  getCurrentUserAsync=async()=>{
-    try{
-      const getCurrentUserAsync =  await GoogleSignIn.getCurrentUserAsync();
-      console.log(getCurrentUserAsync,'getCurrentUserAsync');
-      }
-      catch (err) {
-        console.log(err,'getCurrentUserAsync' )
-      }
-  }
-  
   signOutAsync = async () => {
+    const ass = await AuthSession.dismiss()
+    console.log(ass,'assassassassassassassassass');
+    
+    let accessToken = await getItem('accessToken');
     try {
-   const signOutAsync=   await GoogleSignIn.signOutAsync();
-      // this.setState({ user: null });
-      console.log(signOutAsync,'signOutAsync');
-      
+      if(accessToken && accessToken.accessToken){
+          const signOutAsync=   await Google.logOutAsync(
+          {
+            accessToken:accessToken.accessToken,
+            iosClientId:'1021914779636-q3jqjn20ekckevcpcnf879n299ae9ri8.apps.googleusercontent.com',
+            androidClientId:'1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com',
+            iosStandaloneAppClientId:"com.TopEventsinJamaica",
+            androidStandaloneAppClientId:"com.TopEventsinJamaica",
+            clientId:Platform.OS == 'android' ? '1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com' : '1021914779636-q3jqjn20ekckevcpcnf879n299ae9ri8.apps.googleusercontent.com'
+          }
+        );
+      }
     } catch ({ message }) {
       alert('signOutAsync: ' + message);
     }
   };
 
-  promseResolve=async()=>{
-    return Promise.all( GoogleSignIn.askForPlayServicesAsync()).then((promise)=>{
-      console.log("Promise.all",promise);
-      return Promise.resolve( GoogleSignIn.askForPlayServicesAsync());
-      
-    }).catch((err) => {           
-      return Promise.reject(err,'Promise.reject');
-  });
-  }
   googleLogin = async () => {
-    this.setState({isGooglePress:true})
-      // RCTNetworkingNative.clearCookies(async isCacheCleared=>{
-        try{
-          const isSignedInAsync =  await GoogleSignIn.isSignedInAsync();
-          if(!isSignedInAsync){
-            try{
-              const response =  await GoogleSignIn.askForPlayServicesAsync();
-              if(response){
-                 const { type, user } = await GoogleSignIn.signInAsync();
-                 console.log(type,user,'kkkkkkkkkkkkkkkkkkkkk');
-                 alert(type,user,';;;;;;;;;;;')
-                 if(user != null) {
-                   let payload = {
-                     email: user.email,
-                     name : user.displayName
-                   }
-                  //  this.props.getSocialLoginRequest(payload)
-                 }
-               }
-               } catch (err) {
-                timer.clearInterval(this);
-                //  console.log(err,'googleError' )
-                  Alert.alert(
-                    'Opps!',
-                    'There is google server problem with login, reopen your app and try again.'
-                  )
-               }
-              }else{
-                try{
-                    const  getCurrentUser  =  await GoogleSignIn.getCurrentUser();
-                    console.log(getCurrentUser,'getCurrentUser');
-                    alert(getCurrentUser,'getCurrentUser')
-                    if(getCurrentUser) {
-                      let payload = {
-                        email: getCurrentUser.email,
-                        name : getCurrentUser.displayName
-                      }
-                      // this.props.getSocialLoginRequest(payload)
-                    }
-                  }
-                  catch (err) {
-                    timer.clearInterval(this);
-                    Alert.alert(
-                      'Opps!',
-                      'There is google server problem with login, reopen your app and try again.'
-                    )
-                  }
-              }
+    // const config = {
+    //   issuer: 'https://accounts.google.com',
+    //   clientId: '1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com',
+    //   scopes: ['profile', 'email'],
+    // };
+    
+    // const tokenResponse = await AppAuth.authAsync(config);
+    // console.log(tokenResponse,'tokenResponsetokenResponsetokenResponse');
+    
+  //   let redirectUrl =await AuthSession.getRedirectUrl();
+  //   console.log(redirectUrl,'redirectUrlredirectUrlredirectUrl');
+  //   if(redirectUrl){
+  //   await AuthSession.startAsync({
+  //     authUrl:"https://accounts.google.com/o/oauth2/auth",
+  //     returnUrl:redirectUrl
+  //   }).then((res)=>{
+  //     console.log(res,'resresresresresresresres');
+  //   })
+  // }
+    
+    this.setState({isGoogleRequest:true})
+    try {
+      const result = await Google.logInAsync({
+        androidClientId:"1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com",
+        scopes: ['profile', 'email'],
+        redirectUrl:`${AppAuth.OAuthRedirect}:/oauth2redirect/google`
+      });
+      console.log(result);
+      
+      if(result && result.user) {
+       await setItem("accessToken", JSON.stringify({accessToken:result.accessToken}));
+        this.setState({isGoogleRequest:false})
+          let payload = {
+            email: result.user.email,
+            name : result.user.name
           }
-          catch (err) {
-            timer.clearInterval(this);
-            console.log(err,'isSignedInAsync')
-            Alert.alert(
-              'Opps!',
-              'There is google server problem with login, reopen your app and try again.'
-            )
-          }
+         this.props.getSocialLoginRequest(payload)
+        }else{
+          this.setState({isGoogleRequest:false})
+          Alert.alert(
+            'Opps!',
+            'Something went wrong or it seems like you closed the login page'
+          )
+        }
+    } catch(e) {
+      console.log({e});
+      this.setState({isGoogleRequest:false})
+      Alert.alert(
+        'Opps!',
+        'There is google server problem with login, reopen your app and try again.'
+      )
+    }
+
+    console.log(AppAuth);
+    
   }
 
   
@@ -583,7 +528,7 @@ class SignUpScreen extends React.Component {
   render() {
     // console.log(this.state.isCacheCleared,'isCacheCleared');
     
-    const { progress, firstName, lastName, email, password, login,isForgotPassword,isGooglePress } = this.state;
+    const { progress, firstName, lastName, email, password, login,isForgotPassword,isGooglePress,isGoogleRequest } = this.state;
     const { user,forgotPasswordData } = this.props;
     
     return (
@@ -594,6 +539,7 @@ class SignUpScreen extends React.Component {
           start={[0, 0]}
           end={[1, 0]}
         >
+        
         <View style={{flex:1,flexDirection:'column',justifyContent:'space-between'}} >
           <View>
             <Image
@@ -631,16 +577,6 @@ class SignUpScreen extends React.Component {
           :
             login ?
              <LoginContainer
-             disconnectAsync={this.disconnectAsync}
-             isConnectedAsync={this.isConnectedAsync}
-             signInSilentlyAsync={this.signInSilentlyAsync}
-             isSignedInAsync={this.isSignedInAsync}
-            //  currentUser={this.currentUser}
-             getCurrentUserAsync={this.getCurrentUserAsync}
-             getCurrentUser={this.getCurrentUser}
-             signOutAsync={this.signOutAsync}
-             promseResolve={this.promseResolve}
-
               socialLogin={this.socialLogin}
               onPress={this.login}
               email={email}
@@ -653,10 +589,12 @@ class SignUpScreen extends React.Component {
               onPressForgotPassword={this.recoverForgotPassword}
               isForgotPassword={isForgotPassword}
               forgotPasswordStateHandler={this.forgotPasswordStateHandler}
+              isGoogleRequest={isGoogleRequest}
             /> 
           :
             this.renderProgress()
         }
+          <Text onPress={this.signOutAsync}>Logout</Text>
           </View>
         </LinearGradient>
       </View>

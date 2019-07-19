@@ -10,7 +10,8 @@ import {
   TouchableHighlight,
   View,
   KeyboardAvoidingView,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
 import { WebBrowser, LinearGradient } from 'expo';
 import { FontAwesome ,EvilIcons } from '@expo/vector-icons';
@@ -34,10 +35,13 @@ export default class LoginContainer extends React.Component {
     this.props.forgotPasswordStateHandler()
   }
   render() {
-    const { onPress, onChange, firstName,isForgotPassword, lastName,onPressForgotPassword,onChangeForPassword,emailForPassword, iconPress, socialLogin, googleLogin } = this.props;
+    const { onPress,isGoogleRequest, onChange, firstName,isForgotPassword, lastName,onPressForgotPassword,onChangeForPassword,emailForPassword, iconPress, socialLogin, googleLogin } = this.props;
     
     return (
       <KeyboardAvoidingView style={{flex:1}} keyboardVerticalOffset={120}  behavior="padding" enabled >      
+      {isGoogleRequest &&<View style={{position:'absolute',bottom:'52%',left:"45%",zIndex:10000}} >
+            <ActivityIndicator size="large" color="black" />
+          </View>}
       <View style={styles.container}>
       <TouchableOpacity onPress={iconPress} >
         <EvilIcons name={'chevron-left'} size={35}  color="black" />
