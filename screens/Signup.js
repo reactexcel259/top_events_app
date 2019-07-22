@@ -16,7 +16,7 @@ import { WebBrowser, LinearGradient, AuthSession,AppAuth } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as actions from '../redux/action';
-import { Facebook,Google } from 'expo';
+import { Facebook, Google} from 'expo';
 import Expo from 'expo';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
@@ -26,8 +26,9 @@ import DetailsContainer from '../components/signup/details';
 import WelcomeContainer from '../components/signup/welcome';
 import {setItem, getItem} from '../services/storage';
 import { validateEmail } from '../services/validation';
+
 const RCTNetworkingNative = require('NativeModules').Networking;
-const timer = require('react-native-timer');
+// const timer = require('react-native-timer');
 
 class SignUpScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -439,13 +440,14 @@ class SignUpScreen extends React.Component {
   //     console.log(res,'resresresresresresresres');
   //   })
   // }
+    console.log(`${AppAuth.OAuthRedirect}:/oauth2redirect/google`);
     
     this.setState({isGoogleRequest:true})
     try {
       const result = await Google.logInAsync({
         androidClientId:"1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com",
         scopes: ['profile', 'email'],
-        redirectUrl:`${AppAuth.OAuthRedirect}:/oauth2redirect/google`
+        redirectUrl:`https://www.topeventsinjamaica.com/`
       });
       console.log(result);
       
@@ -594,7 +596,7 @@ class SignUpScreen extends React.Component {
           :
             this.renderProgress()
         }
-          <Text onPress={this.signOutAsync}>Logout</Text>
+          {/* <Text onPress={this.signOutAsync}>Logout</Text> */}
           </View>
         </LinearGradient>
       </View>

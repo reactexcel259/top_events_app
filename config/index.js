@@ -1,1 +1,1 @@
-export const BASE_URL="http://ec2-18-225-32-25.us-east-2.compute.amazonaws.com:3000/api"
+export const BASE_URL="https://api.topeventsinjamaica.com/api"
