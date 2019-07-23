@@ -16,7 +16,7 @@ import { WebBrowser, LinearGradient, AuthSession,AppAuth } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as actions from '../redux/action';
-import { Facebook, Google} from 'expo';
+import { Facebook, Google,GoogleSignIn} from 'expo';
 import Expo from 'expo';
 import Layout from '../constants/Layout';
 import { MonoText } from '../components/StyledText';
@@ -397,87 +397,71 @@ class SignUpScreen extends React.Component {
       )
     }
   }
-  signOutAsync = async () => {
-    const ass = await AuthSession.dismiss()
-    console.log(ass,'assassassassassassassassass');
-    
-    let accessToken = await getItem('accessToken');
+
+  googleLogin = async () => {
     try {
-      if(accessToken && accessToken.accessToken){
-          const signOutAsync=   await Google.logOutAsync(
-          {
-            accessToken:accessToken.accessToken,
-            iosClientId:'1021914779636-q3jqjn20ekckevcpcnf879n299ae9ri8.apps.googleusercontent.com',
-            androidClientId:'1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com',
-            iosStandaloneAppClientId:"com.TopEventsinJamaica",
-            androidStandaloneAppClientId:"com.TopEventsinJamaica",
-            clientId:Platform.OS == 'android' ? '1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com' : '1021914779636-q3jqjn20ekckevcpcnf879n299ae9ri8.apps.googleusercontent.com'
+     const initAsync=   await GoogleSignIn.initAsync({ clientId:'1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com' });
+      console.log(initAsync,'initAsync');
+      if(initAsync){
+          await GoogleSignIn.askForPlayServicesAsync();
+          const { type, user } = await GoogleSignIn.signInAsync();
+          if (type === 'success') {
+            console.log(type, user,'type, user');
+            let payload = {
+                      email: user.email,
+                      name : user.displayName
+                    }
+                   this.props.getSocialLoginRequest(payload)
+            
+            // ...
           }
-        );
       }
+      
+    } catch ({ message }) {
+      alert("error" + message);
+    }
+    // console.log(`${AppAuth.OAuthRedirect}:/oauth2redirect/google`);
+    // this.setState({isGoogleRequest:true})
+    // try {
+    //   const result = await Google.logInAsync({
+    //     androidClientId:"1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com",
+    //     scopes: ['profile', 'email'],
+    //     redirectUrl:`${AppAuth.OAuthRedirect}:/oauth2redirect/google`
+    //   });
+    //   console.log(result);
+    //   if(result && result.user) {
+    //    await setItem("accessToken", JSON.stringify({accessToken:result.accessToken}));
+    //     this.setState({isGoogleRequest:false})
+    //       let payload = {
+    //         email: result.user.email,
+    //         name : result.user.name
+    //       }
+    //      this.props.getSocialLoginRequest(payload)
+    //     }else{
+    //       this.setState({isGoogleRequest:false})
+    //       Alert.alert(
+    //         'Opps!',
+    //         'Something went wrong or it seems like you closed the login page'
+    //       )
+    //     }
+    // } catch(e) {
+    //   console.log({e});
+    //   this.setState({isGoogleRequest:false})
+    //   Alert.alert(
+    //     'Opps!',
+    //     'There is google server problem with login, reopen your app and try again.'
+    //   )
+    // }
+  }
+
+  signOutAsync = async () => {
+    try {
+      await GoogleSignIn.signOutAsync();
+      this.setState({ user: null });
     } catch ({ message }) {
       alert('signOutAsync: ' + message);
     }
   };
-
-  googleLogin = async () => {
-    // const config = {
-    //   issuer: 'https://accounts.google.com',
-    //   clientId: '1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com',
-    //   scopes: ['profile', 'email'],
-    // };
-    
-    // const tokenResponse = await AppAuth.authAsync(config);
-    // console.log(tokenResponse,'tokenResponsetokenResponsetokenResponse');
-    
-  //   let redirectUrl =await AuthSession.getRedirectUrl();
-  //   console.log(redirectUrl,'redirectUrlredirectUrlredirectUrl');
-  //   if(redirectUrl){
-  //   await AuthSession.startAsync({
-  //     authUrl:"https://accounts.google.com/o/oauth2/auth",
-  //     returnUrl:redirectUrl
-  //   }).then((res)=>{
-  //     console.log(res,'resresresresresresresres');
-  //   })
-  // }
-    console.log(`${AppAuth.OAuthRedirect}:/oauth2redirect/google`);
-    
-    this.setState({isGoogleRequest:true})
-    try {
-      const result = await Google.logInAsync({
-        androidClientId:"1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com",
-        scopes: ['profile', 'email'],
-        redirectUrl:`https://www.topeventsinjamaica.com/`
-      });
-      console.log(result);
-      
-      if(result && result.user) {
-       await setItem("accessToken", JSON.stringify({accessToken:result.accessToken}));
-        this.setState({isGoogleRequest:false})
-          let payload = {
-            email: result.user.email,
-            name : result.user.name
-          }
-         this.props.getSocialLoginRequest(payload)
-        }else{
-          this.setState({isGoogleRequest:false})
-          Alert.alert(
-            'Opps!',
-            'Something went wrong or it seems like you closed the login page'
-          )
-        }
-    } catch(e) {
-      console.log({e});
-      this.setState({isGoogleRequest:false})
-      Alert.alert(
-        'Opps!',
-        'There is google server problem with login, reopen your app and try again.'
-      )
-    }
-
-    console.log(AppAuth);
-    
-  }
 
   
 

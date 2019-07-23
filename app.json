@@ -34,7 +34,12 @@
         "CALENDAR",
         "READ_CALENDAR", 
         "WRITE_CALENDAR"
-      ]
+      ],
+      "config": {
+        "googleSignIn": {
+          "certificateHash": "93:C4:44:09:2C:B2:FC:58:BF:51:38:E9:A0:88:CF:48:05:D9:0E:5A"
+        }
+      }
     },
     "updates": {
       "fallbackToCacheTimeout": 0
