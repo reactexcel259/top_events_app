@@ -115,12 +115,12 @@ export default class LoginContainer extends React.Component {
               source={require('../../assets/images/fbicon.png')}
             />
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={.5} onPress={this.googleLogin} >
+            {/* <TouchableOpacity activeOpacity={.5} onPress={this.googleLogin} >
             <Image
               style={[styles.imageSize,styles.imageMargin]}
               source={require('../../assets/images/googleLogo.png')}
             />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             
           </View>
           {/* <TouchableOpacity activeOpacity={.5} onPress={()=>this.props.disconnectAsync()} >

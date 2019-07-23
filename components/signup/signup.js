@@ -65,12 +65,12 @@ export default class SignUpContainer extends React.Component {
               source={require('../../assets/images/fbicon.png')}
             />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => { googleLogin()}} >
+            {/* <TouchableOpacity onPress={() => { googleLogin()}} >
             <Image
               style={[styles.imageSize,styles.imageMargin]}
               source={require('../../assets/images/googleLogo.png')}
             />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           
           </View>

@@ -12,7 +12,8 @@ import {
   KeyboardAvoidingView,
   View,
 } from 'react-native';
-import { WebBrowser, LinearGradient, AuthSession,AppAuth } from 'expo';
+import { WebBrowser, LinearGradient,AppAuth, AuthSession } from 'expo';
+// import * as AppAuth from 'expo-app-auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as actions from '../redux/action';
@@ -399,59 +400,70 @@ class SignUpScreen extends React.Component {
   }
 
   googleLogin = async () => {
-    try {
-     const initAsync=   await GoogleSignIn.initAsync({ clientId:'1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com' });
-      console.log(initAsync,'initAsync');
-      if(initAsync){
-          await GoogleSignIn.askForPlayServicesAsync();
-          const { type, user } = await GoogleSignIn.signInAsync();
-          if (type === 'success') {
-            console.log(type, user,'type, user');
-            let payload = {
-                      email: user.email,
-                      name : user.displayName
-                    }
-                   this.props.getSocialLoginRequest(payload)
-            
-            // ...
-          }
-      }
-      
-    } catch ({ message }) {
-      alert("error" + message);
-    }
-    // console.log(`${AppAuth.OAuthRedirect}:/oauth2redirect/google`);
-    // this.setState({isGoogleRequest:true})
     // try {
-    //   const result = await Google.logInAsync({
-    //     androidClientId:"1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com",
-    //     scopes: ['profile', 'email'],
-    //     redirectUrl:`${AppAuth.OAuthRedirect}:/oauth2redirect/google`
-    //   });
-    //   console.log(result);
-    //   if(result && result.user) {
-    //    await setItem("accessToken", JSON.stringify({accessToken:result.accessToken}));
-    //     this.setState({isGoogleRequest:false})
-    //       let payload = {
-    //         email: result.user.email,
-    //         name : result.user.name
+    //  const initAsync=   await GoogleSignIn.initAsync({ clientId:'1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com' });
+    //   console.log(initAsync,'initAsync');
+    //   if(initAsync){
+    //       await GoogleSignIn.askForPlayServicesAsync();
+    //       const { type, user } = await GoogleSignIn.signInAsync();
+    //       if (type === 'success') {
+    //         console.log(type, user,'type, user');
+    //         let payload = {
+    //                   email: user.email,
+    //                   name : user.displayName
+    //                 }
+    //                this.props.getSocialLoginRequest(payload)
+            
+    //         // ...
     //       }
-    //      this.props.getSocialLoginRequest(payload)
-    //     }else{
-    //       this.setState({isGoogleRequest:false})
-    //       Alert.alert(
-    //         'Opps!',
-    //         'Something went wrong or it seems like you closed the login page'
-    //       )
-    //     }
-    // } catch(e) {
-    //   console.log({e});
-    //   this.setState({isGoogleRequest:false})
-    //   Alert.alert(
-    //     'Opps!',
-    //     'There is google server problem with login, reopen your app and try again.'
-    //   )
+    //   }
+      
+    // } catch ({ message }) {
+    //   alert("error" + message);
+    // const config = {
+    //   issuer: 'https://accounts.google.com',
+    //   clientId: '1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com',
+    //   scopes: ['profile'],
+    // };
+    
+    // const tokenResponse = await AppAuth.authAsync(config);
+
+    // console.log(tokenResponse,'tokenResponse');
+    
     // }
+    console.log(`${AppAuth.OAuthRedirect}:/oauth2redirect/google`);
+    this.setState({isGoogleRequest:true})
+    try {
+      const result = await Google.logInAsync({
+        behavior:"system",
+        androidClientId:"1021914779636-a1g05af12bnebg20pcnvgr00ldvvco7k.apps.googleusercontent.com",
+        scopes: ['profile', 'email'],
+        redirectUrl:`${AppAuth.OAuthRedirect}:/oauth2redirect/google`
+      });
+      console.log(result);
+      if(result && result.user) {
+       await setItem("accessToken", JSON.stringify({accessToken:result.accessToken}));
+        this.setState({isGoogleRequest:false})
+          let payload = {
+            email: result.user.email,
+            name : result.user.name
+          }
+         this.props.getSocialLoginRequest(payload)
+        }else{
+          this.setState({isGoogleRequest:false})
+          Alert.alert(
+            'Opps!',
+            `Something went wrong or it seems like you closed the login page ${AppAuth.OAuthRedirect}`
+          )
+        }
+    } catch(e) {
+      console.log({e});
+      this.setState({isGoogleRequest:false})
+      Alert.alert(
+        'Opps!',
+        `There is google server problem with login, reopen your app and try again. + ${AppAuth.OAuthRedirect}`
+      )
+    }
   }
 
   signOutAsync = async () => {
@@ -516,6 +528,7 @@ class SignUpScreen extends React.Component {
     
     const { progress, firstName, lastName, email, password, login,isForgotPassword,isGooglePress,isGoogleRequest } = this.state;
     const { user,forgotPasswordData } = this.props;
+    console.log(AppAuth,'GoogleSignIn');
     
     return (
       <View style={styles.container}>
