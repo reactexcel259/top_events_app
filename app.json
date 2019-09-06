@@ -12,7 +12,7 @@
     "facebookDisplayName": "Top Events Jamaica",
     "facebookScheme": "fb2276411582616111",
     "icon":"./assets/images/icon_events-channel.png",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "portrait",
     "splash": {
       "image": "./assets/images/splash1.png",
@@ -24,6 +24,7 @@
     },
     "android": {
       "package":"com.TopEventsinJamaica",
+      "versionCode": 1,
       "googleServicesFile":"./assets/google-services.json",
       "permissions" : [
         "ACCESS_FINE_LOCATION",

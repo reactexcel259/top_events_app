@@ -542,20 +542,20 @@ class CityEventDescription extends Component {
                         )}
                       </LinearGradient>
                       </TouchableOpacity>
-                     {Platform.OS !=="ios" && <TouchableOpacity onPress={this.callCalander} >
+                     {/* {Platform.OS !=="ios" && <TouchableOpacity onPress={this.callCalander} > */}
                       {/* <LinearGradient
                         colors={["#ff6cc9", "#8559f0"]}
                         style={styles.bag}
                       >
                         <View style={styles.gradientCircle}> */}
-                          <Image
+                          {/* <Image
                             resizeMode="contain"
                             style={{height:40,width:40}}
                             source={require("../assets/images/Group1.png")}
-                          />
+                          /> */}
                         {/* </View>
                       </LinearGradient> */}
-                      </TouchableOpacity>}
+                      {/* </TouchableOpacity>} */}
                     </View>
                   </View>
                   <View />
