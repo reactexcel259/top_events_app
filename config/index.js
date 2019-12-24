@@ -1,1 +1,1 @@
-export const BASE_URL="https://api.topeventsinjamaica.com/api"
+export const BASE_URL=""
